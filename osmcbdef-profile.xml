@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<atlas version="1" name="OSM-Test-004" outputFormat="TaredAtlas">
+    <Layer name="L06">
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="6" name="L06 000-000">
+            <maxTileCoordinate>9471/7423</maxTileCoordinate>
+            <minTileCoordinate>8192/6144</minTileCoordinate>
+        </Map>
+        <zoomLvl>6</zoomLvl>
+    </Layer>
+    <Layer name="L07">
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="7" name="L07 000-000">
+            <maxTileCoordinate>17663/13567</maxTileCoordinate>
+            <minTileCoordinate>16384/12288</minTileCoordinate>
+        </Map>
+        <zoomLvl>7</zoomLvl>
+    </Layer>
+    <Layer name="L08">
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="8" name="L08 000-000">
+            <maxTileCoordinate>34047/25855</maxTileCoordinate>
+            <minTileCoordinate>32768/24576</minTileCoordinate>
+        </Map>
+        <zoomLvl>8</zoomLvl>
+    </Layer>
+    <Layer name="L09">
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="9" name="L09 000-000">
+            <maxTileCoordinate>67839/50431</maxTileCoordinate>
+            <minTileCoordinate>65536/49152</minTileCoordinate>
+        </Map>
+        <zoomLvl>9</zoomLvl>
+    </Layer>
+    <Layer name="L10">
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="10" name="L10 000-000">
+            <maxTileCoordinate>134399/100607</maxTileCoordinate>
+            <minTileCoordinate>132096/99328</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="10" name="L10 001-000">
+            <maxTileCoordinate>134399/100607</maxTileCoordinate>
+            <minTileCoordinate>133120/98304</minTileCoordinate>
+        </Map>
+        <zoomLvl>10</zoomLvl>
+    </Layer>
+    <Layer name="L11">
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="11" name="L11 000-000">
+            <maxTileCoordinate>267519/199935</maxTileCoordinate>
+            <minTileCoordinate>265216/198656</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="11" name="L11 001-000">
+            <maxTileCoordinate>267519/200959</maxTileCoordinate>
+            <minTileCoordinate>266240/197632</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="11" name="L11 002-000">
+            <maxTileCoordinate>266495/200959</maxTileCoordinate>
+            <minTileCoordinate>265216/199680</minTileCoordinate>
+        </Map>
+        <zoomLvl>11</zoomLvl>
+    </Layer>
+    <Layer name="L12">
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="12" name="L12 000-000">
+            <maxTileCoordinate>534783/398591</maxTileCoordinate>
+            <minTileCoordinate>531456/397312</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="12" name="L12 001-000">
+            <maxTileCoordinate>534783/400639</maxTileCoordinate>
+            <minTileCoordinate>533504/396288</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="12" name="L12 002-000">
+            <maxTileCoordinate>533759/400639</maxTileCoordinate>
+            <minTileCoordinate>531456/399360</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="12" name="L12 003-000">
+            <maxTileCoordinate>532735/399615</maxTileCoordinate>
+            <minTileCoordinate>530432/398336</minTileCoordinate>
+        </Map>
+        <zoomLvl>12</zoomLvl>
+    </Layer>
+    <Layer name="L13">
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="13" name="L13 000-000">
+            <maxTileCoordinate>1065215/795903</maxTileCoordinate>
+            <minTileCoordinate>1063936/794624</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="13" name="L13 001-000">
+            <maxTileCoordinate>1068287/795903</maxTileCoordinate>
+            <minTileCoordinate>1067008/793600</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="13" name="L13 002-000">
+            <maxTileCoordinate>1067263/796927</maxTileCoordinate>
+            <minTileCoordinate>1065984/795648</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="13" name="L13 003-000">
+            <maxTileCoordinate>1069311/797951</maxTileCoordinate>
+            <minTileCoordinate>1067008/796672</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="13" name="L13 004-000">
+            <maxTileCoordinate>1066239/799999</maxTileCoordinate>
+            <minTileCoordinate>1063936/798720</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="13" name="L13 005-000">
+            <maxTileCoordinate>1064191/798975</maxTileCoordinate>
+            <minTileCoordinate>1062912/796672</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="13" name="L13 006-000">
+            <maxTileCoordinate>1066239/801023</maxTileCoordinate>
+            <minTileCoordinate>1064960/799744</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="13" name="L13 007-000">
+            <maxTileCoordinate>1065215/797951</maxTileCoordinate>
+            <minTileCoordinate>1061888/796672</minTileCoordinate>
+        </Map>
+        <zoomLvl>13</zoomLvl>
+    </Layer>
+    <Layer name="L14">
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="14" name="L14 000-000">
+            <maxTileCoordinate>2129151/1591551</maxTileCoordinate>
+            <minTileCoordinate>2127872/1590272</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="14" name="L14 001-000">
+            <maxTileCoordinate>2135295/1589503</maxTileCoordinate>
+            <minTileCoordinate>2134016/1588224</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="14" name="L14 002-000">
+            <maxTileCoordinate>2134271/1592575</maxTileCoordinate>
+            <minTileCoordinate>2132992/1589248</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="14" name="L14 003-000">
+            <maxTileCoordinate>2138367/1592575</maxTileCoordinate>
+            <minTileCoordinate>2137088/1591296</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="14" name="L14 004-000">
+            <maxTileCoordinate>2137343/1594623</maxTileCoordinate>
+            <minTileCoordinate>2136064/1593344</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="14" name="L14 005-000">
+            <maxTileCoordinate>2137343/1595647</maxTileCoordinate>
+            <minTileCoordinate>2135040/1594368</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="14" name="L14 006-000">
+            <maxTileCoordinate>2136319/1597695</maxTileCoordinate>
+            <minTileCoordinate>2135040/1595392</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="14" name="L14 007-000">
+            <maxTileCoordinate>2133247/1599743</maxTileCoordinate>
+            <minTileCoordinate>2131968/1597440</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="14" name="L14 008-000">
+            <maxTileCoordinate>2132223/1598719</maxTileCoordinate>
+            <minTileCoordinate>2130944/1597440</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="14" name="L14 009-000">
+            <maxTileCoordinate>2130175/1596671</maxTileCoordinate>
+            <minTileCoordinate>2128896/1595392</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="14" name="L14 010-000">
+            <maxTileCoordinate>2129151/1595647</maxTileCoordinate>
+            <minTileCoordinate>2123776/1594368</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="14" name="L14 011-000">
+            <maxTileCoordinate>2127103/1596671</maxTileCoordinate>
+            <minTileCoordinate>2125824/1595392</minTileCoordinate>
+        </Map>
+        <zoomLvl>14</zoomLvl>
+    </Layer>
+    <Layer name="L15">
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="15" name="L15 000-000">
+            <maxTileCoordinate>4258047/3182847</maxTileCoordinate>
+            <minTileCoordinate>4255744/3181568</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="15" name="L15 001-000">
+            <maxTileCoordinate>4270335/3177727</maxTileCoordinate>
+            <minTileCoordinate>4269056/3176448</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="15" name="L15 002-000">
+            <maxTileCoordinate>4267263/3179775</maxTileCoordinate>
+            <minTileCoordinate>4265984/3178496</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="15" name="L15 003-000">
+            <maxTileCoordinate>4269311/3181823</maxTileCoordinate>
+            <minTileCoordinate>4267008/3180544</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="15" name="L15 004-000">
+            <maxTileCoordinate>4268287/3183871</maxTileCoordinate>
+            <minTileCoordinate>4267008/3182592</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="15" name="L15 005-000">
+            <maxTileCoordinate>4276479/3184895</maxTileCoordinate>
+            <minTileCoordinate>4274176/3183616</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="15" name="L15 006-000">
+            <maxTileCoordinate>4274431/3187967</maxTileCoordinate>
+            <minTileCoordinate>4273152/3186688</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="15" name="L15 007-000">
+            <maxTileCoordinate>4273407/3191039</maxTileCoordinate>
+            <minTileCoordinate>4271104/3188736</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="15" name="L15 008-000">
+            <maxTileCoordinate>4272383/3192063</maxTileCoordinate>
+            <minTileCoordinate>4271104/3190784</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="15" name="L15 009-000">
+            <maxTileCoordinate>4271359/3194111</maxTileCoordinate>
+            <minTileCoordinate>4270080/3192832</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="15" name="L15 010-000">
+            <maxTileCoordinate>4269311/3197183</maxTileCoordinate>
+            <minTileCoordinate>4267008/3195904</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="15" name="L15 011-000">
+            <maxTileCoordinate>4266239/3199231</maxTileCoordinate>
+            <minTileCoordinate>4264960/3197952</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="15" name="L15 012-000">
+            <maxTileCoordinate>4264191/3196159</maxTileCoordinate>
+            <minTileCoordinate>4261888/3194880</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="15" name="L15 013-000">
+            <maxTileCoordinate>4258047/3191039</maxTileCoordinate>
+            <minTileCoordinate>4256768/3189760</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="15" name="L15 014-000">
+            <maxTileCoordinate>4257023/3190015</maxTileCoordinate>
+            <minTileCoordinate>4254720/3188736</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="15" name="L15 015-000">
+            <maxTileCoordinate>4253951/3193087</maxTileCoordinate>
+            <minTileCoordinate>4251648/3191808</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="15" name="L15 016-000">
+            <maxTileCoordinate>4249855/3188991</maxTileCoordinate>
+            <minTileCoordinate>4247552/3187712</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="15" name="L15 017-000">
+            <maxTileCoordinate>4263167/3203327</maxTileCoordinate>
+            <minTileCoordinate>4261888/3201024</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="15" name="L15 018-000">
+            <maxTileCoordinate>4254975/3191039</maxTileCoordinate>
+            <minTileCoordinate>4250624/3189760</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="15" name="L15 019-000">
+            <maxTileCoordinate>4249855/3191039</maxTileCoordinate>
+            <minTileCoordinate>4248576/3189760</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="15" name="L15 020-000">
+            <maxTileCoordinate>4250879/3190015</maxTileCoordinate>
+            <minTileCoordinate>4249600/3188736</minTileCoordinate>
+        </Map>
+        <zoomLvl>15</zoomLvl>
+    </Layer>
+    <Layer name="L16">
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="16" name="L16 000-000">
+            <maxTileCoordinate>8514815/6365439</maxTileCoordinate>
+            <minTileCoordinate>8512512/6363136</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="16" name="L16 001-000">
+            <maxTileCoordinate>8539391/6354175</maxTileCoordinate>
+            <minTileCoordinate>8538112/6352896</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="16" name="L16 002-000">
+            <maxTileCoordinate>8534271/6358271</maxTileCoordinate>
+            <minTileCoordinate>8531968/6356992</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="16" name="L16 003-000">
+            <maxTileCoordinate>8537343/6362367</maxTileCoordinate>
+            <minTileCoordinate>8534016/6361088</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="16" name="L16 004-000">
+            <maxTileCoordinate>8536319/6366463</maxTileCoordinate>
+            <minTileCoordinate>8535040/6365184</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="16" name="L16 005-000">
+            <maxTileCoordinate>8551679/6369535</maxTileCoordinate>
+            <minTileCoordinate>8549376/6368256</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="16" name="L16 006-000">
+            <maxTileCoordinate>8547583/6375679</maxTileCoordinate>
+            <minTileCoordinate>8546304/6374400</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="16" name="L16 007-000">
+            <maxTileCoordinate>8545535/6380799</maxTileCoordinate>
+            <minTileCoordinate>8543232/6378496</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="16" name="L16 008-000">
+            <maxTileCoordinate>8544511/6381823</maxTileCoordinate>
+            <minTileCoordinate>8542208/6379520</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="16" name="L16 009-000">
+            <maxTileCoordinate>8543487/6382847</maxTileCoordinate>
+            <minTileCoordinate>8542208/6381568</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="16" name="L16 010-000">
+            <maxTileCoordinate>8541439/6387967</maxTileCoordinate>
+            <minTileCoordinate>8540160/6385664</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="16" name="L16 011-000">
+            <maxTileCoordinate>8540415/6391039</maxTileCoordinate>
+            <minTileCoordinate>8538112/6388736</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="16" name="L16 012-000">
+            <maxTileCoordinate>8537343/6393087</maxTileCoordinate>
+            <minTileCoordinate>8534016/6391808</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="16" name="L16 013-000">
+            <maxTileCoordinate>8531199/6397183</maxTileCoordinate>
+            <minTileCoordinate>8529920/6395904</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="16" name="L16 014-000">
+            <maxTileCoordinate>8529151/6394111</maxTileCoordinate>
+            <minTileCoordinate>8527872/6391808</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="16" name="L16 015-000">
+            <maxTileCoordinate>8527103/6391039</maxTileCoordinate>
+            <minTileCoordinate>8525824/6389760</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="16" name="L16 016-000">
+            <maxTileCoordinate>8515839/6380799</maxTileCoordinate>
+            <minTileCoordinate>8514560/6379520</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="16" name="L16 017-000">
+            <maxTileCoordinate>8513791/6378751</maxTileCoordinate>
+            <minTileCoordinate>8510464/6377472</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="16" name="L16 018-000">
+            <maxTileCoordinate>8511743/6379775</maxTileCoordinate>
+            <minTileCoordinate>8510464/6377472</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="16" name="L16 019-000">
+            <maxTileCoordinate>8512767/6379775</maxTileCoordinate>
+            <minTileCoordinate>8509440/6378496</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="16" name="L16 020-000">
+            <maxTileCoordinate>8506623/6384895</maxTileCoordinate>
+            <minTileCoordinate>8505344/6382592</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="16" name="L16 021-000">
+            <maxTileCoordinate>8504575/6384895</maxTileCoordinate>
+            <minTileCoordinate>8503296/6380544</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="16" name="L16 022-000">
+            <maxTileCoordinate>8498431/6377727</maxTileCoordinate>
+            <minTileCoordinate>8497152/6375424</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="16" name="L16 023-000">
+            <maxTileCoordinate>8525055/6403327</maxTileCoordinate>
+            <minTileCoordinate>8523776/6402048</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="16" name="L16 024-000">
+            <maxTileCoordinate>8526079/6404351</maxTileCoordinate>
+            <minTileCoordinate>8524800/6402048</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="16" name="L16 025-000">
+            <maxTileCoordinate>8526079/6405375</maxTileCoordinate>
+            <minTileCoordinate>8523776/6403072</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="16" name="L16 026-000">
+            <maxTileCoordinate>8509695/6380799</maxTileCoordinate>
+            <minTileCoordinate>8506368/6379520</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="16" name="L16 027-000">
+            <maxTileCoordinate>8503551/6380799</maxTileCoordinate>
+            <minTileCoordinate>8502272/6379520</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="16" name="L16 028-000">
+            <maxTileCoordinate>8499455/6380799</maxTileCoordinate>
+            <minTileCoordinate>8498176/6379520</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="16" name="L16 029-000">
+            <maxTileCoordinate>8500479/6379775</maxTileCoordinate>
+            <minTileCoordinate>8499200/6378496</minTileCoordinate>
+        </Map>
+        <zoomLvl>16</zoomLvl>
+    </Layer>
+    <Layer name="L17">
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 000-000">
+            <maxTileCoordinate>17029375/12729599</maxTileCoordinate>
+            <minTileCoordinate>17026048/12726272</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 001-000">
+            <maxTileCoordinate>17077503/12708095</maxTileCoordinate>
+            <minTileCoordinate>17076224/12706816</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 002-000">
+            <maxTileCoordinate>17068287/12716287</maxTileCoordinate>
+            <minTileCoordinate>17067008/12715008</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 003-000">
+            <maxTileCoordinate>17066239/12715263</maxTileCoordinate>
+            <minTileCoordinate>17063936/12713984</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 004-000">
+            <maxTileCoordinate>17070335/12723455</maxTileCoordinate>
+            <minTileCoordinate>17068032/12722176</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 005-000">
+            <maxTileCoordinate>17071359/12724479</maxTileCoordinate>
+            <minTileCoordinate>17069056/12722176</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 006-000">
+            <maxTileCoordinate>17072383/12732671</maxTileCoordinate>
+            <minTileCoordinate>17071104/12730368</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 007-000">
+            <maxTileCoordinate>17102079/12738815</maxTileCoordinate>
+            <minTileCoordinate>17100800/12736512</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 008-000">
+            <maxTileCoordinate>17101055/12738815</maxTileCoordinate>
+            <minTileCoordinate>17099776/12737536</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 009-000">
+            <maxTileCoordinate>17093887/12751103</maxTileCoordinate>
+            <minTileCoordinate>17092608/12748800</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 010-000">
+            <maxTileCoordinate>17089791/12760319</maxTileCoordinate>
+            <minTileCoordinate>17087488/12758016</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 011-000">
+            <maxTileCoordinate>17087743/12762367</maxTileCoordinate>
+            <minTileCoordinate>17085440/12760064</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 012-000">
+            <maxTileCoordinate>17085695/12764415</maxTileCoordinate>
+            <minTileCoordinate>17084416/12763136</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 013-000">
+            <maxTileCoordinate>17082623/12774655</maxTileCoordinate>
+            <minTileCoordinate>17080320/12772352</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 014-000">
+            <maxTileCoordinate>17078527/12779775</maxTileCoordinate>
+            <minTileCoordinate>17077248/12778496</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 015-000">
+            <maxTileCoordinate>17079551/12780799</maxTileCoordinate>
+            <minTileCoordinate>17077248/12778496</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 016-000">
+            <maxTileCoordinate>17080575/12779775</maxTileCoordinate>
+            <minTileCoordinate>17078272/12777472</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 017-000">
+            <maxTileCoordinate>17074431/12784895</maxTileCoordinate>
+            <minTileCoordinate>17072128/12783616</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 018-000">
+            <maxTileCoordinate>17062143/12793087</maxTileCoordinate>
+            <minTileCoordinate>17060864/12791808</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 019-000">
+            <maxTileCoordinate>17058047/12786943</maxTileCoordinate>
+            <minTileCoordinate>17055744/12784640</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 020-000">
+            <maxTileCoordinate>17053951/12780799</maxTileCoordinate>
+            <minTileCoordinate>17051648/12779520</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 021-000">
+            <maxTileCoordinate>17049855/12781823</maxTileCoordinate>
+            <minTileCoordinate>17048576/12779520</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 022-000">
+            <maxTileCoordinate>17031423/12760319</maxTileCoordinate>
+            <minTileCoordinate>17030144/12759040</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 023-000">
+            <maxTileCoordinate>17027327/12757247</maxTileCoordinate>
+            <minTileCoordinate>17025024/12755968</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 024-000">
+            <maxTileCoordinate>17024255/12756223</maxTileCoordinate>
+            <minTileCoordinate>17021952/12754944</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 025-000">
+            <maxTileCoordinate>17023231/12758271</maxTileCoordinate>
+            <minTileCoordinate>17021952/12755968</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 026-000">
+            <maxTileCoordinate>17024255/12759295</maxTileCoordinate>
+            <minTileCoordinate>17020928/12756992</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 027-000">
+            <maxTileCoordinate>17020159/12758271</maxTileCoordinate>
+            <minTileCoordinate>17018880/12756992</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 028-000">
+            <maxTileCoordinate>17018111/12761343</maxTileCoordinate>
+            <minTileCoordinate>17015808/12759040</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 029-000">
+            <maxTileCoordinate>17015039/12761343</maxTileCoordinate>
+            <minTileCoordinate>17013760/12760064</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 030-000">
+            <maxTileCoordinate>17012991/12768511</maxTileCoordinate>
+            <minTileCoordinate>17011712/12766208</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 031-000">
+            <maxTileCoordinate>17008895/12768511</maxTileCoordinate>
+            <minTileCoordinate>17006592/12767232</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 032-000">
+            <maxTileCoordinate>17008895/12766463</maxTileCoordinate>
+            <minTileCoordinate>17007616/12764160</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 033-000">
+            <maxTileCoordinate>17007871/12763391</maxTileCoordinate>
+            <minTileCoordinate>17006592/12761088</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 034-000">
+            <maxTileCoordinate>16999679/12759295</maxTileCoordinate>
+            <minTileCoordinate>16998400/12758016</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 035-000">
+            <maxTileCoordinate>16996607/12754175</maxTileCoordinate>
+            <minTileCoordinate>16995328/12752896</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 036-000">
+            <maxTileCoordinate>16992511/12755199</maxTileCoordinate>
+            <minTileCoordinate>16991232/12753920</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 037-000">
+            <maxTileCoordinate>16995583/12752127</maxTileCoordinate>
+            <minTileCoordinate>16994304/12750848</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 038-000">
+            <maxTileCoordinate>17012991/12769535</maxTileCoordinate>
+            <minTileCoordinate>17010688/12768256</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 039-000">
+            <maxTileCoordinate>17051903/12807423</maxTileCoordinate>
+            <minTileCoordinate>17049600/12805120</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 040-000">
+            <maxTileCoordinate>17050879/12809471</maxTileCoordinate>
+            <minTileCoordinate>17048576/12807168</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 041-000">
+            <maxTileCoordinate>17019135/12760319</maxTileCoordinate>
+            <minTileCoordinate>17017856/12759040</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 042-000">
+            <maxTileCoordinate>17008895/12762367</maxTileCoordinate>
+            <minTileCoordinate>17007616/12761088</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 043-000">
+            <maxTileCoordinate>17006847/12760319</maxTileCoordinate>
+            <minTileCoordinate>17004544/12759040</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 044-000">
+            <maxTileCoordinate>16998655/12760319</maxTileCoordinate>
+            <minTileCoordinate>16997376/12759040</minTileCoordinate>
+        </Map>
+        <Map mapSource="AH OpenSeaMap - Mapnik" zoom="17" name="L17 045-000">
+            <maxTileCoordinate>17000703/12759295</maxTileCoordinate>
+            <minTileCoordinate>16998400/12756992</minTileCoordinate>
+        </Map>
+        <zoomLvl>17</zoomLvl>
+    </Layer>
+</atlas>

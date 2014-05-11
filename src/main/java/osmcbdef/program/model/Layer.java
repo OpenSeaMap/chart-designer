@@ -230,7 +230,8 @@ public class Layer implements LayerInterface, TreeNode, ToolTipProvider, Capabil
 	}
 
 	/**
-	 * checks if the new map is an extension of an already existing map. If it is the exeisting map will be changed to new coordinates including the new map
+	 * checks if the new map is an extension of an already existing map. If it is, the exeisting map will be changed to new coordinates which includes the new
+	 * map. 20140511 case new map is between two already existing maps is not covered yet.
 	 * 
 	 * @param MinC
 	 *          minimun coordinate (upper left corner, NW-C)
@@ -270,6 +271,8 @@ public class Layer implements LayerInterface, TreeNode, ToolTipProvider, Capabil
 					bIsExt = true;
 				}
 			}
+			if (bIsExt)
+				break;
 		}
 		return bIsExt;
 	}

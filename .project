@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>OSM ChartDesigner</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>java</name>
+			<type>2</type>
+			<location>C:/Users/Public/Projects/AHDTAC-Java/OSeaM ChartDesigner/src/main/java</location>
+		</link>
+		<link>
+			<name>osmcbdef</name>
+			<type>2</type>
+			<location>C:/Users/Public/Projects/AHDTAC-Java/OSeaM ChartDesigner/build/osmcbdef</location>
+		</link>
+	</linkedResources>
+</projectDescription>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product useFeatures="false" includeLaunchers="true">
+
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
+   </launcherArgs>
+
+   <windowImages/>
+
+
+   <launcher name="osmcd.exe">
+      <solaris/>
+      <win useIco="true">
+         <ico path="/OpenSeaMap Bundle Definer/misc/OpenSeaMap.ico"/>
+         <bmp/>
+      </win>
+   </launcher>
+
+
+   <vm>
+      <windows include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7</windows>
+   </vm>
+
+
+   <plugins>
+   </plugins>
+
+
+</product>

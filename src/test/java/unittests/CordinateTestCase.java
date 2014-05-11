@@ -16,9 +16,9 @@
  ******************************************************************************/
 package unittests;
 
-import osmcbdef.utilities.Utilities;
-import osmcbdef.utilities.geo.CoordinateDm2Format;
-import osmcbdef.utilities.geo.CoordinateDms2Format;
+import osmcd.utilities.Utilities;
+import osmcd.utilities.geo.CoordinateDm2Format;
+import osmcd.utilities.geo.CoordinateDms2Format;
 import junit.framework.TestCase;
 
 public class CordinateTestCase extends TestCase {

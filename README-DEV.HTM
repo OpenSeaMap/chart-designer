@@ -68,7 +68,7 @@ for all users.</p>
 Atlas Creator you can check out the code from the Subversion repository
 at SourceForge:</p>
 <p><a
-	href="https://osmcbdef.svn.sourceforge.net/svnroot/osmcbdef/trunk/MOBAC"><tt>https://osmcbdef.svn.sourceforge.net/svnroot/osmcbdef/trunk/MOBAC</tt></a>
+	href="https://osmcd.svn.sourceforge.net/svnroot/osmcd/trunk/MOBAC"><tt>https://osmcd.svn.sourceforge.net/svnroot/osmcd/trunk/MOBAC</tt></a>
 </p>
 <p>There you will find the latest sources of Mobile Atlas Creator in
 form of an Eclipse (v3.6) project. All tools, libraries, sources and
@@ -78,7 +78,7 @@ build files are included in this repository.</p>
 <p>If you want to run MOBAC from within Eclipse you only need
 Eclipse with Java Development Tools installed (included in all Eclipse
 Java editions). <br />
-The root class for starting MOBAC in Eclipse <tt>osmcbdef.StartOSMCBDef</tt></p>
+The root class for starting MOBAC in Eclipse <tt>osmcd.Startosmcd</tt></p>
 <p>Compile/building Mobile Atlas Creator without Eclipse requires <a
 	href="http://ant.apache.org/">Apache Ant</a>) which is used for
 building the jar version of Mobile Atlas Creator and of course the Java
@@ -95,7 +95,7 @@ Additionally the build steps include a call to <tt>lib/svnversion.jar</tt>
 which is a Java only version of the command <a
 	href="http://svnbook.red-bean.com/en/1.1/re57.html">svnversion</a>
 (bases on <a href="http://svnkit.com">SVNKit</a>). This command updates
-the SVN revision information in file <tt>src/main/java/osmcbdef/osmcbdef-rev.properties</tt>
+the SVN revision information in file <tt>src/main/java/osmcd/osmcd-rev.properties</tt>
 which is included in the final jar of Mobile Atlas Creator.</p>
 
 <h2><a name="GuidelinesCustomReleases">Guidelines for
@@ -106,8 +106,8 @@ yourself please consider the following guidelines:</p>
 	<li>Chose a version/release name that makes it clear that it is
 	not an official release: Change the version string to reflect that.<br>
 	Example: <tt>1.9 beta 3 XYZ edition</tt><br>
-	The version string is located in the properties file <tt>src/main/java/osmcbdef/osmcbdef.properties</tt>.
-	Change the entry <b>osmcbdef.version</b> to your custom release name.</li>
+	The version string is located in the properties file <tt>src/main/java/osmcd/osmcd.properties</tt>.
+	Change the entry <b>osmcd.version</b> to your custom release name.</li>
 	<li>Do not forget that Mobile Atlas Creator is a GPL project -
 	therefore publishing the source code together with the binary release
 	should went without saying.</li>
@@ -131,18 +131,18 @@ map sources will be loaded directly from the <tt>bin</tt> directory of
 Eclipse (if available).</p>
 <h2><a name="CustomMapPack">Developing a custom map pack</a></h2>
 <p>For creating your own custom map pack you have to create a new
-Java package below <tt>osmcbdef.mapsources.mappacks</tt>. For example lets
+Java package below <tt>osmcd.mapsources.mappacks</tt>. For example lets
 assume that the name of the new map pack should be <b>mymappack</b>.
-Therefore you have to create the package <tt>osmcbdef.mapsources.mappacks.mymappack</tt>.
+Therefore you have to create the package <tt>osmcd.mapsources.mappacks.mymappack</tt>.
 Place all Java source files within this package (sub-packages are also
 possible).</p>
 <p>Additionally you have to create a text file named <tt>mapsources.list</tt>
-inside the package <tt>osmcbdef.mapsources.mappacks.mymappack</tt>. This
+inside the package <tt>osmcd.mapsources.mappacks.mymappack</tt>. This
 file contains a list of class names (full class name including the
 package name, one per line) that should be loaded by MOBAC as map
 source.</p>
 <p>Background: During the build process this file will be included
-into the map-pack jar as <tt>META-INF/services/osmcbdef.program.interfaces.MapSource</tt>
+into the map-pack jar as <tt>META-INF/services/osmcd.program.interfaces.MapSource</tt>
 so that it can be found by the <a
 	href="http://download.oracle.com/javase/6/docs/api/java/util/ServiceLoader.html">ServiceLoader</a>.
 </p>
@@ -154,45 +154,45 @@ so that it can be found by the <a
 to select the file <tt>build.xml</tt>, press the right mouse button and
 select <b>Run As</b> - <b>Ant Build...</b>. In the dialogs that opens
 deselect the build target <b>all</b> and select instead <b>build_mapsources</b>.</p>
-<p>Each sub-package of <tt>osmcbdef.mapsources.mappacks</tt> will be
+<p>Each sub-package of <tt>osmcd.mapsources.mappacks</tt> will be
 compiled and packed to an map package. The created map packages are
 saved into the <tt>mapsources</tt> directory. Therefore our example map
 pack will be packed into the file <tt>mapsources/mp-mymappack.jar</tt></p>
 
 
 <h2><a name="ImportantPackages">Source code overview - important packages</a></h2>
-<h3><a href="src/main/java/osmcbdef/gui">osmcbdef.gui</a></h3>
+<h3><a href="src/main/java/osmcd/gui">osmcd.gui</a></h3>
 <p>This package contains the implementation of all dialogs/windows.
 In the sub-packages you can find the related implementations of used
 graphical components - e.g. <tt><a
-	href="src/main/java/osmcbdef/gui/mapview/PreviewMap.java">osmcbdef.gui.mapview.PreviewMap</a></tt>
+	href="src/main/java/osmcd/gui/mapview/PreviewMap.java">osmcd.gui.mapview.PreviewMap</a></tt>
 - the component that draws the movable map background used by Mobile
 Atlas Creator.</p>
-<h3><a href="src/main/java/osmcbdef/mapsources">osmcbdef.mapsources</a></h3>
+<h3><a href="src/main/java/osmcd/mapsources">osmcd.mapsources</a></h3>
 <p>Holds the infrastructure and the implementation of all map
 sources available within Mobile Atlas Creator. For implementing own map
 sources that uses an online map you should derive your map source from
 the abstract base class <a
-	href="src/main/java/osmcbdef/mapsources/AbstractHttpMapSource.java"><tt>osmcbdef.mapsources.AbstractHttpMapSource</tt></a>.
+	href="src/main/java/osmcd/mapsources/AbstractHttpMapSource.java"><tt>osmcd.mapsources.AbstractHttpMapSource</tt></a>.
 Map sources should be compiled and packed to a map pack so that they can
 be automatically detected and loaded while MOBAC is starting-up. For
 details on that topic please read section <a href="#CustomMapPack">Developing
 a custom map pack</a>.</p>
-<h3><a href="src/main/java/osmcbdef/program/atlascreators">osmcbdef.program.atlascreators</a></h3>
+<h3><a href="src/main/java/osmcd/program/atlascreators">osmcd.program.atlascreators</a></h3>
 <p>Holds the implementations of all atlas creators (atlas output
 formats) provided by Mobile Atlas Creator. Each class in the package
 implements exactly one atlas output format. Of special interest is the
 abstract class <a
-	href="src/main/java/osmcbdef/program/atlascreators/AtlasCreator.java">AtlasCreator</a>
+	href="src/main/java/osmcd/program/atlascreators/AtlasCreator.java">AtlasCreator</a>
 which is the super class every atlas creator is derived of. The list of
 available formats is maintained in the enumeration <a
-	href="src/main/java/osmcbdef/program/model/AtlasOutputFormat.java"><tt>osmcbdef.program.model.AtlasOutputFormat</tt></a>.
+	href="src/main/java/osmcd/program/model/AtlasOutputFormat.java"><tt>osmcd.program.model.AtlasOutputFormat</tt></a>.
 </p>
 
-<h3><a href="src/main/java/osmcbdef/tools">osmcbdef.tools</a></h3>
+<h3><a href="src/main/java/osmcd/tools">osmcd.tools</a></h3>
 <p>This package contains additional stand-alone tools that are not
 shipped with the Mobile Atlas Creator binary release. For example the <a
-	href="src/main/java/osmcbdef/tools/MapSourcesTester.java"><tt>osmcbdef.tools.MapSourcesTester</tt></a>
+	href="src/main/java/osmcd/tools/MapSourcesTester.java"><tt>osmcd.tools.MapSourcesTester</tt></a>
 downloads one tile from each map source for verifying that the map
 source is functional.</p>
 

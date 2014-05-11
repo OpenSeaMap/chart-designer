@@ -20,10 +20,10 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import osmcbdef.program.interfaces.MapSource;
-import osmcbdef.program.tilestore.TileStore;
-import osmcbdef.program.tilestore.TileStoreEntry;
-import osmcbdef.program.tilestore.TileStoreInfo;
+import osmcd.program.interfaces.MapSource;
+import osmcd.program.tilestore.TileStore;
+import osmcd.program.tilestore.TileStoreEntry;
+import osmcd.program.tilestore.TileStoreInfo;
 
 public class DummyTileStore extends TileStore {
 

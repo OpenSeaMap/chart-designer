@@ -17,9 +17,9 @@
 package unittests.helper;
 
 
-import osmcbdef.exceptions.MapCreationException;
-import osmcbdef.program.atlascreators.AtlasCreator;
-import osmcbdef.program.interfaces.MapSource;
+import osmcd.exceptions.MapCreationException;
+import osmcd.program.atlascreators.AtlasCreator;
+import osmcd.program.interfaces.MapSource;
 
 /**
  * A simple {@link AtlasCreator} implementation that does nothing. Can be used

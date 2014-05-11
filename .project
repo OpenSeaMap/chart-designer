@@ -20,10 +20,5 @@
 			<type>2</type>
 			<location>C:/Users/Public/Projects/AHDTAC-Java/OSeaM ChartDesigner/src/main/java</location>
 		</link>
-		<link>
-			<name>osmcbdef</name>
-			<type>2</type>
-			<location>C:/Users/Public/Projects/AHDTAC-Java/OSeaM ChartDesigner/build/osmcbdef</location>
-		</link>
 	</linkedResources>
 </projectDescription>

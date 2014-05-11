@@ -25,7 +25,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import osmcbdef.utilities.imageio.Png4BitWriter;
+import osmcd.utilities.imageio.Png4BitWriter;
 
 /**
  * 

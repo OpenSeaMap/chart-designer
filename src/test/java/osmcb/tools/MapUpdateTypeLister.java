@@ -18,10 +18,10 @@ package osmcb.tools;
 
 import java.util.Vector;
 
-import osmcbdef.mapsources.MapSourcesManager;
-import osmcbdef.program.Logging;
-import osmcbdef.program.interfaces.HttpMapSource;
-import osmcbdef.program.interfaces.MapSource;
+import osmcd.mapsources.MapSourcesManager;
+import osmcd.program.Logging;
+import osmcd.program.interfaces.HttpMapSource;
+import osmcd.program.interfaces.MapSource;
 
 public class MapUpdateTypeLister {
 

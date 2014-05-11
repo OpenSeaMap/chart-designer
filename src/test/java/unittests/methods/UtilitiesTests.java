@@ -16,7 +16,7 @@
  ******************************************************************************/
 package unittests.methods;
 
-import osmcbdef.utilities.Utilities;
+import osmcd.utilities.Utilities;
 import junit.framework.TestCase;
 import junit.textui.TestRunner;
 

@@ -18,9 +18,9 @@ package unittests;
 
 import java.io.File;
 
-import osmcbdef.mapsources.DefaultMapSourcesManager;
-import osmcbdef.program.atlascreators.AlpineQuestMap;
-import osmcbdef.program.interfaces.AtlasInterface;
+import osmcd.mapsources.DefaultMapSourcesManager;
+import osmcd.program.atlascreators.AlpineQuestMap;
+import osmcd.program.interfaces.AtlasInterface;
 
 public class AtlasDownloadTestCase extends AbstractAtlasCreatorTestCase {
 

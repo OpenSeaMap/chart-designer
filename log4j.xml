@@ -17,31 +17,31 @@
     </layout>
   </appender>
   
-  <logger name="osmcbdef.mapsources">
+  <logger name="osmcd.mapsources">
   	<level value="TRACE" />
   </logger>
   
-  <logger name="osmcbdef.program">
+  <logger name="osmcd.program">
   	<level value="DEBUG" />
   </logger>
 
-  <logger name="osmcbdef.program.download">
+  <logger name="osmcd.program.download">
   	<level value="TRACE" />
   </logger>
       
-  <logger name="osmcbdef.program.tilestore">
+  <logger name="osmcd.program.tilestore">
   	<level value="DEBUG" />
   </logger>
   
-  <logger name="osmcbdef.program.atlascreators">
+  <logger name="osmcd.program.atlascreators">
   	<level value="DEBUG" />
   </logger>
   
-  <logger name="osmcbdef.program.atlascreators.tileprovider.CacheTileProvider">
+  <logger name="osmcd.program.atlascreators.tileprovider.CacheTileProvider">
   	<level value="DEBUG" />
   </logger>
     
-  <logger name="osmcbdef.utilities.tar">
+  <logger name="osmcd.utilities.tar">
   	<level value="DEBUG" />
   </logger>
   

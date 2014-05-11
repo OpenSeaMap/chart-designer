@@ -25,7 +25,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import osmcbdef.program.tiledatawriter.TileImageJpegDataWriter;
+import osmcd.program.tiledatawriter.TileImageJpegDataWriter;
 
 /**
  * 

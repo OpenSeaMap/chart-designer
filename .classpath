@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" output="osmcbdef" path="java"/>
-	<classpathentry kind="var" path="JRE_LIB" rootpath="JRE_SRCROOT" sourcepath="JRE_SRC"/>
+	<classpathentry kind="src" output="osmcd" path="java"/>
 	<classpathentry kind="lib" path="C:/Users/Public/Projects/AHDTAC-Java/OSeaM ChartDesigner/lib/log4j-1.2.15.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Public/Projects/AHDTAC-Java/OSeaM ChartDesigner/lib/jai_codec.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Public/Projects/AHDTAC-Java/OSeaM ChartDesigner/lib/jai_core.jar"/>
@@ -13,5 +12,6 @@
 	<classpathentry kind="lib" path="C:/Users/Public/Projects/AHDTAC-Java/OSeaM ChartDesigner/lib/commons-io-2.0.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Public/Projects/AHDTAC-Java/OSeaM ChartDesigner/lib/commons-lang3-3.1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Public/Projects/AHDTAC-Java/OSeaM ChartDesigner/lib/je-3.3.93.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

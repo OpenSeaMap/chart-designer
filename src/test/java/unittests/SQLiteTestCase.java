@@ -16,7 +16,7 @@
  ******************************************************************************/
 package unittests;
 
-import osmcbdef.program.atlascreators.RMapsSQLite;
+import osmcd.program.atlascreators.RMapsSQLite;
 
 public class SQLiteTestCase extends AbstractAtlasCreatorTestCase {
 

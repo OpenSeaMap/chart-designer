@@ -1,8 +1,8 @@
 <launch4jConfig>
   <dontWrapJar>true</dontWrapJar>
   <headerType>gui</headerType>
-  <jar>OpenSeaMapChartBundleDefiner.jar</jar>
-  <outfile>..\OSMCBundleDef.exe</outfile>
+  <jar>OpenSeaMapChartDesigner.jar</jar>
+  <outfile>..\OSMCDesigner.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir></chdir>
@@ -15,21 +15,21 @@
   <icon>OpenSeaMap.ico</icon>
   <jre>
     <path></path>
-    <minVersion>1.6.0_14</minVersion>
+    <minVersion>1.7.0_0</minVersion>
     <maxVersion></maxVersion>
     <jdkPreference>preferJre</jdkPreference>
     <maxHeapSize>2048</maxHeapSize>
   </jre>
   <versionInfo>
-    <fileVersion>0.1.1.11</fileVersion>
+    <fileVersion>0.1.1.12</fileVersion>
     <txtFileVersion>-</txtFileVersion>
-    <fileDescription>OpenSeaMap Chart Bundle Definer - Windows Launcher</fileDescription>
+    <fileDescription>OpenSeaMap Chart Designer - Windows Launcher</fileDescription>
     <copyright>OSMCB developers</copyright>
-    <productVersion>0.1.1.11</productVersion>
+    <productVersion>0.1.1.12</productVersion>
     <txtProductVersion>-</txtProductVersion>
-    <productName>OpenSeaMap Chart Bundle Definer</productName>
+    <productName>OpenSeaMap Chart Designer</productName>
     <companyName></companyName>
-    <internalName>OpenSeaMap Chart Bundle Definer 2048MB max Heap</internalName>
+    <internalName>OpenSeaMap Chart Designer 2048MB max Heap</internalName>
     <originalFilename>OSMCBundleDefiner.exe</originalFilename>
   </versionInfo>
 </launch4jConfig>

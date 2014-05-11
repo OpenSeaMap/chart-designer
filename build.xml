@@ -1,14 +1,14 @@
 <project default="all" name="Compile and build java classes plus jar archives">
-	<property file="src/main/resources/osmcbdef/osmcbdef.properties" />
+	<property file="src/main/resources/osmcd/osmcd.properties" />
 
-	<property name="rev.prop.file" value="src/main/resources/osmcbdef/osmcbdef-rev.properties" />
+	<property name="rev.prop.file" value="src/main/resources/osmcd/osmcd-rev.properties" />
 	<property name="app.name" value="OpenSeaMapChartBundleDefiner" />
-	<property name="app.short" value="OSMCBDef" />
+	<property name="app.short" value="osmcd" />
 	<property name="app.loader" value="${app.short}.exe" />
 	<property name="jar.name" value="${app.name}.jar" />
-	<property name="zip.name" value="${app.name} ${osmcbdef.version}.zip" />
-	<property name="zip_src.name" value="${app.name} ${osmcbdef.version} src.zip" />
-	<property name="main.class" value="osmcbdef.StartOSMCBDef" />
+	<property name="zip.name" value="${app.name} ${osmcd.version}.zip" />
+	<property name="zip_src.name" value="${app.name} ${osmcd.version} src.zip" />
+	<property name="main.class" value="osmcd.StartOSMCD" />
 
 	<property name="rtlibraryjar.non_osx" value="${java.home}/lib/rt.jar" />
 	<property name="rtlibraryjar.osx" value="${java.home}/../Classes/classes.jar" />
@@ -60,26 +60,26 @@
 	</target>
 
 	<target name="build">
-		<mkdir dir="build/osmcbdef" />
+		<mkdir dir="build/osmcd" />
 		<!-- Compile the starter class for Java 1.5 (shows an verbose error if the JRE requirements are not met -->
-		<javac srcdir="src/main/java" destdir="build/osmcbdef" target="1.5" source="1.5" debug="true" includeantruntime="false" encoding="UTF-8">
+		<javac srcdir="src/main/java" destdir="build/osmcd" target="1.5" source="1.5" debug="true" includeantruntime="false" encoding="UTF-8">
 			<classpath refid="maincp" />
-			<include name="osmcbdef/StartOSMCBDef.java" />
+			<include name="osmcd/StartOSMCD.java" />
 		</javac>
 		<!-- Compile the other classes for Java 1.6 -->
-		<javac srcdir="src/main/java" destdir="build/osmcbdef" target="${java-target}" source="${java-target}" debug="true" includeantruntime="false" encoding="UTF-8">
+		<javac srcdir="src/main/java" destdir="build/osmcd" target="${java-target}" source="${java-target}" debug="true" includeantruntime="false" encoding="UTF-8">
 			<classpath refid="maincp" />
-			<exclude name="osmcbdef/StartOSMCBDef.java" />
-			<exclude name="osmcbdef/mapsources/mappacks/**" />
-			<include name="osmcbdef/**" />
+			<exclude name="osmcd/StartOSMCD.java" />
+			<exclude name="osmcd/mapsources/mappacks/**" />
+			<include name="osmcd/**" />
 		</javac>
-		<copy todir="build/osmcbdef" overwrite="true">
+		<copy todir="build/osmcd" overwrite="true">
 			<fileset dir="src/main/resources" excludes="**/mapsources.properties" />
 		</copy>
 	</target>
 
 	<target name="build_mapsources" depends="clean_build,build,svnversion" description="Build all map packs and generate the new mappacks-md5.txt">
-		<property name="mappack.srcbasedir" value="src/main/java/osmcbdef/mapsources/mappacks" />
+		<property name="mappack.srcbasedir" value="src/main/java/osmcd/mapsources/mappacks" />
 		<property file="keys/keystore.properties" />
 		<taskdef name="for" classname="net.sf.antcontrib.logic.ForTask">
 			<classpath>
@@ -98,30 +98,30 @@
 				<echo message="@{mappack}" />
 				<mkdir dir="build/mp-@{mappack}" />
 				<uptodate property="@{mappack}.newer" targetfile="mapsources/mp-@{mappack}.jar">
-					<srcfiles dir="src/main/java/osmcbdef/mapsources/mappacks/@{mappack}" />
+					<srcfiles dir="src/main/java/osmcd/mapsources/mappacks/@{mappack}" />
 				</uptodate>
 				<echo message="No changes in map pack detected: @{mappack}" />
 				<javac srcdir="src/main/java" destdir="build/mp-@{mappack}" defaultexcludes="true" debug="true" target="${java-target}" source="${java-target}" includeantruntime="false" encoding="UTF-8">
-					<include name="osmcbdef/mapsources/mappacks/@{mappack}/**.java" />
+					<include name="osmcd/mapsources/mappacks/@{mappack}/**.java" />
 					<classpath>
 						<path refid="maincp" />
-						<path path="build/osmcbdef" />
+						<path path="build/osmcd" />
 					</classpath>
 				</javac>
 				<delete file="mapsources/mp-@{mappack}.jar" failonerror="false" />
 				<fileset dir="build/mp-@{mappack}" defaultexcludes="true" id="fileset-@{mappack}">
-					<include name="osmcbdef/mapsources/mappacks/@{mappack}/**.class" />
+					<include name="osmcd/mapsources/mappacks/@{mappack}/**.class" />
 				</fileset>
 
 				<jar destfile="mapsources/mp-@{mappack}.jar">
 					<manifest>
-						<attribute name="MapPackVersion" value="${osmcbdef.mappackversion}" />
+						<attribute name="MapPackVersion" value="${osmcd.mappackversion}" />
 						<attribute name="MapPackName" value="@{mappack}" />
 						<attribute name="MapPackBuild-Date" value="${build.date}" />
-						<attribute name="MapPackRevision" value="${osmcbdef.revision.new}" />
+						<attribute name="MapPackRevision" value="${osmcd.revision.new}" />
 					</manifest>
 					<fileset refid="fileset-@{mappack}" />
-					<zipfileset dir="${mappack.srcbasedir}/@{mappack}/" includes="mapsources.list" fullpath="META-INF/services/osmcbdef.program.interfaces.MapSource" />
+					<zipfileset dir="${mappack.srcbasedir}/@{mappack}/" includes="mapsources.list" fullpath="META-INF/services/osmcd.program.interfaces.MapSource" />
 				</jar>
 				<checksum algorithm="MD5" totalproperty="MD5-@{mappack}">
 					<fileset refid="fileset-@{mappack}" />
@@ -162,9 +162,9 @@
 			<zipfileset src="lib/javapng-2.0.jar" includes="**/*.class" />
 			<zipfileset src="lib/Tidy.jar" includes="org/w3c/tidy/**" />
 			<zipfileset src="lib/itextpdf-5.1.0.jar" includes="com/**" />
-			<fileset dir="build/osmcbdef">
+			<fileset dir="build/osmcd">
 				<exclude name="**/unittest/**" />
-				<exclude name="osmcbdef/mapsources/mapapcks/**" />
+				<exclude name="osmcd/mapsources/mapapcks/**" />
 				<exclude name="**/*.java" />
 			</fileset>
 		</jar>
@@ -190,39 +190,39 @@
 			-keep class ${main.class} {
 			public static void main(java.lang.String[]); }
 			-keep class
-			osmcbdef.program.* { public *; }
-			-keep class osmcbdef.program.interfaces.* {
+			osmcd.program.* { public *; }
+			-keep class osmcd.program.interfaces.* {
 			public *; }
-			-keep class osmcbdef.program.model.package-info
+			-keep class osmcd.program.model.package-info
 			-keep class
-			osmcbdef.program.model.* { public *; }
-			-keep class osmcbdef.program.jaxb.* {
+			osmcd.program.model.* { public *; }
+			-keep class osmcd.program.jaxb.* {
 			public *; }
-			-keep class osmcbdef.program.interfaces.* { public *; }
+			-keep class osmcd.program.interfaces.* { public *; }
 			-keep
-			class osmcbdef.program.download.UserAgent { public *; }
+			class osmcd.program.download.UserAgent { public *; }
 			-keep class
-			osmcbdef.exceptions.* { public *; }
+			osmcd.exceptions.* { public *; }
 			-keep class
-			osmcbdef.program.tilestore.berkeleydb.* { *; }
+			osmcd.program.tilestore.berkeleydb.* { *; }
 			-keep class
-			osmcbdef.program.tilestore.TileStoreEntry { public *; }
+			osmcd.program.tilestore.TileStoreEntry { public *; }
 			-keep class
-			osmcbdef.program.atlascreators.AtlasCreator { public *; }
+			osmcd.program.atlascreators.AtlasCreator { public *; }
 			-keep class
-			osmcbdef.utilities.beanshell.* { public *; }
+			osmcd.utilities.beanshell.* { public *; }
 			-keep class
-			osmcbdef.utilities.tar.TarIndex { public *; }
+			osmcd.utilities.tar.TarIndex { public *; }
 			-keep class
-			osmcbdef.utilities.tar.TarIndexedArchive { public *; }
+			osmcd.utilities.tar.TarIndexedArchive { public *; }
 			-keep class
-			osmcbdef.data.gpx.gpx11.* { public *; }
+			osmcd.data.gpx.gpx11.* { public *; }
 			-keep class
-			osmcbdef.mapsources.MapSourceTools { public *; }
+			osmcd.mapsources.MapSourceTools { public *; }
 			-keep class
-			osmcbdef.mapsources.MapSourceUrlUpdater { public *; }
+			osmcd.mapsources.MapSourceUrlUpdater { public *; }
 			-keep class
-			osmcbdef.mapsources.custom.* { *; }
+			osmcd.mapsources.custom.* { *; }
 			-keep class org.apache.log4j.Layout {
 			public *; }
 			-keep class org.apache.log4j.Level { public *; }
@@ -286,23 +286,23 @@
 		<move file="build/temp.jar" tofile="${jar.name}" overwrite="true" />
 	</target>
 
-	<target name="svnversion" description="Updates the revision information in src/osmcbdef/osmcbdef.properties" depends="svnversion_svn">
+	<target name="svnversion" description="Updates the revision information in src/osmcd/osmcd.properties" depends="svnversion_svn">
 	</target>
 
 	<target name="svnversion_svn">
 		<delete file="${rev.prop.file}" />
-		<exec executable="svnversion" outputproperty="osmcbdef.revision.new" searchpath="true" failifexecutionfails="false" />
-		<property name="osmcbdef.revision.new" value="exported" />
-		<condition property="osmcbdef.revision.exported">
-			<equals arg1="${osmcbdef.revision.new}" arg2="exported" />
+		<exec executable="svnversion" outputproperty="osmcd.revision.new" searchpath="true" failifexecutionfails="false" />
+		<property name="osmcd.revision.new" value="exported" />
+		<condition property="osmcd.revision.exported">
+			<equals arg1="${osmcd.revision.new}" arg2="exported" />
 		</condition>
-		<echo message="OSMCB revision: ${osmcbdef.revision.new}" />
+		<echo message="OSMCB revision: ${osmcd.revision.new}" />
 		<antcall target="svnversion_write_property_file" />
 	</target>
 
-	<target name="svnversion_write_property_file" unless="osmcbdef.revision.exported">
+	<target name="svnversion_write_property_file" unless="osmcd.revision.exported">
 		<propertyfile file="${rev.prop.file}">
-			<entry key="osmcbdef.revision" value="${osmcbdef.revision.new}" />
+			<entry key="osmcd.revision" value="${osmcd.revision.new}" />
 		</propertyfile>
 	</target>
 
@@ -320,7 +320,7 @@
 				<include name="mapsources/mp-*.jar" />
 			</fileset>
 			<fileset dir="./misc">
-				<include name="osmcbdef.icns" />
+				<include name="osmcd.icns" />
 			</fileset>
 			<fileset dir="lib" includes="sqlite-jdbc-${sqlite-version}.jar" />
 		</zip>
@@ -330,7 +330,7 @@
 		<zip destfile="${zip_src.name}" update="false">
 			<fileset dir="./">
 				<include name="src/**" />
-				<exclude name="src/osmcbdef/tools/**" />
+				<exclude name="src/osmcd/tools/**" />
 				<include name="log4j.xml" />
 				<include name="build.xml" />
 				<include name="gpl.txt" />
@@ -343,7 +343,7 @@
 				<include name=".project" />
 				<include name="${app.loader}" />
 				<include name="misc/launch4j.xml" />
-				<include name="misc/osmcbdef.ico" />
+				<include name="misc/osmcd.ico" />
 				<include name="lib/*.jar" />
 			</fileset>
 		</zip>

@@ -22,10 +22,10 @@ import java.security.cert.CertificateException;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
-import osmcbdef.mapsources.loader.MapPackManager;
-import osmcbdef.program.Logging;
-import osmcbdef.program.ProgramInfo;
-import osmcbdef.utilities.Utilities;
+import osmcd.mapsources.loader.MapPackManager;
+import osmcd.program.Logging;
+import osmcd.program.ProgramInfo;
+import osmcd.utilities.Utilities;
 
 public class MapPackUploadSelector {
 

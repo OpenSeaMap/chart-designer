@@ -18,8 +18,8 @@ package unittests;
 
 import java.io.File;
 
-import osmcbdef.program.atlascreators.GoogleEarthOverlay;
-import osmcbdef.program.interfaces.AtlasInterface;
+import osmcd.program.atlascreators.GoogleEarthOverlay;
+import osmcd.program.interfaces.AtlasInterface;
 
 public class KMZTestCase extends AbstractAtlasCreatorTestCase {
 

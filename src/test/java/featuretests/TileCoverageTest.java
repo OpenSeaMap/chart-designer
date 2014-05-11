@@ -25,11 +25,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import osmcbdef.mapsources.MapSourcesManager;
-import osmcbdef.program.Logging;
-import osmcbdef.program.tilestore.TileStore;
-import osmcbdef.program.tilestore.berkeleydb.BerkeleyDbTileStore;
-import osmcbdef.program.tilestore.berkeleydb.DelayedInterruptThread;
+import osmcd.mapsources.MapSourcesManager;
+import osmcd.program.Logging;
+import osmcd.program.tilestore.TileStore;
+import osmcd.program.tilestore.berkeleydb.BerkeleyDbTileStore;
+import osmcd.program.tilestore.berkeleydb.DelayedInterruptThread;
 
 public class TileCoverageTest {
 

@@ -36,16 +36,16 @@ import org.apache.log4j.Logger;
 
 import osmcb.tools.testtileserver.TestTileServer;
 import osmcb.tools.testtileserver.servlets.JpgTileGeneratorServlet;
-import osmcbdef.exceptions.AtlasTestException;
-import osmcbdef.program.AtlasThread;
-import osmcbdef.program.Logging;
-import osmcbdef.program.ProgramInfo;
-import osmcbdef.program.atlascreators.AtlasCreator;
-import osmcbdef.program.interfaces.AtlasInterface;
-import osmcbdef.program.model.Atlas;
-import osmcbdef.program.model.Profile;
-import osmcbdef.program.model.TileImageType;
-import osmcbdef.program.tilestore.TileStore;
+import osmcd.exceptions.AtlasTestException;
+import osmcd.program.AtlasThread;
+import osmcd.program.Logging;
+import osmcd.program.ProgramInfo;
+import osmcd.program.atlascreators.AtlasCreator;
+import osmcd.program.interfaces.AtlasInterface;
+import osmcd.program.model.Atlas;
+import osmcd.program.model.Profile;
+import osmcd.program.model.TileImageType;
+import osmcd.program.tilestore.TileStore;
 import unittests.helper.TestMapSourcesManager;
 
 /**
@@ -63,7 +63,7 @@ public abstract class AbstractAtlasCreatorTestCase extends TestCase {
 	static {
 		Logging.configureConsoleLogging(Level.TRACE,Logging.ADVANCED_LAYOUT);
 		ProgramInfo.initialize();
-		//Logger.getLogger("osmcbdef").setLevel(Level.INFO);
+		//Logger.getLogger("osmcd").setLevel(Level.INFO);
 		TEST_TILE_SERVER = new TestTileServer(18888);
 		// TEST_TILE_SERVER.setTileServlet(new PngFileTileServlet(0));
 		TEST_TILE_SERVER.setTileServlet(new JpgTileGeneratorServlet(90));

@@ -34,7 +34,7 @@ import osmcb.tools.testtileserver.servlets.JpgTileGeneratorServlet;
 import osmcb.tools.testtileserver.servlets.PngFileTileServlet;
 import osmcb.tools.testtileserver.servlets.PngTileGeneratorServlet;
 import osmcb.tools.testtileserver.servlets.ShutdownServlet;
-import osmcbdef.program.Logging;
+import osmcd.program.Logging;
 import Acme.Serve.Serve;
 
 /**

@@ -27,17 +27,17 @@ import osmcb.tools.Cities;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
-import osmcbdef.mapsources.AbstractMultiLayerMapSource;
-import osmcbdef.mapsources.DefaultMapSourcesManager;
-import osmcbdef.mapsources.MapSourcesManager;
-import osmcbdef.mapsources.impl.DebugMapSource;
-import osmcbdef.mapsources.impl.LocalhostTestSource;
-import osmcbdef.program.Logging;
-import osmcbdef.program.ProgramInfo;
-import osmcbdef.program.interfaces.HttpMapSource;
-import osmcbdef.program.interfaces.MapSource;
-import osmcbdef.program.model.EastNorthCoordinate;
-import osmcbdef.program.model.Settings;
+import osmcd.mapsources.AbstractMultiLayerMapSource;
+import osmcd.mapsources.DefaultMapSourcesManager;
+import osmcd.mapsources.MapSourcesManager;
+import osmcd.mapsources.impl.DebugMapSource;
+import osmcd.mapsources.impl.LocalhostTestSource;
+import osmcd.program.Logging;
+import osmcd.program.ProgramInfo;
+import osmcd.program.interfaces.HttpMapSource;
+import osmcd.program.interfaces.MapSource;
+import osmcd.program.model.EastNorthCoordinate;
+import osmcd.program.model.Settings;
 import unittests.helper.DummyTileStore;
 
 /**

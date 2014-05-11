@@ -19,14 +19,14 @@ package mapsources;
 import java.net.HttpURLConnection;
 
 import osmcb.tools.Cities;
-import osmcbdef.mapsources.AbstractHttpMapSource;
-import osmcbdef.program.download.TileDownLoader;
-import osmcbdef.program.interfaces.HttpMapSource;
-import osmcbdef.program.interfaces.MapSpace;
-import osmcbdef.program.interfaces.MapSource.LoadMethod;
-import osmcbdef.program.model.EastNorthCoordinate;
-import osmcbdef.program.model.Settings;
-import osmcbdef.utilities.Utilities;
+import osmcd.mapsources.AbstractHttpMapSource;
+import osmcd.program.download.TileDownLoader;
+import osmcd.program.interfaces.HttpMapSource;
+import osmcd.program.interfaces.MapSpace;
+import osmcd.program.interfaces.MapSource.LoadMethod;
+import osmcd.program.model.EastNorthCoordinate;
+import osmcd.program.model.Settings;
+import osmcd.utilities.Utilities;
 import junit.framework.TestCase;
 
 public class MapSourceTestCase extends TestCase {

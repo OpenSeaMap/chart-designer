@@ -33,19 +33,19 @@ import javax.xml.bind.JAXBException;
 
 import org.apache.log4j.Logger;
 
-import osmcbdef.mapsources.DefaultMapSourcesManager;
-import osmcbdef.mapsources.MapSourcesManager;
-import osmcbdef.mapsources.mappacks.region_oceania.NzTopoMaps;
-import osmcbdef.program.Logging;
-import osmcbdef.program.ProgramInfo;
-import osmcbdef.program.download.TileDownLoader;
-import osmcbdef.program.interfaces.HttpMapSource;
-import osmcbdef.program.interfaces.MapSource;
-import osmcbdef.program.interfaces.MapSpace;
-import osmcbdef.program.model.EastNorthCoordinate;
-import osmcbdef.program.model.Settings;
-import osmcbdef.program.model.TileImageType;
-import osmcbdef.utilities.Utilities;
+import osmcd.mapsources.DefaultMapSourcesManager;
+import osmcd.mapsources.MapSourcesManager;
+import osmcd.mapsources.mappacks.region_oceania.NzTopoMaps;
+import osmcd.program.Logging;
+import osmcd.program.ProgramInfo;
+import osmcd.program.download.TileDownLoader;
+import osmcd.program.interfaces.HttpMapSource;
+import osmcd.program.interfaces.MapSource;
+import osmcd.program.interfaces.MapSpace;
+import osmcd.program.model.EastNorthCoordinate;
+import osmcd.program.model.Settings;
+import osmcd.program.model.TileImageType;
+import osmcd.utilities.Utilities;
 
 public class MapSourceCapabilityDetector {
 

@@ -23,7 +23,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
-import osmcbdef.program.interfaces.MapSource;
+import osmcd.program.interfaces.MapSource;
 
 public class MapSourceTestFailedException extends Exception {
 

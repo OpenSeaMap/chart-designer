@@ -18,10 +18,10 @@ package unittests.helper;
 
 import java.util.Vector;
 
-import osmcbdef.mapsources.MapSourcesManager;
-import osmcbdef.mapsources.impl.LocalhostTestSource;
-import osmcbdef.program.interfaces.MapSource;
-import osmcbdef.program.model.TileImageType;
+import osmcd.mapsources.MapSourcesManager;
+import osmcd.mapsources.impl.LocalhostTestSource;
+import osmcd.program.interfaces.MapSource;
+import osmcd.program.model.TileImageType;
 
 public class TestMapSourcesManager extends MapSourcesManager {
 

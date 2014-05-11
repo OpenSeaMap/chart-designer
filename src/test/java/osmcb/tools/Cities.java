@@ -18,12 +18,12 @@ package osmcb.tools;
 
 import java.util.HashMap;
 
-import osmcbdef.mapsources.mappacks.region_europe_east.FreemapSlovakia;
-import osmcbdef.mapsources.mappacks.region_europe_east.FreemapSlovakiaCycling;
-import osmcbdef.mapsources.mappacks.region_europe_east.FreemapSlovakiaHiking;
-import osmcbdef.mapsources.mappacks.region_oceania.NzTopoMaps;
-import osmcbdef.program.interfaces.MapSource;
-import osmcbdef.program.model.EastNorthCoordinate;
+import osmcd.mapsources.mappacks.region_europe_east.FreemapSlovakia;
+import osmcd.mapsources.mappacks.region_europe_east.FreemapSlovakiaCycling;
+import osmcd.mapsources.mappacks.region_europe_east.FreemapSlovakiaHiking;
+import osmcd.mapsources.mappacks.region_oceania.NzTopoMaps;
+import osmcd.program.interfaces.MapSource;
+import osmcd.program.model.EastNorthCoordinate;
 
 public class Cities {
 

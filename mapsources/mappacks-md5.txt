@@ -1,5 +1,5 @@
 
-4fdbfbd7cc3d76c45ffcdafcd273bf55 mp-openstreetmap.jar
-3f876174e6e296a64e7be55df139292c mp-region_america_north.jar
-ab96dd9c203c17ba10c3a79a1b9db721 mp-region_europe_east.jar
-9a866b3e8f588b75ce416f858a954cb1 mp-region_oceania.jar
+ce89daed3ff8949f498c9ecbf84ba30b mp-openstreetmap.jar
+8acd32085640d4d5b8776a6deb76905d mp-region_america_north.jar
+6587dc76f4651dc43d14c8d7c13ba637 mp-region_europe_east.jar
+d220201f06c066649e499e0c8619523c mp-region_oceania.jar

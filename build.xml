@@ -2,7 +2,7 @@
 	<property file="src/main/resources/osmcd/osmcd.properties" />
 
 	<property name="rev.prop.file" value="src/main/resources/osmcd/osmcd-rev.properties" />
-	<property name="app.name" value="OpenSeaMapChartBundleDefiner" />
+	<property name="app.name" value="OSMChartDesigner" />
 	<property name="app.short" value="osmcd" />
 	<property name="app.loader" value="${app.short}.exe" />
 	<property name="jar.name" value="${app.name}.jar" />
@@ -43,9 +43,9 @@
 
 	<target name="clean_workspace" description="Deletes the work directories ozi, atlases, atlasestared">
 		<delete includeemptydirs="true" failonerror="false">
-			<fileset dir="atlases" includes="**/*" />
+<!-- 			<fileset dir="atlases" includes="**/*" /> -->
+<!-- 			<fileset dir="tilestore" includes="**/*" /> -->
 			<fileset dir="build" includes="**/*" />
-			<fileset dir="tilestore" includes="**/*" />
 		</delete>
 	</target>
 

@@ -116,6 +116,7 @@ import osmcd.gui.panels.JCoordinatesPanel;
 import osmcd.gui.panels.JGpxPanel;
 import osmcd.gui.panels.JProfilesPanel;
 import osmcd.gui.panels.JTileImageParametersPanel;
+import osmcd.gui.panels.JTileStoreCoveragePanel;
 import osmcd.gui.settings.SettingsGUI;
 import osmcd.mapsources.MapSourcesManager;
 import osmcd.program.ProgramInfo;
@@ -137,7 +138,6 @@ import osmcd.utilities.Utilities;
 
 public class MainGUI extends JFrame implements MapEventListener
 {
-
 	private static final long serialVersionUID = 1L;
 
 	private static Logger log = Logger.getLogger(MainGUI.class);
@@ -171,7 +171,7 @@ public class MainGUI extends JFrame implements MapEventListener
 	private JComboBox gridZoomCombo;
 	private JSlider zoomSlider;
 	private JComboBox mapSourceCombo;
-	// private JButton settingsButton;
+	private JButton settingsButton;
 	private JAtlasNameField atlasNameTextField;
 	// private JButton createAtlasButton;
 	private JPanel zoomLevelPanel;
@@ -183,7 +183,7 @@ public class MainGUI extends JFrame implements MapEventListener
 	private JCoordinatesPanel coordinatesPanel;
 	private JProfilesPanel profilesPanel;
 	public JTileImageParametersPanel tileImageParametersPanel;
-	// private JTileStoreCoveragePanel tileStoreCoveragePanel;
+	private JTileStoreCoveragePanel tileStoreCoveragePanel;
 	public JGpxPanel gpxPanel;
 
 	private JPanel mapControlPanel = new JPanel(new BorderLayout());
@@ -369,10 +369,10 @@ public class MainGUI extends JFrame implements MapEventListener
 		mapSourceCombo.addActionListener(new MapSourceComboListener());
 		mapSourceCombo.setToolTipText(I18nUtils.localizedStringForKey("lp_map_source_combo_tips"));
 
-		// // settings button
-		// settingsButton = new JButton(I18nUtils.localizedStringForKey("lp_main_setting_button_title"));
-		// settingsButton.addActionListener(new SettingsButtonListener());
-		// settingsButton.setToolTipText(I18nUtils.localizedStringForKey("lp_main_setting_button_tips"));
+		// settings button
+		settingsButton = new JButton(I18nUtils.localizedStringForKey("lp_main_setting_button_title"));
+		settingsButton.addActionListener(new SettingsButtonListener());
+		settingsButton.setToolTipText(I18nUtils.localizedStringForKey("lp_main_setting_button_tips"));
 
 		// atlas name text field
 		atlasNameTextField = new JAtlasNameField();
@@ -401,7 +401,7 @@ public class MainGUI extends JFrame implements MapEventListener
 		tileImageParametersPanel = new JTileImageParametersPanel();
 		profilesPanel = new JProfilesPanel(jAtlasTree);
 		profilesPanel.getLoadButton().addActionListener(new LoadProfileListener());
-		// tileStoreCoveragePanel = new JTileStoreCoveragePanel(previewMap);
+		tileStoreCoveragePanel = new JTileStoreCoveragePanel(previewMap);
 	}
 
 	private void prepareMenuBar()
@@ -633,8 +633,8 @@ public class MainGUI extends JFrame implements MapEventListener
 
 		leftPanelContent.add(profilesPanel, gbc_eol);
 		// leftPanelContent.add(createAtlasButton, gbc_eol);
-		// leftPanelContent.add(settingsButton, gbc_eol);
-		// leftPanelContent.add(tileStoreCoveragePanel, gbc_eol);
+		leftPanelContent.add(settingsButton, gbc_eol);
+		leftPanelContent.add(tileStoreCoveragePanel, gbc_eol);
 		leftPanelContent.add(Box.createVerticalGlue(), GBC.eol().fill(GBC.VERTICAL));
 
 		JScrollPane scrollPane = new JScrollPane(leftPanelContent);

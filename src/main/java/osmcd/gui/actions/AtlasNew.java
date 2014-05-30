@@ -33,11 +33,9 @@ import osmcd.gui.MainGUI;
 import osmcd.program.model.AtlasOutputFormat;
 import osmcd.utilities.I18nUtils;
 
-public class AtlasNew implements ActionListener
-{
+public class AtlasNew implements ActionListener {
 
-	public void actionPerformed(ActionEvent event)
-	{
+	public void actionPerformed(ActionEvent event) {
 		MainGUI mg = MainGUI.getMainGUI();
 		JPanel panel = new JPanel();
 		BorderLayout layout = new BorderLayout();
@@ -60,14 +58,11 @@ public class AtlasNew implements ActionListener
 
 		panel.add(namePanel, BorderLayout.NORTH);
 		panel.add(formatPanel, BorderLayout.CENTER);
-		panel.setPreferredSize(new Dimension(300, 300));
+		panel.setPreferredSize(new Dimension(300, 300)); 
 		AtlasOutputFormat currentAOF = null;
-		try
-		{
+		try {
 			currentAOF = mg.getAtlas().getOutputFormat();
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 		}
 		if (currentAOF != null)
 			atlasFormatList.setSelectedValue(currentAOF, true);

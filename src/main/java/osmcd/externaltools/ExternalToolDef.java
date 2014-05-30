@@ -38,7 +38,7 @@ public class ExternalToolDef implements ActionListener {
 	private static final Logger log = Logger.getLogger(ExternalToolDef.class);
 
 	/**
-	 * Name used for the menu entry in OSMCB
+	 * Name used for the menu entry in MOBAC
 	 */
 	public String name;
 

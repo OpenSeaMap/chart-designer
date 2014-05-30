@@ -24,7 +24,7 @@ import osmcd.program.interfaces.MapSource;
  * Atlas/Map creator for "BigPlanet-Maps application for Android" (offline SQLite maps)
  * http://code.google.com/p/bigplanet/
  * <p>
- * Some source parts are taken from the "android-map.blogspot.com Version of OpenSeaMap ChartBundler":
+ * Some source parts are taken from the "android-map.blogspot.com Version of Mobile Atlas Creator":
  * http://code.google.com/p/android-map/
  * </p>
  */

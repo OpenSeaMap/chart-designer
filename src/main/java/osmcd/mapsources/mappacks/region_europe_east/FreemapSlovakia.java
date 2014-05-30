@@ -25,26 +25,31 @@ import osmcd.program.model.TileImageType;
  * 
  * @author SourceForge.net user didoa, nickn17
  */
-public class FreemapSlovakia extends AbstractHttpMapSource implements MapSourceTextAttribution {
+public class FreemapSlovakia extends AbstractHttpMapSource implements MapSourceTextAttribution
+{
 
 	public FreemapSlovakia() {
 		super("FreemapSlovakia", 5, 16, TileImageType.PNG, TileUpdate.IfModifiedSince);
 	}
 
-	public String getTileUrl(int zoom, int tilex, int tiley) {
+	public String getTileUrl(int zoom, int tilex, int tiley)
+	{
 		return "http://a.freemap.sk/data/layers/presets/A/" + zoom + "/" + tilex + "/" + tiley + ".png";
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "Freemap Slovakia Car Atlas";
 	}
 
-	public String getAttributionText() {
+	public String getAttributionText()
+	{
 		return "© OpenStreetMap contributors, CC-BY-SA";
 	}
 
-	public String getAttributionLinkURL() {
+	public String getAttributionLinkURL()
+	{
 		return "http://openstreetmap.org";
 	}
 }

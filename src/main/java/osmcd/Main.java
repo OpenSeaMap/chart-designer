@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) OSMCB developers
+ * Copyright (c) OSMCD developers
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -107,7 +107,7 @@ public class Main
 	}
 
 	/**
-	 * Start OSMCB without Java Runtime version check
+	 * Start OSMCD without Java Runtime version check
 	 */
 	public static void main(String[] args)
 	{

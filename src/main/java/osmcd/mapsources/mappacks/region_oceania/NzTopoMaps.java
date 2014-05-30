@@ -32,36 +32,43 @@ import osmcd.program.model.TileImageType;
  * 
  * Tiles created by and sourced from nztopomaps.com
  * </pre>
+ * 
  * http://www.nztopomaps.com/
  */
-public class NzTopoMaps extends AbstractHttpMapSource implements MapSourceTextAttribution {
+public class NzTopoMaps extends AbstractHttpMapSource implements MapSourceTextAttribution
+{
 
 	public NzTopoMaps() {
 		super("New Zealand Topographic Maps", 6, 15, TileImageType.PNG, TileUpdate.IfNoneMatch);
 	}
 
-	public String getTileUrl(int zoom, int x, int y) {
+	public String getTileUrl(int zoom, int x, int y)
+	{
 		// nzy = 2^zoom - 1 - y
 		int nzy = (1 << zoom) - 1 - y;
 		return "http://nz1.nztopomaps.com/" + zoom + "/" + x + "/" + nzy + ".png";
 	}
 
 	@Override
-	protected void prepareTileUrlConnection(HttpURLConnection conn) {
+	protected void prepareTileUrlConnection(HttpURLConnection conn)
+	{
 		super.prepareTileUrlConnection(conn);
 		conn.addRequestProperty("Referer", "http://m.nztopomaps.com");
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "nztopomaps.com (New Zealand only)";
 	}
 
-	public String getAttributionText() {
+	public String getAttributionText()
+	{
 		return "Images sourced from NZTopo database";
 	}
 
-	public String getAttributionLinkURL() {
+	public String getAttributionLinkURL()
+	{
 		return "http://nztopomaps.com";
 	}
 

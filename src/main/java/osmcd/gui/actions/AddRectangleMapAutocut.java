@@ -22,7 +22,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
-//import osmcd.program.interfaces.LayerInterface;
 import osmcd.exceptions.InvalidNameException;
 import osmcd.gui.MainGUI;
 import osmcd.gui.atlastree.JAtlasTree;

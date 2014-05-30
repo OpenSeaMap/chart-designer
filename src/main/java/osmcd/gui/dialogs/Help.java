@@ -31,6 +31,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import osmcd.gui.MainGUI;
 import osmcd.utilities.Charsets;
 import osmcd.utilities.GBC;
 import osmcd.utilities.I18nUtils;
@@ -49,6 +50,7 @@ public class Help extends JFrame implements WindowListener
 
 	public Help() throws HeadlessException {
 		super(I18nUtils.localizedStringForKey("dlg_help_title"));
+		setIconImages(MainGUI.OSMCD_ICONS);
 		setLayout(new GridBagLayout());
 		JLabel text = new JLabel();
 		JButton closeButton = new JButton(I18nUtils.localizedStringForKey("Close"));

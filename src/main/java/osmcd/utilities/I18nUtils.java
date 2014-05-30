@@ -29,36 +29,46 @@ import java.util.ResourceBundle.Control;
 import osmcd.Main;
 import osmcd.program.model.Settings;
 
-public class I18nUtils {
+public class I18nUtils
+{
 
 	// MP: return application's resource strings
 	private static ResourceBundle STRING_RESOURCE = null;
 
-	public static String localizedStringForKey(String key, Object... args) {
+	public static String localizedStringForKey(String key, Object... args)
+	{
 		if (STRING_RESOURCE == null)
 			I18nUtils.updateLocalizedStringFormSettings();
 		String str = null;
-		try {
+		try
+		{
 			str = STRING_RESOURCE.getString(key);
 			if (args.length > 0)
 				str = String.format(str, args);
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			str = key;
 		}
-		if (str == null) {
+		if (str == null)
+		{
 			// always return a valid string
 			str = "";
 		}
 		return str;
 	}
 
-	public static synchronized void updateLocalizedStringFormSettings() {
+	public static synchronized void updateLocalizedStringFormSettings()
+	{
 		Settings settings = Settings.getInstance();
 		// force to use Simplify-Chinese Locale， will update later
 		Locale locale = null;
-		if (settings != null) {
+		if (settings != null)
+		{
 			locale = new Locale(settings.localeLanguage, settings.localeCountry);
-		} else {
+		}
+		else
+		{
 			locale = Locale.getDefault();
 		}
 
@@ -68,31 +78,42 @@ public class I18nUtils {
 	/**
 	 * http://stackoverflow.com/questions/4659929/how-to-use-utf-8-in-resource-properties-with-resourcebundle
 	 */
-	public static class UTF8Control extends Control {
-		public ResourceBundle newBundle(String baseName, Locale locale, String format, ClassLoader loader,
-				boolean reload) throws IllegalAccessException, InstantiationException, IOException {
+	public static class UTF8Control extends Control
+	{
+		public ResourceBundle newBundle(String baseName, Locale locale, String format, ClassLoader loader, boolean reload) throws IllegalAccessException,
+				InstantiationException, IOException
+		{
 			// The below is a copy of the default implementation.
 			String bundleName = toBundleName(baseName, locale);
 			String resourceName = toResourceName(bundleName, "properties");
 			ResourceBundle bundle = null;
 			InputStream stream = null;
-			if (reload) {
+			if (reload)
+			{
 				URL url = loader.getResource(resourceName);
-				if (url != null) {
+				if (url != null)
+				{
 					URLConnection connection = url.openConnection();
-					if (connection != null) {
+					if (connection != null)
+					{
 						connection.setUseCaches(false);
 						stream = connection.getInputStream();
 					}
 				}
-			} else {
+			}
+			else
+			{
 				stream = loader.getResourceAsStream(resourceName);
 			}
-			if (stream != null) {
-				try {
+			if (stream != null)
+			{
+				try
+				{
 					// Only this line is changed to make it to read properties files as UTF-8.
 					bundle = new PropertyResourceBundle(new InputStreamReader(stream, Charsets.UTF_8));
-				} finally {
+				}
+				finally
+				{
 					stream.close();
 				}
 			}
@@ -100,7 +121,8 @@ public class I18nUtils {
 		}
 	}
 
-	public static InputStream getI18nResourceAsStream(String name, String extension) {
+	public static InputStream getI18nResourceAsStream(String name, String extension)
+	{
 
 		Settings s = Settings.getInstance();
 		String country = s.localeCountry;

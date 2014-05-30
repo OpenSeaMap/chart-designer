@@ -23,26 +23,31 @@ import osmcd.program.model.TileImageType;
 /**
  * http://www.freemap.sk
  */
-public class FreemapSlovakiaCycling extends AbstractHttpMapSource implements MapSourceTextAttribution {
+public class FreemapSlovakiaCycling extends AbstractHttpMapSource implements MapSourceTextAttribution
+{
 
 	public FreemapSlovakiaCycling() {
 		super("FreemapSlovakiaCyclo", 6, 16, TileImageType.PNG, TileUpdate.IfModifiedSince);
 	}
 
-	public String getTileUrl(int zoom, int tilex, int tiley) {
+	public String getTileUrl(int zoom, int tilex, int tiley)
+	{
 		return "http://a.freemap.sk/data/layers/presets/C/" + zoom + "/" + tilex + "/" + tiley + ".png";
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "Freemap Slovakia Cycle Map";
 	}
 
-	public String getAttributionText() {
+	public String getAttributionText()
+	{
 		return "© OpenStreetMap contributors, CC-BY-SA";
 	}
 
-	public String getAttributionLinkURL() {
+	public String getAttributionLinkURL()
+	{
 		return "http://openstreetmap.org";
 	}
 }

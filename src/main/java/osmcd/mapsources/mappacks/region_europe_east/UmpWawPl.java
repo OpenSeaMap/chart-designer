@@ -25,7 +25,8 @@ import osmcd.program.model.TileImageType;
  * <a href="http://ump.waw.pl">ump.waw.pl</a>
  * </p>
  */
-public class UmpWawPl extends AbstractHttpMapSource {
+public class UmpWawPl extends AbstractHttpMapSource
+{
 
 	private static int SERVER_NUM = 0;
 	private static final int MAX_SERVER_NUM = 4;
@@ -34,14 +35,16 @@ public class UmpWawPl extends AbstractHttpMapSource {
 		super("UMP-pcPL", 0, 18, TileImageType.PNG, TileUpdate.LastModified);
 	}
 
-	public String getTileUrl(int zoom, int tilex, int tiley) {
+	public String getTileUrl(int zoom, int tilex, int tiley)
+	{
 		String s = "http://" + SERVER_NUM + ".tiles.ump.waw.pl/ump_tiles/" + zoom + "/" + tilex + "/" + tiley + ".png";
 		SERVER_NUM = (SERVER_NUM + 1) % MAX_SERVER_NUM;
 		return s;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return getName() + " (Poland only)";
 	}
 

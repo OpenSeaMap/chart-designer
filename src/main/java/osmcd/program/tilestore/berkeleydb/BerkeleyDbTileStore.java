@@ -126,7 +126,7 @@ public class BerkeleyDbTileStore extends TileStore {
 			tileStoreLock = channel.tryLock();
 			if (tileStoreLock == null)
 				throw new TileStoreException("Unable to obtain tile store lock - "
-						+ "another instance of OpenSeaMap ChartBundler is running!");
+						+ "another instance of OpenSeaMap ChartDesigner is running!");
 
 			// // Release the lock
 			// lock.release();

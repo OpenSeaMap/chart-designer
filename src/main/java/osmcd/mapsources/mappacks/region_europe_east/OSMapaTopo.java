@@ -21,30 +21,34 @@ import osmcd.program.interfaces.MapSourceTextAttribution;
 import osmcd.program.model.TileImageType;
 
 /**
- * http://osm.trail.pl/ol.xhtml
- * http://sourceforge.net/tracker/?func=detail&aid=3379692&group_id=238075&atid=1105497
+ * http://osm.trail.pl/ol.xhtml http://sourceforge.net/tracker/?func=detail&aid=3379692&group_id=238075&atid=1105497
  */
-public class OSMapaTopo extends AbstractHttpMapSource implements MapSourceTextAttribution {
+public class OSMapaTopo extends AbstractHttpMapSource implements MapSourceTextAttribution
+{
 
 	public OSMapaTopo() {
 		super("OSMapaTopo", 7, 18, TileImageType.PNG, TileUpdate.IfNoneMatch);
 	}
 
-	public String getTileUrl(int zoom, int x, int y) {
+	public String getTileUrl(int zoom, int x, int y)
+	{
 		return "http://osm.trail.pl/bezpoziomic/" + zoom + "/" + x + "/" + y + ".png";
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "OSMapa-Topo (Poland)";
 	}
 
-	public String getAttributionText() {
+	public String getAttributionText()
+	{
 		// http://wiki.openstreetmap.pl/Serwer_kafelk%C3%B3w_TRAIL
 		return "© Data OpenStreetMap, Hosting TRAIL.PL and centuria.pl";
 	}
 
-	public String getAttributionLinkURL() {
+	public String getAttributionLinkURL()
+	{
 		return null;
 	}
 

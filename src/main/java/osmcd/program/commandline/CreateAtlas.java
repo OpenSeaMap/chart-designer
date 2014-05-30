@@ -26,7 +26,8 @@ import osmcd.program.interfaces.CommandLineAction;
 import osmcd.program.model.Profile;
 import osmcd.utilities.GUIExceptionHandler;
 
-public class CreateAtlas implements CommandLineAction {
+public class CreateAtlas implements CommandLineAction
+{
 
 	private final String profileName;
 	private final File outputDir;
@@ -38,30 +39,39 @@ public class CreateAtlas implements CommandLineAction {
 	public CreateAtlas(String profileName, String outputDirectory) {
 		super();
 		this.profileName = profileName;
-		if (outputDirectory != null) {
+		if (outputDirectory != null)
+		{
 			File dir = new File(outputDirectory);
-			if (dir.isDirectory() || dir.exists()) {
+			if (dir.isDirectory() || dir.exists())
+			{
 				System.err.println("Error: Atlas output directory \"" + outputDirectory + "\" already exists.");
 				System.exit(1);
 			}
 			outputDir = dir;
-		} else
+		}
+		else
 			outputDir = null;
 	}
 
 	@Override
-	public void runBeforeMainGUI() {
-		try {
+	public void runBeforeMainGUI()
+	{
+		try
+		{
 			Profile p = new Profile(profileName);
-			if (!p.exists()) {
+			if (!p.exists())
+			{
 				System.err.println("Profile \"" + profileName + "\" could not be loaded:");
 				System.err.println("File \"" + p.getFile().getAbsolutePath() + "\" does not exist.");
 				System.exit(1);
 			}
 			AtlasInterface atlas = null;
-			try {
+			try
+			{
 				atlas = p.load();
-			} catch (JAXBException e) {
+			}
+			catch (JAXBException e)
+			{
 				System.err.println("Error loading profile \"" + profileName + "\".");
 				e.printStackTrace();
 				System.exit(1);
@@ -71,22 +81,27 @@ public class CreateAtlas implements CommandLineAction {
 				atlasThread.setCustomAtlasDir(outputDir);
 			atlasThread.setQuitOsmcbAfterAtlasCreation(true);
 			atlasThread.start();
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			GUIExceptionHandler.processException(e);
 		}
 	}
 
 	@Override
-	public void runMainGUI() {
+	public void runMainGUI()
+	{
 	}
 
 	@Override
-	public boolean showSplashScreen() {
+	public boolean showSplashScreen()
+	{
 		return false;
 	}
 
 	@Override
-	public boolean showMainGUI() {
+	public boolean showMainGUI()
+	{
 		return false;
 	}
 

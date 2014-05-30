@@ -40,7 +40,7 @@ import osmcd.utilities.file.FileExtFilter;
 import osmcd.utilities.file.NamePatternFileFilter;
 
 /**
- * Creates the necessary files on first time OpenSeaMap ChartBundler is started or tries to update the environment if the version has changed.
+ * Creates the necessary files on first time OpenSeaMap ChartDesigner is started or tries to update the environment if the version has changed.
  */
 public class EnvironmentSetup
 {
@@ -62,6 +62,9 @@ public class EnvironmentSetup
 		}
 	}
 
+	/**
+	 * modifies 'old' tac name scheme for profiles
+	 */
 	public static void upgrade()
 	{
 		FileFilter ff = new NamePatternFileFilter("tac-profile-.*.xml");
@@ -69,7 +72,7 @@ public class EnvironmentSetup
 		File[] files = profilesDir.listFiles(ff);
 		for (File f: files)
 		{
-			File dest = new File(profilesDir, f.getName().replaceFirst("tac-", "osmcd-"));
+			File dest = new File(profilesDir, f.getName().replaceFirst("tac-", "osmcb-"));
 			f.renameTo(dest);
 		}
 	}
@@ -77,6 +80,8 @@ public class EnvironmentSetup
 	/**
 	 * In case the <tt>mapsources</tt> directory has been moved by configuration (directories.ini or settings.xml) we need to copy the existing map packs into the
 	 * configured directory
+	 * 
+	 * userMapSourcesDir is the target directory
 	 */
 	public static void copyMapPacks()
 	{

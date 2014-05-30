@@ -345,7 +345,7 @@ public class SettingsGUI extends JDialog
 								}
 								command.add(currentJar.getPath());
 
-								log.debug("restarting OSMCB using the following command: \n\t" + Arrays.toString(command.toArray()));
+								log.debug("restarting OSMCD using the following command: \n\t" + Arrays.toString(command.toArray()));
 								final ProcessBuilder builder = new ProcessBuilder(command);
 								builder.start();
 							}
@@ -1000,6 +1000,11 @@ public class SettingsGUI extends JDialog
 		}
 	}
 
+	/**
+	 * ??? which main is this
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args)
 	{
 		Logging.configureConsoleLogging(Level.TRACE);

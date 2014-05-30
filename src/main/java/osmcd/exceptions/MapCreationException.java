@@ -23,8 +23,7 @@ import osmcd.program.interfaces.MapInterface;
 import osmcd.program.interfaces.MapSource;
 import osmcd.program.model.MapSourceLoaderInfo;
 
-public class MapCreationException extends Exception implements ExceptionExtendedInfo
-{
+public class MapCreationException extends Exception implements ExceptionExtendedInfo {
 
 	private static final long serialVersionUID = 1L;
 	private MapInterface map;
@@ -44,18 +43,14 @@ public class MapCreationException extends Exception implements ExceptionExtended
 		this.map = map;
 	}
 
-	public String getExtendedInfo()
-	{
+	public String getExtendedInfo() {
 		StringWriter sw = new StringWriter();
-		if (map != null)
-		{
+		if (map != null) {
 			sw.append(map.getInfoText());
 			MapSource mapSource = map.getMapSource();
-			if (mapSource != null)
-			{
+			if (mapSource != null) {
 				MapSourceLoaderInfo loaderInfo = map.getMapSource().getLoaderInfo();
-				if (loaderInfo != null)
-				{
+				if (loaderInfo != null) {
 					sw.append("\nMap type: " + loaderInfo.getLoaderType());
 					if (loaderInfo.getSourceFile() != null)
 						sw.append("\nMap implementation: " + loaderInfo.getSourceFile().getName());
@@ -66,8 +61,7 @@ public class MapCreationException extends Exception implements ExceptionExtended
 		return sw.toString();
 	}
 
-	public MapInterface getMap()
-	{
+	public MapInterface getMap() {
 		return map;
 	}
 

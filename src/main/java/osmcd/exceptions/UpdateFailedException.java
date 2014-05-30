@@ -16,8 +16,7 @@
  ******************************************************************************/
 package osmcd.exceptions;
 
-public class UpdateFailedException extends Exception
-{
+public class UpdateFailedException extends Exception {
 
 	public UpdateFailedException(String message) {
 		super(message);

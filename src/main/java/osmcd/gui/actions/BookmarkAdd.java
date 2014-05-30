@@ -27,8 +27,7 @@ import osmcd.program.model.Bookmark;
 import osmcd.program.model.Settings;
 import osmcd.utilities.I18nUtils;
 
-public class BookmarkAdd implements ActionListener
-{
+public class BookmarkAdd implements ActionListener {
 
 	private final PreviewMap previewMap;
 
@@ -36,8 +35,7 @@ public class BookmarkAdd implements ActionListener
 		this.previewMap = previewMap;
 	}
 
-	public void actionPerformed(ActionEvent arg0)
-	{
+	public void actionPerformed(ActionEvent arg0) {
 		Bookmark bm = previewMap.getPositionBookmark();
 		String name = JOptionPane.showInputDialog(I18nUtils.localizedStringForKey("dlg_add_bookmark_msg"), bm.toString());
 		if (name == null)

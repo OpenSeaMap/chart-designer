@@ -20,25 +20,27 @@ import osmcd.mapsources.AbstractHttpMapSource;
 import osmcd.program.model.TileImageType;
 
 /**
- * Institute of Geodesy Technical Research and Cadastre "INGEOCAD" under Sate Agency of Land
- * Relations and Cadastre Tiles created by and sourced from point.md
+ * Institute of Geodesy Technical Research and Cadastre "INGEOCAD" under Sate Agency of Land Relations and Cadastre Tiles created by and sourced from point.md
  * 
  * http://point.md/Map/#x=28.870983&y=47.017756&z=10
  * 
  * https://sourceforge.net/tracker/?func=detail&atid=1105497&aid=3321793&group_id=238075
  */
-public class MoldovaPointMd extends AbstractHttpMapSource {
+public class MoldovaPointMd extends AbstractHttpMapSource
+{
 
 	public MoldovaPointMd() {
 		super("MoldovaPointMd", 8, 18, TileImageType.PNG, TileUpdate.None);
 	}
 
-	public String getTileUrl(int zoom, int x, int y) {
+	public String getTileUrl(int zoom, int x, int y)
+	{
 		return "http://point.md/map/Map/GetTile?path=1/" + zoom + "/" + x + "/" + y + ".png";
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "Moldova (point.md)";
 	}
 

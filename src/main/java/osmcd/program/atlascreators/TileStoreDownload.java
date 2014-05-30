@@ -21,18 +21,21 @@ import osmcd.program.annotations.AtlasCreatorName;
 import osmcd.program.interfaces.MapSource;
 
 @AtlasCreatorName(value = "Tile store download only", type = "TILESTORE")
-public class TileStoreDownload extends AtlasCreator {
+public class TileStoreDownload extends AtlasCreator
+{
 
 	public TileStoreDownload() {
 	}
 
 	@Override
-	public boolean testMapSource(MapSource mapSource) {
+	public boolean testMapSource(MapSource mapSource)
+	{
 		return true;
 	}
 
 	@Override
-	public void createMap() throws MapCreationException, InterruptedException {
+	public void createMap() throws MapCreationException, InterruptedException
+	{
 	}
 
 }

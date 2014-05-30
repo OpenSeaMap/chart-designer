@@ -27,7 +27,7 @@
     <localeLanguage>en</localeLanguage>
     <mainWindow>
         <size>800/590</size>
-        <position>-1300/-321</position>
+        <position>-1452/-251</position>
         <maximized>true</maximized>
         <leftPanelVisible>true</leftPanelVisible>
         <rightPanelVisible>true</rightPanelVisible>
@@ -39,12 +39,12 @@
     <mapSourcesDisabled/>
     <mapSourcesEnabled/>
     <MapSourcesUpdate/>
-    <mapviewCenterCoordinate lat="39.54594862437695" lon="2.389097213745117"/>
+    <mapviewCenterCoordinate lat="49.71560054664116" lon="-4.73236083984375"/>
     <mapviewGridZoom>17</mapviewGridZoom>
     <mapviewMapSource>AH OpenSeaMap - Mapnik</mapviewMapSource>
-    <mapviewSelectionMax>543992448/408258944</mapviewSelectionMax>
-    <mapviewSelectionMin>543980800/408252544</mapviewSelectionMin>
-    <mapviewZoom>15</mapviewZoom>
+    <mapviewSelectionMax>519935488/363991552</mapviewSelectionMax>
+    <mapviewSelectionMin>519935488/363991552</mapviewSelectionMin>
+    <mapviewZoom>9</mapviewZoom>
     <maxMapSize>65536</maxMapSize>
     <osmHikingTicket></osmHikingTicket>
     <paperAtlas>
@@ -66,8 +66,6 @@
     <placeBookmarks/>
     <proxyType>CUSTOM</proxyType>
     <selectedZoomLevels>
-        <zoomLevel>6</zoomLevel>
-        <zoomLevel>7</zoomLevel>
         <zoomLevel>8</zoomLevel>
         <zoomLevel>9</zoomLevel>
         <zoomLevel>10</zoomLevel>
@@ -80,7 +78,7 @@
         <zoomLevel>17</zoomLevel>
     </selectedZoomLevels>
     <tileDefaultExpirationTime>2419200000</tileDefaultExpirationTime>
-    <tileImageFormat>JPEG100</tileImageFormat>
+    <tileImageFormat>PNG</tileImageFormat>
     <tileMaxExpirationTime>31536000000</tileMaxExpirationTime>
     <tileMinExpirationTime>432000000</tileMinExpirationTime>
     <tileSize>256/256</tileSize>

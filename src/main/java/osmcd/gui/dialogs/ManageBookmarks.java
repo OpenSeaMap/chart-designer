@@ -33,6 +33,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import osmcd.gui.MainGUI;
 import osmcd.program.model.Bookmark;
 import osmcd.program.model.Settings;
 import osmcd.utilities.GBC;
@@ -51,6 +52,7 @@ public class ManageBookmarks extends JDialog implements ListSelectionListener, A
 
 	public ManageBookmarks(Window owner) throws HeadlessException {
 		super(owner, I18nUtils.localizedStringForKey("dlg_mgn_bookmark_title"));
+		setIconImages(MainGUI.OSMCD_ICONS);
 		setLayout(new GridBagLayout());
 		applyButton = new JButton(I18nUtils.localizedStringForKey("Close"));
 		applyButton.addActionListener(this);

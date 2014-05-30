@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) OSMCB developers
+ * Copyright (c) OSMCD developers
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,16 +22,18 @@ import javax.swing.UIManager;
 import osmcd.utilities.I18nUtils;
 
 /**
- * Main class for starting OpenSeaMap ChartBundler.
+ * Main class for starting OpenSeaMap ChartDefiner.
  * 
  * This class performs the Java Runtime version check and if the correct version is installed it creates a new instance of the class specified by
  * {@link #MAIN_CLASS}. The class to be instantiated is specified by it's name intentionally as this allows to compile this class without any further class
  * dependencies.
+ * 
  */
 public class StartOSMCD
 {
 
 	public static final String MAIN_CLASS = "osmcd.Main";
+
 	public static String[] ARGS;
 
 	/**

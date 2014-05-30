@@ -86,7 +86,7 @@ public class Layer implements LayerInterface, TreeNode, ToolTipProvider, Capabil
 	}
 
 	/**
-	 * addMapsAutocut() checks if the new map is already completely covered in another map
+	 * addMapsAutocut() checks if the new map is already completely covered in another map or other way round
 	 */
 	public void addMapsAutocut(String mapNameBase, MapSource mapSource, Point minTileCoordinate, Point maxTileCoordinate, int zoom,
 			TileImageParameters parameters, int maxMapSize, int overlapTiles) throws InvalidNameException
@@ -103,27 +103,32 @@ public class Layer implements LayerInterface, TreeNode, ToolTipProvider, Capabil
 			int nXSize = (maxTileCoordinate.x - minTileCoordinate.x) / tileSize + 1;
 			int nYSize = (maxTileCoordinate.y - minTileCoordinate.y) / tileSize + 1;
 			int nXExp = 1, nYExp = 1;
-			int nXGridSize = 0, nYGridSize = 0;
 
-			// get size in 2^n grid
+			// get requested size in 2^n grid
 			while ((nXSize >>= 1) >= 1)
 				++nXExp;
 			while ((nYSize >>= 1) >= 1)
 				++nYExp;
 
-			// fit into encouraged grid widths (4, 8, 16, 32, 64, 128 tiles)
-			nXExp = Math.min(2, Math.max(7, nXExp));
+			// fit into encouraged map grid widths (8, 16, 32, 64, 128 tiles)
+			int nXGridSize = 0, nYGridSize = 0;
+			nXExp = Math.min(3, Math.max(7, nXExp));
 			nXGridSize = tileSize << nXExp;
-			nYExp = Math.min(2, Math.max(7, nYExp));
+			nYExp = Math.min(3, Math.max(7, nYExp));
 			nYGridSize = tileSize << nYExp;
 
 			// align left/top with map grid
-			minTileCoordinate.x -= minTileCoordinate.x % nXGridSize;
-			minTileCoordinate.y -= minTileCoordinate.y % nYGridSize;
+			int nXOff = 0, nYOff = 0;
+			nXOff = minTileCoordinate.x % (nXGridSize / 2);
+			minTileCoordinate.x -= (nXOff > (nXGridSize / 4) ? nXOff : nXOff + nXGridSize / 2);
+			nYOff = minTileCoordinate.y % (nYGridSize / 2);
+			minTileCoordinate.y -= (nYOff > (nYGridSize / 4) ? nYOff : nYOff + nYGridSize / 2);
 
 			// align right/bottom with map grid
-			maxTileCoordinate.x += nXGridSize - 1 - (maxTileCoordinate.x % nXGridSize) + tileSize * overlapTiles;
-			maxTileCoordinate.y += nYGridSize - 1 - (maxTileCoordinate.y % nYGridSize) + tileSize * overlapTiles;
+			nXOff = nXGridSize / 2 + tileSize * overlapTiles - maxTileCoordinate.x % (nXGridSize / 2) + 1;
+			maxTileCoordinate.x += (nXOff > (nXGridSize / 4) ? nXOff : nXOff + nXGridSize / 2);
+			nYOff = nYGridSize / 2 + tileSize * overlapTiles - maxTileCoordinate.y % (nYGridSize / 2) + 1;
+			maxTileCoordinate.y += (nYOff > (nYGridSize / 4) ? nYOff : nYOff + nYGridSize / 2);
 
 			// if the user set parameters we use them
 			Dimension tileDimension;
@@ -142,12 +147,12 @@ public class Layer implements LayerInterface, TreeNode, ToolTipProvider, Capabil
 			// does the map fit the allowed size or has it be cut into several maps
 			int mapWidth = maxTileCoordinate.x - minTileCoordinate.x;
 			int mapHeight = maxTileCoordinate.y - minTileCoordinate.y;
-			if (mapWidth < maxMapDimension.width && mapHeight < maxMapDimension.height)
+			if ((mapWidth < maxMapDimension.width) && (mapHeight < maxMapDimension.height))
 			{
 				// check if this map is not a sub/superset of another already existing map
-				if (CheckMapArea(minTileCoordinate, maxTileCoordinate))
+				if (!CheckMapIsExtension(minTileCoordinate, maxTileCoordinate))
 				{
-					if (!CheckMapIsExtension(minTileCoordinate, maxTileCoordinate))
+					if (CheckMapArea(minTileCoordinate, maxTileCoordinate))
 					{
 						// String mapName = String.format(mapNameFormat, new Object[] {mapNameBase, mapCounter++});
 						String mapName = MakeValidMapName(mapNameBase, "000");
@@ -170,9 +175,9 @@ public class Layer implements LayerInterface, TreeNode, ToolTipProvider, Capabil
 						Point min = new Point(mapX, mapY);
 						Point max = new Point(maxX - 1, maxY - 1);
 						// check if this map is not a sub/superset of another already existing map
-						if (CheckMapArea(min, max))
+						if (!CheckMapIsExtension(min, max))
 						{
-							if (!CheckMapIsExtension(min, max))
+							if (CheckMapArea(min, max))
 							{
 								// String mapName = String.format(mapNameFormat, new Object[] {mapNameBase, mapCounter++});
 								String mapName = MakeValidMapName(mapNameBase, "000");
@@ -225,13 +230,22 @@ public class Layer implements LayerInterface, TreeNode, ToolTipProvider, Capabil
 					break;
 				}
 			}
+			if ((iMap.getMinTileCoordinate().x >= MinC.getX()) && (iMap.getMinTileCoordinate().y >= MinC.getY()))
+			{
+				if ((iMap.getMaxTileCoordinate().x <= MaxC.getX()) && (iMap.getMaxTileCoordinate().y <= MaxC.getY()))
+				{
+					iMap.delete();
+					--mapNr;
+				}
+			}
+
 		}
 		return bSub;
 	}
 
 	/**
-	 * checks if the new map is an extension of an already existing map. If it is, the exeisting map will be changed to new coordinates which includes the new
-	 * map. 20140511 case new map is between two already existing maps is not covered yet.
+	 * checks if the new map is an extension of an already existing map. If it is, the existing map will be changed to new coordinates which includes the new map.
+	 * 20140511 case new map lies between two already existing maps is not covered yet. The new map will be extending both
 	 * 
 	 * @param MinC
 	 *          minimun coordinate (upper left corner, NW-C)
@@ -271,8 +285,6 @@ public class Layer implements LayerInterface, TreeNode, ToolTipProvider, Capabil
 					bIsExt = true;
 				}
 			}
-			if (bIsExt)
-				break;
 		}
 		return bIsExt;
 	}

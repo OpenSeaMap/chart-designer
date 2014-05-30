@@ -46,19 +46,18 @@ import osmcd.utilities.I18nUtils;
 import osmcd.utilities.Utilities;
 
 /**
- * A profile is a saved atlas. The available profiles ({@link Profile} instances) are visible in the
- * <code>profilesCombo</code> in the {@link JProfilesPanel}.
+ * A profile is a saved atlas. The available profiles ({@link Profile} instances) are visible in the <code>profilesCombo</code> in the {@link JProfilesPanel}.
  */
-public class Profile implements Comparable<Profile> {
+public class Profile implements Comparable<Profile>
+{
 
 	private static Logger log = Logger.getLogger(Profile.class);
 
 	public static final String PROFILE_NAME_REGEX = "[\\w _-]+";
 
-	public static final String PROFILE_FILENAME_PREFIX = "osmcd-profile-";
+	public static final String PROFILE_FILENAME_PREFIX = "osmcb-profile-";
 
-	public static final Pattern PROFILE_FILENAME_PATTERN = Pattern.compile(PROFILE_FILENAME_PREFIX + "("
-			+ PROFILE_NAME_REGEX + ").xml");
+	public static final Pattern PROFILE_FILENAME_PATTERN = Pattern.compile(PROFILE_FILENAME_PREFIX + "(" + PROFILE_NAME_REGEX + ").xml");
 
 	public static final Profile DEFAULT = new Profile();
 
@@ -69,15 +68,19 @@ public class Profile implements Comparable<Profile> {
 	/**
 	 * Profiles management method
 	 */
-	public static void updateProfiles() {
+	public static void updateProfiles()
+	{
 		File profilesDir = DirectoryManager.atlasProfilesDir;
 		final Set<Profile> deletedProfiles = new HashSet<Profile>();
 		deletedProfiles.addAll(profiles);
-		profilesDir.list(new FilenameFilter() {
+		profilesDir.list(new FilenameFilter()
+		{
 
-			public boolean accept(File dir, String fileName) {
+			public boolean accept(File dir, String fileName)
+			{
 				Matcher m = PROFILE_FILENAME_PATTERN.matcher(fileName);
-				if (m.matches()) {
+				if (m.matches())
+				{
 					String profileName = m.group(1);
 					Profile profile = new Profile(new File(dir, fileName), profileName);
 					if (!deletedProfiles.remove(profile))
@@ -86,7 +89,7 @@ public class Profile implements Comparable<Profile> {
 				return false;
 			}
 		});
-		for (Profile p : deletedProfiles)
+		for (Profile p: deletedProfiles)
 			profiles.remove(p);
 		Collections.sort(profiles);
 	}
@@ -94,7 +97,8 @@ public class Profile implements Comparable<Profile> {
 	/**
 	 * Profiles management method
 	 */
-	public static Vector<Profile> getProfiles() {
+	public static Vector<Profile> getProfiles()
+	{
 		updateProfiles();
 		return profiles;
 	}
@@ -112,7 +116,7 @@ public class Profile implements Comparable<Profile> {
 	 * Default profile
 	 */
 	protected Profile() {
-		this(new File(DirectoryManager.atlasProfilesDir, "osmcd-profile.xml"), "");
+		this(new File(DirectoryManager.atlasProfilesDir, "osmcb-profile.xml"), "");
 	}
 
 	protected Profile(File file, String name) {
@@ -122,33 +126,40 @@ public class Profile implements Comparable<Profile> {
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return name;
 	}
 
-	public File getFile() {
+	public File getFile()
+	{
 		return file;
 	}
 
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
-	public boolean exists() {
+	public boolean exists()
+	{
 		return file.isFile();
 	}
 
-	public void delete() {
+	public void delete()
+	{
 		if (!file.delete())
 			file.deleteOnExit();
 	}
 
-	public int compareTo(Profile o) {
+	public int compareTo(Profile o)
+	{
 		return file.compareTo(o.file);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(Object obj)
+	{
 		if (!(obj instanceof Profile))
 			return false;
 		Profile p = (Profile) obj;
@@ -156,71 +167,87 @@ public class Profile implements Comparable<Profile> {
 	}
 
 	@Override
-	public int hashCode() {
+	public int hashCode()
+	{
 		assert false : "hashCode not designed";
 		return -1;
 	}
 
-	public void save(AtlasInterface atlasInterface) throws JAXBException {
+	public void save(AtlasInterface atlasInterface) throws JAXBException
+	{
 		JAXBContext context = JAXBContext.newInstance(Atlas.class);
 		Marshaller m = context.createMarshaller();
 		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 		FileOutputStream fo = null;
-		try {
+		try
+		{
 			fo = new FileOutputStream(file);
 			m.marshal(atlasInterface, fo);
-		} catch (FileNotFoundException e) {
+		}
+		catch (FileNotFoundException e)
+		{
 			throw new JAXBException(e);
-		} finally {
+		}
+		finally
+		{
 			Utilities.closeStream(fo);
 		}
 	}
 
-	public AtlasInterface load() throws JAXBException {
+	public AtlasInterface load() throws JAXBException
+	{
 		JAXBContext context = JAXBContext.newInstance(Atlas.class);
 		Unmarshaller um = context.createUnmarshaller();
-		um.setEventHandler(new ValidationEventHandler() {
+		um.setEventHandler(new ValidationEventHandler()
+		{
 
-			public boolean handleEvent(ValidationEvent event) {
+			public boolean handleEvent(ValidationEvent event)
+			{
 				ValidationEventLocator loc = event.getLocator();
 				String file = loc.getURL().getFile();
 				int lastSlash = file.lastIndexOf('/');
 				if (lastSlash > 0)
 					file = file.substring(lastSlash + 1);
-				int ret = JOptionPane.showConfirmDialog(
-						null,
-						String.format(I18nUtils.localizedStringForKey("msg_error_load_atlas_profile"),
-								event.getMessage(), file, loc.getLineNumber(), loc.getColumnNumber()),
-						I18nUtils.localizedStringForKey("msg_error_load_atlas_profile_title"),
+				int ret = JOptionPane.showConfirmDialog(null, String.format(I18nUtils.localizedStringForKey("msg_error_load_atlas_profile"), event.getMessage(), file,
+						loc.getLineNumber(), loc.getColumnNumber()), I18nUtils.localizedStringForKey("msg_error_load_atlas_profile_title"),
 						JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
 				log.error(event.toString());
 				return (ret == JOptionPane.YES_OPTION);
 			}
 		});
-		try {
+		try
+		{
 			AtlasInterface newAtlas = (AtlasInterface) um.unmarshal(file);
 			return newAtlas;
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			throw new JAXBException(e.getMessage(), e);
 		}
 	}
 
-	public static boolean checkAtlas(AtlasInterface atlasInterface) {
+	public static boolean checkAtlas(AtlasInterface atlasInterface)
+	{
 		return checkAtlasObject(atlasInterface);
 	}
 
-	public static String getProfileFileName(String profileName) {
+	public static String getProfileFileName(String profileName)
+	{
 		return PROFILE_FILENAME_PREFIX + profileName + ".xml";
 	}
 
-	private static boolean checkAtlasObject(Object o) {
+	private static boolean checkAtlasObject(Object o)
+	{
 		boolean result = false;
-		if (o instanceof AtlasObject) {
+		if (o instanceof AtlasObject)
+		{
 			result |= ((AtlasObject) o).checkData();
 		}
-		if (o instanceof Iterable<?>) {
+		if (o instanceof Iterable<?>)
+		{
 			Iterable<?> it = (Iterable<?>) o;
-			for (Object ao : it) {
+			for (Object ao: it)
+			{
 				result |= checkAtlasObject(ao);
 			}
 		}

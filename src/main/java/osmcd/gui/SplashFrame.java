@@ -37,8 +37,8 @@ public class SplashFrame extends JFrame
 	}
 
 	public SplashFrame() throws HeadlessException {
-		// super(MainGUI.localizedStringForKey("splash_title"));
-		super("OSMCD");
+		//super(MainGUI.localizedStringForKey("splash_title"));
+		super("OSMCB");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setUndecorated(true);
 		setIconImages(MainGUI.OSMCD_ICONS);

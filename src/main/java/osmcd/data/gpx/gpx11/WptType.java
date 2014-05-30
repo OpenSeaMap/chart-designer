@@ -46,7 +46,8 @@ import osmcd.data.gpx.interfaces.GpxPoint;
  * Java class for wptType complex type.
  * 
  * <p>
- * The following schema fragment specifies the expected content contained within this class.
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType name=&quot;wptType&quot;&gt;
@@ -83,10 +84,10 @@ import osmcd.data.gpx.interfaces.GpxPoint;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "wptType", propOrder = {"ele", "time", "magvar", "geoidheight", "name", "cmt", "desc", "src", "link", "sym", "type", "fix", "sat", "hdop",
-		"vdop", "pdop", "ageofdgpsdata", "dgpsid", "extensions"})
-public class WptType implements GpxPoint
-{
+@XmlType(name = "wptType", propOrder = { "ele", "time", "magvar", "geoidheight", "name", "cmt",
+		"desc", "src", "link", "sym", "type", "fix", "sat", "hdop", "vdop", "pdop",
+		"ageofdgpsdata", "dgpsid", "extensions" })
+public class WptType implements GpxPoint {
 
 	protected BigDecimal ele;
 	protected XMLGregorianCalendar time;
@@ -119,8 +120,7 @@ public class WptType implements GpxPoint
 	 * @return possible object is {@link BigDecimal }
 	 * 
 	 */
-	public BigDecimal getEle()
-	{
+	public BigDecimal getEle() {
 		return ele;
 	}
 
@@ -128,11 +128,10 @@ public class WptType implements GpxPoint
 	 * Sets the value of the ele property.
 	 * 
 	 * @param value
-	 *          allowed object is {@link BigDecimal }
+	 *            allowed object is {@link BigDecimal }
 	 * 
 	 */
-	public void setEle(BigDecimal value)
-	{
+	public void setEle(BigDecimal value) {
 		this.ele = value;
 	}
 
@@ -142,8 +141,7 @@ public class WptType implements GpxPoint
 	 * @return possible object is {@link XMLGregorianCalendar }
 	 * 
 	 */
-	public XMLGregorianCalendar getTime()
-	{
+	public XMLGregorianCalendar getTime() {
 		return time;
 	}
 
@@ -151,11 +149,10 @@ public class WptType implements GpxPoint
 	 * Sets the value of the time property.
 	 * 
 	 * @param value
-	 *          allowed object is {@link XMLGregorianCalendar }
+	 *            allowed object is {@link XMLGregorianCalendar }
 	 * 
 	 */
-	public void setTime(XMLGregorianCalendar value)
-	{
+	public void setTime(XMLGregorianCalendar value) {
 		this.time = value;
 	}
 
@@ -165,8 +162,7 @@ public class WptType implements GpxPoint
 	 * @return possible object is {@link BigDecimal }
 	 * 
 	 */
-	public BigDecimal getMagvar()
-	{
+	public BigDecimal getMagvar() {
 		return magvar;
 	}
 
@@ -174,11 +170,10 @@ public class WptType implements GpxPoint
 	 * Sets the value of the magvar property.
 	 * 
 	 * @param value
-	 *          allowed object is {@link BigDecimal }
+	 *            allowed object is {@link BigDecimal }
 	 * 
 	 */
-	public void setMagvar(BigDecimal value)
-	{
+	public void setMagvar(BigDecimal value) {
 		this.magvar = value;
 	}
 
@@ -188,8 +183,7 @@ public class WptType implements GpxPoint
 	 * @return possible object is {@link BigDecimal }
 	 * 
 	 */
-	public BigDecimal getGeoidheight()
-	{
+	public BigDecimal getGeoidheight() {
 		return geoidheight;
 	}
 
@@ -197,11 +191,10 @@ public class WptType implements GpxPoint
 	 * Sets the value of the geoidheight property.
 	 * 
 	 * @param value
-	 *          allowed object is {@link BigDecimal }
+	 *            allowed object is {@link BigDecimal }
 	 * 
 	 */
-	public void setGeoidheight(BigDecimal value)
-	{
+	public void setGeoidheight(BigDecimal value) {
 		this.geoidheight = value;
 	}
 
@@ -211,8 +204,7 @@ public class WptType implements GpxPoint
 	 * @return possible object is {@link String }
 	 * 
 	 */
-	public String getName()
-	{
+	public String getName() {
 		return name;
 	}
 
@@ -220,11 +212,10 @@ public class WptType implements GpxPoint
 	 * Sets the value of the name property.
 	 * 
 	 * @param value
-	 *          allowed object is {@link String }
+	 *            allowed object is {@link String }
 	 * 
 	 */
-	public void setName(String value)
-	{
+	public void setName(String value) {
 		this.name = value;
 	}
 
@@ -234,8 +225,7 @@ public class WptType implements GpxPoint
 	 * @return possible object is {@link String }
 	 * 
 	 */
-	public String getCmt()
-	{
+	public String getCmt() {
 		return cmt;
 	}
 
@@ -243,11 +233,10 @@ public class WptType implements GpxPoint
 	 * Sets the value of the cmt property.
 	 * 
 	 * @param value
-	 *          allowed object is {@link String }
+	 *            allowed object is {@link String }
 	 * 
 	 */
-	public void setCmt(String value)
-	{
+	public void setCmt(String value) {
 		this.cmt = value;
 	}
 
@@ -257,8 +246,7 @@ public class WptType implements GpxPoint
 	 * @return possible object is {@link String }
 	 * 
 	 */
-	public String getDesc()
-	{
+	public String getDesc() {
 		return desc;
 	}
 
@@ -266,11 +254,10 @@ public class WptType implements GpxPoint
 	 * Sets the value of the desc property.
 	 * 
 	 * @param value
-	 *          allowed object is {@link String }
+	 *            allowed object is {@link String }
 	 * 
 	 */
-	public void setDesc(String value)
-	{
+	public void setDesc(String value) {
 		this.desc = value;
 	}
 
@@ -280,8 +267,7 @@ public class WptType implements GpxPoint
 	 * @return possible object is {@link String }
 	 * 
 	 */
-	public String getSrc()
-	{
+	public String getSrc() {
 		return src;
 	}
 
@@ -289,11 +275,10 @@ public class WptType implements GpxPoint
 	 * Sets the value of the src property.
 	 * 
 	 * @param value
-	 *          allowed object is {@link String }
+	 *            allowed object is {@link String }
 	 * 
 	 */
-	public void setSrc(String value)
-	{
+	public void setSrc(String value) {
 		this.src = value;
 	}
 
@@ -301,8 +286,10 @@ public class WptType implements GpxPoint
 	 * Gets the value of the link property.
 	 * 
 	 * <p>
-	 * This accessor method returns a reference to the live list, not a snapshot. Therefore any modification you make to the returned list will be present inside
-	 * the JAXB object. This is why there is not a <CODE>set</CODE> method for the link property.
+	 * This accessor method returns a reference to the live list, not a
+	 * snapshot. Therefore any modification you make to the returned list will
+	 * be present inside the JAXB object. This is why there is not a
+	 * <CODE>set</CODE> method for the link property.
 	 * 
 	 * <p>
 	 * For example, to add a new item, do as follows:
@@ -317,10 +304,8 @@ public class WptType implements GpxPoint
 	 * 
 	 * 
 	 */
-	public List<LinkType> getLink()
-	{
-		if (link == null)
-		{
+	public List<LinkType> getLink() {
+		if (link == null) {
 			link = new ArrayList<LinkType>();
 		}
 		return this.link;
@@ -332,8 +317,7 @@ public class WptType implements GpxPoint
 	 * @return possible object is {@link String }
 	 * 
 	 */
-	public String getSym()
-	{
+	public String getSym() {
 		return sym;
 	}
 
@@ -341,11 +325,10 @@ public class WptType implements GpxPoint
 	 * Sets the value of the sym property.
 	 * 
 	 * @param value
-	 *          allowed object is {@link String }
+	 *            allowed object is {@link String }
 	 * 
 	 */
-	public void setSym(String value)
-	{
+	public void setSym(String value) {
 		this.sym = value;
 	}
 
@@ -355,8 +338,7 @@ public class WptType implements GpxPoint
 	 * @return possible object is {@link String }
 	 * 
 	 */
-	public String getType()
-	{
+	public String getType() {
 		return type;
 	}
 
@@ -364,11 +346,10 @@ public class WptType implements GpxPoint
 	 * Sets the value of the type property.
 	 * 
 	 * @param value
-	 *          allowed object is {@link String }
+	 *            allowed object is {@link String }
 	 * 
 	 */
-	public void setType(String value)
-	{
+	public void setType(String value) {
 		this.type = value;
 	}
 
@@ -378,8 +359,7 @@ public class WptType implements GpxPoint
 	 * @return possible object is {@link String }
 	 * 
 	 */
-	public String getFix()
-	{
+	public String getFix() {
 		return fix;
 	}
 
@@ -387,11 +367,10 @@ public class WptType implements GpxPoint
 	 * Sets the value of the fix property.
 	 * 
 	 * @param value
-	 *          allowed object is {@link String }
+	 *            allowed object is {@link String }
 	 * 
 	 */
-	public void setFix(String value)
-	{
+	public void setFix(String value) {
 		this.fix = value;
 	}
 
@@ -401,8 +380,7 @@ public class WptType implements GpxPoint
 	 * @return possible object is {@link BigInteger }
 	 * 
 	 */
-	public BigInteger getSat()
-	{
+	public BigInteger getSat() {
 		return sat;
 	}
 
@@ -410,11 +388,10 @@ public class WptType implements GpxPoint
 	 * Sets the value of the sat property.
 	 * 
 	 * @param value
-	 *          allowed object is {@link BigInteger }
+	 *            allowed object is {@link BigInteger }
 	 * 
 	 */
-	public void setSat(BigInteger value)
-	{
+	public void setSat(BigInteger value) {
 		this.sat = value;
 	}
 
@@ -424,8 +401,7 @@ public class WptType implements GpxPoint
 	 * @return possible object is {@link BigDecimal }
 	 * 
 	 */
-	public BigDecimal getHdop()
-	{
+	public BigDecimal getHdop() {
 		return hdop;
 	}
 
@@ -433,11 +409,10 @@ public class WptType implements GpxPoint
 	 * Sets the value of the hdop property.
 	 * 
 	 * @param value
-	 *          allowed object is {@link BigDecimal }
+	 *            allowed object is {@link BigDecimal }
 	 * 
 	 */
-	public void setHdop(BigDecimal value)
-	{
+	public void setHdop(BigDecimal value) {
 		this.hdop = value;
 	}
 
@@ -447,8 +422,7 @@ public class WptType implements GpxPoint
 	 * @return possible object is {@link BigDecimal }
 	 * 
 	 */
-	public BigDecimal getVdop()
-	{
+	public BigDecimal getVdop() {
 		return vdop;
 	}
 
@@ -456,11 +430,10 @@ public class WptType implements GpxPoint
 	 * Sets the value of the vdop property.
 	 * 
 	 * @param value
-	 *          allowed object is {@link BigDecimal }
+	 *            allowed object is {@link BigDecimal }
 	 * 
 	 */
-	public void setVdop(BigDecimal value)
-	{
+	public void setVdop(BigDecimal value) {
 		this.vdop = value;
 	}
 
@@ -470,8 +443,7 @@ public class WptType implements GpxPoint
 	 * @return possible object is {@link BigDecimal }
 	 * 
 	 */
-	public BigDecimal getPdop()
-	{
+	public BigDecimal getPdop() {
 		return pdop;
 	}
 
@@ -479,11 +451,10 @@ public class WptType implements GpxPoint
 	 * Sets the value of the pdop property.
 	 * 
 	 * @param value
-	 *          allowed object is {@link BigDecimal }
+	 *            allowed object is {@link BigDecimal }
 	 * 
 	 */
-	public void setPdop(BigDecimal value)
-	{
+	public void setPdop(BigDecimal value) {
 		this.pdop = value;
 	}
 
@@ -493,8 +464,7 @@ public class WptType implements GpxPoint
 	 * @return possible object is {@link BigDecimal }
 	 * 
 	 */
-	public BigDecimal getAgeofdgpsdata()
-	{
+	public BigDecimal getAgeofdgpsdata() {
 		return ageofdgpsdata;
 	}
 
@@ -502,11 +472,10 @@ public class WptType implements GpxPoint
 	 * Sets the value of the ageofdgpsdata property.
 	 * 
 	 * @param value
-	 *          allowed object is {@link BigDecimal }
+	 *            allowed object is {@link BigDecimal }
 	 * 
 	 */
-	public void setAgeofdgpsdata(BigDecimal value)
-	{
+	public void setAgeofdgpsdata(BigDecimal value) {
 		this.ageofdgpsdata = value;
 	}
 
@@ -516,8 +485,7 @@ public class WptType implements GpxPoint
 	 * @return possible object is {@link Integer }
 	 * 
 	 */
-	public Integer getDgpsid()
-	{
+	public Integer getDgpsid() {
 		return dgpsid;
 	}
 
@@ -525,11 +493,10 @@ public class WptType implements GpxPoint
 	 * Sets the value of the dgpsid property.
 	 * 
 	 * @param value
-	 *          allowed object is {@link Integer }
+	 *            allowed object is {@link Integer }
 	 * 
 	 */
-	public void setDgpsid(Integer value)
-	{
+	public void setDgpsid(Integer value) {
 		this.dgpsid = value;
 	}
 
@@ -539,8 +506,7 @@ public class WptType implements GpxPoint
 	 * @return possible object is {@link ExtensionsType }
 	 * 
 	 */
-	public ExtensionsType getExtensions()
-	{
+	public ExtensionsType getExtensions() {
 		return extensions;
 	}
 
@@ -548,11 +514,10 @@ public class WptType implements GpxPoint
 	 * Sets the value of the extensions property.
 	 * 
 	 * @param value
-	 *          allowed object is {@link ExtensionsType }
+	 *            allowed object is {@link ExtensionsType }
 	 * 
 	 */
-	public void setExtensions(ExtensionsType value)
-	{
+	public void setExtensions(ExtensionsType value) {
 		this.extensions = value;
 	}
 
@@ -562,8 +527,7 @@ public class WptType implements GpxPoint
 	 * @return possible object is {@link BigDecimal }
 	 * 
 	 */
-	public BigDecimal getLat()
-	{
+	public BigDecimal getLat() {
 		return lat;
 	}
 
@@ -571,11 +535,10 @@ public class WptType implements GpxPoint
 	 * Sets the value of the lat property.
 	 * 
 	 * @param value
-	 *          allowed object is {@link BigDecimal }
+	 *            allowed object is {@link BigDecimal }
 	 * 
 	 */
-	public void setLat(BigDecimal value)
-	{
+	public void setLat(BigDecimal value) {
 		this.lat = value;
 	}
 
@@ -585,8 +548,7 @@ public class WptType implements GpxPoint
 	 * @return possible object is {@link BigDecimal }
 	 * 
 	 */
-	public BigDecimal getLon()
-	{
+	public BigDecimal getLon() {
 		return lon;
 	}
 
@@ -594,11 +556,10 @@ public class WptType implements GpxPoint
 	 * Sets the value of the lon property.
 	 * 
 	 * @param value
-	 *          allowed object is {@link BigDecimal }
+	 *            allowed object is {@link BigDecimal }
 	 * 
 	 */
-	public void setLon(BigDecimal value)
-	{
+	public void setLon(BigDecimal value) {
 		this.lon = value;
 	}
 

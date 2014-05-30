@@ -49,10 +49,10 @@ public class GPXUtils {
 		if (!res)
 			JOptionPane.showMessageDialog(null,
 					"Outdated Java Runtime Environment and JAXB version",
-					"OpenSeaMap ChartBundler has detected that your used "
+					"Mobile Atlas Creator has detected that your used "
 							+ "Java Runtime Environment is too old.\n Please update "
 							+ "the Java Runtime Environment to at least \nversion "
-							+ "1.6.0_14 and restart OpenSeaMap ChartBundler.",
+							+ "1.6.0_14 and restart Mobile Atlas Creator.",
 					JOptionPane.ERROR_MESSAGE);
 		return res;
 	}

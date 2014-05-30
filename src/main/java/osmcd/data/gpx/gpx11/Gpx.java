@@ -34,9 +34,11 @@ import javax.xml.bind.annotation.XmlType;
 
 import osmcd.program.ProgramInfo;
 
+
 /**
  * 
- * GPX documents contain a metadata header, followed by waypoints, routes, and tracks. You can add your own elements to the extensions section of the GPX
+ * GPX documents contain a metadata header, followed by waypoints, routes, and
+ * tracks. You can add your own elements to the extensions section of the GPX
  * document.
  * 
  * 
@@ -44,7 +46,8 @@ import osmcd.program.ProgramInfo;
  * Java class for anonymous complex type.
  * 
  * <p>
- * The following schema fragment specifies the expected content contained within this class.
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  * 
  * <pre>
  * &lt;complexType&gt;
@@ -67,10 +70,9 @@ import osmcd.program.ProgramInfo;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {"metadata", "wpt", "rte", "trk", "extensions"})
+@XmlType(name = "", propOrder = { "metadata", "wpt", "rte", "trk", "extensions" })
 @XmlRootElement(name = "gpx")
-public class Gpx
-{
+public class Gpx {
 
 	protected MetadataType metadata;
 	protected List<WptType> wpt;
@@ -82,8 +84,7 @@ public class Gpx
 	@XmlAttribute(required = true)
 	protected String creator;
 
-	public static Gpx createGpx()
-	{
+	public static Gpx createGpx() {
 		Gpx gpx = new Gpx();
 		gpx.setVersion("1.1");
 		gpx.setCreator(ProgramInfo.getVersionTitle());
@@ -99,8 +100,7 @@ public class Gpx
 	 * @return possible object is {@link MetadataType }
 	 * 
 	 */
-	public MetadataType getMetadata()
-	{
+	public MetadataType getMetadata() {
 		return metadata;
 	}
 
@@ -108,11 +108,10 @@ public class Gpx
 	 * Sets the value of the metadata property.
 	 * 
 	 * @param value
-	 *          allowed object is {@link MetadataType }
+	 *            allowed object is {@link MetadataType }
 	 * 
 	 */
-	public void setMetadata(MetadataType value)
-	{
+	public void setMetadata(MetadataType value) {
 		this.metadata = value;
 	}
 
@@ -120,8 +119,10 @@ public class Gpx
 	 * Gets the value of the wpt property.
 	 * 
 	 * <p>
-	 * This accessor method returns a reference to the live list, not a snapshot. Therefore any modification you make to the returned list will be present inside
-	 * the JAXB object. This is why there is not a <CODE>set</CODE> method for the wpt property.
+	 * This accessor method returns a reference to the live list, not a
+	 * snapshot. Therefore any modification you make to the returned list will
+	 * be present inside the JAXB object. This is why there is not a
+	 * <CODE>set</CODE> method for the wpt property.
 	 * 
 	 * <p>
 	 * For example, to add a new item, do as follows:
@@ -136,10 +137,8 @@ public class Gpx
 	 * 
 	 * 
 	 */
-	public List<WptType> getWpt()
-	{
-		if (wpt == null)
-		{
+	public List<WptType> getWpt() {
+		if (wpt == null) {
 			wpt = new ArrayList<WptType>();
 		}
 		return this.wpt;
@@ -149,8 +148,10 @@ public class Gpx
 	 * Gets the value of the rte property.
 	 * 
 	 * <p>
-	 * This accessor method returns a reference to the live list, not a snapshot. Therefore any modification you make to the returned list will be present inside
-	 * the JAXB object. This is why there is not a <CODE>set</CODE> method for the rte property.
+	 * This accessor method returns a reference to the live list, not a
+	 * snapshot. Therefore any modification you make to the returned list will
+	 * be present inside the JAXB object. This is why there is not a
+	 * <CODE>set</CODE> method for the rte property.
 	 * 
 	 * <p>
 	 * For example, to add a new item, do as follows:
@@ -165,10 +166,8 @@ public class Gpx
 	 * 
 	 * 
 	 */
-	public List<RteType> getRte()
-	{
-		if (rte == null)
-		{
+	public List<RteType> getRte() {
+		if (rte == null) {
 			rte = new ArrayList<RteType>();
 		}
 		return this.rte;
@@ -178,8 +177,10 @@ public class Gpx
 	 * Gets the value of the trk property.
 	 * 
 	 * <p>
-	 * This accessor method returns a reference to the live list, not a snapshot. Therefore any modification you make to the returned list will be present inside
-	 * the JAXB object. This is why there is not a <CODE>set</CODE> method for the trk property.
+	 * This accessor method returns a reference to the live list, not a
+	 * snapshot. Therefore any modification you make to the returned list will
+	 * be present inside the JAXB object. This is why there is not a
+	 * <CODE>set</CODE> method for the trk property.
 	 * 
 	 * <p>
 	 * For example, to add a new item, do as follows:
@@ -194,10 +195,8 @@ public class Gpx
 	 * 
 	 * 
 	 */
-	public List<TrkType> getTrk()
-	{
-		if (trk == null)
-		{
+	public List<TrkType> getTrk() {
+		if (trk == null) {
 			trk = new ArrayList<TrkType>();
 		}
 		return this.trk;
@@ -209,8 +208,7 @@ public class Gpx
 	 * @return possible object is {@link ExtensionsType }
 	 * 
 	 */
-	public ExtensionsType getExtensions()
-	{
+	public ExtensionsType getExtensions() {
 		return extensions;
 	}
 
@@ -218,11 +216,10 @@ public class Gpx
 	 * Sets the value of the extensions property.
 	 * 
 	 * @param value
-	 *          allowed object is {@link ExtensionsType }
+	 *            allowed object is {@link ExtensionsType }
 	 * 
 	 */
-	public void setExtensions(ExtensionsType value)
-	{
+	public void setExtensions(ExtensionsType value) {
 		this.extensions = value;
 	}
 
@@ -232,14 +229,10 @@ public class Gpx
 	 * @return possible object is {@link String }
 	 * 
 	 */
-	public String getVersion()
-	{
-		if (version == null)
-		{
+	public String getVersion() {
+		if (version == null) {
 			return "1.1";
-		}
-		else
-		{
+		} else {
 			return version;
 		}
 	}
@@ -248,11 +241,10 @@ public class Gpx
 	 * Sets the value of the version property.
 	 * 
 	 * @param value
-	 *          allowed object is {@link String }
+	 *            allowed object is {@link String }
 	 * 
 	 */
-	public void setVersion(String value)
-	{
+	public void setVersion(String value) {
 		this.version = value;
 	}
 
@@ -262,8 +254,7 @@ public class Gpx
 	 * @return possible object is {@link String }
 	 * 
 	 */
-	public String getCreator()
-	{
+	public String getCreator() {
 		return creator;
 	}
 
@@ -271,11 +262,10 @@ public class Gpx
 	 * Sets the value of the creator property.
 	 * 
 	 * @param value
-	 *          allowed object is {@link String }
+	 *            allowed object is {@link String }
 	 * 
 	 */
-	public void setCreator(String value)
-	{
+	public void setCreator(String value) {
 		this.creator = value;
 	}
 

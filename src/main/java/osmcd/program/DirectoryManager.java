@@ -184,9 +184,9 @@ public class DirectoryManager {
 	 * Examples:
 	 * <ul>
 	 * <li>English Windows XP:<br>
-	 * <tt>C:\Document and Settings\%username%\Application Data\OpenSeaMap ChartBundler</tt>
+	 * <tt>C:\Document and Settings\%username%\Application Data\OSeaM ChartDesigner</tt>
 	 * <li>Vista, W7, W8:<br>
-	 * <tt>C:\Users\%username%\Application Data\OpenSeaMap ChartBundler</tt>
+	 * <tt>C:\Users\%username%\Application Data\OSeaM ChartDesigner</tt>
 	 * <li>Linux:<br>
 	 * <tt>/home/$username$/.osmcd</tt></li>
 	 * </ul>
@@ -198,7 +198,7 @@ public class DirectoryManager {
 		if (appData != null) {
 			File appDataDir = new File(appData);
 			if (appDataDir.isDirectory()) {
-				File osmcbDataDir = new File(appData, "OpenSeaMap ChartBundler");
+				File osmcbDataDir = new File(appData, "OSeaM ChartDesigner");
 				if (osmcbDataDir.isDirectory() || osmcbDataDir.mkdir())
 					return osmcbDataDir;
 				else

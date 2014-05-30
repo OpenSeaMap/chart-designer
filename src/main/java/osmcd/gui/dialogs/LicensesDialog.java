@@ -36,6 +36,7 @@ import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import osmcd.gui.MainGUI;
 import osmcd.program.ProgramInfo;
 import osmcd.utilities.GBC;
 import osmcd.utilities.I18nUtils;
@@ -58,6 +59,7 @@ public class LicensesDialog extends JFrame implements ChangeListener, ActionList
 		super(I18nUtils.localizedStringForKey("dlg_license_title"));
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		setLayout(new GridBagLayout());
+		setIconImages(MainGUI.OSMCD_ICONS);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		JButton ok = new JButton("OK");
 		textArea = new JTextArea();

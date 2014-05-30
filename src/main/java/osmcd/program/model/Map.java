@@ -47,25 +47,16 @@ import osmcd.utilities.tar.TarIndexedArchive;
 
 public class Map implements MapInterface, ToolTipProvider, CapabilityDeletable, TreeNode, DownloadableElement
 {
-
 	protected String name;
-
 	protected Layer layer;
-
 	protected TileImageParameters parameters = null;
-
 	protected Point maxTileCoordinate = null;
-
 	protected Point minTileCoordinate = null;
-
 	@XmlAttribute
 	protected MapSource mapSource = null;
-
-	protected Dimension tileDimension = null;
-
 	@XmlAttribute
 	protected int zoom;
-
+	protected Dimension tileDimension = null;
 	private static Logger log = Logger.getLogger(Map.class);
 
 	protected Map() {
@@ -111,11 +102,13 @@ public class Map implements MapInterface, ToolTipProvider, CapabilityDeletable, 
 		return this.mapSource;
 	}
 
+	@XmlAttribute
 	public Point getMaxTileCoordinate()
 	{
 		return this.maxTileCoordinate;
 	}
 
+	@XmlAttribute
 	public Point getMinTileCoordinate()
 	{
 		return this.minTileCoordinate;

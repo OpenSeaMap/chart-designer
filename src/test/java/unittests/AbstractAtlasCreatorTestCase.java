@@ -30,19 +30,19 @@ import javax.xml.bind.Unmarshaller;
 
 import junit.framework.TestCase;
 import junit.framework.TestResult;
+import mobac.tools.testtileserver.TestTileServer;
+import mobac.tools.testtileserver.servlets.JpgTileGeneratorServlet;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
-import osmcb.tools.testtileserver.TestTileServer;
-import osmcb.tools.testtileserver.servlets.JpgTileGeneratorServlet;
 import osmcd.exceptions.AtlasTestException;
 import osmcd.program.AtlasThread;
 import osmcd.program.Logging;
 import osmcd.program.ProgramInfo;
 import osmcd.program.atlascreators.AtlasCreator;
-import osmcd.program.interfaces.AtlasInterface;
-import osmcd.program.model.Atlas;
+import osmcd.program.interfaces.BundleInterface;
+import osmcd.program.model.Bundle;
 import osmcd.program.model.Profile;
 import osmcd.program.model.TileImageType;
 import osmcd.program.tilestore.TileStore;

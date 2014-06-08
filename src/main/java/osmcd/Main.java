@@ -28,19 +28,19 @@ import osmcd.program.EnvironmentSetup;
 import osmcd.program.Logging;
 import osmcd.program.ProgramInfo;
 import osmcd.program.commandline.CommandLineEmpty;
-import osmcd.program.commandline.CreateAtlas;
 import osmcd.program.interfaces.CommandLineAction;
 import osmcd.program.model.Settings;
 import osmcd.program.tilestore.TileStore;
 import osmcd.utilities.GUIExceptionHandler;
 
 /**
- * Java 6 version of the main starter class
+ * Java 6 version of the main starter class. Detect operating system to decide user interface
  */
 public class Main
 {
-
 	protected CommandLineAction cmdAction = new CommandLineEmpty();
+
+	// protected OSType osType = "Win";
 
 	public Main() {
 		try
@@ -49,6 +49,7 @@ public class Main
 			if (cmdAction.showSplashScreen())
 				SplashFrame.showFrame();
 
+			// init the default dirs
 			DirectoryManager.initialize();
 			Logging.configureLogging();
 
@@ -59,15 +60,17 @@ public class Main
 			// Logging.logSystemProperties();
 			ImageIO.setUseCache(false);
 
-			EnvironmentSetup.checkFileSetup();
+			// try to read settings.xml and check file/dir settings therein
+			EnvironmentSetup.checkSettingsSetup();
 			Settings.loadOrQuit();
+			EnvironmentSetup.checkFileSetup();
 			EnvironmentSetup.checkMemory();
 
+			// Setup mappacks
 			EnvironmentSetup.copyMapPacks();
 			DefaultMapSourcesManager.initialize();
-			EnvironmentSetup.createDefaultAtlases();
 			TileStore.initialize();
-			EnvironmentSetup.upgrade();
+			// EnvironmentSetup.upgrade();
 			cmdAction.runBeforeMainGUI();
 			if (cmdAction.showMainGUI())
 			{
@@ -95,14 +98,6 @@ public class Main
 		String[] args = StartOSMCD.ARGS;
 		if (args.length >= 2)
 		{
-			if ("create".equalsIgnoreCase(args[0]))
-			{
-				if (args.length > 2)
-					cmdAction = new CreateAtlas(args[1], args[2]);
-				else
-					cmdAction = new CreateAtlas(args[1]);
-				return;
-			}
 		}
 	}
 

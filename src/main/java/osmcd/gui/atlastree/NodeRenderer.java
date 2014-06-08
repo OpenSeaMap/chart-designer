@@ -24,7 +24,7 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeCellRenderer;
 
-import osmcd.program.interfaces.AtlasInterface;
+import osmcd.program.interfaces.BundleInterface;
 import osmcd.program.interfaces.LayerInterface;
 import osmcd.utilities.Utilities;
 
@@ -54,7 +54,7 @@ public class NodeRenderer implements TreeCellRenderer {
 	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected,
 			boolean expanded, boolean leaf, int row, boolean hasFocus) {
 		TreeCellRenderer tcr;
-		if (value instanceof AtlasInterface) {
+		if (value instanceof BundleInterface) {
 			tcr = atlasRenderer;
 		} else if (value instanceof LayerInterface)
 			tcr = layerRenderer;

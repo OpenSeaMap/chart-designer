@@ -38,23 +38,23 @@ import osmcd.utilities.Utilities;
  * </ul>
  * 
  */
-public class DirectoryManager {
-
+public class DirectoryManager
+{
 	public static final File currentDir;
 	public static final File programDir;
 	public static final File userHomeDir;
 	public static final File tempDir;
 	public static final File userAppDataDir;
-
 	public static final File userSettingsDir;
 	public static final File mapSourcesDir;
 	public static final File toolsDir;
-	public static final File atlasProfilesDir;
+	public static final File catalogsDir;
 	public static final File tileStoreDir;
 
 	private static Properties dirConfig = null;
 
-	static {
+	static
+	{
 		currentDir = new File(System.getProperty("user.dir"));
 		userHomeDir = new File(System.getProperty("user.home"));
 		programDir = getProgramDir();
@@ -63,51 +63,59 @@ public class DirectoryManager {
 		userAppDataDir = getUserAppDataDir();
 		tempDir = applyDirConfig("osmcd.tmpdir", new File(System.getProperty("java.io.tmpdir")));
 
-		mapSourcesDir = applyDirConfig("osmcd.mapsourcesdir", new File(programDir, "mapsources"));
 		toolsDir = applyDirConfig("osmcd.toolsdir", new File(programDir, "tools"));
 		userSettingsDir = applyDirConfig("osmcd.usersettingsdir", programDir);
-		atlasProfilesDir = applyDirConfig("osmcd.atlasprofilesdir", currentDir);
+
+		catalogsDir = applyDirConfig("osmcd.catalogsdir", new File(programDir, "catalogs"));
+		mapSourcesDir = applyDirConfig("osmcd.mapsourcesdir", new File(programDir, "mapsources"));
 		tileStoreDir = applyDirConfig("osmcd.tilestoredir", new File(programDir, "tilestore"));
 	}
 
-	private static File applyDirConfig(String propertyName, File defaultDir) {
+	private static File applyDirConfig(String propertyName, File defaultDir)
+	{
 		if (dirConfig == null)
 			return defaultDir;
-		try {
+		try
+		{
 			final String dirCfg = dirConfig.getProperty(propertyName);
-			if (dirCfg == null) {
+			if (dirCfg == null)
+			{
 				return defaultDir;
-			} else {
+			}
+			else
+			{
 				return expandCommandLine(dirCfg);
 			}
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			Logging.LOG.error("Error reading directory configuration: " + e.getMessage(), e);
-			JOptionPane.showMessageDialog(null, "<html><p>Failed to load directory.ini - entry \"" + propertyName
-					+ "\":<p><p>" + e.getMessage() + "</p></html>", "Faile do load directory.ini",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "<html><p>Failed to load directory.ini - entry \"" + propertyName + "\":<p><p>" + e.getMessage() + "</p></html>",
+					"Faile do load directory.ini", JOptionPane.ERROR_MESSAGE);
 			return defaultDir;
 		}
 	}
 
 	/**
-	 * Modified version of
-	 * http://stackoverflow.com/questions/2090647/evaluation-of-environment-variables-in-command-run-
-	 * by-javas-runtime-exec
+	 * Modified version of http://stackoverflow.com/questions/2090647/evaluation-of-environment-variables-in-command-run- by-javas-runtime-exec
 	 * 
 	 * @param cmd
 	 * @return
 	 */
-	private static File expandCommandLine(final String cmd) {
+	private static File expandCommandLine(final String cmd)
+	{
 		final Pattern vars = Pattern.compile("[$]\\{(\\S+)\\}");
 		final Matcher m = vars.matcher(cmd.trim());
 
 		final StringBuffer sb = new StringBuffer(cmd.length());
 		int lastMatchEnd = 0;
-		while (m.find()) {
+		while (m.find())
+		{
 			sb.append(cmd.substring(lastMatchEnd, m.start()));
 			final String envVar = m.group(1);
 			String envVal = System.getenv(envVar);
-			if (envVal == null) {
+			if (envVal == null)
+			{
 				File defPath = null;
 
 				if ("osmcd-prog".equalsIgnoreCase(envVar))
@@ -118,7 +126,8 @@ public class DirectoryManager {
 					defPath = new File(userHomeDir, ".config");
 				else if ("XDG_CACHE_HOME".equalsIgnoreCase(envVar))
 					defPath = new File(userHomeDir, ".cache");
-				else if ("XDG_DATA_HOME".equalsIgnoreCase(envVar)) {
+				else if ("XDG_DATA_HOME".equalsIgnoreCase(envVar))
+				{
 					File localDataDir = new File(userHomeDir, ".local");
 					defPath = new File(localDataDir, "share");
 				}
@@ -137,24 +146,31 @@ public class DirectoryManager {
 		return new File(sb.toString());
 	}
 
-	public static void initialize() {
+	public static void initialize()
+	{
 		if (currentDir == null || userAppDataDir == null || tempDir == null || programDir == null)
 			throw new RuntimeException("DirectoryManager failed");
 	}
 
-	private static void loadDirectoriesIni() {
+	private static void loadDirectoriesIni()
+	{
 		File dirIniFile = new File(programDir, "directories.ini");
 		if (!dirIniFile.isFile())
 			return;
 		dirConfig = new Properties();
 		FileInputStream in = null;
-		try {
+		try
+		{
 			in = new FileInputStream(dirIniFile);
 			dirConfig.load(in);
-		} catch (IOException e) {
+		}
+		catch (IOException e)
+		{
 			System.err.println("Failed to load " + dirIniFile.getName());
 			e.printStackTrace();
-		} finally {
+		}
+		finally
+		{
 			Utilities.closeStream(in);
 		}
 	}
@@ -164,11 +180,15 @@ public class DirectoryManager {
 	 * 
 	 * @return
 	 */
-	private static File getProgramDir() {
+	private static File getProgramDir()
+	{
 		File f = null;
-		try {
+		try
+		{
 			f = Utilities.getClassLocation(DirectoryManager.class);
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			System.err.println(e.getMessage());
 			return currentDir;
 		}
@@ -193,11 +213,14 @@ public class DirectoryManager {
 	 * 
 	 * @return
 	 */
-	private static File getUserAppDataDir() {
+	private static File getUserAppDataDir()
+	{
 		String appData = System.getenv("APPDATA");
-		if (appData != null) {
+		if (appData != null)
+		{
 			File appDataDir = new File(appData);
-			if (appDataDir.isDirectory()) {
+			if (appDataDir.isDirectory())
+			{
 				File osmcbDataDir = new File(appData, "OSeaM ChartDesigner");
 				if (osmcbDataDir.isDirectory() || osmcbDataDir.mkdir())
 					return osmcbDataDir;

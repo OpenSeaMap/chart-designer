@@ -12,8 +12,9 @@
     <customTileSize>false</customTileSize>
     <devMode>false</devMode>
     <directories>
-        <atlasOutputDirectory>C:\Users\Public\Documents\Atlanten</atlasOutputDirectory>
+        <chartBundleOutputDirectory>C:\Users\Public\Documents\OSMCB Bundles</chartBundleOutputDirectory>
         <tileStoreDirectory>C:\Users\Public\Documents\OSMCB Tiles</tileStoreDirectory>
+        <catalogsDirectory>C:\Users\Public\Documents\OSMCB Catalogs</catalogsDirectory>
     </directories>
     <downloadRetryCount>1</downloadRetryCount>
     <downloadThreadCount>2</downloadThreadCount>
@@ -27,7 +28,7 @@
     <localeLanguage>en</localeLanguage>
     <mainWindow>
         <size>800/590</size>
-        <position>-1452/-251</position>
+        <position>-1668/-205</position>
         <maximized>true</maximized>
         <leftPanelVisible>true</leftPanelVisible>
         <rightPanelVisible>true</rightPanelVisible>
@@ -37,25 +38,60 @@
     </mainWindow>
     <mapOverlapTiles>1</mapOverlapTiles>
     <mapSourcesDisabled/>
-    <mapSourcesEnabled/>
+    <mapSourcesEnabled>
+        <mapSource>4uMaps</mapSource>
+        <mapSource>AH OSM DE</mapSource>
+        <mapSource>AH OpenSeaMap - Mapnik</mapSource>
+        <mapSource>Custom OSM Mapnik</mapSource>
+        <mapSource>FAA Sectional Charts</mapSource>
+        <mapSource>FreemapSlovakia</mapSource>
+        <mapSource>FreemapSlovakiaCyclo</mapSource>
+        <mapSource>FreemapSlovakiaHiking</mapSource>
+        <mapSource>MapQuest</mapSource>
+        <mapSource>Mapnik</mapSource>
+        <mapSource>MoldovaPointMd</mapSource>
+        <mapSource>New Zealand Topographic Maps</mapSource>
+        <mapSource>OSM CloudMade 1</mapSource>
+        <mapSource>OSMPublicTransport</mapSource>
+        <mapSource>OSMapaTopo</mapSource>
+        <mapSource>OSMapaTopoContours</mapSource>
+        <mapSource>OpenPisteMapBCL</mapSource>
+        <mapSource>OpenSeaMap</mapSource>
+        <mapSource>OpenSeaMap-Mapnik</mapSource>
+        <mapSource>OpenSeaMapDE</mapSource>
+        <mapSource>OpenStreetMap Hikebikemap.de</mapSource>
+        <mapSource>Turaterkep256</mapSource>
+        <mapSource>UMP-pcPL</mapSource>
+        <mapSource>USGS National Map Base</mapSource>
+        <mapSource>USGS National Map Satellite</mapSource>
+        <mapSource>USGS National Map Satellite+</mapSource>
+        <mapSource>USGS National Map Topo</mapSource>
+        <mapSource>USGS National Map Vector</mapSource>
+        <mapSource>cb-enra</mapSource>
+        <mapSource>cb-enrh</mapSource>
+        <mapSource>cb-enrl</mapSource>
+        <mapSource>cb-sec</mapSource>
+        <mapSource>cb-tac</mapSource>
+        <mapSource>cb-wac</mapSource>
+    </mapSourcesEnabled>
     <MapSourcesUpdate/>
-    <mapviewCenterCoordinate lat="49.71560054664116" lon="-4.73236083984375"/>
-    <mapviewGridZoom>17</mapviewGridZoom>
-    <mapviewMapSource>AH OpenSeaMap - Mapnik</mapviewMapSource>
-    <mapviewSelectionMax>519935488/363991552</mapviewSelectionMax>
-    <mapviewSelectionMin>519935488/363991552</mapviewSelectionMin>
-    <mapviewZoom>9</mapviewZoom>
+    <mapviewCenterCoordinate lat="53.21590163025063" lon="12.884044647216797"/>
+    <mapviewGridZoom>16</mapviewGridZoom>
+    <mapviewMapSource>AH OpenCycleMap</mapviewMapSource>
+    <mapviewSelectionMax>575195648/349110784</mapviewSelectionMax>
+    <mapviewSelectionMin>575195648/349110784</mapviewSelectionMin>
+    <mapviewZoom>13</mapviewZoom>
     <maxMapSize>65536</maxMapSize>
     <osmHikingTicket></osmHikingTicket>
     <paperAtlas>
         <compression>6</compression>
         <crop>15</crop>
-        <dpi>96</dpi>
-        <marginBottom>22.6</marginBottom>
-        <marginLeft>22.6</marginLeft>
-        <marginRight>22.6</marginRight>
-        <marginTop>22.6</marginTop>
-        <overlap>28.2</overlap>
+        <dpi>180</dpi>
+        <marginBottom>14.173228346456693</marginBottom>
+        <marginLeft>14.173228346456693</marginLeft>
+        <marginRight>14.173228346456693</marginRight>
+        <marginTop>14.173228346456693</marginTop>
+        <overlap>14.173228346456693</overlap>
         <compass>true</compass>
         <pageNumbers>true</pageNumbers>
         <scaleBar>true</scaleBar>
@@ -66,8 +102,6 @@
     <placeBookmarks/>
     <proxyType>CUSTOM</proxyType>
     <selectedZoomLevels>
-        <zoomLevel>8</zoomLevel>
-        <zoomLevel>9</zoomLevel>
         <zoomLevel>10</zoomLevel>
         <zoomLevel>11</zoomLevel>
         <zoomLevel>12</zoomLevel>
@@ -75,12 +109,11 @@
         <zoomLevel>14</zoomLevel>
         <zoomLevel>15</zoomLevel>
         <zoomLevel>16</zoomLevel>
-        <zoomLevel>17</zoomLevel>
     </selectedZoomLevels>
-    <tileDefaultExpirationTime>2419200000</tileDefaultExpirationTime>
+    <tileDefaultExpirationTime>2433148535</tileDefaultExpirationTime>
     <tileImageFormat>PNG</tileImageFormat>
-    <tileMaxExpirationTime>31536000000</tileMaxExpirationTime>
-    <tileMinExpirationTime>432000000</tileMinExpirationTime>
+    <tileMaxExpirationTime>31743402975</tileMaxExpirationTime>
+    <tileMinExpirationTime>434079772</tileMinExpirationTime>
     <tileSize>256/256</tileSize>
     <tileStoreEnabled>true</tileStoreEnabled>
     <unitSystem>Metric</unitSystem>

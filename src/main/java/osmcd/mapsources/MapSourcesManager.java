@@ -20,11 +20,12 @@ import java.util.Vector;
 
 import osmcd.program.interfaces.MapSource;
 
-public abstract class MapSourcesManager {
-
+public abstract class MapSourcesManager
+{
 	protected static MapSourcesManager INSTANCE = null;
 
-	public static MapSourcesManager getInstance() {
+	public static MapSourcesManager getInstance()
+	{
 		return INSTANCE;
 	}
 
@@ -33,9 +34,8 @@ public abstract class MapSourcesManager {
 	public abstract Vector<MapSource> getAllMapSources();
 
 	/**
-	 * Returns all {@link MapSource} used implementations that represent a map layer (have a visible result).
-	 * Meta-map-sources like multi-layer map sources are ignored. The result does contain each {@link MapSource} only
-	 * once (no duplicates).
+	 * Returns all {@link MapSource} used implementations that represent a map layer (have a visible result). Meta-map-sources like multi-layer map sources are
+	 * ignored. The result does contain each {@link MapSource} only once (no duplicates).
 	 * 
 	 * @return
 	 */

@@ -26,12 +26,6 @@ import javax.swing.JOptionPane;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 
-import osmcd.mapsources.MapSourcesManager;
-import osmcd.program.interfaces.MapSource;
-import osmcd.program.model.Atlas;
-import osmcd.program.model.EastNorthCoordinate;
-import osmcd.program.model.Layer;
-import osmcd.program.model.Profile;
 import osmcd.program.model.Settings;
 import osmcd.utilities.GUIExceptionHandler;
 import osmcd.utilities.I18nUtils;
@@ -63,7 +57,7 @@ public class EnvironmentSetup
 	}
 
 	/**
-	 * modifies 'old' tac name scheme for profiles
+	 * adjusts 'old' tac filenames of profiles from tac- to osmcb-
 	 */
 	public static void upgrade()
 	{
@@ -106,14 +100,11 @@ public class EnvironmentSetup
 	}
 
 	/**
-	 * Note: This method has be be called before {@link Settings#loadOrQuit()}. Therefore no localization is available at this point.
+	 * Note: This method has to be called before {@link Settings#loadOrQuit()}. Therefore no localization is available at this point.
 	 */
-	public static void checkFileSetup()
+	public static void checkSettingsSetup()
 	{
 		checkDirectory(DirectoryManager.userSettingsDir, "user settings", true);
-		checkDirectory(DirectoryManager.atlasProfilesDir, "atlas profile", true);
-		checkDirectory(DirectoryManager.tileStoreDir, "tile store", true);
-		checkDirectory(DirectoryManager.tempDir, "temporary atlas download", true);
 		if (!Settings.FILE.exists())
 		{
 			try
@@ -132,6 +123,15 @@ public class EnvironmentSetup
 				System.exit(1);
 			}
 		}
+	}
+
+	/**
+	 * This expects the paths and dirs to be modified by settimgs-xml, so it is called after Settings.loadOrQuit()
+	 */
+	public static void checkFileSetup()
+	{
+		checkDirectory(DirectoryManager.catalogsDir, "catalog profile", true);
+		checkDirectory(DirectoryManager.tileStoreDir, "tile store", true);
 	}
 
 	protected static void checkDirectory(File dir, String dirName, boolean checkIsWriteable)
@@ -161,31 +161,9 @@ public class EnvironmentSetup
 					String.format(I18nUtils.localizedStringForKey("msg_environment_error_write_file"), dirName, dir.getAbsolutePath()), e);
 		}
 	}
-
-	public static void createDefaultAtlases()
-	{
-		if (!FIRST_START)
-			return;
-		// TODO:MP change sample to Chinese
-		Profile p = new Profile("Google Maps New York");
-		Atlas atlas = Atlas.newInstance();
-		try
-		{
-			EastNorthCoordinate max = new EastNorthCoordinate(40.97264, -74.142609);
-			EastNorthCoordinate min = new EastNorthCoordinate(40.541982, -73.699036);
-			Layer layer = new Layer(atlas, "GM New York", 14);
-			MapSource ms = MapSourcesManager.getInstance().getSourceByName("Mapnik");
-			if (ms == null)
-				return;
-			layer.addMapsAutocut("GM New York 16", ms, max, min, 16, null, 32000);
-			layer.addMapsAutocut("GM New York 14", ms, max, min, 14, null, 32000);
-			atlas.addLayer(layer);
-			p.save(atlas);
-		}
-		catch (Exception e)
-		{
-			log.error("Creation for example profiles failed", e);
-			GUIExceptionHandler.showExceptionDialog(e);
-		}
-	}
 }
+
+/*
+ * log = Logger.getLogger(this.getClass()); String tileStorePath = Settings.getInstance().directories.tileStoreDirectory; if (tileStorePath != null)
+ * tileStoreDir = new File(tileStorePath); else tileStoreDir = DirectoryManager.tileStoreDir; log.debug("Tile store path: " + tileStoreDir);
+ */

@@ -633,7 +633,7 @@ public class SettingsGUI extends JDialog
 		atlasOutputDirPanel.setBorder(createSectionBorder(I18nUtils.localizedStringForKey("set_directory_output")));
 
 		atlasOutputDirectory = new JTextField();
-		atlasOutputDirectory.setToolTipText(String.format(I18nUtils.localizedStringForKey("set_directory_output_tips"), settings.getAtlasOutputDirectory()));
+		atlasOutputDirectory.setToolTipText(String.format(I18nUtils.localizedStringForKey("set_directory_output_tips"), settings.getChartBundleOutputDirectory()));
 		JButton selectAtlasOutputDirectory = new JButton(I18nUtils.localizedStringForKey("set_directory_output_select"));
 		selectAtlasOutputDirectory.addActionListener(new ActionListener()
 		{
@@ -641,7 +641,7 @@ public class SettingsGUI extends JDialog
 			public void actionPerformed(ActionEvent e)
 			{
 				JDirectoryChooser dc = new JDirectoryChooser();
-				dc.setCurrentDirectory(settings.getAtlasOutputDirectory());
+				dc.setCurrentDirectory(settings.getChartBundleOutputDirectory());
 				if (dc.showDialog(SettingsGUI.this, I18nUtils.localizedStringForKey("set_directory_output_select_dlg_title")) != JFileChooser.APPROVE_OPTION)
 					return;
 				atlasOutputDirectory.setText(dc.getSelectedFile().getAbsolutePath());
@@ -768,7 +768,7 @@ public class SettingsGUI extends JDialog
 		mapSize.setValue(s.maxMapSize);
 		mapOverlapTiles.setValue(s.mapOverlapTiles);
 
-		atlasOutputDirectory.setText(s.getAtlasOutputDirectoryString());
+		atlasOutputDirectory.setText(s.getChartBundleOutputDirectoryString());
 
 		long limit = s.getBandwidthLimit();
 		for (Bandwidth b: Bandwidth.values())
@@ -821,7 +821,7 @@ public class SettingsGUI extends JDialog
 		s.localeLanguage = locale.getLanguage();
 		s.localeCountry = locale.getCountry();
 
-		s.setAtlasOutputDirectory(atlasOutputDirectory.getText());
+		s.setChartBundleOutputDirectory(atlasOutputDirectory.getText());
 		int threads = ((Integer) threadCount.getSelectedItem()).intValue();
 		s.downloadThreadCount = threads;
 

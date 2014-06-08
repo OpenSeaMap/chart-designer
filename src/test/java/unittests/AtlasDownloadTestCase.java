@@ -20,7 +20,7 @@ import java.io.File;
 
 import osmcd.mapsources.DefaultMapSourcesManager;
 import osmcd.program.atlascreators.AlpineQuestMap;
-import osmcd.program.interfaces.AtlasInterface;
+import osmcd.program.interfaces.BundleInterface;
 
 public class AtlasDownloadTestCase extends AbstractAtlasCreatorTestCase {
 

@@ -49,10 +49,10 @@ public class GPXUtils {
 		if (!res)
 			JOptionPane.showMessageDialog(null,
 					"Outdated Java Runtime Environment and JAXB version",
-					"Mobile Atlas Creator has detected that your used "
+					"Mobile Bundle Creator has detected that your used "
 							+ "Java Runtime Environment is too old.\n Please update "
 							+ "the Java Runtime Environment to at least \nversion "
-							+ "1.6.0_14 and restart Mobile Atlas Creator.",
+							+ "1.6.0_14 and restart Mobile Bundle Creator.",
 					JOptionPane.ERROR_MESSAGE);
 		return res;
 	}

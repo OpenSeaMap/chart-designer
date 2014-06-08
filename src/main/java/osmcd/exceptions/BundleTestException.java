@@ -19,27 +19,25 @@ package osmcd.exceptions;
 import osmcd.program.interfaces.LayerInterface;
 import osmcd.program.interfaces.MapInterface;
 
-public class AtlasTestException extends Exception {
-
-	public AtlasTestException(String message, MapInterface map) {
-		super(message + "\nError caused by map \"" + map.getName() + "\" on layer \""
-				+ map.getLayer().getName() + "\"");
+public class BundleTestException extends Exception
+{
+	public BundleTestException(String message, MapInterface map) {
+		super(message + "\nError caused by map \"" + map.getName() + "\" on layer \"" + map.getLayer().getName() + "\"");
 	}
 
-	public AtlasTestException(String message, LayerInterface layer) {
+	public BundleTestException(String message, LayerInterface layer) {
 		super(message + "\nError caused by layer \"" + layer.getName() + "\"");
 	}
 
-	public AtlasTestException(String message) {
+	public BundleTestException(String message) {
 		super(message);
 	}
 
-	public AtlasTestException(Throwable cause) {
+	public BundleTestException(Throwable cause) {
 		super(cause);
 	}
 
-	public AtlasTestException(String message, Throwable cause) {
+	public BundleTestException(String message, Throwable cause) {
 		super(message, cause);
 	}
-
 }

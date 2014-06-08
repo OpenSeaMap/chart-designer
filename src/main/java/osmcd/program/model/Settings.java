@@ -59,8 +59,8 @@ import osmcd.utilities.stream.ThrottledInputStream;
 
 @XmlRootElement
 @XmlAccessorOrder(XmlAccessOrder.ALPHABETICAL)
-public class Settings {
-
+public class Settings
+{
 	private static Logger log = Logger.getLogger(Settings.class);
 	private static Settings instance = new Settings();
 
@@ -111,15 +111,19 @@ public class Settings {
 
 	public final Directories directories = new Directories();
 
-	public static class Directories {
+	public static class Directories
+	{
 		@XmlElement
-		private String atlasOutputDirectory = null;
+		private String chartBundleOutputDirectory = null;
 
 		@XmlElement
-		public String tileStoreDirectory;
+		public String tileStoreDirectory = null;
 
 		@XmlElement
-		private String mapSourcesDirectory;
+		private String mapSourcesDirectory = null;
+
+		@XmlElement
+		private String catalogsDirectory = null;
 	}
 
 	@XmlElementWrapper(name = "placeBookmarks")
@@ -137,14 +141,13 @@ public class Settings {
 	public int httpReadTimeout = 10;
 
 	/**
-	 * Maximum expiration (in milliseconds) acceptable. If a server sets an expiration time larger than this value it is
-	 * truncated to this value on next download.
+	 * Maximum expiration (in milliseconds) acceptable. If a server sets an expiration time larger than this value it is truncated to this value on next download.
 	 */
 	public long tileMaxExpirationTime = TimeUnit.DAYS.toMillis(365);
 
 	/**
-	 * Minimum expiration (in milliseconds) acceptable. If a server sets an expiration time smaller than this value it
-	 * is truncated to this value on next download.
+	 * Minimum expiration (in milliseconds) acceptable. If a server sets an expiration time smaller than this value it is truncated to this value on next
+	 * download.
 	 */
 	public long tileMinExpirationTime = TimeUnit.DAYS.toMillis(5);
 
@@ -172,15 +175,16 @@ public class Settings {
 
 	public final AtlasFormatSpecificSettings atlasFormatSpecificSettings = new AtlasFormatSpecificSettings();
 
-	public static class AtlasFormatSpecificSettings {
-
+	public static class AtlasFormatSpecificSettings
+	{
 		@XmlElement
 		public Integer garminCustomMaxMapCount = 100;
 	}
 
 	public final MainWindowSettings mainWindow = new MainWindowSettings();
 
-	public static class MainWindowSettings {
+	public static class MainWindowSettings
+	{
 		public Dimension size = new Dimension();
 		public Point position = new Point(-1, -1);
 		public boolean maximized = true;
@@ -214,7 +218,8 @@ public class Settings {
 	@XmlElement(name = "MapSourcesUpdate")
 	public final MapSourcesUpdate mapSourcesUpdate = new MapSourcesUpdate();
 
-	public static class MapSourcesUpdate {
+	public static class MapSourcesUpdate
+	{
 		/**
 		 * Last ETag value retrieved while online map source update.
 		 * 
@@ -222,17 +227,13 @@ public class Settings {
 		 * @see http://en.wikipedia.org/wiki/HTTP_ETag
 		 */
 		public String etag;
-
 		public Date lastUpdate;
 	}
 
 	public transient UnitSystem unitSystem = UnitSystem.Metric;
-
 	public final SettingsPaperAtlas paperAtlas = new SettingsPaperAtlas();
 	public final SettingsWgsGrid wgsGrid = new SettingsWgsGrid();
-
 	public boolean ignoreDlErrors = false;
-
 	public String localeLanguage = null;
 	public String localeCountry = null;
 
@@ -245,36 +246,38 @@ public class Settings {
 		mainWindow.collapsedPanels.add("Gpx");
 
 		Locale defaultLocale = Locale.getDefault();
-		if (defaultLocale.equals(new Locale("zh", "CN"))) {
-			localeLanguage = "zh";
-			localeCountry = "CN";
-		} else if (defaultLocale.equals(new Locale("zh", "TW"))) {
-			localeLanguage = "zh";
-			localeCountry = "TW";
-		} else if (defaultLocale.equals(new Locale("ja", "JP"))) {
-			localeLanguage = "ja";
-			localeCountry = "JP";
-		} else if (defaultLocale.equals(new Locale("fr", "FR"))) {
+		if (defaultLocale.equals(new Locale("fr", "FR")))
+		{
 			localeLanguage = "fr";
 			localeCountry = "FR";
-		} else {
+		}
+		else if (defaultLocale.equals(new Locale("de", "DE")))
+		{
+			localeLanguage = "de";
+			localeCountry = "DE";
+		}
+		else
+		{
 			localeLanguage = "en";
 			localeCountry = "";
 		}
 	}
 
-	public static Settings getInstance() {
+	public static Settings getInstance()
+	{
 		return instance;
 	}
 
-	public static void load() throws JAXBException {
-		try {
+	public static void load() throws JAXBException
+	{
+		try
+		{
 			JAXBContext context = JAXBContext.newInstance(Settings.class);
 			Unmarshaller um = context.createUnmarshaller();
-			um.setEventHandler(new ValidationEventHandler() {
-
-				public boolean handleEvent(ValidationEvent event) {
-
+			um.setEventHandler(new ValidationEventHandler()
+			{
+				public boolean handleEvent(ValidationEvent event)
+				{
 					log.warn("Problem on loading settings.xml: " + event.getMessage());
 					return true;
 				}
@@ -284,16 +287,17 @@ public class Settings {
 			instance.paperAtlas.checkValues();
 			SETTINGS_LAST_MODIFIED = FILE.lastModified();
 
-			// Settings 重新加载之后，必须更新语言资源
 			I18nUtils.updateLocalizedStringFormSettings();
-
-		} finally {
+		}
+		finally
+		{
 			Settings s = getInstance();
 			s.applyProxySettings();
 		}
 	}
 
-	public static boolean checkSettingsFileModified() {
+	public static boolean checkSettingsFileModified()
+	{
 		if (SETTINGS_LAST_MODIFIED == 0)
 			return false;
 		// Check if the settings.xml has been modified
@@ -302,14 +306,16 @@ public class Settings {
 		return (SETTINGS_LAST_MODIFIED != lastModified);
 	}
 
-	public static void save() throws JAXBException {
+	public static void save() throws JAXBException
+	{
 		getInstance().version = ProgramInfo.getVersion();
 		JAXBContext context = JAXBContext.newInstance(Settings.class);
 		Marshaller m = context.createMarshaller();
 		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 		ByteArrayOutputStream bo = null;
 		FileOutputStream fo = null;
-		try {
+		try
+		{
 			// First we write to a buffer and if that works be write the buffer
 			// to disk. Direct writing to file may result in an defect xml file
 			// in case of an error
@@ -319,35 +325,44 @@ public class Settings {
 			fo.write(bo.toByteArray());
 			fo.close();
 			SETTINGS_LAST_MODIFIED = FILE.lastModified();
-		} catch (IOException e) {
+		}
+		catch (IOException e)
+		{
 			throw new JAXBException(e);
-		} finally {
+		}
+		finally
+		{
 			Utilities.closeStream(fo);
 		}
 	}
 
-	public static void loadOrQuit() {
-		try {
+	public static void loadOrQuit()
+	{
+		try
+		{
 			load();
-		} catch (JAXBException e) {
+		}
+		catch (JAXBException e)
+		{
 			log.error(e);
-			JOptionPane
-					.showMessageDialog(null, I18nUtils.localizedStringForKey(I18nUtils
-							.localizedStringForKey("msg_settings_file_can_not_parse")), I18nUtils
-							.localizedStringForKey("Error"), JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, I18nUtils.localizedStringForKey(I18nUtils.localizedStringForKey("msg_settings_file_can_not_parse")),
+					I18nUtils.localizedStringForKey("Error"), JOptionPane.ERROR_MESSAGE);
 			System.exit(0);
 		}
 	}
 
-	public String getUserAgent() {
+	public String getUserAgent()
+	{
 		if (userAgent != null)
 			return userAgent;
 		else
 			return ProgramInfo.getUserAgent();
 	}
 
-	public void setUserAgent(String userAgent) {
-		if (userAgent != null) {
+	public void setUserAgent(String userAgent)
+	{
+		if (userAgent != null)
+		{
 			userAgent = userAgent.trim();
 			if (userAgent.length() == 0)
 				userAgent = null;
@@ -355,76 +370,94 @@ public class Settings {
 		this.userAgent = userAgent;
 	}
 
-	public boolean isCustomTileSize() {
+	public boolean isCustomTileSize()
+	{
 		return customTileProcessing;
 	}
 
-	public void setCustomTileSize(boolean customTileSize) {
+	public void setCustomTileSize(boolean customTileSize)
+	{
 		this.customTileProcessing = customTileSize;
 	}
 
-	public Dimension getTileSize() {
+	public Dimension getTileSize()
+	{
 		return tileSize;
 	}
 
-	public void setTileSize(Dimension tileSize) {
+	public void setTileSize(Dimension tileSize)
+	{
 		this.tileSize = tileSize;
 	}
 
-	public TileImageFormat getTileImageFormat() {
+	public TileImageFormat getTileImageFormat()
+	{
 		return tileImageFormat;
 	}
 
-	public void setTileImageFormat(TileImageFormat tileImageFormat) {
+	public void setTileImageFormat(TileImageFormat tileImageFormat)
+	{
 		this.tileImageFormat = tileImageFormat;
 	}
 
-	public ProxyType getProxyType() {
+	public ProxyType getProxyType()
+	{
 		return proxyType;
 	}
 
-	public void setProxyType(ProxyType proxyType) {
+	public void setProxyType(ProxyType proxyType)
+	{
 		this.proxyType = proxyType;
 	}
 
-	public String getCustomProxyHost() {
+	public String getCustomProxyHost()
+	{
 		return customProxyHost;
 	}
 
-	public String getCustomProxyPort() {
+	public String getCustomProxyPort()
+	{
 		return customProxyPort;
 	}
 
-	public void setCustomProxyHost(String proxyHost) {
+	public void setCustomProxyHost(String proxyHost)
+	{
 		this.customProxyHost = proxyHost;
 	}
 
-	public void setCustomProxyPort(String proxyPort) {
+	public void setCustomProxyPort(String proxyPort)
+	{
 		this.customProxyPort = proxyPort;
 	}
 
-	public String getCustomProxyUserName() {
+	public String getCustomProxyUserName()
+	{
 		return customProxyUserName;
 	}
 
-	public void setCustomProxyUserName(String customProxyUserName) {
+	public void setCustomProxyUserName(String customProxyUserName)
+	{
 		this.customProxyUserName = customProxyUserName;
 	}
 
-	public String getCustomProxyPassword() {
+	public String getCustomProxyPassword()
+	{
 		return customProxyPassword;
 	}
 
-	public void setCustomProxyPassword(String customProxyPassword) {
+	public void setCustomProxyPassword(String customProxyPassword)
+	{
 		this.customProxyPassword = customProxyPassword;
 	}
 
-	public void applyProxySettings() {
+	public void applyProxySettings()
+	{
 		boolean useSystemProxies = false;
 		String newProxyHost = null;
 		String newProxyPort = null;
 		Authenticator newAuthenticator = null;
-		switch (proxyType) {
+		switch (proxyType)
+		{
 		case SYSTEM:
 			log.info("Applying proxy configuration: system settings");
 			useSystemProxies = true;
@@ -442,13 +475,14 @@ public class Settings {
 		case CUSTOM_W_AUTH:
 			newProxyHost = customProxyHost;
 			newProxyPort = customProxyPort;
-			newAuthenticator = new Authenticator() {
-				protected PasswordAuthentication getPasswordAuthentication() {
+			newAuthenticator = new Authenticator()
+			{
+				protected PasswordAuthentication getPasswordAuthentication()
+				{
 					return new PasswordAuthentication(customProxyUserName, customProxyPassword.toCharArray());
 				}
 			};
-			log.info("Applying proxy configuration: host=" + newProxyHost + " port=" + newProxyPort + " user="
-					+ customProxyUserName);
+			log.info("Applying proxy configuration: host=" + newProxyHost + " port=" + newProxyPort + " user=" + customProxyUserName);
 			break;
 		}
 		Utilities.setHttpProxyHost(newProxyHost);
@@ -457,28 +491,33 @@ public class Settings {
 		System.setProperty("java.net.useSystemProxies", Boolean.toString(useSystemProxies));
 	}
 
-	public long getBandwidthLimit() {
+	public long getBandwidthLimit()
+	{
 		return bandwidthLimit;
 	}
 
-	public void setBandwidthLimit(long bandwidthLimit) {
+	public void setBandwidthLimit(long bandwidthLimit)
+	{
 		this.bandwidthLimit = bandwidthLimit;
 		ThrottledInputStream.setBandwidth(bandwidthLimit);
 	}
 
 	@XmlElement
-	public void setUnitSystem(UnitSystem unitSystem) {
+	public void setUnitSystem(UnitSystem unitSystem)
+	{
 		if (unitSystem == null)
 			unitSystem = UnitSystem.Metric;
 		this.unitSystem = unitSystem;
 	}
 
-	public UnitSystem getUnitSystem() {
+	public UnitSystem getUnitSystem()
+	{
 		return unitSystem;
 	}
 
 	@XmlTransient
-	public File getMapSourcesDirectory() {
+	public File getMapSourcesDirectory()
+	{
 		String mapSourcesDirCfg = directories.mapSourcesDirectory;
 		File mapSourcesDir;
 		if (mapSourcesDirCfg == null || mapSourcesDirCfg.trim().length() == 0)
@@ -489,31 +528,46 @@ public class Settings {
 	}
 
 	@XmlTransient
-	public File getAtlasOutputDirectory() {
-		if (directories.atlasOutputDirectory != null)
-			return new File(directories.atlasOutputDirectory);
-		return new File(DirectoryManager.currentDir, "atlases");
+	public File getChartBundleOutputDirectory()
+	{
+		if (directories.chartBundleOutputDirectory != null)
+			return new File(directories.chartBundleOutputDirectory);
+		return new File(DirectoryManager.currentDir, "bundles");
 	}
 
-	public String getAtlasOutputDirectoryString() {
-		if (directories.atlasOutputDirectory == null)
+	public String getChartBundleOutputDirectoryString()
+	{
+		if (directories.chartBundleOutputDirectory == null)
 			return "";
-		return directories.atlasOutputDirectory;
+		return directories.chartBundleOutputDirectory;
 	}
 
 	/**
 	 * 
 	 * @param dir
-	 *            <code>null</code> or empty string resets to default directory otherwise set the new atlas output
-	 *            directory.
+	 *          <code>null</code> or empty string resets to default directory otherwise set the new atlas output directory.
 	 */
-	public void setAtlasOutputDirectory(String dir) {
+	public void setChartBundleOutputDirectory(String dir)
+	{
 		if (dir != null && dir.trim().length() == 0)
 			dir = null;
-		directories.atlasOutputDirectory = dir;
+		directories.chartBundleOutputDirectory = dir;
 	}
 
-	public String getVersion() {
+	@XmlTransient
+	public File getCatalogsDirectory()
+	{
+		String catalogssDirCfg = directories.catalogsDirectory;
+		File catalogsDir;
+		if (catalogssDirCfg == null || catalogssDirCfg.trim().length() == 0)
+			catalogsDir = DirectoryManager.catalogsDir;
+		else
+			catalogsDir = new File(catalogssDirCfg);
+		return catalogsDir;
+	}
+
+	public String getVersion()
+	{
 		return version;
 	}
 

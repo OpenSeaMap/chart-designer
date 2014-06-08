@@ -26,7 +26,7 @@ import osmcd.exceptions.InvalidNameException;
 import osmcd.gui.MainGUI;
 import osmcd.gui.atlastree.JAtlasTree;
 import osmcd.program.Logging;
-import osmcd.program.interfaces.AtlasInterface;
+import osmcd.program.interfaces.BundleInterface;
 import osmcd.program.interfaces.MapSource;
 import osmcd.program.model.Layer;
 import osmcd.program.model.MapSelection;
@@ -44,7 +44,7 @@ import osmcd.utilities.I18nUtils;
  * 
  *         name scheme for trekbuddy atlases LNN with map names LNN-XXXX
  * 
- *         probably redirect this to AtlasCreator as base class of Atlas, since a lot of parameters are depending on the atlas format to produce Layer
+ *         probably redirect this to AtlasCreator as base class of Bundle, since a lot of parameters are depending on the atlas format to produce Layer
  *         AtlasCreator.AddLayer(zoom, GUI.getUserText()) Add Layer (if necessary) and give name conformimg to name scheme of this atlas, use user given name,
  *         if any, AtlasCreator.
  * 
@@ -58,7 +58,7 @@ public class AddRectangleMapAutocut implements ActionListener
 		MainGUI mg = MainGUI.getMainGUI();
 		JAtlasTree jAtlasTree = mg.jAtlasTree;
 		final String mapNameFmt = "%s %03d";
-		AtlasInterface atlasInterface = jAtlasTree.getAtlas();
+		BundleInterface atlasInterface = jAtlasTree.getAtlas();
 		// String name = mg.getUserText();
 		MapSource mapSource = mg.getSelectedMapSource();
 		SelectedZoomLevels sZL = mg.getSelectedZoomLevels();

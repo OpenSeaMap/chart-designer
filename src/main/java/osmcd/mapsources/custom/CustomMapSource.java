@@ -48,7 +48,8 @@ import osmcd.program.tilestore.TileStoreEntry;
  * Custom tile store provider, configurable via settings.xml.
  */
 @XmlRootElement
-public class CustomMapSource implements HttpMapSource {
+public class CustomMapSource implements HttpMapSource
+{
 
 	@XmlElement(nillable = false, defaultValue = "Custom")
 	private String name = "Custom";
@@ -82,9 +83,9 @@ public class CustomMapSource implements HttpMapSource {
 	@XmlList
 	private String[] serverParts = null;
 	private int currentServerPart = 0;
-	
-//	@XmlElement(required = false, defaultValue = "false")
-//	protected boolean ignoreContentMismatch = false;
+
+	// @XmlElement(required = false, defaultValue = "false")
+	// protected boolean ignoreContentMismatch = false;
 
 	private MapSourceLoaderInfo loaderInfo = null;
 
@@ -99,122 +100,153 @@ public class CustomMapSource implements HttpMapSource {
 		this.url = url;
 	}
 
-//	public boolean ignoreContentMismatch()
-//	{
-//		return ignoreContentMismatch;
-//	}
-	
-	public TileUpdate getTileUpdate() {
+	// public boolean ignoreContentMismatch()
+	// {
+	// return ignoreContentMismatch;
+	// }
+
+	public TileUpdate getTileUpdate()
+	{
 		return tileUpdate;
 	}
 
-	public int getMaxZoom() {
+	public int getMaxZoom()
+	{
 		return maxZoom;
 	}
 
-	public int getMinZoom() {
+	public int getMinZoom()
+	{
 		return minZoom;
 	}
 
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
-	public String getStoreName() {
+	public String getStoreName()
+	{
 		return name;
 	}
 
-	public TileImageType getTileImageType() {
+	public TileImageType getTileImageType()
+	{
 		return tileType;
 	}
 
-	public HttpURLConnection getTileUrlConnection(int zoom, int tilex, int tiley) throws IOException {
+	public HttpURLConnection getTileUrlConnection(int zoom, int tilex, int tiley) throws IOException
+	{
 		String url = getTileUrl(zoom, tilex, tiley);
 		if (url == null)
 			return null;
 		return (HttpURLConnection) new URL(url).openConnection();
 	}
 
-	public String getTileUrl(int zoom, int tilex, int tiley) {
-		if (serverParts == null || serverParts.length == 0) {
+	public String getTileUrl(int zoom, int tilex, int tiley)
+	{
+		if (serverParts == null || serverParts.length == 0)
+		{
 			return MapSourceTools.formatMapUrl(url, zoom, tilex, tiley);
-		} else {
+		}
+		else
+		{
 			currentServerPart = (currentServerPart + 1) % serverParts.length;
 			String serverPart = serverParts[currentServerPart];
 			return MapSourceTools.formatMapUrl(url, serverPart, zoom, tilex, tiley);
 		}
 	}
 
-	public byte[] getTileData(int zoom, int x, int y, LoadMethod loadMethod) throws IOException,
-			UnrecoverableDownloadException, InterruptedException {
+	public byte[] getTileData(int zoom, int x, int y, LoadMethod loadMethod) throws IOException, UnrecoverableDownloadException, InterruptedException
+	{
 		if (invertYCoordinate)
 			y = ((1 << zoom) - y - 1);
 
-		if (loadMethod == LoadMethod.CACHE) {
+		if (loadMethod == LoadMethod.CACHE)
+		{
 			TileStoreEntry entry = TileStore.getInstance().getTile(x, y, zoom, this);
 			if (entry == null)
 				return null;
 			byte[] data = entry.getData();
-			if (Thread.currentThread() instanceof MapSourceListener) {
+			if (Thread.currentThread() instanceof MapSourceListener)
+			{
 				((MapSourceListener) Thread.currentThread()).tileDownloaded(data.length);
 			}
 			return data;
 		}
-		if (ignoreErrors) {
-			try {
+		if (ignoreErrors)
+		{
+			try
+			{
 				return TileDownLoader.getImage(x, y, zoom, this);
-			} catch (Exception e) {
+			}
+			catch (Exception e)
+			{
 				return null;
 			}
-		} else {
+		}
+		else
+		{
 			return TileDownLoader.getImage(x, y, zoom, this);
 		}
 	}
 
-	public BufferedImage getTileImage(int zoom, int x, int y, LoadMethod loadMethod) throws IOException,
-			UnrecoverableDownloadException, InterruptedException {
-		
+	public BufferedImage getTileImage(int zoom, int x, int y, LoadMethod loadMethod) throws IOException, UnrecoverableDownloadException, InterruptedException
+	{
+
 		byte[] data = getTileData(zoom, x, y, loadMethod);
 
-		if (data == null) {
+		if (data == null)
+		{
 			if (!ignoreErrors)
 				return null;
-			else {
+			else
+			{
 				int tileSize = this.getMapSpace().getTileSize();
 				BufferedImage image = new BufferedImage(tileSize, tileSize, BufferedImage.TYPE_4BYTE_ABGR);
 				Graphics g = (Graphics) image.getGraphics();
-				try {
+				try
+				{
 					g.setColor(backgroundColor);
 					g.fillRect(0, 0, tileSize, tileSize);
-				} finally {
+				}
+				finally
+				{
 					g.dispose();
 				}
 				return image;
 			}
-		} else {
+		}
+		else
+		{
 			return ImageIO.read(new ByteArrayInputStream(data));
 		}
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return name;
 	}
 
-	public MapSpace getMapSpace() {
+	public MapSpace getMapSpace()
+	{
 		return MercatorPower2MapSpace.INSTANCE_256;
 	}
 
-	public Color getBackgroundColor() {
+	public Color getBackgroundColor()
+	{
 		return backgroundColor;
 	}
 
 	@XmlTransient
-	public MapSourceLoaderInfo getLoaderInfo() {
+	public MapSourceLoaderInfo getLoaderInfo()
+	{
 		return loaderInfo;
 	}
 
-	public void setLoaderInfo(MapSourceLoaderInfo loaderInfo) {
+	public void setLoaderInfo(MapSourceLoaderInfo loaderInfo)
+	{
 		if (this.loaderInfo != null)
 			throw new RuntimeException("LoaderInfo already set");
 		this.loaderInfo = loaderInfo;

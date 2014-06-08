@@ -35,8 +35,8 @@ import osmcd.program.tilestore.berkeleydb.DelayedInterruptThread;
 import osmcd.utilities.GUIExceptionHandler;
 import osmcd.utilities.I18nUtils;
 
-public class TileStoreCoverageLayer implements MapLayer {
-
+public class TileStoreCoverageLayer implements MapLayer
+{
 	private final MapSource mapSource;
 	private final int zoom;
 	private final Point pixelCoordinateMin;
@@ -45,18 +45,24 @@ public class TileStoreCoverageLayer implements MapLayer {
 	private final Point tileNumMax;
 	private BufferedImage coverageImage = null;
 
-	public static void removeCacheCoverageLayers() {
-		try {
+	public static void removeCacheCoverageLayers()
+	{
+		try
+		{
 			PreviewMap previewMap = MainGUI.getMainGUI().previewMap;
 			Iterator<MapLayer> mapLayers = previewMap.mapLayers.iterator();
 			MapLayer ml;
-			while (mapLayers.hasNext()) {
+			while (mapLayers.hasNext())
+			{
 				ml = mapLayers.next();
-				if (ml instanceof TileStoreCoverageLayer) {
+				if (ml instanceof TileStoreCoverageLayer)
+				{
 					mapLayers.remove();
 				}
 			}
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 		}
 	}
 
@@ -79,20 +85,25 @@ public class TileStoreCoverageLayer implements MapLayer {
 		updateCoverageImage();
 	}
 
-	private void updateCoverageImage() {
+	private void updateCoverageImage()
+	{
 		coverageImage = null;
-		Runnable r = new Runnable() {
-
-			public void run() {
-				try {
+		Runnable r = new Runnable()
+		{
+			public void run()
+			{
+				try
+				{
 					coverageImage = TileStore.getInstance().getCacheCoverage(mapSource, zoom, tileNumMin, tileNumMax);
 					if (coverageImage == null)
-						JOptionPane.showMessageDialog(MainGUI.getMainGUI(),
-								I18nUtils.localizedStringForKey("msg_tile_store_failed_retrieve_coverage"), 
-								I18nUtils.localizedStringForKey("Error"),
-								JOptionPane.ERROR_MESSAGE);
-				} catch (InterruptedException e) {
-				} catch (Exception e) {
+						JOptionPane.showMessageDialog(MainGUI.getMainGUI(), I18nUtils.localizedStringForKey("msg_tile_store_failed_retrieve_coverage"),
+								I18nUtils.localizedStringForKey("Error"), JOptionPane.ERROR_MESSAGE);
+				}
+				catch (InterruptedException e)
+				{
+				}
+				catch (Exception e)
+				{
 					GUIExceptionHandler.processException(e);
 				}
 				if (coverageImage == null)
@@ -100,18 +111,19 @@ public class TileStoreCoverageLayer implements MapLayer {
 				MainGUI.getMainGUI().previewMap.repaint();
 			}
 		};
-		WorkinprogressDialog dialog = new WorkinprogressDialog(MainGUI.getMainGUI(), "Loading coverage data",
-				DelayedInterruptThread.createThreadFactory());
+		WorkinprogressDialog dialog = new WorkinprogressDialog(MainGUI.getMainGUI(), "Loading coverage data", DelayedInterruptThread.createThreadFactory());
 		dialog.startWork(r);
 	}
 
-	public void paint(JMapViewer mapViewer, Graphics2D g, int zoom, int minX, int minY, int maxX, int maxY) {
+	public void paint(JMapViewer mapViewer, Graphics2D g, int zoom, int minX, int minY, int maxX, int maxY)
+	{
 		if (coverageImage == null)
 			return;
 		paintCoverage(g, zoom, minX, minY, maxX, maxY);
 	}
 
-	protected void paintCoverage(Graphics2D g, int zoom, int minX, int minY, int maxX, int maxY) {
+	protected void paintCoverage(Graphics2D g, int zoom, int minX, int minY, int maxX, int maxY)
+	{
 		Point max = pixelCoordinateMax;
 		Point min = pixelCoordinateMin;
 		MapSpace mapSpace = mapSource.getMapSpace();

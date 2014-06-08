@@ -31,8 +31,8 @@ import osmcd.gui.atlastree.JAtlasTree;
 import osmcd.gui.mapview.JMapViewer;
 import osmcd.gui.mapview.PreviewMap;
 import osmcd.gui.mapview.interfaces.MapLayer;
-import osmcd.program.interfaces.AtlasInterface;
-import osmcd.program.interfaces.AtlasObject;
+import osmcd.program.interfaces.BundleInterface;
+import osmcd.program.interfaces.BundleObject;
 import osmcd.program.interfaces.LayerInterface;
 import osmcd.program.interfaces.MapInterface;
 import osmcd.program.model.MapPolygon;
@@ -43,7 +43,7 @@ public class MapAreaHighlightingLayer implements MapLayer, TreeModelListener {
 
 	private TreeSelectionListener treeListener;
 
-	private AtlasObject object;
+	private BundleObject object;
 
 	public static void removeHighlightingLayers() {
 		PreviewMap previewMap = MainGUI.getMainGUI().previewMap;
@@ -58,7 +58,7 @@ public class MapAreaHighlightingLayer implements MapLayer, TreeModelListener {
 		}
 	}
 
-	public MapAreaHighlightingLayer(AtlasObject atlasObject) {
+	public MapAreaHighlightingLayer(BundleObject atlasObject) {
 		tree = null;
 		treeListener = null;
 		this.object = atlasObject;
@@ -66,13 +66,13 @@ public class MapAreaHighlightingLayer implements MapLayer, TreeModelListener {
 
 	public MapAreaHighlightingLayer(JAtlasTree tree) {
 		this.tree = tree;
-		object = (AtlasObject) tree.getSelectionPath().getLastPathComponent();
+		object = (BundleObject) tree.getSelectionPath().getLastPathComponent();
 		MainGUI.getMainGUI().previewMap.repaint();
 		treeListener = new TreeSelectionListener() {
 
 			public void valueChanged(TreeSelectionEvent event) {
 				try {
-					object = (AtlasObject) event.getNewLeadSelectionPath().getLastPathComponent();
+					object = (BundleObject) event.getNewLeadSelectionPath().getLastPathComponent();
 				} catch (Exception e) {
 					object = null;
 				}
@@ -86,8 +86,8 @@ public class MapAreaHighlightingLayer implements MapLayer, TreeModelListener {
 	public void paint(JMapViewer mapViewer, Graphics2D g, int zoom, int minX, int minY, int maxX, int maxY) {
 		if (object == null)
 			return;
-		if (object instanceof AtlasInterface) {
-			for (LayerInterface layer : (AtlasInterface) object) {
+		if (object instanceof BundleInterface) {
+			for (LayerInterface layer : (BundleInterface) object) {
 				for (MapInterface map : layer) {
 					paintMap(map, g, zoom, minX, minY, maxX, maxY);
 				}
@@ -177,11 +177,11 @@ public class MapAreaHighlightingLayer implements MapLayer, TreeModelListener {
 		MainGUI.getMainGUI().previewMap.repaint();
 	}
 
-	public AtlasObject getObject() {
+	public BundleObject getObject() {
 		return object;
 	}
 
-	public void setObject(AtlasObject object) {
+	public void setObject(BundleObject object) {
 		this.object = object;
 	}
 

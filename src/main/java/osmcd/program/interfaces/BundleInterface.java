@@ -14,26 +14,36 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package osmcd.program.atlascreators.tileprovider;
+package osmcd.program.interfaces;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
+import osmcd.program.model.BundleOutputFormat;
 
-import osmcd.program.interfaces.MapSource;
-
-public interface TileProvider {
-
-	public byte[] getTileData(int x, int y) throws IOException;
-
-	public BufferedImage getTileImage(int x, int y) throws IOException;
-
-	public MapSource getMapSource();
+public interface BundleInterface extends BundleObject, Iterable<LayerInterface>
+{
+	/**
+	 * @return Number of layers in this atlas
+	 */
+	public int getLayerCount();
 
 	/**
-	 * Indicates if subsequent filter in the filter-chain should prefer the {@link #getTileImage(int, int)} or
-	 * {@link #getTileData(int, int)} method.
 	 * 
+	 * @param index
+	 *          0 - ({@link #getLayerCount()}-1)
 	 * @return
 	 */
-	public boolean preferTileImageUsage();
+	public LayerInterface getLayer(int index);
+
+	public void addLayer(LayerInterface l);
+
+	public void deleteLayer(LayerInterface l);
+
+	public void setOutputFormat(BundleOutputFormat atlasOutputFormat);
+
+	public BundleOutputFormat getOutputFormat();
+
+	public long calculateTilesToDownload();
+
+	public int getVersion();
+
+	public BundleInterface deepClone();
 }

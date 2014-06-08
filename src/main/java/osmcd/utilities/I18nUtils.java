@@ -71,7 +71,6 @@ public class I18nUtils
 		{
 			locale = Locale.getDefault();
 		}
-
 		STRING_RESOURCE = ResourceBundle.getBundle("osmcd.resources.text.localize", locale, new UTF8Control());
 	}
 
@@ -121,9 +120,15 @@ public class I18nUtils
 		}
 	}
 
+	/**
+	 * 20140605 AH Not isolated properly uses Main.class
+	 * 
+	 * @param name
+	 * @param extension
+	 * @return
+	 */
 	public static InputStream getI18nResourceAsStream(String name, String extension)
 	{
-
 		Settings s = Settings.getInstance();
 		String country = s.localeCountry;
 		String language = s.localeLanguage;

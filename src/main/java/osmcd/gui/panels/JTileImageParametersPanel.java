@@ -31,11 +31,11 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import osmcd.SupportedParameters;
+import osmcd.bundle.ChartBundle;
 import osmcd.gui.components.JCollapsiblePanel;
 import osmcd.gui.components.JTileSizeCombo;
-import osmcd.program.annotations.SupportedParameters;
-import osmcd.program.atlascreators.AtlasCreator;
-import osmcd.program.model.AtlasOutputFormat;
+import osmcd.program.model.BundleOutputFormat;
 import osmcd.program.model.Settings;
 import osmcd.program.model.TileImageFormat;
 import osmcd.program.model.TileImageParameters;
@@ -45,7 +45,8 @@ import osmcd.utilities.GBC;
 import osmcd.utilities.I18nUtils;
 import osmcd.utilities.Utilities;
 
-public class JTileImageParametersPanel extends JCollapsiblePanel {
+public class JTileImageParametersPanel extends JCollapsiblePanel
+{
 
 	private static final long serialVersionUID = 1L;
 	private static boolean JPEG_TESTED = false;
@@ -67,11 +68,9 @@ public class JTileImageParametersPanel extends JCollapsiblePanel {
 		super(I18nUtils.localizedStringForKey("lp_tile_param_title"), new GridBagLayout());
 		setName("TileImageParameters");
 
-		enableCustomTileProcessingCheckButton = new JCheckBox(
-				I18nUtils.localizedStringForKey("lp_tile_param_recreate_checkbox_title"));
+		enableCustomTileProcessingCheckButton = new JCheckBox(I18nUtils.localizedStringForKey("lp_tile_param_recreate_checkbox_title"));
 		enableCustomTileProcessingCheckButton.addActionListener(new EnableCustomTileSizeCheckButtonListener());
-		enableCustomTileProcessingCheckButton.setToolTipText(I18nUtils
-				.localizedStringForKey("lp_tile_param_recreate_checkbox_tips"));
+		enableCustomTileProcessingCheckButton.setToolTipText(I18nUtils.localizedStringForKey("lp_tile_param_recreate_checkbox_tips"));
 
 		tileSizeWidthLabel = new JLabel(I18nUtils.localizedStringForKey("lp_tile_param_width_title"));
 		tileSizeWidth = new JTileSizeCombo();
@@ -102,7 +101,8 @@ public class JTileImageParametersPanel extends JCollapsiblePanel {
 		contentContainer.add(tileColorDepthPanel, GBC.eol());
 	}
 
-	public void loadSettings() {
+	public void loadSettings()
+	{
 		Settings settings = Settings.getInstance();
 		enableCustomTileProcessingCheckButton.setSelected(settings.isCustomTileSize());
 		updateControlsState();
@@ -111,7 +111,8 @@ public class JTileImageParametersPanel extends JCollapsiblePanel {
 		tileSizeWidth.setValue(settings.getTileSize().width);
 	}
 
-	public void saveSettings() {
+	public void saveSettings()
+	{
 		Settings settings = Settings.getInstance();
 		settings.setCustomTileSize(enableCustomTileProcessingCheckButton.isSelected());
 		Dimension tileSize = new Dimension(tileSizeWidth.getValue(), tileSizeHeight.getValue());
@@ -119,10 +120,12 @@ public class JTileImageParametersPanel extends JCollapsiblePanel {
 		settings.setTileImageFormat((TileImageFormat) tileImageFormat.getSelectedItem());
 	}
 
-	public TileImageParameters getSelectedTileImageParameters() {
+	public TileImageParameters getSelectedTileImageParameters()
+	{
 		TileImageParameters customTileParameters = null;
 		boolean customTileSize = enableCustomTileProcessingCheckButton.isSelected();
-		if (customTileSize) {
+		if (customTileSize)
+		{
 			int width = tileSizeWidth.getValue();
 			int height = tileSizeHeight.getValue();
 			TileImageFormat format = (osmcd.program.model.TileImageFormat) tileImageFormat.getSelectedItem();
@@ -131,23 +134,29 @@ public class JTileImageParametersPanel extends JCollapsiblePanel {
 		return customTileParameters;
 	}
 
-	public void atlasFormatChanged(AtlasOutputFormat newAtlasOutputFormat) {
-		Class<? extends AtlasCreator> atlasCreatorClass = newAtlasOutputFormat.getMapCreatorClass();
-		SupportedParameters params = atlasCreatorClass.getAnnotation(SupportedParameters.class);
-		if (params != null) {
-			TreeSet<TileImageParameters.Name> paramNames = new TreeSet<TileImageParameters.Name>(Arrays.asList(params
-					.names()));
-			if (paramNames.contains(Name.format)) {
+	public void atlasFormatChanged(BundleOutputFormat newAtlasOutputFormat)
+	{
+		Class<? extends ChartBundle> chartBundleClass = newAtlasOutputFormat.getMapCreatorClass();
+		SupportedParameters params = chartBundleClass.getAnnotation(SupportedParameters.class);
+		if (params != null)
+		{
+			TreeSet<TileImageParameters.Name> paramNames = new TreeSet<TileImageParameters.Name>(Arrays.asList(params.names()));
+			if (paramNames.contains(Name.format))
+			{
 				formatPngEnabled = true;
 				formatJpgEnabled = true;
-			} else {
+			}
+			else
+			{
 				formatPngEnabled = paramNames.contains(Name.format_png);
 				formatJpgEnabled = paramNames.contains(Name.format_jpg);
 			}
 			widthEnabled = paramNames.contains(Name.width);
 			heightEnabled = paramNames.contains(Name.height);
 			enableCustomTileProcessingCheckButton.setEnabled(true);
-		} else {
+		}
+		else
+		{
 			formatPngEnabled = false;
 			formatJpgEnabled = false;
 			widthEnabled = false;
@@ -157,7 +166,8 @@ public class JTileImageParametersPanel extends JCollapsiblePanel {
 		updateControlsState();
 	}
 
-	public void updateControlsState() {
+	public void updateControlsState()
+	{
 		boolean b = false;
 		if (enableCustomTileProcessingCheckButton.isEnabled())
 			b = enableCustomTileProcessingCheckButton.isSelected();
@@ -176,61 +186,64 @@ public class JTileImageParametersPanel extends JCollapsiblePanel {
 			updateFormatComboModel(TileImageFormat.values());
 	}
 
-	private void updateFormatComboModel(TileImageFormat[] values) {
+	private void updateFormatComboModel(TileImageFormat[] values)
+	{
 		TileFormatComboModel model = (TileFormatComboModel) tileImageFormat.getModel();
 		model.changeValues(values);
 	}
 
-	public String getValidationErrorMessages() {
+	public String getValidationErrorMessages()
+	{
 		String errorText = "";
 		if (!enableCustomTileProcessingCheckButton.isSelected())
 			return errorText;
 		if (!tileSizeHeight.isValueValid())
-			errorText += String.format(I18nUtils.localizedStringForKey("lp_tile_param_msg_valid_height"),
-					JTileSizeCombo.MIN, JTileSizeCombo.MAX);
+			errorText += String.format(I18nUtils.localizedStringForKey("lp_tile_param_msg_valid_height"), JTileSizeCombo.MIN, JTileSizeCombo.MAX);
 
 		if (!tileSizeWidth.isValueValid())
-			errorText += String.format(I18nUtils.localizedStringForKey("lp_tile_param_msg_valid_width"),
-					JTileSizeCombo.MIN, JTileSizeCombo.MAX);
+			errorText += String.format(I18nUtils.localizedStringForKey("lp_tile_param_msg_valid_width"), JTileSizeCombo.MIN, JTileSizeCombo.MAX);
 		return errorText;
 	}
 
-	private class EnableCustomTileSizeCheckButtonListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
+	private class EnableCustomTileSizeCheckButtonListener implements ActionListener
+	{
+		public void actionPerformed(ActionEvent e)
+		{
 			updateControlsState();
 		}
 	}
 
-	private class TileImageFormatListener implements ActionListener {
+	private class TileImageFormatListener implements ActionListener
+	{
 
-		public void actionPerformed(ActionEvent event) {
+		public void actionPerformed(ActionEvent event)
+		{
 			if (!tileImageFormat.isEnabled())
 				return;
 			TileImageFormat tif = (TileImageFormat) tileImageFormat.getSelectedItem();
 			if (tif == null)
 				return;
-			if (!JPEG_TESTED && (tif.getDataWriter() instanceof TileImageJpegDataWriter)) {
+			if (!JPEG_TESTED && (tif.getDataWriter() instanceof TileImageJpegDataWriter))
+			{
 				if (!TileImageJpegDataWriter.performOpenJDKJpegTest())
-					JOptionPane.showMessageDialog(null, "<html>The JPEG image format is not supported by OpenJDK.<br>"
-							+ "Please select a different tile format.</html>", "Image format not available on OpenJDK",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "<html>The JPEG image format is not supported by OpenJDK.<br>" + "Please select a different tile format.</html>",
+							"Image format not available on OpenJDK", JOptionPane.ERROR_MESSAGE);
 				JPEG_TESTED = true;
-			} else if (tif == TileImageFormat.PNG4Bit || tif == TileImageFormat.PNG8Bit) {
+			}
+			else if (tif == TileImageFormat.PNG4Bit || tif == TileImageFormat.PNG8Bit)
+			{
 				if (Utilities.testJaiColorQuantizerAvailable())
 					return;
-				JOptionPane.showMessageDialog(null,
-						"<html>This image format is requires additional libraries to be installed:<br>"
-								+ "<b>Java Advanced Image library</b> (jai_core.jar & jai_codec.jar)<br>"
-								+ "For more details please see the file <b>README.HTM</b> "
-								+ "in section <b>Requirements</b>.</html>",
-						"Image format not available - libraries missing", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "<html>This image format is requires additional libraries to be installed:<br>"
+						+ "<b>Java Advanced Image library</b> (jai_core.jar & jai_codec.jar)<br>" + "For more details please see the file <b>README.HTM</b> "
+						+ "in section <b>Requirements</b>.</html>", "Image format not available - libraries missing", JOptionPane.ERROR_MESSAGE);
 				tileImageFormat.setSelectedIndex(0);
 			}
 		}
 	}
 
-	private class TileFormatComboModel extends AbstractListModel<TileImageFormat> implements
-			ComboBoxModel<TileImageFormat> {
+	private class TileFormatComboModel extends AbstractListModel<TileImageFormat> implements ComboBoxModel<TileImageFormat>
+	{
 
 		TileImageFormat[] values;
 		Object selectedObject = null;
@@ -242,11 +255,14 @@ public class JTileImageParametersPanel extends JCollapsiblePanel {
 				selectedObject = values[0];
 		}
 
-		public void changeValues(TileImageFormat[] values) {
+		public void changeValues(TileImageFormat[] values)
+		{
 			this.values = values;
 			boolean found = false;
-			for (TileImageFormat format : values) {
-				if (format.equals(selectedObject)) {
+			for (TileImageFormat format: values)
+			{
+				if (format.equals(selectedObject))
+				{
 					found = true;
 					break;
 				}
@@ -256,24 +272,29 @@ public class JTileImageParametersPanel extends JCollapsiblePanel {
 			fireContentsChanged(this, -1, -1);
 		}
 
-		public int getSize() {
+		public int getSize()
+		{
 			return values.length;
 		}
 
-		public TileImageFormat getElementAt(int index) {
+		public TileImageFormat getElementAt(int index)
+		{
 			return values[index];
 		}
 
 		@Override
-		public void setSelectedItem(Object anItem) {
-			if ((selectedObject != null && !selectedObject.equals(anItem)) || selectedObject == null && anItem != null) {
+		public void setSelectedItem(Object anItem)
+		{
+			if ((selectedObject != null && !selectedObject.equals(anItem)) || selectedObject == null && anItem != null)
+			{
 				selectedObject = anItem;
 				fireContentsChanged(this, -1, -1);
 			}
 		}
 
 		@Override
-		public Object getSelectedItem() {
+		public Object getSelectedItem()
+		{
 			return selectedObject;
 		}
 

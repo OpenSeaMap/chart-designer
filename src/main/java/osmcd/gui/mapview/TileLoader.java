@@ -33,14 +33,14 @@ import osmcd.program.tilestore.TileStore;
 import osmcd.program.tilestore.TileStoreEntry;
 
 /**
- * A {@link TileLoaderJobCreator} implementation that loads tiles from OSM via HTTP and saves all loaded files in a
- * directory located in the the temporary directory. If a tile is present in this file cache it will not be loaded from
- * OSM again.
+ * A {@link TileLoaderJobCreator} implementation that loads tiles from OSM via HTTP and saves all loaded files in a directory located in the the temporary
+ * directory. If a tile is present in this file cache it will not be loaded from OSM again.
  * 
  * @author Jan Peter Stotz
  * @author r_x
  */
-public class TileLoader {
+public class TileLoader
+{
 
 	private static final Logger log = Logger.getLogger(TileLoader.class);
 
@@ -53,11 +53,13 @@ public class TileLoader {
 		tileStore = TileStore.getInstance();
 	}
 
-	public Runnable createTileLoaderJob(final MapSource source, final int tilex, final int tiley, final int zoom) {
+	public Runnable createTileLoaderJob(final MapSource source, final int tilex, final int tiley, final int zoom)
+	{
 		return new TileAsyncLoadJob(source, tilex, tiley, zoom);
 	}
 
-	protected class TileAsyncLoadJob implements Runnable {
+	protected class TileAsyncLoadJob implements Runnable
+	{
 
 		final int tilex, tiley, zoom;
 		final MapSource mapSource;
@@ -73,9 +75,11 @@ public class TileLoader {
 			this.zoom = zoom;
 		}
 
-		public void run() {
+		public void run()
+		{
 			MemoryTileCache cache = listener.getTileImageCache();
-			synchronized (cache) {
+			synchronized (cache)
+			{
 				tile = cache.getTile(mapSource, tilex, tiley, zoom);
 				if (tile == null || tile.tileState != TileState.TS_NEW)
 					return;
@@ -83,44 +87,62 @@ public class TileLoader {
 			}
 			if (loadTileFromStore())
 				return;
-			if (fileTilePainted) {
-				Runnable job = new Runnable() {
+			if (fileTilePainted)
+			{
+				Runnable job = new Runnable()
+				{
 
-					public void run() {
+					public void run()
+					{
 						loadOrUpdateTile();
 					}
 				};
 				JobDispatcher.getInstance().addJob(job);
-			} else {
+			}
+			else
+			{
 				loadOrUpdateTile();
 			}
 		}
 
-		protected void loadOrUpdateTile() {
-			try {
+		protected void loadOrUpdateTile()
+		{
+			try
+			{
 				BufferedImage image = mapSource.getTileImage(zoom, tilex, tiley, LoadMethod.DEFAULT);
-				if (image != null) {
+				if (image != null)
+				{
 					tile.setImage(image);
 					tile.setTileState(TileState.TS_LOADED);
 					listener.tileLoadingFinished(tile, true);
-				} else {
+				}
+				else
+				{
 					tile.setErrorImage();
 					listener.tileLoadingFinished(tile, false);
 				}
 				return;
-			} catch (ConnectException e) {
+			}
+			catch (ConnectException e)
+			{
 				log.warn("Downloading of " + tile + " failed " + e.getMessage());
-			} catch (DownloadFailedException e) {
+			}
+			catch (DownloadFailedException e)
+			{
 				log.warn("Downloading of " + tile + " failed " + e.getMessage());
-			} catch (Exception e) {
+			}
+			catch (Exception e)
+			{
 				log.debug("Downloading of " + tile + " failed", e);
 			}
 			tile.setErrorImage();
 			listener.tileLoadingFinished(tile, false);
 		}
 
-		protected boolean loadTileFromStore() {
-			try {
+		protected boolean loadTileFromStore()
+		{
+			try
+			{
 				BufferedImage image = mapSource.getTileImage(zoom, tilex, tiley, LoadMethod.CACHE);
 				if (image == null)
 					return false;
@@ -130,7 +152,9 @@ public class TileLoader {
 					return false;
 				fileTilePainted = true;
 				return true;
-			} catch (Exception e) {
+			}
+			catch (Exception e)
+			{
 				log.error("Failed to load tile (z=" + zoom + ",x=" + tilex + ",y=" + tiley + ") from tile store", e);
 			}
 			return false;

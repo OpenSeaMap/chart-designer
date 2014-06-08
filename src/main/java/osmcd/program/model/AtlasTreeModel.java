@@ -31,8 +31,8 @@ import javax.swing.tree.TreePath;
 import org.apache.log4j.Logger;
 
 import osmcd.exceptions.InvalidNameException;
-import osmcd.program.interfaces.AtlasInterface;
-import osmcd.program.interfaces.AtlasObject;
+import osmcd.program.interfaces.BundleInterface;
+import osmcd.program.interfaces.BundleObject;
 import osmcd.program.interfaces.LayerInterface;
 import osmcd.program.interfaces.MapInterface;
 
@@ -41,13 +41,13 @@ public class AtlasTreeModel implements TreeModel {
 
 	private static Logger log = Logger.getLogger(AtlasTreeModel.class);
 
-	protected AtlasInterface atlasInterface;
+	protected BundleInterface atlasInterface;
 
 	protected Set<TreeModelListener> listeners = new HashSet<TreeModelListener>();
 
 	public AtlasTreeModel() {
 		super();
-		atlasInterface = Atlas.newInstance();
+		atlasInterface = Bundle.newInstance();
 	}
 
 	public void addTreeModelListener(TreeModelListener l) {
@@ -139,7 +139,7 @@ public class AtlasTreeModel implements TreeModel {
 		Object o = path.getLastPathComponent();
 		boolean success = false;
 		try {
-			AtlasObject sel = (AtlasObject) o;
+			BundleObject sel = (BundleObject) o;
 			String newName = (String) newValue;
 			if (newName.length() == 0)
 				return;
@@ -197,11 +197,11 @@ public class AtlasTreeModel implements TreeModel {
 		notifyNodeInsert((TreeNode) map);
 	}
 
-	public AtlasInterface getAtlas() {
+	public BundleInterface getAtlas() {
 		return atlasInterface;
 	}
 
-	public void setAtlas(Atlas atlas) {
+	public void setAtlas(Bundle atlas) {
 		this.atlasInterface = atlas;
 		notifyStructureChanged();
 	}

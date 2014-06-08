@@ -23,9 +23,10 @@ import javax.xml.bind.annotation.XmlAnyAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public final class TileImageParameters implements Cloneable {
-
-	public static enum Name {
+public final class TileImageParameters implements Cloneable
+{
+	public static enum Name
+	{
 		width, height, format, format_png, format_jpg
 	}
 
@@ -43,7 +44,8 @@ public final class TileImageParameters implements Cloneable {
 		attr.putAll(attrMap);
 	}
 
-	protected void afterUnmarshal(Unmarshaller u, Object parent) {
+	protected void afterUnmarshal(Unmarshaller u, Object parent)
+	{
 		// read all values once for detecting problems
 		attr.getInt(Name.height.name());
 		attr.getInt(Name.width.name());
@@ -57,30 +59,35 @@ public final class TileImageParameters implements Cloneable {
 		attr.setInt("width", width);
 	}
 
-	public int getWidth() {
+	public int getWidth()
+	{
 		return attr.getInt("width");
 	}
 
-	public int getHeight() {
+	public int getHeight()
+	{
 		return attr.getInt("height");
 	}
 
-	public Dimension getDimension() {
+	public Dimension getDimension()
+	{
 		return new Dimension(getWidth(), getHeight());
 	}
 
-	public TileImageFormat getFormat() {
+	public TileImageFormat getFormat()
+	{
 		return TileImageFormat.valueOf(attr.getAttr("format"));
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "Tile size: (" + getWidth() + "/" + getHeight() + ") " + getFormat().toString() + ")";
 	}
 
 	@Override
-	public Object clone() throws CloneNotSupportedException {
+	public Object clone() throws CloneNotSupportedException
+	{
 		return new TileImageParameters(attr);
 	}
-
 }

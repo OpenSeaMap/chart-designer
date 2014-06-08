@@ -38,8 +38,8 @@ import osmcd.program.tilestore.berkeleydb.DelayedInterruptThread;
 import osmcd.utilities.I18nUtils;
 import osmcd.utilities.Utilities;
 
-public class WorkinprogressDialog extends JDialog implements WindowListener {
-
+public class WorkinprogressDialog extends JDialog implements WindowListener
+{
 	private static final Logger log = Logger.getLogger(WorkinprogressDialog.class);
 
 	private final ThreadFactory threadFactory;
@@ -58,9 +58,11 @@ public class WorkinprogressDialog extends JDialog implements WindowListener {
 		setLocationRelativeTo(owner);
 		addWindowListener(this);
 		JButton abort = new JButton(I18nUtils.localizedStringForKey("dlg_progress_about_btn"));
-		abort.addActionListener(new ActionListener() {
+		abort.addActionListener(new ActionListener()
+		{
 
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e)
+			{
 				log.debug("User interrupted process");
 				WorkinprogressDialog.this.close();
 			}
@@ -69,71 +71,95 @@ public class WorkinprogressDialog extends JDialog implements WindowListener {
 		pack();
 	}
 
-	public void startWork(final Runnable r) {
-		workerThread = threadFactory.newThread(new Runnable() {
+	public void startWork(final Runnable r)
+	{
+		workerThread = threadFactory.newThread(new Runnable()
+		{
 
-			public void run() {
-				try {
+			public void run()
+			{
+				try
+				{
 					r.run();
-				} catch (Exception e) {
+				}
+				catch (Exception e)
+				{
 					log.error(e.getMessage(), e);
-				} finally {
+				}
+				finally
+				{
 					WorkinprogressDialog.this.close();
 					log.debug("Worker thread finished");
 				}
 			}
 
 		});
-		Thread t1 = new Thread() {
+		Thread t1 = new Thread()
+		{
 			@Override
-			public void run() {
+			public void run()
+			{
 				setVisible(true);
 			}
 		};
 		t1.start();
 	}
 
-	protected synchronized void abortWorking() {
-		try {
-			if (workerThread != null && !workerThread.isInterrupted()) {
+	protected synchronized void abortWorking()
+	{
+		try
+		{
+			if (workerThread != null && !workerThread.isInterrupted())
+			{
 				log.debug("User aborted process - interrupting worker thread");
 				workerThread.interrupt();
 				workerThread = null;
 			}
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			log.error(e.getMessage());
 		}
 	}
 
-	public void close() {
+	public void close()
+	{
 		abortWorking();
 		setVisible(false);
 	}
 
-	public void windowActivated(WindowEvent event) {
+	public void windowActivated(WindowEvent event)
+	{
 	}
 
-	public void windowOpened(WindowEvent event) {
+	public void windowOpened(WindowEvent event)
+	{
 		workerThread.start();
 	}
 
-	public void windowClosed(WindowEvent event) {
+	public void windowClosed(WindowEvent event)
+	{
 		abortWorking();
 	}
 
-	public void windowClosing(WindowEvent event) {
+	public void windowClosing(WindowEvent event)
+	{
 	}
 
-	public void windowDeactivated(WindowEvent event) {
+	public void windowDeactivated(WindowEvent event)
+	{
 	}
 
-	public void windowDeiconified(WindowEvent event) {
+	public void windowDeiconified(WindowEvent event)
+	{
 	}
 
-	public void windowIconified(WindowEvent event) {
+	public void windowIconified(WindowEvent event)
+	{
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
 		JFrame parentFrame = new JFrame();
 		parentFrame.setSize(500, 150);
 		final JLabel jl = new JLabel();
@@ -147,23 +173,32 @@ public class WorkinprogressDialog extends JDialog implements WindowListener {
 		final WorkinprogressDialog dlg = new WorkinprogressDialog(parentFrame, I18nUtils.localizedStringForKey("dlg_progress_title"),
 				DelayedInterruptThread.createThreadFactory());
 
-		final Thread t = new Thread() {
+		final Thread t = new Thread()
+		{
 
 			@Override
-			public void run() {
-				try {
-					for (int i = 0; i <= 500; i++) {
-						jl.setText(String.format(I18nUtils.localizedStringForKey("dlg_progress_count_i"),i));
-						if (Thread.currentThread().isInterrupted()) {
+			public void run()
+			{
+				try
+				{
+					for (int i = 0; i <= 500; i++)
+					{
+						jl.setText(String.format(I18nUtils.localizedStringForKey("dlg_progress_count_i"), i));
+						if (Thread.currentThread().isInterrupted())
+						{
 							System.out.println("Aborted");
 							return;
 						}
 						Thread.sleep(25);
 					}
-				} catch (InterruptedException e) {
+				}
+				catch (InterruptedException e)
+				{
 					System.out.println("Aborted");
 					return;
-				} finally {
+				}
+				finally
+				{
 					dlg.setVisible(false);
 				}
 			}

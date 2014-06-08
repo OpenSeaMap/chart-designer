@@ -14,14 +14,32 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package osmcd.program.atlascreators;
+package osmcd.program.interfaces;
 
-import osmcd.program.annotations.AtlasCreatorName;
+import osmcd.exceptions.InvalidNameException;
 
-@AtlasCreatorName("OSMAND tile storage")
-public class OSMAND extends OSMTracker {
-	public OSMAND() {
-		super();
-		tileFileNamePattern += ".tile";
-	}
+/**
+ * Marker interface that indicates that the implementing class/instance is an atlas or is part of an atlas (layer or map)
+ */
+public interface BundleObject
+{
+
+	public String getName();
+
+	public void setName(String newName) throws InvalidNameException;
+
+	/**
+	 * Called after loading the complete atlas from a profile.
+	 * 
+	 * @return any problems found? <code>true</code>=yes
+	 */
+	public boolean checkData();
+
+	public double getMinLat();
+
+	public double getMaxLat();
+
+	public double getMinLon();
+
+	public double getMaxLon();
 }

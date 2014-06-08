@@ -40,7 +40,7 @@ public class FreemapSlovakia extends AbstractHttpMapSource implements MapSourceT
 	@Override
 	public String toString()
 	{
-		return "Freemap Slovakia Car Atlas";
+		return "Freemap Slovakia Car Bundle";
 	}
 
 	public String getAttributionText()

@@ -77,7 +77,6 @@ import osmcd.gui.actions.AddGpxTrackAreaPolygonMap;
 import osmcd.gui.actions.AddGpxTrackPolygonMap;
 import osmcd.gui.actions.AddMapLayer;
 import osmcd.gui.actions.AtlasConvert;
-import osmcd.gui.actions.AtlasCreate;
 import osmcd.gui.actions.AtlasNew;
 import osmcd.gui.actions.BookmarkAdd;
 import osmcd.gui.actions.BookmarkManage;
@@ -120,7 +119,7 @@ import osmcd.gui.panels.JTileStoreCoveragePanel;
 import osmcd.gui.settings.SettingsGUI;
 import osmcd.mapsources.MapSourcesManager;
 import osmcd.program.ProgramInfo;
-import osmcd.program.interfaces.AtlasInterface;
+import osmcd.program.interfaces.BundleInterface;
 import osmcd.program.interfaces.InitializableMapSource;
 import osmcd.program.interfaces.MapSource;
 import osmcd.program.model.Bookmark;
@@ -177,8 +176,6 @@ public class MainGUI extends JFrame implements MapEventListener
 	private JPanel zoomLevelPanel;
 	private JZoomCheckBox[] cbZoom = new JZoomCheckBox[0];
 	private JLabel amountOfTilesLabel;
-
-	private AtlasCreate atlasCreateAction = new AtlasCreate(jAtlasTree);
 
 	private JCoordinatesPanel coordinatesPanel;
 	private JProfilesPanel profilesPanel;
@@ -406,7 +403,7 @@ public class MainGUI extends JFrame implements MapEventListener
 
 	private void prepareMenuBar()
 	{
-		// Atlas menu
+		// Bundle menu
 		JMenu atlasMenu = new JMenu(I18nUtils.localizedStringForKey("menu_atlas"));
 		atlasMenu.setMnemonic(KeyEvent.VK_A);
 
@@ -420,11 +417,6 @@ public class MainGUI extends JFrame implements MapEventListener
 		convertAtlas.addActionListener(new AtlasConvert());
 		atlasMenu.add(convertAtlas);
 		atlasMenu.addSeparator();
-
-		JMenuItem createAtlas = new JMenuItem(I18nUtils.localizedStringForKey("menu_atlas_create"));
-		createAtlas.setMnemonic(KeyEvent.VK_C);
-		createAtlas.addActionListener(atlasCreateAction);
-		atlasMenu.add(createAtlas);
 
 		// Maps menu
 		JMenu mapsMenu = new JMenu(I18nUtils.localizedStringForKey("menu_maps"));
@@ -1169,7 +1161,7 @@ public class MainGUI extends JFrame implements MapEventListener
 		}
 	}
 
-	public AtlasInterface getAtlas()
+	public BundleInterface getAtlas()
 	{
 		return jAtlasTree.getAtlas();
 	}

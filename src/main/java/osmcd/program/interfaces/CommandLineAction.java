@@ -16,12 +16,12 @@
  ******************************************************************************/
 package osmcd.program.interfaces;
 
-public interface CommandLineAction {
-
+public interface CommandLineAction
+{
 	public boolean showSplashScreen();
-	
+
 	public boolean showMainGUI();
-	
+
 	public void runBeforeMainGUI();
 
 	public void runMainGUI();

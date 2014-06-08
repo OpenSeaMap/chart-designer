@@ -18,7 +18,6 @@ package mapsources;
 
 import java.net.HttpURLConnection;
 
-import osmcb.tools.Cities;
 import osmcd.mapsources.AbstractHttpMapSource;
 import osmcd.program.download.TileDownLoader;
 import osmcd.program.interfaces.HttpMapSource;
@@ -28,6 +27,7 @@ import osmcd.program.model.EastNorthCoordinate;
 import osmcd.program.model.Settings;
 import osmcd.utilities.Utilities;
 import junit.framework.TestCase;
+import mobac.tools.Cities;
 
 public class MapSourceTestCase extends TestCase {
 

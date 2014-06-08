@@ -44,15 +44,15 @@ import org.apache.log4j.Logger;
 import osmcd.gui.MainGUI;
 import osmcd.gui.mapview.PreviewMap;
 import osmcd.gui.mapview.layer.MapAreaHighlightingLayer;
-import osmcd.program.interfaces.AtlasInterface;
-import osmcd.program.interfaces.AtlasObject;
+import osmcd.program.interfaces.BundleInterface;
+import osmcd.program.interfaces.BundleObject;
 import osmcd.program.interfaces.CapabilityDeletable;
 import osmcd.program.interfaces.LayerInterface;
 import osmcd.program.interfaces.MapInterface;
 import osmcd.program.interfaces.RequiresSQLite;
 import osmcd.program.interfaces.ToolTipProvider;
-import osmcd.program.model.Atlas;
-import osmcd.program.model.AtlasOutputFormat;
+import osmcd.program.model.Bundle;
+import osmcd.program.model.BundleOutputFormat;
 import osmcd.program.model.AtlasTreeModel;
 import osmcd.program.model.EastNorthCoordinate;
 import osmcd.program.model.MapSelection;
@@ -132,7 +132,7 @@ public class JAtlasTree extends JTree implements Autoscroll
 
 	public boolean testAtlasContentValid()
 	{
-		AtlasInterface atlas = getAtlas();
+		BundleInterface atlas = getAtlas();
 		if (RequiresSQLite.class.isAssignableFrom(atlas.getOutputFormat().getMapCreatorClass()))
 		{
 			if (!SQLiteLoader.loadSQLiteOrShowError())
@@ -161,7 +161,7 @@ public class JAtlasTree extends JTree implements Autoscroll
 	@Override
 	public boolean isPathEditable(TreePath path)
 	{
-		return super.isPathEditable(path) && (path.getLastPathComponent() instanceof AtlasObject);
+		return super.isPathEditable(path) && (path.getLastPathComponent() instanceof BundleObject);
 	}
 
 	public AtlasTreeModel getTreeModel()
@@ -169,10 +169,10 @@ public class JAtlasTree extends JTree implements Autoscroll
 		return treeModel;
 	}
 
-	public void newAtlas(String name, AtlasOutputFormat format)
+	public void newAtlas(String name, BundleOutputFormat format)
 	{
 		log.debug("Creating new atlas");
-		Atlas newAtlas = Atlas.newInstance();
+		Bundle newAtlas = Bundle.newInstance();
 		newAtlas.setOutputFormat(format);
 		newAtlas.setName(name);
 		treeModel.setAtlas(newAtlas);
@@ -182,7 +182,7 @@ public class JAtlasTree extends JTree implements Autoscroll
 	public void newAtlas()
 	{
 		log.debug("Resetting atlas tree model");
-		Atlas newAtlas = Atlas.newInstance();
+		Bundle newAtlas = Bundle.newInstance();
 		newAtlas.setName(MainGUI.getMainGUI().getUserText());
 		treeModel.setAtlas(newAtlas);
 		mapView.repaint();
@@ -191,7 +191,7 @@ public class JAtlasTree extends JTree implements Autoscroll
 	/**
 	 * Changes the atlas format
 	 */
-	public void convertAtlas(AtlasOutputFormat format)
+	public void convertAtlas(BundleOutputFormat format)
 	{
 		log.debug("Converting the atlas format to " + format);
 		treeModel.getAtlas().setOutputFormat(format);
@@ -226,7 +226,7 @@ public class JAtlasTree extends JTree implements Autoscroll
 		}
 	}
 
-	public AtlasInterface getAtlas()
+	public BundleInterface getAtlas()
 	{
 		return treeModel.getAtlas();
 	}
@@ -237,10 +237,10 @@ public class JAtlasTree extends JTree implements Autoscroll
 		try
 		{
 			treeModel.load(profile);
-			if (treeModel.getAtlas() instanceof Atlas)
+			if (treeModel.getAtlas() instanceof Bundle)
 			{
-				Atlas atlas = (Atlas) treeModel.getAtlas();
-				if (atlas.getVersion() < Atlas.CURRENT_ATLAS_VERSION)
+				Bundle atlas = (Bundle) treeModel.getAtlas();
+				if (atlas.getVersion() < Bundle.CURRENT_BUNDLE_VERSION)
 				{
 					JOptionPane.showMessageDialog(null, MSG_ATLAS_VERSION_MISMATCH, "Outdated atlas version", JOptionPane.WARNING_MESSAGE);
 					return true;
@@ -249,7 +249,7 @@ public class JAtlasTree extends JTree implements Autoscroll
 			boolean problemsDetected = Profile.checkAtlas(treeModel.getAtlas());
 			if (problemsDetected)
 			{
-				JOptionPane.showMessageDialog(null, MSG_ATLAS_DATA_CHECK_FAILED, "Atlas loading problem", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null, MSG_ATLAS_DATA_CHECK_FAILED, "Bundle loading problem", JOptionPane.WARNING_MESSAGE);
 			}
 			return true;
 		}
@@ -299,7 +299,7 @@ public class JAtlasTree extends JTree implements Autoscroll
 				});
 				pm.add(mi);
 			}
-			if (o instanceof AtlasObject)
+			if (o instanceof BundleObject)
 			{
 				final JCheckBoxMenuItem cbmi = new JCheckBoxMenuItem(I18nUtils.localizedStringForKey("lp_atlas_pop_menu_display_select_area"));
 				final MapAreaHighlightingLayer msl = new MapAreaHighlightingLayer(this);
@@ -377,7 +377,7 @@ public class JAtlasTree extends JTree implements Autoscroll
 				});
 				pm.add(mi);
 			}
-			if (o instanceof AtlasObject)
+			if (o instanceof BundleObject)
 			{
 				mi = new JMenuItem(I18nUtils.localizedStringForKey("lp_atlas_pop_menu_rename"));
 				mi.addActionListener(new ActionListener()
@@ -393,7 +393,7 @@ public class JAtlasTree extends JTree implements Autoscroll
 				{
 					public void actionPerformed(ActionEvent e)
 					{
-						AtlasObject atlasObject = (AtlasObject) o;
+						BundleObject atlasObject = (BundleObject) o;
 						TileImageParameters p = MainGUI.getMainGUI().getSelectedTileImageParameters();
 						applyTileImageParameters(atlasObject, p);
 					}

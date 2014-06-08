@@ -182,7 +182,7 @@ public class Logging
 					+ n + "tempDir:     \t\t" + DirectoryManager.tempDir /**/
 					+ n + "userHomeDir: \t\t" + DirectoryManager.userHomeDir /**/
 					+ n + "userSettingsDir: \t" + DirectoryManager.userSettingsDir /**/
-					+ n + "atlasProfilesDir: \t" + DirectoryManager.atlasProfilesDir /**/
+					+ n + "catalogsDir: \t" + DirectoryManager.catalogsDir /**/
 					+ n + "userAppDataDir: \t" + DirectoryManager.userAppDataDir /**/
 			);
 			log.info("System console available: " + (System.console() != null));

@@ -23,12 +23,12 @@ import java.io.IOException;
 
 import javax.swing.tree.TreeNode;
 
-import osmcd.program.interfaces.AtlasObject;
+import osmcd.program.interfaces.BundleObject;
 
 
 public class NodeTransferWrapper implements Transferable {
 
-	public static final DataFlavor ATLAS_OBJECT_FLAVOR = new DataFlavor(AtlasObject.class, "AtlasObject");
+	public static final DataFlavor ATLAS_OBJECT_FLAVOR = new DataFlavor(BundleObject.class, "BundleObject");
 	public static final DataFlavor[] FLAVORS = new DataFlavor[] { ATLAS_OBJECT_FLAVOR };
 
 	private TreeNode node;

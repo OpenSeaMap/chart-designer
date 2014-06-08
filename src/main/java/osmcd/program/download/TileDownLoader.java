@@ -160,7 +160,6 @@ public class TileDownLoader
 	public static byte[] downloadTileAndUpdateStore(int x, int y, int zoom, HttpMapSource mapSource, boolean useTileStore) throws UnrecoverableDownloadException,
 			IOException, InterruptedException
 	{
-
 		if (zoom < 0)
 			throw new UnrecoverableDownloadException("Negative zoom!");
 		HttpURLConnection conn = mapSource.getTileUrlConnection(zoom, x, y);

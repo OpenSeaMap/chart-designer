@@ -29,24 +29,24 @@ import org.apache.log4j.Logger;
 
 import osmcd.program.tilestore.berkeleydb.DelayedInterruptThread;
 
-public class JobDispatcher implements ThreadFactory, RejectedExecutionHandler {
-
+public class JobDispatcher implements ThreadFactory, RejectedExecutionHandler
+{
 	private static final Logger log = Logger.getLogger(JobDispatcher.class);
 	private static final JobDispatcher INSTANCE = new JobDispatcher();
 
 	private static final int WORKER_THREAD_MAX_COUNT = 5;
 
 	/**
-	 * Specifies the time span in seconds that a worker thread waits for new jobs to perform. If the time span has
-	 * elapsed the worker thread terminates itself. Only the first worker thread works differently, it ignores the
-	 * timeout and will never terminate itself.
+	 * Specifies the time span in seconds that a worker thread waits for new jobs to perform. If the time span has elapsed the worker thread terminates itself.
+	 * Only the first worker thread works differently, it ignores the timeout and will never terminate itself.
 	 */
 	private static final int WORKER_THREAD_TIMEOUT = 30;
 
 	/**
 	 * @return the singleton instance of the {@link JobDispatcher}
 	 */
-	public static JobDispatcher getInstance() {
+	public static JobDispatcher getInstance()
+	{
 		return INSTANCE;
 	}
 
@@ -59,31 +59,35 @@ public class JobDispatcher implements ThreadFactory, RejectedExecutionHandler {
 	/**
 	 * Removes all jobs from the queue that are currently not being processed.
 	 */
-	public void cancelOutstandingJobs() {
+	public void cancelOutstandingJobs()
+	{
 		jobQueue.clear();
 	}
 
 	private JobDispatcher() {
 		jobQueue = new LinkedBlockingQueue<Runnable>();
-		executor = new ThreadPoolExecutor(WORKER_THREAD_MAX_COUNT, WORKER_THREAD_MAX_COUNT, WORKER_THREAD_TIMEOUT,
-				TimeUnit.SECONDS, jobQueue, this, this);
+		executor = new ThreadPoolExecutor(WORKER_THREAD_MAX_COUNT, WORKER_THREAD_MAX_COUNT, WORKER_THREAD_TIMEOUT, TimeUnit.SECONDS, jobQueue, this, this);
 		executor.allowCoreThreadTimeOut(true);
 	}
 
-	public void addJob(Runnable job) {
+	public void addJob(Runnable job)
+	{
 		executor.execute(job);
 	}
 
-	public Thread newThread(Runnable r) {
+	public Thread newThread(Runnable r)
+	{
 		int id;
-		synchronized (this) {
+		synchronized (this)
+		{
 			id = WORKER_THREAD_ID++;
 		}
 		log.trace("New map preview worker thread created with id=" + id);
 		return new DelayedInterruptThread(r, "Map preview thread " + id);
 	}
 
-	public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
+	public void rejectedExecution(Runnable r, ThreadPoolExecutor executor)
+	{
 		log.error("Map preview job rejected: " + r);
 	}
 

@@ -22,7 +22,7 @@ import osmcd.exceptions.InvalidNameException;
 import osmcd.program.model.EastNorthCoordinate;
 import osmcd.program.model.TileImageParameters;
 
-public interface LayerInterface extends AtlasObject, Iterable<MapInterface>, CapabilityDeletable
+public interface LayerInterface extends BundleObject, Iterable<MapInterface>, CapabilityDeletable
 {
 
 	public void addMap(MapInterface map);
@@ -31,11 +31,11 @@ public interface LayerInterface extends AtlasObject, Iterable<MapInterface>, Cap
 
 	public MapInterface getMap(int index);
 
-	public AtlasInterface getAtlas();
+	public BundleInterface getAtlas();
 
 	public long calculateTilesToDownload();
 
-	public LayerInterface deepClone(AtlasInterface atlas);
+	public LayerInterface deepClone(BundleInterface atlas);
 
 	public int getZoomLvl();
 

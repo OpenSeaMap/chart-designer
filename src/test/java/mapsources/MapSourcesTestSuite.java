@@ -22,7 +22,7 @@ import java.util.HashSet;
 import javax.xml.bind.JAXBException;
 
 import junit.framework.TestSuite;
-import osmcb.tools.Cities;
+import mobac.tools.Cities;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;

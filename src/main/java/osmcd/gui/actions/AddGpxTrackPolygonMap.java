@@ -42,7 +42,7 @@ import osmcd.gui.gpxtree.GpxRootEntry;
 import osmcd.gui.gpxtree.TrkEntry;
 import osmcd.gui.gpxtree.TrksegEntry;
 import osmcd.gui.mapview.layer.MapAreaHighlightingLayer;
-import osmcd.program.interfaces.AtlasInterface;
+import osmcd.program.interfaces.BundleInterface;
 import osmcd.program.interfaces.MapInterface;
 import osmcd.program.interfaces.MapSource;
 import osmcd.program.interfaces.MapSpace;
@@ -109,7 +109,7 @@ public class AddGpxTrackPolygonMap implements ActionListener
 
 		JAtlasTree jAtlasTree = mg.jAtlasTree;
 		final String mapNameFmt = "%s %02d";
-		AtlasInterface atlasInterface = jAtlasTree.getAtlas();
+		BundleInterface atlasInterface = jAtlasTree.getAtlas();
 		String name = mg.getUserText();
 		final MapSource mapSource = mg.getSelectedMapSource();
 		SelectedZoomLevels sZL = mg.getSelectedZoomLevels();

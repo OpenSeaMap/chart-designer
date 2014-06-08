@@ -25,9 +25,9 @@ import com.sleepycat.persist.model.KeyField;
 import com.sleepycat.persist.model.Persistent;
 import com.sleepycat.persist.model.PrimaryKey;
 
-@Entity(version = 3)
-public class TileDbEntry implements TileStoreEntry {
-
+@Entity(version = 5)
+public class TileDbEntry implements TileStoreEntry
+{
 	@PrimaryKey
 	protected TileDbKey tileKey;
 
@@ -58,57 +58,68 @@ public class TileDbEntry implements TileStoreEntry {
 		this.eTag = eTag;
 	}
 
-	public void update(long timeExpires) {
+	public void update(long timeExpires)
+	{
 		timeDownloaded = System.currentTimeMillis();
 		this.timeExpires = timeExpires;
 	}
 
-	public int getX() {
+	public int getX()
+	{
 		return tileKey.x;
 	}
 
-	public int getY() {
+	public int getY()
+	{
 		return tileKey.y;
 	}
 
-	public int getZoom() {
+	public int getZoom()
+	{
 		return tileKey.zoom;
 	}
 
-	public byte[] getData() {
+	public byte[] getData()
+	{
 		return data;
 	}
 
-	public String geteTag() {
+	public String geteTag()
+	{
 		return eTag;
 	}
 
-	public long getTimeLastModified() {
+	public long getTimeLastModified()
+	{
 		return timeLastModified;
 	}
 
-	public long getTimeDownloaded() {
+	public long getTimeDownloaded()
+	{
 		return timeDownloaded;
 	}
 
-	public long getTimeExpires() {
+	public long getTimeExpires()
+	{
 		return timeExpires;
 	}
 
-	public String shortInfo() {
+	public String shortInfo()
+	{
 		return String.format("Tile z%d/%d/%d", tileKey.zoom, tileKey.x, tileKey.y);
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		String tlm = (timeLastModified <= 0) ? "-" : new Date(timeLastModified).toString();
 		String txp = (timeExpires <= 0) ? "-" : new Date(timeExpires).toString();
-		return String.format("Tile z%d/%d/%d dl[%s] lm[%s] exp[%s] eTag[%s]", tileKey.zoom, tileKey.x, tileKey.y,
-				new Date(timeDownloaded), tlm, txp, eTag);
+		return String.format("Tile z%d/%d/%d dl[%s] lm[%s] exp[%s] eTag[%s]", tileKey.zoom, tileKey.x, tileKey.y, new Date(timeDownloaded), tlm, txp, eTag);
 	}
 
-	@Persistent(version = 3)
-	public static class TileDbKey {
+	@Persistent(version = 5)
+	public static class TileDbKey
+	{
 
 		@KeyField(1)
 		public int zoom;
@@ -130,7 +141,8 @@ public class TileDbEntry implements TileStoreEntry {
 		}
 
 		@Override
-		public String toString() {
+		public String toString()
+		{
 			return "[x=" + x + ", y=" + y + ", zoom=" + zoom + "]";
 		}
 

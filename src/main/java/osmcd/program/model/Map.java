@@ -30,10 +30,7 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.log4j.Logger;
 
 import osmcd.exceptions.InvalidNameException;
-import osmcd.program.JobDispatcher.Job;
-import osmcd.program.download.jobenumerators.DownloadJobEnumerator;
 import osmcd.program.interfaces.CapabilityDeletable;
-import osmcd.program.interfaces.DownloadJobListener;
 import osmcd.program.interfaces.DownloadableElement;
 import osmcd.program.interfaces.LayerInterface;
 import osmcd.program.interfaces.MapInterface;
@@ -43,7 +40,6 @@ import osmcd.program.interfaces.TileFilter;
 import osmcd.program.interfaces.ToolTipProvider;
 import osmcd.program.tilefilter.DummyTileFilter;
 import osmcd.utilities.I18nUtils;
-import osmcd.utilities.tar.TarIndexedArchive;
 
 public class Map implements MapInterface, ToolTipProvider, CapabilityDeletable, TreeNode, DownloadableElement
 {
@@ -358,11 +354,6 @@ public class Map implements MapInterface, ToolTipProvider, CapabilityDeletable, 
 	{
 		this.layer = (Layer) parent;
 		calculateRuntimeValues();
-	}
-
-	public Enumeration<Job> getDownloadJobs(TarIndexedArchive tileArchive, DownloadJobListener listener)
-	{
-		return new DownloadJobEnumerator(this, mapSource, tileArchive, listener);
 	}
 
 	public TileFilter getTileFilter()

@@ -24,25 +24,22 @@ import java.io.OutputStream;
 
 import osmcd.program.model.TileImageType;
 
-public interface TileImageDataWriter {
-
+public interface TileImageDataWriter
+{
 	public void initialize();
+
 	/**
-	 * Processes the <code>image</code> according to the implementation of this
-	 * interfaces and saves the image data in a binary representation such as
-	 * PNG, JPG, ...into the given OutputStream.
+	 * Processes the <code>image</code> according to the implementation of this interfaces and saves the image data in a binary representation such as PNG, JPG,
+	 * ...into the given OutputStream.
 	 * 
 	 * @param image
 	 * @param out
-	 *            {@link OutputStream} to write binary image data to (usually
-	 *            this is a {@link FileOutputStream} or a
-	 *            {@link ByteArrayOutputStream}
+	 *          {@link OutputStream} to write binary image data to (usually this is a {@link FileOutputStream} or a {@link ByteArrayOutputStream}
 	 * @throws IOException
 	 */
 	public void processImage(BufferedImage image, OutputStream out) throws IOException;
-	
-	public void dispose();
-	
-	public TileImageType getType();
 
+	public void dispose();
+
+	public TileImageType getType();
 }

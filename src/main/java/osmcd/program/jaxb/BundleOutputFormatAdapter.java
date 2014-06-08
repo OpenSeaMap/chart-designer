@@ -14,36 +14,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package osmcd.program.interfaces;
+package osmcd.program.jaxb;
 
-import osmcd.program.model.AtlasOutputFormat;
+import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-public interface AtlasInterface extends AtlasObject, Iterable<LayerInterface> {
+import osmcd.program.model.BundleOutputFormat;
 
-	/**
-	 * @return Number of layers in this atlas
-	 */
-	public int getLayerCount();
+public class BundleOutputFormatAdapter extends XmlAdapter<String, BundleOutputFormat>
+{
+	@Override
+	public String marshal(BundleOutputFormat v) throws Exception
+	{
+		return v.getTypeName();
+	}
 
-	/**
-	 * 
-	 * @param index
-	 *            0 - ({@link #getLayerCount()}-1)
-	 * @return
-	 */
-	public LayerInterface getLayer(int index);
-
-	public void addLayer(LayerInterface l);
-
-	public void deleteLayer(LayerInterface l);
-
-	public void setOutputFormat(AtlasOutputFormat atlasOutputFormat);
-
-	public AtlasOutputFormat getOutputFormat();
-
-	public long calculateTilesToDownload();
-
-	public int getVersion();
-	
-	public AtlasInterface deepClone();
+	@Override
+	public BundleOutputFormat unmarshal(String v) throws Exception
+	{
+		return BundleOutputFormat.getFormatByName(v);
+	}
 }

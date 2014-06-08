@@ -40,8 +40,8 @@ import org.apache.log4j.Logger;
 
 import osmcd.gui.panels.JProfilesPanel;
 import osmcd.program.DirectoryManager;
-import osmcd.program.interfaces.AtlasInterface;
-import osmcd.program.interfaces.AtlasObject;
+import osmcd.program.interfaces.BundleInterface;
+import osmcd.program.interfaces.BundleObject;
 import osmcd.utilities.I18nUtils;
 import osmcd.utilities.Utilities;
 
@@ -70,7 +70,7 @@ public class Profile implements Comparable<Profile>
 	 */
 	public static void updateProfiles()
 	{
-		File profilesDir = DirectoryManager.atlasProfilesDir;
+		File profilesDir = DirectoryManager.catalogsDir;
 		final Set<Profile> deletedProfiles = new HashSet<Profile>();
 		deletedProfiles.addAll(profiles);
 		profilesDir.list(new FilenameFilter()
@@ -109,14 +109,14 @@ public class Profile implements Comparable<Profile>
 	 * @param name
 	 */
 	public Profile(String name) {
-		this(new File(DirectoryManager.atlasProfilesDir, getProfileFileName(name)), name);
+		this(new File(DirectoryManager.catalogsDir, getProfileFileName(name)), name);
 	}
 
 	/**
 	 * Default profile
 	 */
 	protected Profile() {
-		this(new File(DirectoryManager.atlasProfilesDir, "osmcb-profile.xml"), "");
+		this(new File(DirectoryManager.catalogsDir, "osmcb-profile.xml"), "");
 	}
 
 	protected Profile(File file, String name) {
@@ -173,9 +173,9 @@ public class Profile implements Comparable<Profile>
 		return -1;
 	}
 
-	public void save(AtlasInterface atlasInterface) throws JAXBException
+	public void save(BundleInterface atlasInterface) throws JAXBException
 	{
-		JAXBContext context = JAXBContext.newInstance(Atlas.class);
+		JAXBContext context = JAXBContext.newInstance(Bundle.class);
 		Marshaller m = context.createMarshaller();
 		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 		FileOutputStream fo = null;
@@ -194,9 +194,9 @@ public class Profile implements Comparable<Profile>
 		}
 	}
 
-	public AtlasInterface load() throws JAXBException
+	public BundleInterface load() throws JAXBException
 	{
-		JAXBContext context = JAXBContext.newInstance(Atlas.class);
+		JAXBContext context = JAXBContext.newInstance(Bundle.class);
 		Unmarshaller um = context.createUnmarshaller();
 		um.setEventHandler(new ValidationEventHandler()
 		{
@@ -217,7 +217,7 @@ public class Profile implements Comparable<Profile>
 		});
 		try
 		{
-			AtlasInterface newAtlas = (AtlasInterface) um.unmarshal(file);
+			BundleInterface newAtlas = (BundleInterface) um.unmarshal(file);
 			return newAtlas;
 		}
 		catch (Exception e)
@@ -226,7 +226,7 @@ public class Profile implements Comparable<Profile>
 		}
 	}
 
-	public static boolean checkAtlas(AtlasInterface atlasInterface)
+	public static boolean checkAtlas(BundleInterface atlasInterface)
 	{
 		return checkAtlasObject(atlasInterface);
 	}
@@ -239,9 +239,9 @@ public class Profile implements Comparable<Profile>
 	private static boolean checkAtlasObject(Object o)
 	{
 		boolean result = false;
-		if (o instanceof AtlasObject)
+		if (o instanceof BundleObject)
 		{
-			result |= ((AtlasObject) o).checkData();
+			result |= ((BundleObject) o).checkData();
 		}
 		if (o instanceof Iterable<?>)
 		{

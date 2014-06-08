@@ -18,9 +18,10 @@ package osmcd.program.model;
 
 import java.io.File;
 
-public class MapSourceLoaderInfo {
-
-	public enum LoaderType {
+public class MapSourceLoaderInfo
+{
+	public enum LoaderType
+	{
 		MAPPACK, // map pack file
 		XML, // custom map xml
 		BSH // BeanShell script
@@ -44,16 +45,18 @@ public class MapSourceLoaderInfo {
 		this.revision = revision;
 	}
 
-	public LoaderType getLoaderType() {
+	public LoaderType getLoaderType()
+	{
 		return loaderType;
 	}
 
-	public File getSourceFile() {
+	public File getSourceFile()
+	{
 		return sourceFile;
 	}
 
-	public String getRevision() {
+	public String getRevision()
+	{
 		return revision;
 	}
-
 }

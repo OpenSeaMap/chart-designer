@@ -29,7 +29,7 @@ import osmcd.gui.MainGUI;
 import osmcd.gui.atlastree.JAtlasTree;
 import osmcd.gui.mapview.JMapViewer;
 import osmcd.gui.mapview.controller.AbstractPolygonSelectionMapController;
-import osmcd.program.interfaces.AtlasInterface;
+import osmcd.program.interfaces.BundleInterface;
 import osmcd.program.interfaces.MapSource;
 import osmcd.program.interfaces.MapSpace;
 import osmcd.program.model.Layer;
@@ -49,7 +49,7 @@ public class AddPolygonMapLayer implements ActionListener
 
 		JAtlasTree jAtlasTree = mg.jAtlasTree;
 		final String mapNameFmt = "%s %02d";
-		AtlasInterface atlasInterface = jAtlasTree.getAtlas();
+		BundleInterface atlasInterface = jAtlasTree.getAtlas();
 		String name = mg.getUserText();
 		MapSource mapSource = mg.getSelectedMapSource();
 		MapSpace mapSpace = mapSource.getMapSpace();

@@ -21,7 +21,7 @@ import java.awt.Point;
 
 import osmcd.program.model.TileImageParameters;
 
-public interface MapInterface extends AtlasObject, CapabilityDeletable
+public interface MapInterface extends BundleObject, CapabilityDeletable
 {
 
 	public Point getMinTileCoordinate();

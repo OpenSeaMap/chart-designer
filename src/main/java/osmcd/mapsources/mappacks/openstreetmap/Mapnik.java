@@ -21,7 +21,8 @@ import java.util.concurrent.Semaphore;
 
 import osmcd.exceptions.TileException;
 
-public class Mapnik extends AbstractOsmMapSource {
+public class Mapnik extends AbstractOsmMapSource
+{
 
 	private static final String MAP_MAPNIK = "http://a.tile.openstreetmap.org";
 
@@ -38,27 +39,33 @@ public class Mapnik extends AbstractOsmMapSource {
 	}
 
 	@Override
-	public byte[] getTileData(int zoom, int x, int y, LoadMethod loadMethod) throws IOException, TileException,
-			InterruptedException {
+	public byte[] getTileData(int zoom, int x, int y, LoadMethod loadMethod) throws IOException, TileException, InterruptedException
+	{
 		SEM.acquire();
-		try {
+		try
+		{
 			return super.getTileData(zoom, x, y, loadMethod);
-		} finally {
+		}
+		finally
+		{
 			SEM.release();
 		}
 	}
 
 	@Override
-	public String getTileUrl(int zoom, int tilex, int tiley) {
+	public String getTileUrl(int zoom, int tilex, int tiley)
+	{
 		return MAP_MAPNIK + super.getTileUrl(zoom, tilex, tiley);
 	}
 
-	public TileUpdate getTileUpdate() {
+	public TileUpdate getTileUpdate()
+	{
 		return TileUpdate.IfNoneMatch;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "OpenStreetMap Mapnik";
 	}
 

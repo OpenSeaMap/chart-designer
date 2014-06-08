@@ -36,7 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import org.apache.log4j.Logger;
 
 import osmcd.exceptions.InvalidNameException;
-import osmcd.program.interfaces.AtlasInterface;
+import osmcd.program.interfaces.BundleInterface;
 import osmcd.program.interfaces.CapabilityDeletable;
 import osmcd.program.interfaces.LayerInterface;
 import osmcd.program.interfaces.MapInterface;
@@ -60,7 +60,7 @@ public class Layer implements LayerInterface, TreeNode, ToolTipProvider, Capabil
 	private static Logger log = Logger.getLogger(Layer.class);
 
 	@XmlTransient
-	private AtlasInterface atlasInterface;
+	private BundleInterface atlasInterface;
 
 	private String name;
 	private int nZoomLvl;
@@ -71,17 +71,17 @@ public class Layer implements LayerInterface, TreeNode, ToolTipProvider, Capabil
 	protected Layer() {
 	}
 
-	public Layer(AtlasInterface atlasInterface, String name, int zoom) throws InvalidNameException {
+	public Layer(BundleInterface atlasInterface, String name, int zoom) throws InvalidNameException {
 		this.atlasInterface = atlasInterface;
 		setName(name);
 		nZoomLvl = zoom;
 	}
 
-	public void addMapsAutocut(String mapNameBase, MapSource mapSource, EastNorthCoordinate minCoordinate, EastNorthCoordinate maxCoordinate, int zoom,
+	public void addMapsAutocut(String mapNameBase, MapSource ms, EastNorthCoordinate minCoordinate, EastNorthCoordinate maxCoordinate, int zoom,
 			TileImageParameters parameters, int maxMapSize) throws InvalidNameException
 	{
-		MapSpace mapSpace = mapSource.getMapSpace();
-		addMapsAutocut(mapNameBase, mapSource, minCoordinate.toTileCoordinate(mapSpace, zoom), maxCoordinate.toTileCoordinate(mapSpace, zoom), zoom, parameters,
+		MapSpace mapSpace = ms.getMapSpace();
+		addMapsAutocut(mapNameBase, ms, minCoordinate.toTileCoordinate(mapSpace, zoom), maxCoordinate.toTileCoordinate(mapSpace, zoom), zoom, parameters,
 				maxMapSize, 0);
 	}
 
@@ -295,7 +295,7 @@ public class Layer implements LayerInterface, TreeNode, ToolTipProvider, Capabil
 		atlasInterface.deleteLayer(this);
 	}
 
-	public AtlasInterface getAtlas()
+	public BundleInterface getAtlas()
 	{
 		return atlasInterface;
 	}
@@ -336,7 +336,7 @@ public class Layer implements LayerInterface, TreeNode, ToolTipProvider, Capabil
 		this.name = newName;
 	}
 
-	static public Layer GetLayerByZoom(AtlasInterface atlasInterface, int zoom)
+	static public Layer GetLayerByZoom(BundleInterface atlasInterface, int zoom)
 	{
 		if (atlasInterface != null)
 		{
@@ -460,7 +460,7 @@ public class Layer implements LayerInterface, TreeNode, ToolTipProvider, Capabil
 
 	public void afterUnmarshal(Unmarshaller u, Object parent)
 	{
-		this.atlasInterface = (Atlas) parent;
+		this.atlasInterface = (Bundle) parent;
 	}
 
 	public boolean checkData()
@@ -483,7 +483,7 @@ public class Layer implements LayerInterface, TreeNode, ToolTipProvider, Capabil
 		maps.remove(map);
 	}
 
-	public LayerInterface deepClone(AtlasInterface atlas)
+	public LayerInterface deepClone(BundleInterface atlas)
 	{
 		Layer layer = new Layer();
 		layer.atlasInterface = atlas;

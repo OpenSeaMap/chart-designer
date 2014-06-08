@@ -32,37 +32,35 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
-import osmcd.program.interfaces.AtlasInterface;
+import osmcd.program.interfaces.BundleInterface;
 import osmcd.program.interfaces.LayerInterface;
 import osmcd.program.interfaces.ToolTipProvider;
 import osmcd.utilities.I18nUtils;
 import osmcd.utilities.Utilities;
 
 @XmlRootElement
-public class Atlas implements AtlasInterface, ToolTipProvider, TreeNode
+public class Bundle implements BundleInterface, ToolTipProvider, TreeNode
 {
-
-	public static final int CURRENT_ATLAS_VERSION = 1;
+	public static final int CURRENT_BUNDLE_VERSION = 1;
 
 	@XmlAttribute
 	private int version = 0;
 
 	private String name = I18nUtils.localizedStringForKey("Unnamed");
 
-	@XmlElements(
-	{ @XmlElement(name = "Layer", type = Layer.class) })
+	@XmlElements({@XmlElement(name = "Layer", type = Layer.class)})
 	private List<LayerInterface> layers = new LinkedList<LayerInterface>();
 
-	private AtlasOutputFormat outputFormat = AtlasOutputFormat.FORMATS.get(0);
+	private BundleOutputFormat outputFormat = BundleOutputFormat.FORMATS.get(0);
 
-	public static Atlas newInstance()
+	public static Bundle newInstance()
 	{
-		Atlas atlas = new Atlas();
-		atlas.version = CURRENT_ATLAS_VERSION;
-		return atlas;
+		Bundle bundle = new Bundle();
+		bundle.version = CURRENT_BUNDLE_VERSION;
+		return bundle;
 	}
 
-	private Atlas() {
+	private Bundle() {
 		super();
 	}
 
@@ -98,12 +96,12 @@ public class Atlas implements AtlasInterface, ToolTipProvider, TreeNode
 	}
 
 	@XmlAttribute
-	public AtlasOutputFormat getOutputFormat()
+	public BundleOutputFormat getOutputFormat()
 	{
 		return outputFormat;
 	}
 
-	public void setOutputFormat(AtlasOutputFormat atlasOutputFormat)
+	public void setOutputFormat(BundleOutputFormat atlasOutputFormat)
 	{
 		if (atlasOutputFormat == null)
 			throw new NullPointerException();
@@ -239,16 +237,16 @@ public class Atlas implements AtlasInterface, ToolTipProvider, TreeNode
 		return version;
 	}
 
-	public AtlasInterface deepClone()
+	public BundleInterface deepClone()
 	{
-		Atlas atlas = new Atlas();
-		atlas.version = version;
-		atlas.name = name;
-		atlas.outputFormat = outputFormat;
+		Bundle bundle = new Bundle();
+		bundle.version = version;
+		bundle.name = name;
+		bundle.outputFormat = outputFormat;
 		for (LayerInterface layer: layers)
 		{
-			atlas.layers.add(layer.deepClone(atlas));
+			bundle.layers.add(layer.deepClone(bundle));
 		}
-		return atlas;
+		return bundle;
 	}
 }

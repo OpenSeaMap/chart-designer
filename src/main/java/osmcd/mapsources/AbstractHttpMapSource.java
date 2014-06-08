@@ -44,7 +44,8 @@ import osmcd.program.tilestore.TileStoreEntry;
 /**
  * Abstract base class for map sources.
  */
-public abstract class AbstractHttpMapSource implements HttpMapSource {
+public abstract class AbstractHttpMapSource implements HttpMapSource
+{
 
 	protected Logger log;
 	private boolean initialized = false;
@@ -55,7 +56,7 @@ public abstract class AbstractHttpMapSource implements HttpMapSource {
 	protected HttpMapSource.TileUpdate tileUpdate;
 	protected MapSpace mapSpace = MercatorPower2MapSpace.INSTANCE_256;
 	protected MapSourceLoaderInfo loaderInfo = null;
-	
+
 	public AbstractHttpMapSource(String name, int minZoom, int maxZoom, TileImageType tileType) {
 		this(name, minZoom, maxZoom, tileType, HttpMapSource.TileUpdate.None);
 	}
@@ -66,8 +67,7 @@ public abstract class AbstractHttpMapSource implements HttpMapSource {
 	protected AbstractHttpMapSource() {
 	}
 
-	public AbstractHttpMapSource(String name, int minZoom, int maxZoom, TileImageType tileType,
-			HttpMapSource.TileUpdate tileUpdate) {
+	public AbstractHttpMapSource(String name, int minZoom, int maxZoom, TileImageType tileType, HttpMapSource.TileUpdate tileUpdate) {
 		log = Logger.getLogger(this.getClass());
 		this.name = name;
 		this.minZoom = minZoom;
@@ -75,13 +75,14 @@ public abstract class AbstractHttpMapSource implements HttpMapSource {
 		this.tileType = tileType;
 		this.tileUpdate = tileUpdate;
 	}
-	
+
 	public boolean ignoreContentMismatch()
 	{
 		return false;
 	}
 
-	public HttpURLConnection getTileUrlConnection(int zoom, int tilex, int tiley) throws IOException {
+	public HttpURLConnection getTileUrlConnection(int zoom, int tilex, int tiley) throws IOException
+	{
 		String url = getTileUrl(zoom, tilex, tiley);
 		if (url == null)
 			return null;
@@ -90,7 +91,8 @@ public abstract class AbstractHttpMapSource implements HttpMapSource {
 		return conn;
 	}
 
-	protected void prepareTileUrlConnection(HttpURLConnection conn) {
+	protected void prepareTileUrlConnection(HttpURLConnection conn)
+	{
 		// Derived classes may override this method
 	}
 
@@ -99,12 +101,15 @@ public abstract class AbstractHttpMapSource implements HttpMapSource {
 	/**
 	 * Can be used to e.g. retrieve the url pattern before the first call
 	 */
-	protected final void initializeHttpMapSource() {
+	protected final void initializeHttpMapSource()
+	{
 		if (initialized)
 			return;
 		// Prevent multiple initializations in case of multi-threaded access
-		try {
-			synchronized (this) {
+		try
+		{
+			synchronized (this)
+			{
 				if (initialized)
 					// Another thread has already completed initialization while this one was blocked
 					return;
@@ -112,102 +117,125 @@ public abstract class AbstractHttpMapSource implements HttpMapSource {
 				initialized = true;
 				log.debug("Map source has been initialized");
 			}
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			log.error("Map source initialization failed: " + e.getMessage(), e);
 			// TODO: inform user
 		}
 		initialized = true;
 	}
 
-	protected void initernalInitialize() throws MapSourceInitializationException {
+	protected void initernalInitialize() throws MapSourceInitializationException
+	{
 	}
 
-	public byte[] getTileData(int zoom, int x, int y, LoadMethod loadMethod) throws IOException, TileException,
-			InterruptedException {
-		if (loadMethod == LoadMethod.CACHE) {
+	public byte[] getTileData(int zoom, int x, int y, LoadMethod loadMethod) throws IOException, TileException, InterruptedException
+	{
+		if (loadMethod == LoadMethod.CACHE)
+		{
 			TileStoreEntry entry = TileStore.getInstance().getTile(x, y, zoom, this);
 			if (entry == null)
 				return null;
 			byte[] data = entry.getData();
-			if (Thread.currentThread() instanceof MapSourceListener) {
+			if (Thread.currentThread() instanceof MapSourceListener)
+			{
 				((MapSourceListener) Thread.currentThread()).tileDownloaded(data.length);
 			}
 			return data;
-		} else if (loadMethod == LoadMethod.SOURCE) {
+		}
+		else if (loadMethod == LoadMethod.SOURCE)
+		{
 			initializeHttpMapSource();
 			return TileDownLoader.downloadTileAndUpdateStore(x, y, zoom, this);
-		} else {
+		}
+		else
+		{
 			initializeHttpMapSource();
 			return TileDownLoader.getImage(x, y, zoom, this);
 		}
 	}
 
-	public BufferedImage getTileImage(int zoom, int x, int y, LoadMethod loadMethod) throws IOException, TileException,
-			InterruptedException {
+	public BufferedImage getTileImage(int zoom, int x, int y, LoadMethod loadMethod) throws IOException, TileException, InterruptedException
+	{
 		byte[] data = getTileData(zoom, x, y, loadMethod);
 		if (data == null)
 			return null;
 		return ImageIO.read(new ByteArrayInputStream(data));
 	}
 
-	public int getMaxZoom() {
+	public int getMaxZoom()
+	{
 		return maxZoom;
 	}
 
-	public int getMinZoom() {
+	public int getMinZoom()
+	{
 		return minZoom;
 	}
 
-	public String getName() {
+	public String getName()
+	{
 		return name;
 	}
 
-	public String getStoreName() {
+	public String getStoreName()
+	{
 		return name;
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return name;
 	}
 
-	public TileImageType getTileImageType() {
+	public TileImageType getTileImageType()
+	{
 		return tileType;
 	}
 
-	public HttpMapSource.TileUpdate getTileUpdate() {
+	public HttpMapSource.TileUpdate getTileUpdate()
+	{
 		return tileUpdate;
 	}
 
-	public boolean allowFileStore() {
+	public boolean allowFileStore()
+	{
 		return true;
 	}
 
-	public MapSpace getMapSpace() {
+	public MapSpace getMapSpace()
+	{
 		return mapSpace;
 	}
 
-	public Color getBackgroundColor() {
+	public Color getBackgroundColor()
+	{
 		return Color.BLACK;
 	}
 
-	public MapSourceLoaderInfo getLoaderInfo() {
+	public MapSourceLoaderInfo getLoaderInfo()
+	{
 		return loaderInfo;
 	}
 
-	public void setLoaderInfo(MapSourceLoaderInfo loaderInfo) {
+	public void setLoaderInfo(MapSourceLoaderInfo loaderInfo)
+	{
 		if (this.loaderInfo != null)
 			throw new RuntimeException("LoaderInfo already set");
 		this.loaderInfo = loaderInfo;
 	}
 
 	@Override
-	public int hashCode() {
+	public int hashCode()
+	{
 		return getName().hashCode();
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(Object obj)
+	{
 		if (this == obj)
 			return true;
 		if (obj == null)

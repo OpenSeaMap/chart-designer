@@ -45,7 +45,8 @@ import osmcd.program.tilestore.berkeleydb.DelayedInterruptThread;
 import osmcd.utilities.I18nUtils;
 import osmcd.utilities.Utilities;
 
-public class SettingsGUITileStore extends JPanel {
+public class SettingsGUITileStore extends JPanel
+{
 
 	public final JCheckBox tileStoreEnabled;
 	private final JPanel tileStoreInfoPanel;
@@ -73,8 +74,7 @@ public class SettingsGUITileStore extends JPanel {
 
 		setLayout(new BorderLayout());
 		add(tileStorePanel, BorderLayout.NORTH);
-		JScrollPane scrollPane = new JScrollPane(tileStoreInfoPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		JScrollPane scrollPane = new JScrollPane(tileStoreInfoPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		tileStoreInfoPanel.setMinimumSize(new Dimension(200, 300));
 		// scrollPane.setMinimumSize(new Dimension(100, 100));
 		scrollPane.setPreferredSize(new Dimension(520, 100));
@@ -86,20 +86,24 @@ public class SettingsGUITileStore extends JPanel {
 	/**
 	 * 
 	 * @param updateStoreName
-	 *            name of the tile store to update or <code>null</code> in case of all tile stores to be updated
+	 *          name of the tile store to update or <code>null</code> in case of all tile stores to be updated
 	 */
-	private void updateTileStoreInfoPanel(String updateStoreName) {
-		try {
+	private void updateTileStoreInfoPanel(String updateStoreName)
+	{
+		try
+		{
 			TileStore tileStore = TileStore.getInstance();
 
 			long totalTileCount = 0;
 			long totalTileSize = 0;
-			for (final TileSourceInfoComponents info : tileStoreInfoList) {
+			for (final TileSourceInfoComponents info: tileStoreInfoList)
+			{
 				String storeName = info.name;
 				Utilities.checkForInterruption();
 				int count;
 				long size;
-				if (updateStoreName == null || info.name.equals(updateStoreName)) {
+				if (updateStoreName == null || info.name.equals(updateStoreName))
+				{
 					TileStoreInfo tsi = tileStore.getStoreInfo(storeName);
 					count = tsi.getTileCount();
 					size = tsi.getStoreSize();
@@ -107,13 +111,17 @@ public class SettingsGUITileStore extends JPanel {
 					info.size = size;
 					final String mapTileCountText = (count < 0) ? "??" : Integer.toString(count);
 					final String mapTileSizeText = Utilities.formatBytes(size);
-					SwingUtilities.invokeLater(new Runnable() {
-						public void run() {
+					SwingUtilities.invokeLater(new Runnable()
+					{
+						public void run()
+						{
 							info.countLabel.setText("<html><b>" + mapTileCountText + "</b></html>");
 							info.sizeLabel.setText("<html><b>" + mapTileSizeText + "</b></html>");
 						}
 					});
-				} else {
+				}
+				else
+				{
 					count = info.count;
 					size = info.size;
 				}
@@ -122,25 +130,32 @@ public class SettingsGUITileStore extends JPanel {
 			}
 			final String totalTileCountText = "<html><b>" + Long.toString(totalTileCount) + "</b></html>";
 			final String totalTileSizeText = "<html><b>" + Utilities.formatBytes(totalTileSize) + "</b></html>";
-			SwingUtilities.invokeLater(new Runnable() {
-				public void run() {
+			SwingUtilities.invokeLater(new Runnable()
+			{
+				public void run()
+				{
 					totalTileCountLabel.setText(totalTileCountText);
 					totalTileSizeLabel.setText(totalTileSizeText);
 				}
 			});
-		} catch (InterruptedException e) {
+		}
+		catch (InterruptedException e)
+		{
 			SettingsGUI.log.debug("Tile store information retrieval was canceled");
 		}
 
 	}
 
-	synchronized void updateTileStoreInfoPanelAsync(final String storeName) {
+	synchronized void updateTileStoreInfoPanelAsync(final String storeName)
+	{
 		if (tileStoreAsyncThread != null)
 			return; // An update is currently running
-		tileStoreAsyncThread = new DelayedInterruptThread("TileStoreInfoRetriever") {
+		tileStoreAsyncThread = new DelayedInterruptThread("TileStoreInfoRetriever")
+		{
 
 			@Override
-			public void run() {
+			public void run()
+			{
 				if (storeName == null)
 					SettingsGUI.log.debug("Updating tilestore information in background");
 				else
@@ -153,7 +168,8 @@ public class SettingsGUITileStore extends JPanel {
 		tileStoreAsyncThread.start();
 	}
 
-	private void prepareTileStoreInfoPanel() {
+	private void prepareTileStoreInfoPanel()
+	{
 
 		final GridBagConstraints gbc_mapSource = new GridBagConstraints();
 		gbc_mapSource.insets = new Insets(5, 10, 5, 10);
@@ -173,7 +189,8 @@ public class SettingsGUITileStore extends JPanel {
 
 		ImageIcon trash = Utilities.loadResourceImageIcon("trash.png");
 
-		for (String name : tileStore.getAllStoreNames()) {
+		for (String name: tileStore.getAllStoreNames())
+		{
 			String mapTileCountText = "  ?  ";
 			String mapTileSizeText = "    ?    ";
 			MapSource mapSource = mapSourcesManager.getSourceByName(name);
@@ -214,13 +231,15 @@ public class SettingsGUITileStore extends JPanel {
 		tileStoreInfoPanel.add(totalTileSizeLabel, gbc_mapTiles);
 	}
 
-	public void stopThread() {
+	public void stopThread()
+	{
 		Thread t = tileStoreAsyncThread;
 		if (t != null)
 			t.interrupt();
 	}
 
-	private static class TileSourceInfoComponents {
+	private static class TileSourceInfoComponents
+	{
 		JLabel sizeLabel;
 		JLabel countLabel;
 		String name;
@@ -229,7 +248,8 @@ public class SettingsGUITileStore extends JPanel {
 		long size = 0;
 	}
 
-	private class ClearTileCacheAction implements ActionListener {
+	private class ClearTileCacheAction implements ActionListener
+	{
 
 		String storeName;
 
@@ -237,20 +257,26 @@ public class SettingsGUITileStore extends JPanel {
 			this.storeName = storeName;
 		}
 
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent e)
+		{
 			final JButton b = (JButton) e.getSource();
 			b.setEnabled(false);
 			b.setToolTipText(I18nUtils.localizedStringForKey("set_tile_store_info_deleteing_tips"));
-			Thread t = new DelayedInterruptThread("TileStore_" + storeName + "_DeleteThread") {
+			Thread t = new DelayedInterruptThread("TileStore_" + storeName + "_DeleteThread")
+			{
 
 				@Override
-				public void run() {
-					try {
+				public void run()
+				{
+					try
+					{
 						TileStore ts = TileStore.getInstance();
 						ts.clearStore(storeName);
 						SettingsGUITileStore.this.updateTileStoreInfoPanelAsync(storeName);
 						SettingsGUITileStore.this.repaint();
-					} catch (Exception e) {
+					}
+					catch (Exception e)
+					{
 						SettingsGUI.log.error("An error occured while cleaning tile cache: ", e);
 					}
 				}

@@ -32,28 +32,30 @@ import osmcd.program.model.Settings;
 import osmcd.program.tilestore.berkeleydb.BerkeleyDbTileStore;
 import osmcd.utilities.I18nUtils;
 
-public abstract class TileStore {
-
+public abstract class TileStore
+{
 	protected static TileStore INSTANCE = null;
-
 	protected Logger log;
-
 	protected File tileStoreDir;
 
-	public static synchronized void initialize() {
+	public static synchronized void initialize()
+	{
 		if (INSTANCE != null)
 			return;
-		try {
+		try
+		{
 			INSTANCE = new BerkeleyDbTileStore();
-		} catch (TileStoreException e) {
+		}
+		catch (TileStoreException e)
+		{
 			String errMsg = I18nUtils.localizedStringForKey("msg_tile_store_access_conflict");
-			JOptionPane.showMessageDialog(null, errMsg,
-					I18nUtils.localizedStringForKey("msg_tile_store_access_conflict_title"), JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, errMsg, I18nUtils.localizedStringForKey("msg_tile_store_access_conflict_title"), JOptionPane.ERROR_MESSAGE);
 			System.exit(1);
 		}
 	}
 
-	public static TileStore getInstance() {
+	public static TileStore getInstance()
+	{
 		return INSTANCE;
 	}
 
@@ -67,10 +69,31 @@ public abstract class TileStore {
 		log.debug("Tile store path: " + tileStoreDir);
 	}
 
+	/**
+	 * 
+	 * @param tileData
+	 * @param x
+	 * @param y
+	 * @param zoom
+	 * @param mapSource
+	 * @throws IOException
+	 */
 	public abstract void putTileData(byte[] tileData, int x, int y, int zoom, MapSource mapSource) throws IOException;
 
-	public abstract void putTileData(byte[] tileData, int x, int y, int zoom, MapSource mapSource,
-			long timeLastModified, long timeExpires, String eTag) throws IOException;
+	/**
+	 * 
+	 * @param tileData
+	 * @param x
+	 * @param y
+	 * @param zoom
+	 * @param mapSource
+	 * @param timeLastModified
+	 * @param timeExpires
+	 * @param eTag
+	 * @throws IOException
+	 */
+	public abstract void putTileData(byte[] tileData, int x, int y, int zoom, MapSource mapSource, long timeLastModified, long timeExpires, String eTag)
+			throws IOException;
 
 	/**
 	 * 
@@ -82,12 +105,32 @@ public abstract class TileStore {
 	 */
 	public abstract TileStoreEntry getTile(int x, int y, int zoom, MapSource mapSource);
 
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @param zoom
+	 * @param mapSource
+	 * @return
+	 */
 	public abstract boolean contains(int x, int y, int zoom, MapSource mapSource);
 
+	/**
+	 * 
+	 * @param mapSource
+	 */
 	public abstract void prepareTileStore(MapSource mapSource);
 
+	/**
+	 * 
+	 * @param storeName
+	 */
 	public abstract void clearStore(String storeName);
 
+	/**
+	 * 
+	 * @return
+	 */
 	public abstract String[] getAllStoreNames();
 
 	/**
@@ -115,15 +158,13 @@ public abstract class TileStore {
 	 * @return
 	 * @throws InterruptedException
 	 */
-	public abstract BufferedImage getCacheCoverage(MapSource mapSource, int zoom, Point tileNumMin, Point tileNumMax)
-			throws InterruptedException;
+	public abstract BufferedImage getCacheCoverage(MapSource mapSource, int zoom, Point tileNumMin, Point tileNumMax) throws InterruptedException;
 
 	public abstract void closeAll();
 
 	public abstract void putTile(TileStoreEntry tile, MapSource mapSource);
 
-	public abstract TileStoreEntry createNewEntry(int x, int y, int zoom, byte[] data, long timeLastModified,
-			long timeExpires, String eTag);
+	public abstract TileStoreEntry createNewEntry(int x, int y, int zoom, byte[] data, long timeLastModified, long timeExpires, String eTag);
 
 	/**
 	 * Creates a new {@link TileStoreEntry} that represents a missing tile in a sparse map source

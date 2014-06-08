@@ -30,7 +30,7 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
 import osmcd.gui.MainGUI;
-import osmcd.program.model.AtlasOutputFormat;
+import osmcd.program.model.BundleOutputFormat;
 import osmcd.utilities.I18nUtils;
 
 public class AtlasNew implements ActionListener {
@@ -45,7 +45,7 @@ public class AtlasNew implements ActionListener {
 		JPanel formatPanel = new JPanel(new BorderLayout());
 
 		formatPanel.add(new JLabel(I18nUtils.localizedStringForKey("dlg_new_atlas_select_format_title")), BorderLayout.NORTH);
-		JList atlasFormatList = new JList(AtlasOutputFormat.getFormatsAsVector());
+		JList atlasFormatList = new JList(BundleOutputFormat.getFormatsAsVector());
 		atlasFormatList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		JScrollPane scroller = new JScrollPane(atlasFormatList);
 		scroller.setPreferredSize(new Dimension(140, 200));
@@ -59,7 +59,7 @@ public class AtlasNew implements ActionListener {
 		panel.add(namePanel, BorderLayout.NORTH);
 		panel.add(formatPanel, BorderLayout.CENTER);
 		panel.setPreferredSize(new Dimension(300, 300)); 
-		AtlasOutputFormat currentAOF = null;
+		BundleOutputFormat currentAOF = null;
 		try {
 			currentAOF = mg.getAtlas().getOutputFormat();
 		} catch (Exception e) {
@@ -73,7 +73,7 @@ public class AtlasNew implements ActionListener {
 		if (result != JOptionPane.OK_OPTION)
 			return;
 
-		AtlasOutputFormat format = (AtlasOutputFormat) atlasFormatList.getSelectedValue();
+		BundleOutputFormat format = (BundleOutputFormat) atlasFormatList.getSelectedValue();
 		mg.jAtlasTree.newAtlas(atlasName.getText(), format);
 		mg.getParametersPanel().atlasFormatChanged(format);
 	}

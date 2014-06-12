@@ -42,8 +42,8 @@ import osmcd.program.interfaces.MapSource;
 import osmcd.program.model.Settings;
 import osmcd.utilities.I18nUtils;
 
-public class DefaultMapSourcesManager extends MapSourcesManager {
-
+public class DefaultMapSourcesManager extends MapSourcesManager
+{
 	private Logger log = Logger.getLogger(DefaultMapSourcesManager.class);
 
 	/**
@@ -60,10 +60,13 @@ public class DefaultMapSourcesManager extends MapSourcesManager {
 		// Check for user specific configuration of mapsources directory
 	}
 
-	protected void loadMapSources() {
-		try {
+	protected void loadMapSources()
+	{
+		try
+		{
 			boolean devMode = Settings.getInstance().devMode;
-			if (devMode) {
+			if (devMode)
+			{
 				addMapSource(new DebugMapSource());
 				addMapSource(new DebugLocalMapSource());
 				addMapSource(new DebugTransparentLocalMapSource());
@@ -72,21 +75,23 @@ public class DefaultMapSourcesManager extends MapSourcesManager {
 			File mapSourcesDir = Settings.getInstance().getMapSourcesDirectory();
 			if (mapSourcesDir == null)
 				throw new RuntimeException("Map sources directory is unset");
-			if (!mapSourcesDir.isDirectory()) {
+			if (!mapSourcesDir.isDirectory())
+			{
 				JOptionPane.showMessageDialog(null,
-						String.format(I18nUtils.localizedStringForKey("msg_environment_mapsrc_dir_not_exist"),
-								mapSourcesDir.getAbsolutePath()), 
-						I18nUtils.localizedStringForKey("Error"),
-						JOptionPane.ERROR_MESSAGE);
+						String.format(I18nUtils.localizedStringForKey("msg_environment_mapsrc_dir_not_exist"), mapSourcesDir.getAbsolutePath()),
+						I18nUtils.localizedStringForKey("Error"), JOptionPane.ERROR_MESSAGE);
 				return;
 			}
-			try {
+			try
+			{
 				MapPackManager mpm = new MapPackManager(mapSourcesDir);
-				mpm.installUpdates();
-				if (!devMode || !loadMapPacksEclipseMode()) {
+				if (!devMode || !loadMapPacksEclipseMode())
+				{
 					mpm.loadMapPacks(this);
 				}
-			} catch (Exception e) {
+			}
+			catch (Exception e)
+			{
 				throw new RuntimeException("Failed to load map packs: " + e.getMessage(), e);
 			}
 			BeanShellMapSourceLoader bsmsl = new BeanShellMapSourceLoader(this, mapSourcesDir);
@@ -95,83 +100,102 @@ public class DefaultMapSourcesManager extends MapSourcesManager {
 			CustomMapSourceLoader cmsl = new CustomMapSourceLoader(this, mapSourcesDir);
 			cmsl.loadCustomMapSources();
 
-		} finally {
+		}
+		finally
+		{
 			// If no map sources are available load the simple map source which shows the informative message
 			if (allMapSources.size() == 0)
 				addMapSource(new SimpleMapSource());
 		}
 	}
 
-	private boolean loadMapPacksEclipseMode() {
+	private boolean loadMapPacksEclipseMode()
+	{
 		EclipseMapPackLoader empl;
-		try {
+		try
+		{
 			empl = new EclipseMapPackLoader(this);
 			if (!empl.loadMapPacks())
 				return false;
 			return true;
-		} catch (IOException e) {
+		}
+		catch (IOException e)
+		{
 			log.error("Failed to load map packs directly from classpath");
 		}
 		return false;
 	}
 
-	public void addMapSource(MapSource mapSource) {
+	public void addMapSource(MapSource mapSource)
+	{
 		if (mapSource instanceof StandardMapSourceLayer)
 			mapSource = ((StandardMapSourceLayer) mapSource).getMapSource();
 		allAvailableMapSources.put(mapSource.getName(), mapSource);
-		if (mapSource instanceof AbstractMultiLayerMapSource) {
-			for (MapSource lms : ((AbstractMultiLayerMapSource) mapSource)) {
+		if (mapSource instanceof AbstractMultiLayerMapSource)
+		{
+			for (MapSource lms: ((AbstractMultiLayerMapSource) mapSource))
+			{
 				if (lms instanceof StandardMapSourceLayer)
 					lms = ((StandardMapSourceLayer) lms).getMapSource();
 				MapSource old = allAvailableMapSources.put(lms.getName(), lms);
-				if (old != null) {
+				if (old != null)
+				{
 					allAvailableMapSources.put(old.getName(), old);
 					if (mapSource.equals(old))
-						JOptionPane.showMessageDialog(null,
-								"Error: Duplicate map source name found: " + mapSource.getName(), "Duplicate name",
-								JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Error: Duplicate map source name found: " + mapSource.getName(), "Duplicate name", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		}
 		allMapSources.put(mapSource.getName(), mapSource);
 	}
 
-	public static void initialize() {
+	public static void initialize()
+	{
 		INSTANCE = new DefaultMapSourcesManager();
 		((DefaultMapSourcesManager) INSTANCE).loadMapSources();
 	}
 
-	public static void initializeEclipseMapPacksOnly() {
+	public static void initializeEclipseMapPacksOnly()
+	{
 		INSTANCE = new DefaultMapSourcesManager();
 		((DefaultMapSourcesManager) INSTANCE).loadMapPacksEclipseMode();
 	}
 
 	@Override
-	public Vector<MapSource> getAllAvailableMapSources() {
+	public Vector<MapSource> getAllAvailableMapSources()
+	{
 		return new Vector<MapSource>(allMapSources.values());
 	}
 
 	@Override
-	public Vector<MapSource> getAllMapSources() {
+	public Vector<MapSource> getAllMapSources()
+	{
 		return new Vector<MapSource>(allMapSources.values());
 	}
 
 	@Override
-	public Vector<MapSource> getAllLayerMapSources() {
+	public Vector<MapSource> getAllLayerMapSources()
+	{
 		Vector<MapSource> all = getAllMapSources();
-		TreeSet<MapSource> uniqueSources = new TreeSet<MapSource>(new Comparator<MapSource>() {
+		TreeSet<MapSource> uniqueSources = new TreeSet<MapSource>(new Comparator<MapSource>()
+		{
 
-			public int compare(MapSource o1, MapSource o2) {
+			public int compare(MapSource o1, MapSource o2)
+			{
 				return o1.getName().compareTo(o2.getName());
 			}
 
 		});
-		for (MapSource ms : all) {
-			if (ms instanceof AbstractMultiLayerMapSource) {
-				for (MapSource lms : ((AbstractMultiLayerMapSource) ms)) {
+		for (MapSource ms: all)
+		{
+			if (ms instanceof AbstractMultiLayerMapSource)
+			{
+				for (MapSource lms: ((AbstractMultiLayerMapSource) ms))
+				{
 					uniqueSources.add(lms);
 				}
-			} else
+			}
+			else
 				uniqueSources.add(ms);
 		}
 		Vector<MapSource> result = new Vector<MapSource>(uniqueSources);
@@ -179,23 +203,28 @@ public class DefaultMapSourcesManager extends MapSourcesManager {
 	}
 
 	@Override
-	public Vector<MapSource> getEnabledOrderedMapSources() {
+	public Vector<MapSource> getEnabledOrderedMapSources()
+	{
 		Vector<MapSource> mapSources = new Vector<MapSource>(allMapSources.size());
 
 		Vector<String> enabledMapSources = Settings.getInstance().mapSourcesEnabled;
 		TreeSet<String> notEnabledMapSources = new TreeSet<String>(allMapSources.keySet());
 		notEnabledMapSources.removeAll(enabledMapSources);
-		for (String mapSourceName : enabledMapSources) {
+		for (String mapSourceName: enabledMapSources)
+		{
 			MapSource ms = getSourceByName(mapSourceName);
-			if (ms != null) {
+			if (ms != null)
+			{
 				mapSources.add(ms);
 			}
 		}
 		// remove all disabled map sources so we get those that are neither enabled nor disabled
 		notEnabledMapSources.removeAll(Settings.getInstance().mapSourcesDisabled);
-		for (String mapSourceName : notEnabledMapSources) {
+		for (String mapSourceName: notEnabledMapSources)
+		{
 			MapSource ms = getSourceByName(mapSourceName);
-			if (ms != null) {
+			if (ms != null)
+			{
 				mapSources.add(ms);
 			}
 		}
@@ -205,12 +234,15 @@ public class DefaultMapSourcesManager extends MapSourcesManager {
 	}
 
 	@Override
-	public Vector<MapSource> getDisabledMapSources() {
+	public Vector<MapSource> getDisabledMapSources()
+	{
 		Vector<String> disabledMapSources = Settings.getInstance().mapSourcesDisabled;
 		Vector<MapSource> mapSources = new Vector<MapSource>(disabledMapSources.size());
-		for (String mapSourceName : disabledMapSources) {
+		for (String mapSourceName: disabledMapSources)
+		{
 			MapSource ms = getSourceByName(mapSourceName);
-			if (ms != null) {
+			if (ms != null)
+			{
 				mapSources.add(ms);
 			}
 		}
@@ -218,7 +250,8 @@ public class DefaultMapSourcesManager extends MapSourcesManager {
 	}
 
 	@Override
-	public MapSource getDefaultMapSource() {
+	public MapSource getDefaultMapSource()
+	{
 		MapSource ms = getSourceByName("MapQuest");// DEFAULT;
 		if (ms != null)
 			return ms;
@@ -227,7 +260,8 @@ public class DefaultMapSourcesManager extends MapSourcesManager {
 	}
 
 	@Override
-	public MapSource getSourceByName(String name) {
+	public MapSource getSourceByName(String name)
+	{
 		return allAvailableMapSources.get(name);
 	}
 

@@ -111,16 +111,16 @@ public class BundleOutputFormat implements Comparable<BundleOutputFormat>
 	private String typeName;
 	private String name;
 
-	private static BundleOutputFormat createByClass(Class<? extends ChartBundle> atlasCreatorClass)
+	private static BundleOutputFormat createByClass(Class<? extends ChartBundle> chartBundleClass)
 	{
-		ChartBundleName acName = atlasCreatorClass.getAnnotation(ChartBundleName.class);
+		ChartBundleName acName = chartBundleClass.getAnnotation(ChartBundleName.class);
 		if (acName == null)
-			throw new RuntimeException("ChartBundle " + atlasCreatorClass.getName() + " has no name");
+			throw new RuntimeException("ChartBundle " + chartBundleClass.getName() + " has no name");
 		String typeName = acName.type();
 		if (typeName == null || typeName.length() == 0)
-			typeName = atlasCreatorClass.getSimpleName();
+			typeName = chartBundleClass.getSimpleName();
 		String name = acName.value();
-		return new BundleOutputFormat(atlasCreatorClass, typeName, name);
+		return new BundleOutputFormat(chartBundleClass, typeName, name);
 	}
 
 	private BundleOutputFormat(Class<? extends ChartBundle> chartBundleClass, String typeName, String name) {

@@ -28,7 +28,7 @@
     <localeLanguage>en</localeLanguage>
     <mainWindow>
         <size>800/590</size>
-        <position>-1668/-205</position>
+        <position>-1541/-311</position>
         <maximized>true</maximized>
         <leftPanelVisible>true</leftPanelVisible>
         <rightPanelVisible>true</rightPanelVisible>
@@ -75,12 +75,12 @@
         <mapSource>cb-wac</mapSource>
     </mapSourcesEnabled>
     <MapSourcesUpdate/>
-    <mapviewCenterCoordinate lat="53.21590163025063" lon="12.884044647216797"/>
-    <mapviewGridZoom>16</mapviewGridZoom>
-    <mapviewMapSource>AH OpenCycleMap</mapviewMapSource>
-    <mapviewSelectionMax>575195648/349110784</mapviewSelectionMax>
-    <mapviewSelectionMin>575195648/349110784</mapviewSelectionMin>
-    <mapviewZoom>13</mapviewZoom>
+    <mapviewCenterCoordinate lat="51.069016659603896" lon="9.11865234375"/>
+    <mapviewGridZoom>17</mapviewGridZoom>
+    <mapviewMapSource>Mapnik</mapviewMapSource>
+    <mapviewSelectionMax>544240640/369682432</mapviewSelectionMax>
+    <mapviewSelectionMin>543524864/369101824</mapviewSelectionMin>
+    <mapviewZoom>6</mapviewZoom>
     <maxMapSize>65536</maxMapSize>
     <osmHikingTicket></osmHikingTicket>
     <paperAtlas>

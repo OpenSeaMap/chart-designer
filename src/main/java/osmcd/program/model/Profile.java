@@ -50,20 +50,15 @@ import osmcd.utilities.Utilities;
  */
 public class Profile implements Comparable<Profile>
 {
-
-	private static Logger log = Logger.getLogger(Profile.class);
-
+	protected static Logger log = Logger.getLogger(Profile.class);
 	public static final String PROFILE_NAME_REGEX = "[\\w _-]+";
-
-	public static final String PROFILE_FILENAME_PREFIX = "osmcb-profile-";
-
+	public static final String PROFILE_FILENAME_PREFIX = "osmcd-profile-";
 	public static final Pattern PROFILE_FILENAME_PATTERN = Pattern.compile(PROFILE_FILENAME_PREFIX + "(" + PROFILE_NAME_REGEX + ").xml");
-
 	public static final Profile DEFAULT = new Profile();
 
-	private File file;
-	private String name;
-	private static Vector<Profile> profiles = new Vector<Profile>();
+	protected File file;
+	protected String name;
+	protected static Vector<Profile> profiles = new Vector<Profile>();
 
 	/**
 	 * Profiles management method
@@ -75,7 +70,6 @@ public class Profile implements Comparable<Profile>
 		deletedProfiles.addAll(profiles);
 		profilesDir.list(new FilenameFilter()
 		{
-
 			public boolean accept(File dir, String fileName)
 			{
 				Matcher m = PROFILE_FILENAME_PATTERN.matcher(fileName);

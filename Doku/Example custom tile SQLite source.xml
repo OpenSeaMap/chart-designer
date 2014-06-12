@@ -22,7 +22,7 @@ Not supported are: OruxMaps and Osmdroid
 	   
 	   Not that this field is case sensitive! 
 	-->
-	<atlasType>NaviComputer</atlasType>
+	<bundleType>NaviComputer</bundleType>
 		
 	<backgroundColor>#000000</backgroundColor>
 </localTileSQLite>

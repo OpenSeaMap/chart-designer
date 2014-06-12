@@ -69,13 +69,9 @@ import osmcd.utilities.file.FileExtFilter;
 
 public class MapPackManager
 {
-
 	private final Logger log = Logger.getLogger(MapPackManager.class);
-
 	private final int requiredMapPackVersion;
-
 	private final File mapPackDir;
-
 	private final X509Certificate mapPackCert;
 
 	public MapPackManager(File mapPackDir) throws CertificateException, IOException {

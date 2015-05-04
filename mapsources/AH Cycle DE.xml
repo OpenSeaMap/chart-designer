@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<customMapSource>
+<name>AH OpenCycleMap</name>
+<minZoom>0</minZoom>
+<maxZoom>18</maxZoom>
+<tileType>PNG</tileType>
+<tileUpdate>None</tileUpdate>
+<ignoreErrors>true</ignoreErrors>
+<url>http://tile.opencyclemap.org/cycle/{$z}/{$x}/{$y}.png</url>
+<backgroundColor>#00000000</backgroundColor>
+</customMapSource>

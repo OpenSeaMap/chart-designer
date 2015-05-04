@@ -23,12 +23,11 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import osmcd.program.model.NumericDocument;
-import osmcd.utilities.Utilities;
+import osmcd.program.NumericDocument;
+import osmcd.utilities.OSMCDUtilities;
 
-
-public class JIntField extends JTextField {
-
+public class JIntField extends JTextField
+{
 	private static final long serialVersionUID = 1L;
 
 	protected Color errorColor = new Color(255, 100, 100);
@@ -42,7 +41,8 @@ public class JIntField extends JTextField {
 	private InputListener listener;
 	private boolean inputIsValid = true;
 
-	public JIntField(int min, int max, int columns, String errorText) {
+	public JIntField(int min, int max, int columns, String errorText)
+	{
 		super(columns);
 		this.min = min;
 		this.max = max;
@@ -53,15 +53,18 @@ public class JIntField extends JTextField {
 		setBorder(new EmptyBorder(2, 2, 2, 0));
 	}
 
-	public void setErrorColor(Color c) {
+	public void setErrorColor(Color c)
+	{
 		errorColor = c;
 	}
 
-	public int getValue() throws NumberFormatException {
+	public int getValue() throws NumberFormatException
+	{
 		return Integer.parseInt(getText());
 	}
 
-	public void setValue(int newValue, boolean check) {
+	public void setValue(int newValue, boolean check)
+	{
 		if (newValue <= 0)
 			super.setText("");
 		else
@@ -70,39 +73,50 @@ public class JIntField extends JTextField {
 			listener.checkInput(null);
 	}
 
-	public void setText(String t) {
+	@Override
+	public void setText(String t)
+	{
 		throw new RuntimeException("Calling setText() is not allowed!");
 	}
 
-	public boolean isInputValid() {
+	public boolean isInputValid()
+	{
 		return testInputValid();
 	}
 
-	private boolean testInputValid() {
-		try {
+	private boolean testInputValid()
+	{
+		try
+		{
 			int i = Integer.parseInt(getText());
 			return (i >= min) && (i <= max);
-		} catch (NumberFormatException e) {
+		}
+		catch (NumberFormatException e)
+		{
 			return false;
 		}
 	}
 
-	
-	
-	protected class InputListener implements DocumentListener {
+	protected class InputListener implements DocumentListener
+	{
 
 		private Color defaultColor;
 
-		private InputListener() {
+		private InputListener()
+		{
 			defaultColor = JIntField.this.getBackground();
 			JIntField.this.getDocument().addDocumentListener(this);
 		}
 
-		private void checkInput(DocumentEvent de) {
+		private void checkInput(DocumentEvent de)
+		{
 			boolean valid = false;
-			try {
+			try
+			{
 				valid = testInputValid();
-			} catch (Exception e) {
+			}
+			catch (Exception e)
+			{
 				valid = false;
 			}
 			if (valid != inputIsValid)
@@ -110,24 +124,32 @@ public class JIntField extends JTextField {
 			inputIsValid = valid;
 		}
 
-		private void setDisplayedValidMode(boolean valid) {
+		private void setDisplayedValidMode(boolean valid)
+		{
 			Color newC = valid ? defaultColor : errorColor;
 			JIntField.this.setBackground(newC);
-			String toolTip = valid ? "" : String.format(errorText, new Object[] { min, max });
+			String toolTip = valid ? "" : String.format(errorText, new Object[]
+			{ min, max });
 			JIntField.this.setToolTipText(toolTip);
 			if (toolTip.length() > 0)
-				Utilities.showTooltipNow(JIntField.this);
+				OSMCDUtilities.showTooltipNow(JIntField.this);
 		}
 
-		public void changedUpdate(DocumentEvent e) {
+		@Override
+		public void changedUpdate(DocumentEvent e)
+		{
 			checkInput(e);
 		}
 
-		public void insertUpdate(DocumentEvent e) {
+		@Override
+		public void insertUpdate(DocumentEvent e)
+		{
 			checkInput(e);
 		}
 
-		public void removeUpdate(DocumentEvent e) {
+		@Override
+		public void removeUpdate(DocumentEvent e)
+		{
 			checkInput(e);
 		}
 

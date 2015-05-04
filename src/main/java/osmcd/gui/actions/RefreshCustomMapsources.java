@@ -21,27 +21,27 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
-import osmcd.gui.MainGUI;
-import osmcd.mapsources.MapSourcesManager;
-import osmcd.program.interfaces.FileBasedMapSource;
-import osmcd.program.interfaces.MapSource;
-import osmcd.utilities.I18nUtils;
+import osmb.mapsources.ACMapSourcesManager;
+import osmb.mapsources.IfFileBasedMapSource;
+import osmb.mapsources.IfMapSource;
+import osmcd.OSMCDStrs;
+import osmcd.gui.MainFrame;
 
 public class RefreshCustomMapsources implements ActionListener
 {
-
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		MapSourcesManager manager = MapSourcesManager.getInstance();
-		MainGUI gui = MainGUI.getMainGUI();
-		MapSource selectedMapSource = gui.getSelectedMapSource();
+		ACMapSourcesManager manager = ACMapSourcesManager.getInstance();
+		MainFrame gui = MainFrame.getMainGUI();
+		IfMapSource selectedMapSource = gui.getSelectedMapSource();
 		boolean updateGui = false;
 		int count = 0;
-		for (MapSource mapSource: manager.getAllAvailableMapSources())
+		for (IfMapSource mapSource : manager.getAllAvailableMapSources())
 		{
-			if (mapSource instanceof FileBasedMapSource)
+			if (mapSource instanceof IfFileBasedMapSource)
 			{
-				FileBasedMapSource fbms = (FileBasedMapSource) mapSource;
+				IfFileBasedMapSource fbms = (IfFileBasedMapSource) mapSource;
 				fbms.reinitialize();
 				count++;
 				if (mapSource.equals(selectedMapSource))
@@ -51,11 +51,10 @@ public class RefreshCustomMapsources implements ActionListener
 		if (updateGui)
 		{
 			/*
-			 * The currently selected map source was updated - we have to force an GUI update in case the available zoom levels has been changed
+			 * The currently selected iMap source was updated - we have to force an GUI update in case the available zoom levels has been changed
 			 */
 			gui.mapSourceChanged(selectedMapSource);
 		}
-		JOptionPane.showMessageDialog(gui, String.format(I18nUtils.localizedStringForKey("msg_refresh_all_map_source_done"), count));
+		JOptionPane.showMessageDialog(gui, String.format(OSMCDStrs.RStr("msg_refresh_all_map_source_done"), count));
 	}
-
 }

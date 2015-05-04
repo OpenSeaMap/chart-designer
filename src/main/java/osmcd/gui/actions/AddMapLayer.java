@@ -19,10 +19,10 @@ package osmcd.gui.actions;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import osmcd.gui.MainGUI;
-import osmcd.gui.mapview.controller.AbstractPolygonSelectionMapController;
-import osmcd.gui.mapview.controller.JMapController;
-import osmcd.gui.mapview.controller.RectangleSelectionMapController;
+import osmcd.gui.MainFrame;
+import osmcd.gui.mapview.AbstractPolygonSelectionMapController;
+import osmcd.gui.mapview.JMapController;
+import osmcd.gui.mapview.RectangleSelectionMapController;
 
 public class AddMapLayer implements ActionListener
 {
@@ -35,7 +35,7 @@ public class AddMapLayer implements ActionListener
 	 */
 	public void actionPerformed(ActionEvent event)
 	{
-		JMapController msc = MainGUI.getMainGUI().previewMap.getMapSelectionController();
+		JMapController msc = MainFrame.getMainGUI().previewMap.getMapSelectionController();
 		if (msc instanceof RectangleSelectionMapController)
 			new AddRectangleMapAutocut().actionPerformed(event);
 		else if (msc instanceof AbstractPolygonSelectionMapController)

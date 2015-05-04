@@ -16,9 +16,9 @@
  ******************************************************************************/
 package osmcd.gui.gpxtree;
 
+import osmcd.OSMCDStrs;
 import osmcd.data.gpx.gpx11.WptType;
-import osmcd.gui.mapview.layer.GpxLayer;
-import osmcd.utilities.I18nUtils;
+import osmcd.gui.mapview.GpxLayer;
 
 public class WptEntry extends GpxEntry {
 	private WptType wpt;
@@ -38,7 +38,7 @@ public class WptEntry extends GpxEntry {
 		if (name != null && !name.equals("")) {
 			return name;
 		} else {
-			return I18nUtils.localizedStringForKey("rp_gpx_unname_wpt_name");
+			return OSMCDStrs.RStr("rp_gpx_unname_wpt_name");
 		}
 	}
 

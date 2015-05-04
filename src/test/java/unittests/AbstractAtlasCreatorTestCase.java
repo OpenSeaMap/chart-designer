@@ -43,7 +43,7 @@ import osmcd.program.ProgramInfo;
 import osmcd.program.atlascreators.AtlasCreator;
 import osmcd.program.interfaces.BundleInterface;
 import osmcd.program.model.Bundle;
-import osmcd.program.model.Profile;
+import osmcd.program.model.Catalog;
 import osmcd.program.model.TileImageType;
 import osmcd.program.tilestore.TileStore;
 import unittests.helper.TestMapSourcesManager;

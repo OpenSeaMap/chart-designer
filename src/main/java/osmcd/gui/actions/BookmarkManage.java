@@ -19,18 +19,17 @@ package osmcd.gui.actions;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import osmcd.gui.MainGUI;
+import osmcd.gui.MainFrame;
 import osmcd.gui.dialogs.ManageBookmarks;
 
 public class BookmarkManage implements ActionListener
 {
-
+	@Override
 	public void actionPerformed(ActionEvent event)
 	{
-		ManageBookmarks mb = new ManageBookmarks(MainGUI.getMainGUI());
+		ManageBookmarks mb = new ManageBookmarks(MainFrame.getMainGUI());
 		mb.setModal(true);
 		mb.setVisible(true);
-		MainGUI.getMainGUI().updateBookmarksMenu();
+		// MainFrame.getMainGUI().updateBookmarksMenu();
 	}
-
 }

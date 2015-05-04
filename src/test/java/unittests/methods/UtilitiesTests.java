@@ -16,24 +16,24 @@
  ******************************************************************************/
 package unittests.methods;
 
-import osmcd.utilities.Utilities;
+import osmcd.OSMCBUtilities.OSMCBUtilities;
 import junit.framework.TestCase;
 import junit.textui.TestRunner;
 
-public class UtilitiesTests extends TestCase {
+public class OSMCBUtilitiesTests extends TestCase {
 
 	public void testParseSVNRevision() {
-		assertEquals(4168, Utilities.parseSVNRevision("4168"));
-		assertEquals(4168, Utilities.parseSVNRevision("4123:4168"));
-		assertEquals(4168, Utilities.parseSVNRevision("4168M"));
-		assertEquals(4168, Utilities.parseSVNRevision("4212:4168MS"));
-		assertEquals(4168, Utilities.parseSVNRevision("$Revision:	4168$"));
-		assertEquals(4168, Utilities.parseSVNRevision("$Rev: 4212:4168MS$"));
-		assertEquals(-1, Utilities.parseSVNRevision("exported"));
+		assertEquals(4168, OSMCBUtilities.parseSVNRevision("4168"));
+		assertEquals(4168, OSMCBUtilities.parseSVNRevision("4123:4168"));
+		assertEquals(4168, OSMCBUtilities.parseSVNRevision("4168M"));
+		assertEquals(4168, OSMCBUtilities.parseSVNRevision("4212:4168MS"));
+		assertEquals(4168, OSMCBUtilities.parseSVNRevision("$Revision:	4168$"));
+		assertEquals(4168, OSMCBUtilities.parseSVNRevision("$Rev: 4212:4168MS$"));
+		assertEquals(-1, OSMCBUtilities.parseSVNRevision("exported"));
 	}
 
 	public static void main(String[] args) {
-		TestRunner.run(UtilitiesTests.class);
+		TestRunner.run(OSMCBUtilitiesTests.class);
 	}
 
 }

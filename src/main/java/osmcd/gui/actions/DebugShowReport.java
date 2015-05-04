@@ -19,15 +19,14 @@ package osmcd.gui.actions;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import osmcd.utilities.GUIExceptionHandler;
+import osmb.utilities.GUIExceptionHandler;
 
 public class DebugShowReport implements ActionListener
 {
-
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		GUIExceptionHandler.processException(null, null);
 		// throw new RuntimeException("Test");
 	}
-
 }

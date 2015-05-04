@@ -37,13 +37,13 @@ import javax.swing.JSeparator;
 import javax.swing.SwingUtilities;
 import javax.swing.border.BevelBorder;
 
-import osmcd.mapsources.MapSourcesManager;
-import osmcd.program.interfaces.MapSource;
-import osmcd.program.tilestore.TileStore;
-import osmcd.program.tilestore.TileStoreInfo;
-import osmcd.program.tilestore.berkeleydb.DelayedInterruptThread;
-import osmcd.utilities.I18nUtils;
-import osmcd.utilities.Utilities;
+import osmb.mapsources.ACMapSourcesManager;
+import osmb.mapsources.IfMapSource;
+import osmb.program.tilestore.ACSiTileStore;
+import osmb.program.tilestore.TileStoreInfo;
+import osmb.program.tilestore.berkeleydb.DelayedInterruptThread;
+import osmb.utilities.OSMBUtilities;
+import osmcd.OSMCDStrs;
 
 public class SettingsGUITileStore extends JPanel
 {
@@ -57,15 +57,16 @@ public class SettingsGUITileStore extends JPanel
 
 	protected DelayedInterruptThread tileStoreAsyncThread = null;
 
-	public SettingsGUITileStore(SettingsGUI gui) {
+	public SettingsGUITileStore(SettingsGUI gui)
+	{
 		super();
 
-		gui.addTab(I18nUtils.localizedStringForKey("set_tile_store_title"), this);
+		gui.addTab(OSMCDStrs.RStr("set_tile_store_title"), this);
 
-		tileStoreEnabled = new JCheckBox(I18nUtils.localizedStringForKey("set_tile_store_enable_checkbox"));
+		tileStoreEnabled = new JCheckBox(OSMCDStrs.RStr("set_tile_store_enable_checkbox"));
 
 		JPanel tileStorePanel = new JPanel(new BorderLayout());
-		tileStorePanel.setBorder(SettingsGUI.createSectionBorder(I18nUtils.localizedStringForKey("set_tile_store_settings")));
+		tileStorePanel.setBorder(SettingsGUI.createSectionBorder(OSMCDStrs.RStr("set_tile_store_settings")));
 		tileStorePanel.add(tileStoreEnabled, BorderLayout.CENTER);
 		tileStoreInfoPanel = new JPanel(new GridBagLayout());
 		// tileStoreInfoPanel.setBorder(createSectionBorder("Information"));
@@ -78,7 +79,7 @@ public class SettingsGUITileStore extends JPanel
 		tileStoreInfoPanel.setMinimumSize(new Dimension(200, 300));
 		// scrollPane.setMinimumSize(new Dimension(100, 100));
 		scrollPane.setPreferredSize(new Dimension(520, 100));
-		scrollPane.setBorder(SettingsGUI.createSectionBorder(I18nUtils.localizedStringForKey("set_tile_store_information")));
+		scrollPane.setBorder(SettingsGUI.createSectionBorder(OSMCDStrs.RStr("set_tile_store_information")));
 
 		add(scrollPane, BorderLayout.CENTER);
 	}
@@ -92,14 +93,14 @@ public class SettingsGUITileStore extends JPanel
 	{
 		try
 		{
-			TileStore tileStore = TileStore.getInstance();
+			ACSiTileStore tileStore = ACSiTileStore.getInstance();
 
 			long totalTileCount = 0;
 			long totalTileSize = 0;
-			for (final TileSourceInfoComponents info: tileStoreInfoList)
+			for (final TileSourceInfoComponents info : tileStoreInfoList)
 			{
 				String storeName = info.name;
-				Utilities.checkForInterruption();
+				OSMBUtilities.checkForInterruption();
 				int count;
 				long size;
 				if (updateStoreName == null || info.name.equals(updateStoreName))
@@ -110,9 +111,10 @@ public class SettingsGUITileStore extends JPanel
 					info.count = count;
 					info.size = size;
 					final String mapTileCountText = (count < 0) ? "??" : Integer.toString(count);
-					final String mapTileSizeText = Utilities.formatBytes(size);
+					final String mapTileSizeText = OSMBUtilities.formatBytes(size);
 					SwingUtilities.invokeLater(new Runnable()
 					{
+						@Override
 						public void run()
 						{
 							info.countLabel.setText("<html><b>" + mapTileCountText + "</b></html>");
@@ -129,9 +131,10 @@ public class SettingsGUITileStore extends JPanel
 				totalTileSize += size;
 			}
 			final String totalTileCountText = "<html><b>" + Long.toString(totalTileCount) + "</b></html>";
-			final String totalTileSizeText = "<html><b>" + Utilities.formatBytes(totalTileSize) + "</b></html>";
+			final String totalTileSizeText = "<html><b>" + OSMBUtilities.formatBytes(totalTileSize) + "</b></html>";
 			SwingUtilities.invokeLater(new Runnable()
 			{
+				@Override
 				public void run()
 				{
 					totalTileCountLabel.setText(totalTileCountText);
@@ -170,7 +173,6 @@ public class SettingsGUITileStore extends JPanel
 
 	private void prepareTileStoreInfoPanel()
 	{
-
 		final GridBagConstraints gbc_mapSource = new GridBagConstraints();
 		gbc_mapSource.insets = new Insets(5, 10, 5, 10);
 		gbc_mapSource.anchor = GridBagConstraints.WEST;
@@ -180,25 +182,25 @@ public class SettingsGUITileStore extends JPanel
 		final GridBagConstraints gbc_eol = new GridBagConstraints();
 		gbc_eol.gridwidth = GridBagConstraints.REMAINDER;
 
-		TileStore tileStore = TileStore.getInstance();
-		MapSourcesManager mapSourcesManager = MapSourcesManager.getInstance();
+		ACSiTileStore tileStore = ACSiTileStore.getInstance();
+		ACMapSourcesManager mapSourcesManager = ACMapSourcesManager.getInstance();
 
-		tileStoreInfoPanel.add(new JLabel(I18nUtils.localizedStringForKey("set_tile_store_info_mapsrc")), gbc_mapSource);
-		tileStoreInfoPanel.add(new JLabel(I18nUtils.localizedStringForKey("set_tile_store_info_tiles")), gbc_mapTiles);
-		tileStoreInfoPanel.add(new JLabel(I18nUtils.localizedStringForKey("set_tile_store_info_size")), gbc_eol);
+		tileStoreInfoPanel.add(new JLabel(OSMCDStrs.RStr("set_tile_store_info_mapsrc")), gbc_mapSource);
+		tileStoreInfoPanel.add(new JLabel(OSMCDStrs.RStr("set_tile_store_info_tiles")), gbc_mapTiles);
+		tileStoreInfoPanel.add(new JLabel(OSMCDStrs.RStr("set_tile_store_info_size")), gbc_eol);
 
-		ImageIcon trash = Utilities.loadResourceImageIcon("trash.png");
+		ImageIcon trash = OSMBUtilities.loadResourceImageIcon("trash.png");
 
-		for (String name: tileStore.getAllStoreNames())
+		for (String name : tileStore.getAllStoreNames())
 		{
 			String mapTileCountText = "  ?  ";
 			String mapTileSizeText = "    ?    ";
-			MapSource mapSource = mapSourcesManager.getSourceByName(name);
+			IfMapSource mapSource = mapSourcesManager.getSourceByName(name);
 			final JLabel mapSourceNameLabel;
 			if (mapSource != null)
 				mapSourceNameLabel = new JLabel(name);
 			else
-				mapSourceNameLabel = new JLabel(name + I18nUtils.localizedStringForKey("set_tile_store_info_disabled_subfix"));
+				mapSourceNameLabel = new JLabel(name + OSMCDStrs.RStr("set_tile_store_info_disabled_subfix"));
 			final JLabel mapTileCountLabel = new JLabel(mapTileCountText);
 			final JLabel mapTileSizeLabel = new JLabel(mapTileSizeText);
 			final JButton deleteButton = new JButton(trash);
@@ -208,7 +210,7 @@ public class SettingsGUITileStore extends JPanel
 			info.sizeLabel = mapTileSizeLabel;
 			tileStoreInfoList.add(info);
 			deleteButton.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
-			deleteButton.setToolTipText(String.format(I18nUtils.localizedStringForKey("set_tile_store_info_delete_tips"), name));
+			deleteButton.setToolTipText(String.format(OSMCDStrs.RStr("set_tile_store_info_delete_tips"), name));
 			deleteButton.addActionListener(new ClearTileCacheAction(name));
 
 			tileStoreInfoPanel.add(mapSourceNameLabel, gbc_mapSource);
@@ -223,7 +225,7 @@ public class SettingsGUITileStore extends JPanel
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		tileStoreInfoPanel.add(hr, gbc);
 
-		JLabel totalMapLabel = new JLabel(I18nUtils.localizedStringForKey("set_tile_store_info_total"));
+		JLabel totalMapLabel = new JLabel(OSMCDStrs.RStr("set_tile_store_info_total"));
 		totalTileCountLabel = new JLabel("<html><b>??</b></html>");
 		totalTileSizeLabel = new JLabel("<html><b>??</b></html>");
 		tileStoreInfoPanel.add(totalMapLabel, gbc_mapSource);
@@ -253,15 +255,17 @@ public class SettingsGUITileStore extends JPanel
 
 		String storeName;
 
-		public ClearTileCacheAction(String storeName) {
+		public ClearTileCacheAction(String storeName)
+		{
 			this.storeName = storeName;
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e)
 		{
 			final JButton b = (JButton) e.getSource();
 			b.setEnabled(false);
-			b.setToolTipText(I18nUtils.localizedStringForKey("set_tile_store_info_deleteing_tips"));
+			b.setToolTipText(OSMCDStrs.RStr("set_tile_store_info_deleteing_tips"));
 			Thread t = new DelayedInterruptThread("TileStore_" + storeName + "_DeleteThread")
 			{
 
@@ -270,7 +274,7 @@ public class SettingsGUITileStore extends JPanel
 				{
 					try
 					{
-						TileStore ts = TileStore.getInstance();
+						ACSiTileStore ts = ACSiTileStore.getInstance();
 						ts.clearStore(storeName);
 						SettingsGUITileStore.this.updateTileStoreInfoPanelAsync(storeName);
 						SettingsGUITileStore.this.repaint();

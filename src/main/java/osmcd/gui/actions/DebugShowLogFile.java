@@ -26,37 +26,39 @@ import javax.swing.JOptionPane;
 
 import org.apache.log4j.Logger;
 
-import osmcd.gui.MainGUI;
+import osmb.utilities.GUIExceptionHandler;
+import osmcd.OSMCDStrs;
+import osmcd.gui.MainFrame;
 import osmcd.program.Logging;
-import osmcd.utilities.GUIExceptionHandler;
-import osmcd.utilities.I18nUtils;
 
-public class DebugShowLogFile implements ActionListener {
-
-	public void actionPerformed(ActionEvent event) {
+public class DebugShowLogFile implements ActionListener
+{
+	@Override
+	public void actionPerformed(ActionEvent event)
+	{
 		Logger log = Logger.getLogger(DebugShowLogFile.class);
 		String logFile = Logging.getLogFile();
-		if (logFile == null) {
+		if (logFile == null)
+		{
 			log.error("No file logger configured");
-			JOptionPane.showMessageDialog(MainGUI.getMainGUI(), 
-					I18nUtils.localizedStringForKey("msg_no_log_file_config"), 
-					I18nUtils.localizedStringForKey("Error"),
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(MainFrame.getMainGUI(), OSMCDStrs.RStr("msg_no_log_file_config"), OSMCDStrs.RStr("Error"), JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		File f = new File(logFile);
-		if (!f.isFile()) {
+		if (!f.isFile())
+		{
 			log.error("Log file does not exists: " + f.getAbsolutePath());
-			JOptionPane.showMessageDialog(MainGUI.getMainGUI(), 
-					String.format(I18nUtils.localizedStringForKey("msg_no_log_file"), f.getAbsolutePath()),
-					I18nUtils.localizedStringForKey("Error"), JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(MainFrame.getMainGUI(), String.format(OSMCDStrs.RStr("msg_no_log_file"), f.getAbsolutePath()), OSMCDStrs.RStr("Error"),
+					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-		try {
+		try
+		{
 			Desktop.getDesktop().open(f);
-		} catch (IOException e) {
+		}
+		catch (IOException e)
+		{
 			GUIExceptionHandler.processException(e);
 		}
 	}
-
 }

@@ -26,7 +26,7 @@ import javax.swing.JMenuItem;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
-import osmcd.gui.MainGUI;
+import osmcd.gui.MainFrame;
 
 public class DebugSetLogLevel implements ActionListener
 {
@@ -36,7 +36,7 @@ public class DebugSetLogLevel implements ActionListener
 		Logger log = Logger.getRootLogger();
 		JMenuItem menuItem = (JMenuItem) event.getSource();
 		log.setLevel(Level.toLevel(menuItem.getName()));
-		JMenu menu = MainGUI.getMainGUI().logLevelMenu;
+		JMenu menu = MainFrame.getMainGUI().logLevelMenu;
 		Component[] c = menu.getMenuComponents();
 		for (int i = 0; i < c.length; i++)
 		{

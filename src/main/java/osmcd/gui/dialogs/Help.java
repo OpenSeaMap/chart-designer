@@ -31,14 +31,14 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import osmcd.gui.MainGUI;
-import osmcd.utilities.Charsets;
-import osmcd.utilities.GBC;
-import osmcd.utilities.I18nUtils;
+import osmb.utilities.Charsets;
+import osmb.utilities.GBC;
+import osmb.utilities.OSMBRsc;
+import osmcd.OSMCDStrs;
+import osmcd.gui.MainFrame;
 
 public class Help extends JFrame implements WindowListener
 {
-
 	private static Help INSTANCE = null;
 
 	public static synchronized void showHelp()
@@ -48,16 +48,18 @@ public class Help extends JFrame implements WindowListener
 		INSTANCE.setVisible(true);
 	}
 
-	public Help() throws HeadlessException {
-		super(I18nUtils.localizedStringForKey("dlg_help_title"));
-		setIconImages(MainGUI.OSMCD_ICONS);
+	public Help() throws HeadlessException
+	{
+		super(OSMCDStrs.RStr("dlg_help_title"));
+		setIconImages(MainFrame.OSMCD_ICONS);
 		setLayout(new GridBagLayout());
 		JLabel text = new JLabel();
-		JButton closeButton = new JButton(I18nUtils.localizedStringForKey("Close"));
+		JButton closeButton = new JButton(OSMCDStrs.RStr("Close"));
 		closeButton.setDefaultCapable(true);
 		closeButton.addActionListener(new ActionListener()
 		{
 
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				setVisible(false);
@@ -65,7 +67,7 @@ public class Help extends JFrame implements WindowListener
 			}
 		});
 
-		DataInputStream in = new DataInputStream(I18nUtils.getI18nResourceAsStream("resources/text/help_dialog", "html"));
+		DataInputStream in = new DataInputStream(OSMBRsc.getResourceAsStream("resources/text/help_dialog", "html"));
 		byte[] buf;
 		try
 		{
@@ -76,7 +78,7 @@ public class Help extends JFrame implements WindowListener
 			// Strip out all line breaks because JOptionPane shows
 			// the raw HTML code otherwise
 			// helpMessage = helpMessage.replaceAll("\n", "");
-			// text.setFont(osmcd.gui.MainGUI.defaultFont());
+			// text.setFont(osmcd.gui.MainFrame.defaultFont());
 			text.setText(helpMessage);
 		}
 		catch (IOException e)
@@ -93,31 +95,38 @@ public class Help extends JFrame implements WindowListener
 		setResizable(false);
 	}
 
+	@Override
 	public void windowActivated(WindowEvent e)
 	{
 	}
 
+	@Override
 	public void windowClosed(WindowEvent e)
 	{
 		INSTANCE = null;
 	}
 
+	@Override
 	public void windowClosing(WindowEvent e)
 	{
 	}
 
+	@Override
 	public void windowDeactivated(WindowEvent e)
 	{
 	}
 
+	@Override
 	public void windowDeiconified(WindowEvent e)
 	{
 	}
 
+	@Override
 	public void windowIconified(WindowEvent e)
 	{
 	}
 
+	@Override
 	public void windowOpened(WindowEvent e)
 	{
 	}

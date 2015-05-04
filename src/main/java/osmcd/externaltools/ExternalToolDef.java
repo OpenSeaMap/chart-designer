@@ -27,14 +27,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.log4j.Logger;
 
-import osmcd.gui.MainGUI;
-import osmcd.program.model.MapSelection;
-import osmcd.utilities.GUIExceptionHandler;
-import osmcd.utilities.I18nUtils;
+import osmb.utilities.GUIExceptionHandler;
+import osmcd.OSMCDStrs;
+import osmcd.gui.MainFrame;
+import osmcd.program.MapSelection;
 
 @XmlRootElement(name = "ExternalTool")
-public class ExternalToolDef implements ActionListener {
-
+public class ExternalToolDef implements ActionListener
+{
 	private static final Logger log = Logger.getLogger(ExternalToolDef.class);
 
 	/**
@@ -52,93 +52,96 @@ public class ExternalToolDef implements ActionListener {
 	@XmlList
 	public List<ToolParameters> parameters = new ArrayList<ToolParameters>();
 
-	private boolean mapSelNull(MapSelection mapSel) {
+	private boolean mapSelNull(MapSelection mapSel)
+	{
 		if (mapSel != null)
 			return false;
-		JOptionPane.showMessageDialog(MainGUI.getMainGUI(),
-				I18nUtils.localizedStringForKey("msg_tools_exec_error_selected_area"),
-				I18nUtils.localizedStringForKey("Error"), JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(MainFrame.getMainGUI(), OSMCDStrs.RStr("msg_tools_exec_error_selected_area"), OSMCDStrs.RStr("Error"),
+				JOptionPane.ERROR_MESSAGE);
 		return true;
 
 	}
 
-	public void actionPerformed(ActionEvent e) {
-		try {
-
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		try
+		{
 			String executeCommand = command;
-			MainGUI gui = MainGUI.getMainGUI();
-			MapSelection mapSel = gui.getMapSelectionCoordinates();
-			int[] zooms = gui.getSelectedZoomLevels().getZoomLevels();
-			for (ToolParameters param : parameters) {
+			MainFrame mainFrame = MainFrame.getMainGUI();
+			MapSelection mapSel = mainFrame.getMapSelectionCoordinates();
+			int[] zooms = mainFrame.getSelectedZoomLevels().getZoomLevels();
+			for (ToolParameters param : parameters)
+			{
 				String add = "";
-				switch (param) {
-				case MAX_LAT:
-					if (mapSelNull(mapSel))
-						return;
-					add = Double.toString(mapSel.getMax().lat);
-					break;
-				case MIN_LAT:
-					if (mapSelNull(mapSel))
-						return;
-					add = Double.toString(mapSel.getMin().lat);
-					break;
-				case MAX_LON:
-					if (mapSelNull(mapSel))
-						return;
-					add = Double.toString(mapSel.getMax().lon);
-					break;
-				case MIN_LON:
-					if (mapSelNull(mapSel))
-						return;
-					add = Double.toString(mapSel.getMin().lon);
-					break;
-				case MAX_ZOOM:
-					if (zooms.length == 0) {
-						JOptionPane.showMessageDialog(gui,
-								I18nUtils.localizedStringForKey("msg_no_zoom_level_selected"),
-								I18nUtils.localizedStringForKey("Error"), JOptionPane.ERROR_MESSAGE);
-						return;
-					}
-					add = Integer.toString(zooms[zooms.length - 1]);
-					break;
-				case MIN_ZOOM:
-					if (zooms.length == 0) {
-						JOptionPane.showMessageDialog(gui,
-								I18nUtils.localizedStringForKey("msg_no_zoom_level_selected"),
-								I18nUtils.localizedStringForKey("Error"), JOptionPane.ERROR_MESSAGE);
-						return;
-					}
-					add = Integer.toString(zooms[0]);
-					break;
-				case MAPSOURCE_NAME:
-					add = gui.previewMap.getMapSource().getName();
-					break;
-				case MAPSOURCE_DISPLAYNAME:
-					add = gui.previewMap.getMapSource().toString();
-					break;
-				case NAME_EDITBOX:
-					add = gui.getUserText();
-					break;
-				default:
-					throw new RuntimeException("Unsupported parameter type: " + param);
+				switch (param)
+				{
+					case MAX_LAT:
+						if (mapSelNull(mapSel))
+							return;
+						add = Double.toString(mapSel.getMax().lat);
+						break;
+					case MIN_LAT:
+						if (mapSelNull(mapSel))
+							return;
+						add = Double.toString(mapSel.getMin().lat);
+						break;
+					case MAX_LON:
+						if (mapSelNull(mapSel))
+							return;
+						add = Double.toString(mapSel.getMax().lon);
+						break;
+					case MIN_LON:
+						if (mapSelNull(mapSel))
+							return;
+						add = Double.toString(mapSel.getMin().lon);
+						break;
+					case MAX_ZOOM:
+						if (zooms.length == 0)
+						{
+							JOptionPane.showMessageDialog(mainFrame, OSMCDStrs.RStr("msg_no_zoom_level_selected"), OSMCDStrs.RStr("Error"), JOptionPane.ERROR_MESSAGE);
+							return;
+						}
+						add = Integer.toString(zooms[zooms.length - 1]);
+						break;
+					case MIN_ZOOM:
+						if (zooms.length == 0)
+						{
+							JOptionPane.showMessageDialog(mainFrame, OSMCDStrs.RStr("msg_no_zoom_level_selected"), OSMCDStrs.RStr("Error"), JOptionPane.ERROR_MESSAGE);
+							return;
+						}
+						add = Integer.toString(zooms[0]);
+						break;
+					case MAPSOURCE_NAME:
+						add = mainFrame.previewMap.getMapSource().getName();
+						break;
+					case MAPSOURCE_DISPLAYNAME:
+						add = mainFrame.previewMap.getMapSource().toString();
+						break;
+					// case NAME_EDITBOX:
+					// // add = mainFrame.getUserTextCatalogName();
+					// add = mainFram;
+					// break;
+					default:
+						throw new RuntimeException("Unsupported parameter type: " + param);
 				}
 				if (add.indexOf(' ') >= 0)
 					add = "\"" + add + "\"";
 				executeCommand += " " + add;
 			}
-			if (debug) {
-				int r = JOptionPane.showConfirmDialog(gui,
-						String.format(I18nUtils.localizedStringForKey("msg_tools_exec_command_ask"), executeCommand),
-						I18nUtils.localizedStringForKey("msg_tools_exec_command_ask_title"),
-						JOptionPane.OK_CANCEL_OPTION);
+			if (debug)
+			{
+				int r = JOptionPane.showConfirmDialog(mainFrame, String.format(OSMCDStrs.RStr("msg_tools_exec_command_ask"), executeCommand),
+						OSMCDStrs.RStr("msg_tools_exec_command_ask_title"), JOptionPane.OK_CANCEL_OPTION);
 				if (r != JOptionPane.OK_OPTION)
 					return;
 			}
 			log.debug("Executing " + executeCommand);
 			Runtime.getRuntime().exec(executeCommand);
-		} catch (Exception e1) {
+		}
+		catch (Exception e1)
+		{
 			GUIExceptionHandler.processException(e1);
 		}
 	}
-
 }

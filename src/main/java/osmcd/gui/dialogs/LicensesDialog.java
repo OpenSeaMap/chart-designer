@@ -32,34 +32,32 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
-import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import osmcd.gui.MainGUI;
-import osmcd.program.ProgramInfo;
-import osmcd.utilities.GBC;
-import osmcd.utilities.I18nUtils;
-import osmcd.utilities.Utilities;
+import osmb.utilities.GBC;
+import osmb.utilities.OSMBUtilities;
+import osmcd.OSMCDStrs;
+import osmcd.gui.MainFrame;
 
 public class LicensesDialog extends JFrame implements ChangeListener, ActionListener
 {
-
-	private LicenseInfo[] licenses = new LicenseInfo[] {new LicenseInfo("<h2>OpenSeaMap ChartBundler</h2>", "gpl.txt"),
-			new LicenseInfo("<h3>Library Apache Log4J</h3>", "apache-2.0.txt"), new LicenseInfo("<h3>Library Apache Commons Codec</h3>", "apache-2.0.txt"),
-			new LicenseInfo("<h3>Library Apache Commons IO</h3>", "apache-2.0.txt"),
+	private LicenseInfo[] licenses = new LicenseInfo[]
+	{ new LicenseInfo("<h2>OpenSeaMap ChartBundler</h2>", "gpl.txt"), new LicenseInfo("<h3>Library Apache Log4J</h3>", "apache-2.0.txt"),
+			new LicenseInfo("<h3>Library Apache Commons Codec</h3>", "apache-2.0.txt"), new LicenseInfo("<h3>Library Apache Commons IO</h3>", "apache-2.0.txt"),
 			new LicenseInfo("<h3>Library Berkely-DB JavaEdition</h3>", "license-dbd-je.txt"), new LicenseInfo("<h3>Library BeanShell</h3>", "lgpl-3.0.txt"),
-			new LicenseInfo("<h3>Library JavaPNG</h3>", "gpl.txt"), new LicenseInfo("<h3>Library iTextPDF</h3>", "agpl.txt")};
+			new LicenseInfo("<h3>Library JavaPNG</h3>", "gpl.txt"), new LicenseInfo("<h3>Library iTextPDF</h3>", "agpl.txt") };
 
 	private final JTextArea textArea;
 	private final JTabbedPane tab;
 	private String currentLicense = null;
 
-	public LicensesDialog() {
-		super(I18nUtils.localizedStringForKey("dlg_license_title"));
+	public LicensesDialog()
+	{
+		super(OSMCDStrs.RStr("dlg_license_title"));
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		setLayout(new GridBagLayout());
-		setIconImages(MainGUI.OSMCD_ICONS);
+		setIconImages(MainFrame.OSMCD_ICONS);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		JButton ok = new JButton("OK");
 		textArea = new JTextArea();
@@ -72,7 +70,7 @@ public class LicensesDialog extends JFrame implements ChangeListener, ActionList
 		Icon icon = new ImageIcon(new BufferedImage(1, 50, BufferedImage.TYPE_INT_ARGB));
 
 		boolean first = true;
-		for (LicenseInfo li: licenses)
+		for (LicenseInfo li : licenses)
 		{
 			tab.addTab("<html>" + li.name + "</html>", icon, (first) ? textScroller : null);
 			first = false;
@@ -89,6 +87,7 @@ public class LicensesDialog extends JFrame implements ChangeListener, ActionList
 		setLocation((dim.width - getWidth()) / 2, (dim.height - getHeight()) / 2);
 	}
 
+	@Override
 	public void stateChanged(ChangeEvent event)
 	{
 		String license;
@@ -97,7 +96,7 @@ public class LicensesDialog extends JFrame implements ChangeListener, ActionList
 			String nextLicense = licenses[tab.getSelectedIndex()].licenseResource;
 			if (nextLicense.equals(currentLicense))
 				return;
-			license = Utilities.loadTextResource("text/" + nextLicense);
+			license = OSMBUtilities.loadTextResource("text/" + nextLicense);
 			currentLicense = nextLicense;
 		}
 		catch (IOException e)
@@ -109,6 +108,7 @@ public class LicensesDialog extends JFrame implements ChangeListener, ActionList
 
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		dispose();
@@ -119,26 +119,11 @@ public class LicensesDialog extends JFrame implements ChangeListener, ActionList
 		public final String name;
 		public final String licenseResource;
 
-		public LicenseInfo(String name, String licenseResource) {
+		public LicenseInfo(String name, String licenseResource)
+		{
 			super();
 			this.name = name;
 			this.licenseResource = licenseResource;
-		}
-
-	}
-
-	public static void main(String[] args)
-	{
-		try
-		{
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			ProgramInfo.initialize(); // Load revision info
-			JFrame dlg = new LicensesDialog();
-			dlg.setVisible(true);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
 		}
 	}
 }

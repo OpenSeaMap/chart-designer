@@ -34,14 +34,14 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
+import osmb.program.WgsGridSettings;
+import osmb.utilities.GBCTable;
+import osmcd.OSMCDSettings;
+import osmcd.OSMCDStrs;
 import osmcd.gui.dialogs.FontChooser;
-import osmcd.program.model.Settings;
-import osmcd.program.model.SettingsWgsGrid;
-import osmcd.utilities.GBCTable;
-import osmcd.utilities.I18nUtils;
 
-public class SettingsGUIWgsGrid extends JPanel {
-
+public class SettingsGUIWgsGrid extends JPanel
+{
 	private static final long serialVersionUID = -3067609813682787669L;
 
 	private final FontChooser fontChooser = new FontChooser();
@@ -60,14 +60,19 @@ public class SettingsGUIWgsGrid extends JPanel {
 
 	private String title;
 
-	public SettingsGUIWgsGrid() {
+	public SettingsGUIWgsGrid()
+	{
 		super(new GridBagLayout());
 		i18n();
 
-		jButtonFont.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		jButtonFont.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
 				fontChooser.show();
-				if (fontChooser.wasCanceled()) {
+				if (fontChooser.wasCanceled())
+				{
 					return;
 				}
 				String text = FontChooser.encodeFont(fontChooser.getFont());
@@ -78,20 +83,28 @@ public class SettingsGUIWgsGrid extends JPanel {
 		jPanelColor.setPreferredSize(new Dimension(64, 18));
 		jPanelColor.setOpaque(true);
 		jPanelColor.setBorder(BorderFactory.createEtchedBorder());
-		jPanelColor.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
+		jPanelColor.addMouseListener(new MouseAdapter()
+		{
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{
 				Color color = jPanelColor.getBackground();
 				color = JColorChooser.showDialog(jPanelColor, title, color);
-				if (color != null) {
+				if (color != null)
+				{
 					jPanelColor.setBackground(color);
 				}
 			}
 
-			public void mouseEntered(MouseEvent e) {
+			@Override
+			public void mouseEntered(MouseEvent e)
+			{
 				jPanelColor.setBorder(BorderFactory.createRaisedBevelBorder());
 			}
 
-			public void mouseExited(MouseEvent e) {
+			@Override
+			public void mouseExited(MouseEvent e)
+			{
 				jPanelColor.setBorder(BorderFactory.createEtchedBorder());
 			}
 		});
@@ -107,44 +120,49 @@ public class SettingsGUIWgsGrid extends JPanel {
 		add(Box.createHorizontalGlue(), gbc.incX().fillH());
 	}
 
-	public void i18n() {
-		jCheckBoxCompressLabels.setText(I18nUtils.localizedStringForKey("set_display_grid_compress"));
-		jCheckBoxCompressLabels.setToolTipText(I18nUtils.localizedStringForKey("set_display_grid_compress_tips"));
-		setBorder(SettingsGUI.createSectionBorder(I18nUtils.localizedStringForKey("set_display_grid")));
-		title = I18nUtils.localizedStringForKey("set_display_grid_title");//TODO: recovery
-		jLabelWidth.setText(I18nUtils.localizedStringForKey("set_display_grid_width"));
-		String width = I18nUtils.localizedStringForKey("set_display_grid_width_tips");
+	public void i18n()
+	{
+		jCheckBoxCompressLabels.setText(OSMCDStrs.RStr("set_display_grid_compress"));
+		jCheckBoxCompressLabels.setToolTipText(OSMCDStrs.RStr("set_display_grid_compress_tips"));
+		setBorder(SettingsGUI.createSectionBorder(OSMCDStrs.RStr("set_display_grid")));
+		title = OSMCDStrs.RStr("set_display_grid_title");// TODO: recovery
+		jLabelWidth.setText(OSMCDStrs.RStr("set_display_grid_width"));
+		String width = OSMCDStrs.RStr("set_display_grid_width_tips");
 		jLabelWidth.setToolTipText(width);
 		jSpinnerWidth.setToolTipText(width);
-		jLabelColor.setText(I18nUtils.localizedStringForKey("set_display_grid_color"));
-		String color = I18nUtils.localizedStringForKey("set_display_grid_color_tips");
+		jLabelColor.setText(OSMCDStrs.RStr("set_display_grid_color"));
+		String color = OSMCDStrs.RStr("set_display_grid_color_tips");
 		jLabelColor.setToolTipText(color);
 		jPanelColor.setToolTipText(color);
-		jLabelFont.setText(I18nUtils.localizedStringForKey("set_display_grid_font"));
-		String font = I18nUtils.localizedStringForKey("set_display_grid_font_tips");
+		jLabelFont.setText(OSMCDStrs.RStr("set_display_grid_font"));
+		String font = OSMCDStrs.RStr("set_display_grid_font_tips");
 		jLabelFont.setToolTipText(font);
 		jButtonFont.setToolTipText(font);
 	}
 
-	public void applySettings(Settings s) {
-		applySettings(s.wgsGrid);
+	public void applySettings(OSMCDSettings s)
+	{
+		applySettings(s.getWgsGrid());
 	}
 
-	public void applySettings(SettingsWgsGrid s) {
+	public void applySettings(WgsGridSettings s)
+	{
 		s.compressLabels = jCheckBoxCompressLabels.isSelected();
-		s.font = fontChooser.getFont();
+		// s.font = fontChooser.getFont();
 		s.color = jPanelColor.getBackground();
 		s.width = modelWidth.getNumber().floatValue();
 	}
 
-	public void loadSettings(Settings s) {
-		loadSettings(s.wgsGrid);
+	public void loadSettings(OSMCDSettings s)
+	{
+		loadSettings(s.getWgsGrid());
 	}
 
-	public void loadSettings(SettingsWgsGrid s) {
+	public void loadSettings(WgsGridSettings s)
+	{
 		jCheckBoxCompressLabels.setSelected(s.compressLabels);
-		fontChooser.setFont(s.font);
-		jButtonFont.setText(FontChooser.encodeFont(s.font));
+		// fontChooser.setFont(s.font);
+		// jButtonFont.setText(FontChooser.encodeFont(s.font));
 		jPanelColor.setBackground(s.color);
 		modelWidth.setValue((double) s.width);
 	}

@@ -35,9 +35,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
-import osmcd.utilities.GBC;
-import osmcd.utilities.Utilities;
-
+import osmb.utilities.GBC;
+import osmb.utilities.OSMBUtilities;
 
 /**
  * Bases upon "TitleContainer" from project "swivel"
@@ -47,7 +46,8 @@ import osmcd.utilities.Utilities;
  * visible title.
  * 
  */
-public class JCollapsiblePanel extends JPanel {
+public class JCollapsiblePanel extends JPanel
+{
 
 	private static final long serialVersionUID = 1L;
 
@@ -58,11 +58,15 @@ public class JCollapsiblePanel extends JPanel {
 	private static ImageIcon arrowClosed;
 	private static ImageIcon arrowOpen;
 
-	static {
-		try {
-			arrowClosed = Utilities.loadResourceImageIcon("arrow_closed.png");
-			arrowOpen = Utilities.loadResourceImageIcon("arrow_open.png");
-		} catch (Exception e) {
+	static
+	{
+		try
+		{
+			arrowClosed = OSMBUtilities.loadResourceImageIcon("arrow_closed.png");
+			arrowOpen = OSMBUtilities.loadResourceImageIcon("arrow_open.png");
+		}
+		catch (Exception e)
+		{
 			arrowClosed = new ImageIcon();
 			arrowOpen = new ImageIcon();
 		}
@@ -84,17 +88,20 @@ public class JCollapsiblePanel extends JPanel {
 	 * Constructs a {@code TitleContainer} that wraps the specified container.
 	 * 
 	 * @param container
-	 *            the main container
+	 *          the main container
 	 */
-	public JCollapsiblePanel(Container container) {
+	public JCollapsiblePanel(Container container)
+	{
 		this(container, "");
 	}
 
-	public JCollapsiblePanel(String title) {
+	public JCollapsiblePanel(String title)
+	{
 		this(new JPanel(), title);
 	}
 
-	public JCollapsiblePanel(String title, LayoutManager layout) {
+	public JCollapsiblePanel(String title, LayoutManager layout)
+	{
 		this(new JPanel(layout), title);
 		setName(title);
 	}
@@ -104,11 +111,12 @@ public class JCollapsiblePanel extends JPanel {
 	 * and has the specified title.
 	 * 
 	 * @param container
-	 *            the main container
+	 *          the main container
 	 * @param title
-	 *            the title
+	 *          the title
 	 */
-	public JCollapsiblePanel(Container container, String title) {
+	public JCollapsiblePanel(Container container, String title)
+	{
 		super();
 		setName(title);
 		titleIcon = new JLabel(arrowOpen);
@@ -144,14 +152,17 @@ public class JCollapsiblePanel extends JPanel {
 	 * This method provides a programmatic way to collapse the container.
 	 * 
 	 * @param collapsed
-	 *            whether the container should be collapsed or shown
+	 *          whether the container should be collapsed or shown
 	 */
-	public void setCollapsed(boolean collapsed) {
-		if (isCollapsed == collapsed) {
+	public void setCollapsed(boolean collapsed)
+	{
+		if (isCollapsed == collapsed)
+		{
 			return;
 		}
 
-		if (collapsed) {
+		if (collapsed)
+		{
 			titleIcon.setIcon(arrowClosed);
 
 			// We have to make sure that the panel width does not shrink because
@@ -159,7 +170,9 @@ public class JCollapsiblePanel extends JPanel {
 			Dimension dcont = contentContainer.getLayout().preferredLayoutSize(contentContainer);
 			Dimension pref = titlePanel.getPreferredSize();
 			titlePanel.setPreferredSize(new Dimension(dcont.width, pref.height));
-		} else {
+		}
+		else
+		{
 			titleIcon.setIcon(arrowOpen);
 		}
 		contentContainer.setVisible(!collapsed);
@@ -173,7 +186,8 @@ public class JCollapsiblePanel extends JPanel {
 	 * 
 	 * @return whether the container is collapsed or not
 	 */
-	public boolean isCollapsed() {
+	public boolean isCollapsed()
+	{
 		return isCollapsed;
 	}
 
@@ -181,12 +195,16 @@ public class JCollapsiblePanel extends JPanel {
 	 * Sets the title of this container.
 	 * 
 	 * @param title
-	 *            the title
+	 *          the title
 	 */
-	public void setTitle(String title) {
-		if (title != null) {
+	public void setTitle(String title)
+	{
+		if (title != null)
+		{
 			titleLabel.setText(title);
-		} else {
+		}
+		else
+		{
 			titleLabel.setText("");
 		}
 	}
@@ -196,7 +214,8 @@ public class JCollapsiblePanel extends JPanel {
 	 * 
 	 * @return the title
 	 */
-	public String getTitle() {
+	public String getTitle()
+	{
 		return titleLabel.getText();
 	}
 
@@ -204,16 +223,19 @@ public class JCollapsiblePanel extends JPanel {
 	 * Sets the main content container for this container.
 	 * 
 	 * @param container
-	 *            the main content container
+	 *          the main content container
 	 */
-	public void setContentContainer(Container container) {
+	public void setContentContainer(Container container)
+	{
 		// don't need to do anything if the main component hasn't changed
-		if (container == this.contentContainer) {
+		if (container == this.contentContainer)
+		{
 			return;
 		}
 
 		// remove the main component
-		if (this.contentContainer != null) {
+		if (this.contentContainer != null)
+		{
 			remove(this.contentContainer);
 		}
 
@@ -230,11 +252,13 @@ public class JCollapsiblePanel extends JPanel {
 	 * 
 	 * @return the main container
 	 */
-	public Container getContentContainer() {
+	public Container getContentContainer()
+	{
 		return contentContainer;
 	}
 
-	public void addContent(Component comp, Object constraints) {
+	public void addContent(Component comp, Object constraints)
+	{
 		contentContainer.add(comp, constraints);
 	}
 
@@ -242,11 +266,13 @@ public class JCollapsiblePanel extends JPanel {
 	 * Sets the title font.
 	 * 
 	 * @param font
-	 *            the title font
+	 *          the title font
 	 */
-	public void setTitleFont(Font font) {
+	public void setTitleFont(Font font)
+	{
 		super.setFont(font);
-		if (titleLabel != null) {
+		if (titleLabel != null)
+		{
 			titleLabel.setFont(font);
 		}
 	}
@@ -255,9 +281,10 @@ public class JCollapsiblePanel extends JPanel {
 	 * Sets the background color of the title bar.
 	 * 
 	 * @param color
-	 *            the color
+	 *          the color
 	 */
-	public void setTitleBackgroundColor(Color color) {
+	public void setTitleBackgroundColor(Color color)
+	{
 		this.titlePanel.setBackground(color);
 	}
 
@@ -265,9 +292,10 @@ public class JCollapsiblePanel extends JPanel {
 	 * Sets the title text color.
 	 * 
 	 * @param color
-	 *            the color
+	 *          the color
 	 */
-	public void setTitleColor(Color color) {
+	public void setTitleColor(Color color)
+	{
 		this.titleLabel.setForeground(color);
 	}
 
@@ -275,9 +303,10 @@ public class JCollapsiblePanel extends JPanel {
 	 * Sets the title bar padding in pixels.
 	 * 
 	 * @param padding
-	 *            the title bar padding in pixels
+	 *          the title bar padding in pixels
 	 */
-	public void setTitleBarPadding(int padding) {
+	public void setTitleBarPadding(int padding)
+	{
 		Border border = BorderFactory.createEmptyBorder(padding, padding, padding, padding);
 		this.titlePanel.setBorder(border);
 	}
@@ -287,9 +316,10 @@ public class JCollapsiblePanel extends JPanel {
 	 * user will not be able to collapse or decollapse the container.
 	 * 
 	 * @param visible
-	 *            visibility of the title bar
+	 *          visibility of the title bar
 	 */
-	public void setTitleBarVisible(boolean visible) {
+	public void setTitleBarVisible(boolean visible)
+	{
 		this.titlePanel.setVisible(visible);
 	}
 
@@ -298,18 +328,20 @@ public class JCollapsiblePanel extends JPanel {
 	 * 
 	 * @return true if the title bar is visible, false otherwise
 	 */
-	public boolean isTitleBarVisible() {
+	public boolean isTitleBarVisible()
+	{
 		return this.titlePanel.isVisible();
 	}
 
-	//--------------------------------------------------------------------------
+	// --------------------------------------------------------------------------
 
 	/**
 	 * A {@code MouseListener} that changes the cursor when moved over the title
 	 * bar to indicate that it is clickable. Clicking the title bar collapses
 	 * the container.
 	 */
-	private class CollapsingMouseListener extends MouseAdapter {
+	private class CollapsingMouseListener extends MouseAdapter
+	{
 		private final Cursor CLICK_ME_CURSOR = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR);
 
 		/**
@@ -317,7 +349,9 @@ public class JCollapsiblePanel extends JPanel {
 		 * 
 		 * {@inheritDoc}
 		 */
-		public void mousePressed(MouseEvent e) {
+		@Override
+		public void mousePressed(MouseEvent e)
+		{
 			setCollapsed(!JCollapsiblePanel.this.isCollapsed);
 		}
 
@@ -326,7 +360,9 @@ public class JCollapsiblePanel extends JPanel {
 		 * 
 		 * {@inheritDoc}
 		 */
-		public void mouseEntered(MouseEvent e) {
+		@Override
+		public void mouseEntered(MouseEvent e)
+		{
 			titlePanel.setCursor(CLICK_ME_CURSOR);
 		}
 
@@ -335,7 +371,9 @@ public class JCollapsiblePanel extends JPanel {
 		 * 
 		 * {@inheritDoc}
 		 */
-		public void mouseExited(MouseEvent e) {
+		@Override
+		public void mouseExited(MouseEvent e)
+		{
 			titlePanel.setCursor(Cursor.getDefaultCursor());
 		}
 	}

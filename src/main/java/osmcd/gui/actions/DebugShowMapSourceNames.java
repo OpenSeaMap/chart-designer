@@ -31,27 +31,31 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
-import osmcd.gui.MainGUI;
-import osmcd.mapsources.MapSourcesManager;
-import osmcd.program.interfaces.MapSource;
-import osmcd.program.model.MapSourceLoaderInfo;
-import osmcd.utilities.I18nUtils;
+import osmb.mapsources.ACMapSourcesManager;
+import osmb.mapsources.IfMapSource;
+import osmb.mapsources.MapSourceLoaderInfo;
+import osmcd.OSMCDStrs;
+import osmcd.gui.MainFrame;
 
-public class DebugShowMapSourceNames implements ActionListener {
+public class DebugShowMapSourceNames implements ActionListener
+{
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		ArrayList<IfMapSource> mapSources = new ArrayList<IfMapSource>(ACMapSourcesManager.getInstance().getAllAvailableMapSources());
 
-	public void actionPerformed(ActionEvent e) {
-		ArrayList<MapSource> mapSources = new ArrayList<MapSource>(MapSourcesManager.getInstance()
-				.getAllAvailableMapSources());
+		Collections.sort(mapSources, new Comparator<IfMapSource>()
+		{
 
-		Collections.sort(mapSources, new Comparator<MapSource>() {
-
-			public int compare(MapSource o1, MapSource o2) {
+			@Override
+			public int compare(IfMapSource o1, IfMapSource o2)
+			{
 				return o1.getName().compareTo(o2.getName());
 			}
 
 		});
-		JFrame dialog = new JFrame(I18nUtils.localizedStringForKey("dlg_show_source_title"));
-		dialog.setLocationRelativeTo(MainGUI.getMainGUI());
+		JFrame dialog = new JFrame(OSMCDStrs.RStr("dlg_show_source_title"));
+		dialog.setLocationRelativeTo(MainFrame.getMainGUI());
 		dialog.setLocation(100, 40);
 		Dimension dScreen = Toolkit.getDefaultToolkit().getScreenSize();
 		dScreen.height -= 200;
@@ -66,65 +70,75 @@ public class DebugShowMapSourceNames implements ActionListener {
 		dialog.setVisible(true);
 	}
 
-	static class MapSourcesTableModel extends AbstractTableModel {
+	static class MapSourcesTableModel extends AbstractTableModel
+	{
 
-		List<MapSource> mapSources;
+		List<IfMapSource> mapSources;
 
-		public MapSourcesTableModel(List<MapSource> mapSources) {
+		public MapSourcesTableModel(List<IfMapSource> mapSources)
+		{
 			super();
 			this.mapSources = mapSources;
 		}
 
-		public int getRowCount() {
+		@Override
+		public int getRowCount()
+		{
 			return mapSources.size();
 		}
 
-		public int getColumnCount() {
+		@Override
+		public int getColumnCount()
+		{
 			return 4;
 		}
 
 		@Override
-		public String getColumnName(int column) {
-			switch (column) {
-			case 0:
-				return I18nUtils.localizedStringForKey("dlg_show_source_column_name");
-			case 1:
-				return I18nUtils.localizedStringForKey("dlg_show_source_column_display_text");
-			case 2:
-				return I18nUtils.localizedStringForKey("dlg_show_source_column_rev");
-			case 3:
-				return I18nUtils.localizedStringForKey("dlg_show_source_column_type");
-			default:
-				return null;
+		public String getColumnName(int column)
+		{
+			switch (column)
+			{
+				case 0:
+					return OSMCDStrs.RStr("dlg_show_source_column_name");
+				case 1:
+					return OSMCDStrs.RStr("dlg_show_source_column_display_text");
+				case 2:
+					return OSMCDStrs.RStr("dlg_show_source_column_rev");
+				case 3:
+					return OSMCDStrs.RStr("dlg_show_source_column_type");
+				default:
+					return null;
 			}
 		}
 
-		public Object getValueAt(int rowIndex, int columnIndex) {
-			MapSource ms = mapSources.get(rowIndex);
+		@Override
+		public Object getValueAt(int rowIndex, int columnIndex)
+		{
+			IfMapSource ms = mapSources.get(rowIndex);
 			MapSourceLoaderInfo li;
-			switch (columnIndex) {
-			case 0:
-				return ms.getName();
-			case 1:
-				return ms.toString();
-			case 2:
-				li = ms.getLoaderInfo();
-				if (li == null)
+			switch (columnIndex)
+			{
+				case 0:
+					return ms.getName();
+				case 1:
+					return ms.toString();
+				case 2:
+					li = ms.getLoaderInfo();
+					if (li == null)
+						return null;
+					return li.getRevision();
+				case 3:
+					li = ms.getLoaderInfo();
+					if (li == null)
+						return null;
+					String s = "";
+					File f = li.getSourceFile();
+					if (f != null)
+						s += f.getName() + " / ";
+					return s + li.getLoaderType();
+				default:
 					return null;
-				return li.getRevision();
-			case 3:
-				li = ms.getLoaderInfo();
-				if (li == null)
-					return null;
-				String s = "";
-				File f = li.getSourceFile();
-				if (f != null)
-					s += f.getName() + " / ";
-				return s + li.getLoaderType();
-			default:
-				return null;
 			}
 		}
 	}
-
 }

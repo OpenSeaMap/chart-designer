@@ -21,13 +21,13 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JCheckBoxMenuItem;
 
-import osmcd.gui.MainGUI;
+import osmcd.gui.MainFrame;
 import osmcd.gui.mapview.PreviewMap;
 
 public class DebugShowMapTileGrid implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
-		PreviewMap previewMap = MainGUI.getMainGUI().previewMap;
+		PreviewMap previewMap = MainFrame.getMainGUI().previewMap;
 		previewMap.setTileGridVisible(!previewMap.isTileGridVisible());
 		if (e.getSource() instanceof JCheckBoxMenuItem) {
 			JCheckBoxMenuItem m = (JCheckBoxMenuItem) e.getSource();

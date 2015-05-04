@@ -18,7 +18,7 @@ package osmcd.gui.components;
 
 import javax.swing.JCheckBox;
 
-import osmcd.utilities.I18nUtils;
+import osmcd.OSMCDStrs;
 
 public class JZoomCheckBox extends JCheckBox {
 
@@ -29,7 +29,7 @@ public class JZoomCheckBox extends JCheckBox {
 	public JZoomCheckBox(int zoomLevel) {
 		super();
 		this.zoomLevel = zoomLevel;
-		setToolTipText(String.format(I18nUtils.localizedStringForKey("lp_zoom_number_tips"),zoomLevel));
+		setToolTipText(String.format(OSMCDStrs.RStr("lp_zoom_number_tips"),zoomLevel));
 	}
 
 	public int getZoomLevel() {

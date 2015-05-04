@@ -30,18 +30,19 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
-import osmcd.gui.MainGUI;
+import osmb.utilities.GBC;
+import osmb.utilities.OSMBUtilities;
+import osmcd.OSMCDStrs;
+import osmcd.gui.MainFrame;
 import osmcd.program.ProgramInfo;
-import osmcd.utilities.GBC;
-import osmcd.utilities.I18nUtils;
-import osmcd.utilities.Utilities;
 
 public class AboutDialog extends JDialog implements MouseListener
 {
 
-	public AboutDialog() throws HeadlessException {
-		super(MainGUI.getMainGUI(), I18nUtils.localizedStringForKey("dlg_about_title"));
-		setIconImages(MainGUI.OSMCD_ICONS);
+	public AboutDialog() throws HeadlessException
+	{
+		super(MainFrame.getMainGUI(), OSMCDStrs.RStr("dlg_about_title"));
+		setIconImages(MainFrame.OSMCD_ICONS);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setResizable(false);
 
@@ -51,7 +52,7 @@ public class AboutDialog extends JDialog implements MouseListener
 		GBC eol = GBC.eol();
 		std.insets(3, 3, 3, 3);
 		eol.insets(3, 3, 3, 3);
-		ImageIcon splash = Utilities.loadResourceImageIcon("Splash.jpg");
+		ImageIcon splash = OSMBUtilities.loadResourceImageIcon("Splash.jpg");
 		Dimension size = new Dimension(splash.getIconWidth(), splash.getIconHeight());
 		panel.setPreferredSize(size);
 		panel.setMinimumSize(size);
@@ -62,9 +63,9 @@ public class AboutDialog extends JDialog implements MouseListener
 		JPanel infoPanel = new JPanel(new GridBagLayout());
 		infoPanel.setBackground(Color.WHITE);
 		infoPanel.setOpaque(false);
-		infoPanel.add(new JLabel(I18nUtils.localizedStringForKey("dlg_about_version")), std);
+		infoPanel.add(new JLabel(OSMCDStrs.RStr("dlg_about_version")), std);
 		infoPanel.add(new JLabel(ProgramInfo.getVersion()), eol);
-		infoPanel.add(new JLabel(I18nUtils.localizedStringForKey("dlg_about_program_version")), std);
+		infoPanel.add(new JLabel(OSMCDStrs.RStr("dlg_about_program_version")), std);
 		infoPanel.add(new JLabel(ProgramInfo.getRevisionStr()), eol);
 
 		panel.add(infoPanel);
@@ -81,23 +82,28 @@ public class AboutDialog extends JDialog implements MouseListener
 		addMouseListener(this);
 	}
 
+	@Override
 	public void mouseClicked(MouseEvent e)
 	{
 		setVisible(false);
 	}
 
+	@Override
 	public void mousePressed(MouseEvent e)
 	{
 	}
 
+	@Override
 	public void mouseReleased(MouseEvent e)
 	{
 	}
 
+	@Override
 	public void mouseEntered(MouseEvent e)
 	{
 	}
 
+	@Override
 	public void mouseExited(MouseEvent e)
 	{
 	}

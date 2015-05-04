@@ -20,7 +20,7 @@ public enum ToolParameters {
 
 	MAX_LAT, MIN_LAT, MAX_LON, MIN_LON, // 
 	MIN_ZOOM, MAX_ZOOM, // minimum and maximum of selected zoom levels check-boxes
-	MAPSOURCE_NAME, MAPSOURCE_DISPLAYNAME, // Currently select map source internal or display name 
+	MAPSOURCE_NAME, MAPSOURCE_DISPLAYNAME, // Currently select iMap source internal or display name 
 	NAME_EDITBOX // content of the edit box "Name" in the side panel "Bundle Content"
 
 }

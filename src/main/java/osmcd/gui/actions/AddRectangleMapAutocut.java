@@ -22,18 +22,18 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
-import osmcd.exceptions.InvalidNameException;
-import osmcd.gui.MainGUI;
-import osmcd.gui.atlastree.JAtlasTree;
+import osmb.exceptions.InvalidNameException;
+import osmb.mapsources.IfMapSource;
+import osmb.program.catalog.IfCatalog;
+import osmb.program.map.Layer;
+import osmb.program.tiles.TileImageParameters;
+import osmcd.OSMCDSettings;
+import osmcd.OSMCDStrs;
+import osmcd.gui.MainFrame;
+import osmcd.gui.catalog.JCatalogTree;
 import osmcd.program.Logging;
-import osmcd.program.interfaces.BundleInterface;
-import osmcd.program.interfaces.MapSource;
-import osmcd.program.model.Layer;
-import osmcd.program.model.MapSelection;
-import osmcd.program.model.SelectedZoomLevels;
-import osmcd.program.model.Settings;
-import osmcd.program.model.TileImageParameters;
-import osmcd.utilities.I18nUtils;
+import osmcd.program.MapSelection;
+import osmcd.program.SelectedZoomLevels;
 
 /**
  * AH OSM Selection strategy for SeaChartBundles
@@ -42,7 +42,7 @@ import osmcd.utilities.I18nUtils;
  * 
  *         include the lower zoomlevels covering the selection too allowed tile numbers are 5, 9, 17, 33, 65
  * 
- *         name scheme for trekbuddy atlases LNN with map names LNN-XXXX
+ *         name scheme for trekbuddy atlases LNN with iMap names LNN-XXXX
  * 
  *         probably redirect this to AtlasCreator as base class of Bundle, since a lot of parameters are depending on the atlas format to produce Layer
  *         AtlasCreator.AddLayer(zoom, GUI.getUserText()) Add Layer (if necessary) and give name conformimg to name scheme of this atlas, use user given name,
@@ -52,23 +52,23 @@ import osmcd.utilities.I18nUtils;
 
 public class AddRectangleMapAutocut implements ActionListener
 {
-
+	@Override
 	public void actionPerformed(ActionEvent event)
 	{
-		MainGUI mg = MainGUI.getMainGUI();
-		JAtlasTree jAtlasTree = mg.jAtlasTree;
+		MainFrame mg = MainFrame.getMainGUI();
+		JCatalogTree catalogTree = mg.getCatalogTree();
 		final String mapNameFmt = "%s %03d";
-		BundleInterface atlasInterface = jAtlasTree.getAtlas();
+		IfCatalog catalog = catalogTree.getCatalog();
 		// String name = mg.getUserText();
-		MapSource mapSource = mg.getSelectedMapSource();
+		IfMapSource mapSource = mg.getSelectedMapSource();
 		SelectedZoomLevels sZL = mg.getSelectedZoomLevels();
 		MapSelection ms = mg.getMapSelectionCoordinates();
 		if (ms == null)
 		{
-			JOptionPane.showMessageDialog(mg, I18nUtils.localizedStringForKey("msg_no_select_area"));
+			JOptionPane.showMessageDialog(mg, OSMCDStrs.RStr("msg_no_select_area"));
 			return;
 		}
-		Settings settings = Settings.getInstance();
+		OSMCDSettings settings = OSMCDSettings.getInstance();
 		// String errorText = mg.validateInput();
 		// if (errorText.length() > 0) {
 		// JOptionPane.showMessageDialog(mg, errorText, "Errors", JOptionPane.ERROR_MESSAGE);
@@ -78,18 +78,18 @@ public class AddRectangleMapAutocut implements ActionListener
 		int[] zoomLevels = sZL.getZoomLevels();
 		if (zoomLevels.length == 0)
 		{
-			JOptionPane.showMessageDialog(mg, I18nUtils.localizedStringForKey("msg_no_zoom_level_selected"));
+			JOptionPane.showMessageDialog(mg, OSMCDStrs.RStr("msg_no_zoom_level_selected"));
 			return;
 		}
 
-		for (int zoom: zoomLevels)
+		for (int zoom : zoomLevels)
 		{
 			boolean bNewLayer = false;
 			// String layerName = name;
 			String layerName = String.format("L%02d", zoom);
 			Layer layer = null;
 			boolean success = false;
-			if ((layer = Layer.GetLayerByZoom(atlasInterface, zoom)) != null)
+			if ((layer = Layer.GetLayerByZoom(catalog, zoom)) != null)
 				success = true;
 			else
 			{
@@ -97,7 +97,7 @@ public class AddRectangleMapAutocut implements ActionListener
 				{
 					try
 					{
-						layer = new Layer(atlasInterface, layerName, zoom);
+						layer = new Layer(catalog, layerName, zoom);
 						success = true;
 						bNewLayer = true;
 						break;
@@ -105,18 +105,17 @@ public class AddRectangleMapAutocut implements ActionListener
 					catch (InvalidNameException e)
 					{
 						// layerName = layerName + "_" + Integer.toString(c++);
-						for (int layerNum = 0; layerNum < atlasInterface.getLayerCount(); ++layerNum)
+						for (int layerNum = 0; layerNum < catalog.getLayerCount(); ++layerNum)
 						{
-							if (layerName.compareToIgnoreCase(atlasInterface.getLayer(layerNum).getName()) == 0)
+							if (layerName.compareToIgnoreCase(catalog.getLayer(layerNum).getName()) == 0)
 							{
-								layer = (Layer) atlasInterface.getLayer(layerNum);
+								layer = (Layer) catalog.getLayer(layerNum);
 								success = true;
 								break;
 							}
 						}
 					}
-				}
-				while (!success);
+				} while (!success);
 			}
 
 			Point tl = ms.getTopLeftPixelCoordinate(zoom);
@@ -124,8 +123,9 @@ public class AddRectangleMapAutocut implements ActionListener
 			TileImageParameters customTileParameters = mg.getSelectedTileImageParameters();
 			try
 			{
-				String mapName = String.format(mapNameFmt, new Object[] {layerName, layer.getMapCount()});
-				layer.addMapsAutocut(mapName, mapSource, tl, br, zoom, customTileParameters, settings.maxMapSize, settings.mapOverlapTiles);
+				String mapName = String.format(mapNameFmt, new Object[]
+				{ layerName, layer.getMapCount() });
+				layer.addMapsAutocut(mapName, mapSource, tl, br, zoom, customTileParameters, settings.getMaxMapSize(), settings.getMapOverlapTiles());
 			}
 			catch (InvalidNameException e)
 			{
@@ -133,10 +133,10 @@ public class AddRectangleMapAutocut implements ActionListener
 			}
 			if (bNewLayer)
 			{
-				atlasInterface.addLayer(layer);
+				catalog.addLayer(layer);
 			}
 			// Check for duplicate maps either here or in layer.addMapsAutocut()
-			jAtlasTree.getTreeModel().notifyNodeInsert(layer);
+			catalogTree.getTreeModel().notifyNodeInsert(layer);
 		}
 	}
 }

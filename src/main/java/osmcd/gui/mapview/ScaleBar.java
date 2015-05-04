@@ -26,32 +26,33 @@ import java.awt.Stroke;
 
 import javax.swing.JComponent;
 
-import osmcd.program.interfaces.MapSpace;
-import osmcd.program.model.Settings;
-import osmcd.program.model.UnitSystem;
-import osmcd.utilities.MyMath;
+import osmb.program.map.IfMapSpace;
+import osmb.utilities.MyMath;
+import osmb.utilities.UnitSystem;
+import osmcd.OSMCDSettings;
 
 /**
- * Simple scale bar showing the map scale using the selected unit system.
+ * Simple scale bar showing the iMap scale using the selected unit system.
  */
-public class ScaleBar {
-
+public class ScaleBar
+{
 	private static final Stroke STROKE = new BasicStroke(1);
 	private static final Font FONT = new Font("Sans Serif", Font.PLAIN, 12);
 
 	/**
-	 * Horizontal margin between scale bar and right border of the map
+	 * Horizontal margin between scale bar and right border of the iMap
 	 */
 	private static final int MARGIN_X = 40;
 
 	/**
-	 * Vertical margin between scale bar and bottom border of the map
+	 * Vertical margin between scale bar and bottom border of the iMap
 	 */
 	private static final int MARGIN_Y = 40;
 
 	private static final int DESIRED_SCALE_BAR_WIDTH = 150;
 
-	public static void paintScaleBar(JComponent c, Graphics2D g, MapSpace mapSpace, Point tlc, int zoom) {
+	public static void paintScaleBar(JComponent c, Graphics2D g, IfMapSpace mapSpace, Point tlc, int zoom)
+	{
 		Rectangle r = c.getBounds();
 		int posX;
 		int posY = r.height - r.y;
@@ -63,7 +64,7 @@ public class ScaleBar {
 
 		int w1 = DESIRED_SCALE_BAR_WIDTH;
 
-		UnitSystem unitSystem = Settings.getInstance().unitSystem;
+		UnitSystem unitSystem = OSMCDSettings.getInstance().getUnitSystem();
 
 		// Calculate the angular distance of our desired scale bar
 		double ad = mapSpace.horizontalDistance(zoom, coordY, w1);
@@ -72,7 +73,8 @@ public class ScaleBar {
 		// convert angular into the selected unit system
 		double dist1 = ad * unitSystem.earthRadius;
 		// distance is smaller that one (km/mi)? the use smaller units (m/ft)
-		if (dist1 < 1.0) {
+		if (dist1 < 1.0)
+		{
 			dist1 *= unitSystem.unitFactor;
 			unit = unitSystem.unitSmall;
 		}

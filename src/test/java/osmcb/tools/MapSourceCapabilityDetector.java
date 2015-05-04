@@ -43,9 +43,9 @@ import osmcd.program.interfaces.HttpMapSource;
 import osmcd.program.interfaces.MapSource;
 import osmcd.program.interfaces.MapSpace;
 import osmcd.program.model.EastNorthCoordinate;
-import osmcd.program.model.Settings;
+import osmcd.program.model.OSMCDSettings;
 import osmcd.program.model.TileImageType;
-import osmcd.utilities.Utilities;
+import osmcd.OSMCBUtilities.OSMCBUtilities;
 
 public class MapSourceCapabilityDetector {
 
@@ -166,8 +166,8 @@ public class MapSourceCapabilityDetector {
 
 			// printHeaders();
 
-			byte[] content = Utilities.getInputBytes(c.getInputStream());
-			TileImageType detectedContentType = Utilities.getImageType(content);
+			byte[] content = OSMCBUtilities.getInputBytes(c.getInputStream());
+			TileImageType detectedContentType = OSMCBUtilities.getImageType(content);
 
 			contentType = c.getContentType();
 			contentType = contentType.substring(6);
@@ -205,7 +205,7 @@ public class MapSourceCapabilityDetector {
 				// long diff = (exp - System.currentTimeMillis()) / 1000;
 				// log.debug("Expiration time       : " + new Date(exp)
 				// + " => "
-				// + Utilities.formatDurationSeconds(diff));
+				// + OSMCBUtilities.formatDurationSeconds(diff));
 			}
 			long modified = c.getLastModified();
 			lastModifiedTimePresent = (c.getHeaderField("last-modified") != null) && (modified != 0);

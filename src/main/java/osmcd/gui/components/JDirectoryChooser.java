@@ -21,7 +21,7 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 
-import osmcd.utilities.I18nUtils;
+import osmcd.OSMCDStrs;
 
 public class JDirectoryChooser extends JFileChooser {
 
@@ -30,7 +30,7 @@ public class JDirectoryChooser extends JFileChooser {
 	public JDirectoryChooser() {
 		super();
 		setDialogType(CUSTOM_DIALOG);
-		setDialogTitle(I18nUtils.localizedStringForKey("dlg_select_dir_title"));
+		setDialogTitle(OSMCDStrs.RStr("dlg_select_dir_title"));
 		//setApproveButtonText("Select Directory");
 		setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		setAcceptAllFileFilterUsed(false);
@@ -43,7 +43,7 @@ public class JDirectoryChooser extends JFileChooser {
 
 			@Override
 			public String getDescription() {
-				return I18nUtils.localizedStringForKey("dlg_select_dir_description");
+				return OSMCDStrs.RStr("dlg_select_dir_description");
 			}
 		});
 	}

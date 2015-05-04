@@ -29,37 +29,42 @@ import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
-import osmcd.program.interfaces.MapSource;
-import osmcd.utilities.Utilities;
+import osmb.mapsources.IfMapSource;
+import osmb.utilities.OSMBUtilities;
 
 /**
- * Holds one map tile. Additionally the code for loading the tile image and painting it is also included in this class.
+ * Holds one iMap tile. Additionally the code for loading the tile image and painting it is also included in this class.
  * 
  * @author Jan Peter Stotz
  */
-public class Tile {
-
+public class Tile
+{
 	/**
-	 * Hourglass image that is displayed until a map tile has been loaded
+	 * Hourglass image that is displayed until a iMap tile has been loaded
 	 */
 	public static BufferedImage LOADING_IMAGE;
 	public static BufferedImage ERROR_IMAGE;
 
-	static {
-		try {
-			LOADING_IMAGE = ImageIO.read(Utilities.getResourceImageUrl("hourglass.png"));
-			ERROR_IMAGE = ImageIO.read(Utilities.getResourceImageUrl("error.png"));
-		} catch (Exception e1) {
+	static
+	{
+		try
+		{
+			LOADING_IMAGE = ImageIO.read(OSMBUtilities.getResourceImageUrl("hourglass.png"));
+			ERROR_IMAGE = ImageIO.read(OSMBUtilities.getResourceImageUrl("error.png"));
+		}
+		catch (Exception e1)
+		{
 			LOADING_IMAGE = null;
 			ERROR_IMAGE = null;
 		}
 	}
 
-	public enum TileState {
+	public enum TileState
+	{
 		TS_NEW, TS_LOADING, TS_LOADED, TS_ERROR
 	};
 
-	protected MapSource mapSource;
+	protected IfMapSource mapSource;
 	protected int xtile;
 	protected int ytile;
 	protected int zoom;
@@ -75,7 +80,8 @@ public class Tile {
 	 * @param ytile
 	 * @param zoom
 	 */
-	public Tile(MapSource mapSource, int xtile, int ytile, int zoom) {
+	public Tile(IfMapSource mapSource, int xtile, int ytile, int zoom)
+	{
 		super();
 		this.mapSource = mapSource;
 		this.xtile = xtile;
@@ -85,7 +91,8 @@ public class Tile {
 		this.key = getTileKey(mapSource, xtile, ytile, zoom);
 	}
 
-	public Tile(MapSource source, int xtile, int ytile, int zoom, BufferedImage image) {
+	public Tile(IfMapSource source, int xtile, int ytile, int zoom, BufferedImage image)
+	{
 		this(source, xtile, ytile, zoom);
 		this.image = image;
 	}
@@ -94,39 +101,47 @@ public class Tile {
 	 * Tries to get tiles of a lower or higher zoom level (one or two level difference) from cache and use it as a
 	 * placeholder until the tile has been loaded.
 	 */
-	public void loadPlaceholderFromCache(MemoryTileCache cache) {
+	public void loadPlaceholderFromCache(MemoryTileCache cache)
+	{
 		int tileSize = mapSource.getMapSpace().getTileSize();
 		BufferedImage tmpImage = new BufferedImage(tileSize, tileSize, BufferedImage.TYPE_INT_RGB);
 		Graphics2D g = (Graphics2D) tmpImage.getGraphics();
 		// g.drawImage(image, 0, 0, null);
-		for (int zoomDiff = 1; zoomDiff < 5; zoomDiff++) {
+		for (int zoomDiff = 1; zoomDiff < 5; zoomDiff++)
+		{
 			// first we check if there are already the 2^x tiles
 			// of a higher detail level
 			int zoom_high = zoom + zoomDiff;
-			if (zoomDiff < 3 && zoom_high <= JMapViewer.MAX_ZOOM) {
+			if (zoomDiff < 3 && zoom_high <= JMapViewer.MAX_ZOOM)
+			{
 				int factor = 1 << zoomDiff;
 				int xtile_high = xtile << zoomDiff;
 				int ytile_high = ytile << zoomDiff;
 				double scale = 1.0 / factor;
 				g.setTransform(AffineTransform.getScaleInstance(scale, scale));
 				int paintedTileCount = 0;
-				for (int x = 0; x < factor; x++) {
-					for (int y = 0; y < factor; y++) {
+				for (int x = 0; x < factor; x++)
+				{
+					for (int y = 0; y < factor; y++)
+					{
 						Tile tile = cache.getTile(mapSource, xtile_high + x, ytile_high + y, zoom_high);
-						if (tile != null && tile.tileState == TileState.TS_LOADED) {
+						if (tile != null && tile.tileState == TileState.TS_LOADED)
+						{
 							paintedTileCount++;
 							tile.paint(g, x * tileSize, y * tileSize);
 						}
 					}
 				}
-				if (paintedTileCount == factor * factor) {
+				if (paintedTileCount == factor * factor)
+				{
 					image = tmpImage;
 					return;
 				}
 			}
 
 			int zoom_low = zoom - zoomDiff;
-			if (zoom_low >= JMapViewer.MIN_ZOOM) {
+			if (zoom_low >= JMapViewer.MIN_ZOOM)
+			{
 				int xtile_low = xtile >> zoomDiff;
 				int ytile_low = ytile >> zoomDiff;
 				int factor = (1 << zoomDiff);
@@ -137,7 +152,8 @@ public class Tile {
 				at.setTransform(scale, 0, 0, scale, -translate_x, -translate_y);
 				g.setTransform(at);
 				Tile tile = cache.getTile(mapSource, xtile_low, ytile_low, zoom_low);
-				if (tile != null && tile.tileState == TileState.TS_LOADED) {
+				if (tile != null && tile.tileState == TileState.TS_LOADED)
+				{
 					tile.paint(g, 0, 0);
 					image = tmpImage;
 					return;
@@ -146,68 +162,81 @@ public class Tile {
 		}
 	}
 
-	public MapSource getSource() {
+	public IfMapSource getSource()
+	{
 		return mapSource;
 	}
 
 	/**
 	 * @return tile number on the x axis of this tile
 	 */
-	public int getXtile() {
+	public int getXtile()
+	{
 		return xtile;
 	}
 
 	/**
 	 * @return tile number on the y axis of this tile
 	 */
-	public int getYtile() {
+	public int getYtile()
+	{
 		return ytile;
 	}
 
 	/**
 	 * @return zoom level of this tile
 	 */
-	public int getZoom() {
+	public int getZoom()
+	{
 		return zoom;
 	}
 
-	public BufferedImage getImage() {
+	public BufferedImage getImage()
+	{
 		return image;
 	}
 
-	public void setImage(BufferedImage image) {
+	public void setImage(BufferedImage image)
+	{
 		this.image = image;
 	}
 
-	public void setErrorImage() {
+	public void setErrorImage()
+	{
 		image = ERROR_IMAGE;
 		tileState = TileState.TS_ERROR;
 	}
 
-	public void loadImage(InputStream input) throws IOException {
+	public void loadImage(InputStream input) throws IOException
+	{
 		image = ImageIO.read(input);
 	}
 
-	public void loadImage(byte[] data) throws IOException {
+	public void loadImage(byte[] data) throws IOException
+	{
 		loadImage(new ByteArrayInputStream(data));
 	}
 
 	/**
 	 * @return key that identifies a tile
 	 */
-	public String getKey() {
+	public String getKey()
+	{
 		return key;
 	}
 
-	public boolean isErrorTile() {
+	public boolean isErrorTile()
+	{
 		return (ERROR_IMAGE.equals(image));
 	}
 
-	public TileState getTileState() {
+	public TileState getTileState()
+	{
 		return tileState;
 	}
 
-	public void setTileState(TileState tileState) {
+	public void setTileState(TileState tileState)
+	{
 		this.tileState = tileState;
 	}
 
@@ -216,37 +245,41 @@ public class Tile {
 	 * 
 	 * @param g
 	 * @param x
-	 *            x-coordinate in <code>g</code>
+	 *          x-coordinate in <code>g</code>
 	 * @param y
-	 *            y-coordinate in <code>g</code>
+	 *          y-coordinate in <code>g</code>
 	 */
-	public void paint(Graphics g, int x, int y) {
+	public void paint(Graphics g, int x, int y)
+	{
 		if (image == null)
 			return;
-		
+
 		int tileSize = mapSource.getMapSpace().getTileSize();
-		//Google Scale = 2, retina support
+		// Google Scale = 2, retina support
 		g.drawImage(image, x, y, tileSize, tileSize, Color.WHITE, null);
-		//g.drawImage(image, x, y, Color.WHITE);
+		// g.drawImage(image, x, y, Color.WHITE);
 	}
 
-	public void paintTransparent(Graphics g, int x, int y) {
+	public void paintTransparent(Graphics g, int x, int y)
+	{
 		if (image == null)
 			return;
-		
+
 		int tileSize = mapSource.getMapSpace().getTileSize();
-		//Google Scale = 2, retina support
+		// Google Scale = 2, retina support
 		g.drawImage(image, x, y, tileSize, tileSize, null);
-		//g.drawImage(image, x, y, null);
+		// g.drawImage(image, x, y, null);
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "tile " + key;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(Object obj)
+	{
 		if (!(obj instanceof Tile))
 			return false;
 		Tile tile = (Tile) obj;
@@ -254,13 +287,14 @@ public class Tile {
 	}
 
 	@Override
-	public int hashCode() {
+	public int hashCode()
+	{
 		assert false : "hashCode not designed";
 		return -1;
 	}
 
-	public static String getTileKey(MapSource source, int xtile, int ytile, int zoom) {
+	public static String getTileKey(IfMapSource source, int xtile, int ytile, int zoom)
+	{
 		return zoom + "/" + xtile + "/" + ytile + "@" + source.getName();
 	}
-
 }

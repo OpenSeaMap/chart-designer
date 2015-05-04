@@ -21,30 +21,34 @@ import java.util.Hashtable;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
 
-import osmcd.program.interfaces.MapSpace;
-import osmcd.program.model.UnitSystem;
+import osmb.program.map.IfMapSpace;
+import osmb.utilities.UnitSystem;
 
-public class JDistanceSlider extends JSlider {
-
+public class JDistanceSlider extends JSlider
+{
 	private static final long serialVersionUID = 1L;
 
 	private final Hashtable<Integer, JLabel> labelTable;
 
-	public JDistanceSlider(MapSpace mapSpace, int zoom, int y, UnitSystem unit, int pixelMin, int pixelMax) {
+	public JDistanceSlider(IfMapSpace mapSpace, int zoom, int y, UnitSystem unit, int pixelMin, int pixelMax)
+	{
 		super(pixelMin, pixelMax);
 		labelTable = new Hashtable<Integer, JLabel>();
 
 		int diff4 = (pixelMax - pixelMin) / 4;
-		int[] labelvalues = new int[] { pixelMin, pixelMin + diff4, pixelMin + 2 * diff4, pixelMin + 3 * diff4,
-				pixelMax };
+		int[] labelvalues = new int[]
+		{ pixelMin, pixelMin + diff4, pixelMin + 2 * diff4, pixelMin + 3 * diff4, pixelMax };
 
-		for (int i : labelvalues) {
+		for (int i : labelvalues)
+		{
 			double distance = mapSpace.horizontalDistance(zoom, y, i) * unit.earthRadius * unit.unitFactor;
 			String label;
-			if (distance > unit.unitFactor) {
+			if (distance > unit.unitFactor)
+			{
 				distance /= unit.unitFactor;
 				label = String.format("%2.0f %s", distance, unit.unitLarge);
-			} else
+			}
+			else
 				label = String.format("%2.0f %s", distance, unit.unitSmall);
 			labelTable.put(new Integer(i), new JLabel(label));
 		}

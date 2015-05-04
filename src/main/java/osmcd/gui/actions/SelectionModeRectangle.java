@@ -19,16 +19,16 @@ package osmcd.gui.actions;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import osmcd.gui.MainGUI;
+import osmcd.gui.MainFrame;
 import osmcd.gui.mapview.PreviewMap;
-import osmcd.gui.mapview.controller.RectangleSelectionMapController;
+import osmcd.gui.mapview.RectangleSelectionMapController;
 
 public class SelectionModeRectangle implements ActionListener
 {
 
 	public void actionPerformed(ActionEvent e)
 	{
-		PreviewMap previewMap = MainGUI.getMainGUI().previewMap;
+		PreviewMap previewMap = MainFrame.getMainGUI().previewMap;
 		previewMap.setMapSelectionController(new RectangleSelectionMapController(previewMap));
 	}
 

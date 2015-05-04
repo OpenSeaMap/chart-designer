@@ -20,7 +20,7 @@ import java.util.Vector;
 
 import org.apache.log4j.Logger;
 
-import osmcd.utilities.I18nUtils;
+import osmcd.OSMCDStrs;
 
 public class JTileSizeCombo extends JIntCombo {
 
@@ -61,7 +61,7 @@ public class JTileSizeCombo extends JIntCombo {
 
 	@Override
 	protected void createEditorComponent() {
-		editorComponent = new JIntField(MIN, MAX, 4, I18nUtils.localizedStringForKey("msg_invalid_tile_size"));
+		editorComponent = new JIntField(MIN, MAX, 4, OSMCDStrs.RStr("msg_invalid_tile_size"));
 	}
 
 }

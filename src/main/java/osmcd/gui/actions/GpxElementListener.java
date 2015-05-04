@@ -22,17 +22,17 @@ import java.awt.event.MouseListener;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
+import osmcd.OSMCDStrs;
 import osmcd.data.gpx.gpx11.WptType;
-import osmcd.gui.MainGUI;
+import osmcd.gui.MainFrame;
 import osmcd.gui.gpxtree.GpxEntry;
 import osmcd.gui.gpxtree.GpxRootEntry;
 import osmcd.gui.gpxtree.RteEntry;
 import osmcd.gui.gpxtree.TrkEntry;
 import osmcd.gui.gpxtree.TrksegEntry;
 import osmcd.gui.gpxtree.WptEntry;
+import osmcd.gui.mapview.GpxMapController;
 import osmcd.gui.mapview.PreviewMap;
-import osmcd.gui.mapview.controller.GpxMapController;
-import osmcd.utilities.I18nUtils;
 
 /**
  * Listener for the gpx editor tree elements.
@@ -44,8 +44,8 @@ import osmcd.utilities.I18nUtils;
 public class GpxElementListener implements MouseListener
 {
 
-	public static final String MENU_NAME_RENAME = I18nUtils.localizedStringForKey("rp_gpx_menu_rename");
-	public static final String MENU_NAME_DELETE = I18nUtils.localizedStringForKey("rp_gpx_menu_delete");
+	public static final String MENU_NAME_RENAME = OSMCDStrs.RStr("rp_gpx_menu_rename");
+	public static final String MENU_NAME_DELETE = OSMCDStrs.RStr("rp_gpx_menu_delete");
 
 	private final GpxEntry gpxEntry;
 
@@ -99,11 +99,11 @@ public class GpxElementListener implements MouseListener
 	 */
 	private void removeEntry()
 	{
-		int answer = JOptionPane.showConfirmDialog(null, I18nUtils.localizedStringForKey("rp_gpx_msg_confim_delete"),
-				I18nUtils.localizedStringForKey("rp_gpx_msg_confim_delete_title"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+		int answer = JOptionPane.showConfirmDialog(null, OSMCDStrs.RStr("rp_gpx_msg_confim_delete"), OSMCDStrs.RStr("rp_gpx_msg_confim_delete_title"),
+				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 		if (answer == JOptionPane.YES_OPTION)
 		{
-			PreviewMap map = MainGUI.getMainGUI().previewMap;
+			PreviewMap map = MainFrame.getMainGUI().previewMap;
 			map.getMapSelectionController().disable();
 			if (mapController == null)
 				mapController = new GpxMapController(map, gpxEntry.getLayer().getPanel(), false);
@@ -124,7 +124,7 @@ public class GpxElementListener implements MouseListener
 				WptEntry wptEntry = (WptEntry) gpxEntry;
 				WptType wpt = wptEntry.getWpt();
 				editor.findWptAndDelete(wpt, gpxEntry);
-				wptEntry.getLayer().getPanel().removeWpt(wptEntry);
+				wptEntry.getLayer().getPanel().removeWaypoint(wptEntry);
 				mapController.repaint();
 			}
 			else if (gpxEntry.getClass().equals(GpxRootEntry.class))
@@ -147,8 +147,7 @@ public class GpxElementListener implements MouseListener
 	{
 		if (gpxEntry.getClass().equals(TrksegEntry.class))
 		{
-			JOptionPane.showMessageDialog(null, I18nUtils.localizedStringForKey("rp_gpx_msg_can_not_rename_track"), I18nUtils.localizedStringForKey("Error"),
-					JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, OSMCDStrs.RStr("rp_gpx_msg_can_not_rename_track"), OSMCDStrs.RStr("Error"), JOptionPane.INFORMATION_MESSAGE);
 			return;
 		}
 		else
@@ -156,7 +155,7 @@ public class GpxElementListener implements MouseListener
 			if (gpxEntry.getClass().equals(RteEntry.class))
 			{
 				RteEntry rte = (RteEntry) gpxEntry;
-				String name = JOptionPane.showInputDialog(null, I18nUtils.localizedStringForKey("rp_gpx_rename_element_title"), rte.getRte().getName());
+				String name = JOptionPane.showInputDialog(null, OSMCDStrs.RStr("rp_gpx_rename_element_title"), rte.getRte().getName());
 				if (name == null)
 				{
 					return;
@@ -166,7 +165,7 @@ public class GpxElementListener implements MouseListener
 			else if (gpxEntry.getClass().equals(TrkEntry.class))
 			{
 				TrkEntry trk = (TrkEntry) gpxEntry;
-				String name = JOptionPane.showInputDialog(null, I18nUtils.localizedStringForKey("rp_gpx_rename_element_title"), trk.getTrk().getName());
+				String name = JOptionPane.showInputDialog(null, OSMCDStrs.RStr("rp_gpx_rename_element_title"), trk.getTrk().getName());
 				if (name == null)
 				{
 					return;
@@ -176,7 +175,7 @@ public class GpxElementListener implements MouseListener
 			else if (gpxEntry.getClass().equals(WptEntry.class))
 			{
 				WptEntry wpt = (WptEntry) gpxEntry;
-				String name = JOptionPane.showInputDialog(null, I18nUtils.localizedStringForKey("rp_gpx_rename_element_title"), wpt.getWpt().getName());
+				String name = JOptionPane.showInputDialog(null, OSMCDStrs.RStr("rp_gpx_rename_element_title"), wpt.getWpt().getName());
 				if (name == null)
 				{
 					return;
@@ -187,7 +186,7 @@ public class GpxElementListener implements MouseListener
 			{
 				GpxRootEntry root = (GpxRootEntry) gpxEntry;
 				String initialValue = root.getMetaDataName();
-				String name = JOptionPane.showInputDialog(null, I18nUtils.localizedStringForKey("rp_gpx_rename_element_title"), initialValue);
+				String name = JOptionPane.showInputDialog(null, OSMCDStrs.RStr("rp_gpx_rename_element_title"), initialValue);
 				if (name == null)
 				{
 					return;

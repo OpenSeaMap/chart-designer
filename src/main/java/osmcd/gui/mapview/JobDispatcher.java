@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 
-import osmcd.program.tilestore.berkeleydb.DelayedInterruptThread;
+import osmb.program.tilestore.berkeleydb.DelayedInterruptThread;
 
 public class JobDispatcher implements ThreadFactory, RejectedExecutionHandler
 {
@@ -82,7 +82,7 @@ public class JobDispatcher implements ThreadFactory, RejectedExecutionHandler
 		{
 			id = WORKER_THREAD_ID++;
 		}
-		log.trace("New map preview worker thread created with id=" + id);
+		log.trace("New iMap preview worker thread created with id=" + id);
 		return new DelayedInterruptThread(r, "Map preview thread " + id);
 	}
 

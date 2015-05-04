@@ -23,37 +23,36 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import osmb.exceptions.InvalidNameException;
+import osmb.mapsources.IfMapSource;
+import osmb.program.catalog.IfCatalog;
+import osmb.program.map.IfMap;
+import osmb.program.map.IfMapSpace;
+import osmb.program.map.Layer;
+import osmb.program.map.MapPolygon;
+import osmb.program.tiles.TileImageParameters;
+import osmb.utilities.geo.EastNorthCoordinate;
+import osmcd.OSMCDSettings;
+import osmcd.OSMCDStrs;
 import osmcd.data.gpx.gpx11.TrkType;
 import osmcd.data.gpx.gpx11.TrksegType;
 import osmcd.data.gpx.interfaces.GpxPoint;
-import osmcd.exceptions.InvalidNameException;
-import osmcd.gui.MainGUI;
-import osmcd.gui.atlastree.JAtlasTree;
+import osmcd.gui.MainFrame;
 import osmcd.gui.gpxtree.GpxEntry;
 import osmcd.gui.gpxtree.GpxRootEntry;
 import osmcd.gui.gpxtree.TrkEntry;
 import osmcd.gui.gpxtree.TrksegEntry;
-import osmcd.program.interfaces.BundleInterface;
-import osmcd.program.interfaces.MapInterface;
-import osmcd.program.interfaces.MapSource;
-import osmcd.program.interfaces.MapSpace;
-import osmcd.program.model.EastNorthCoordinate;
-import osmcd.program.model.Layer;
-import osmcd.program.model.MapPolygon;
-import osmcd.program.model.SelectedZoomLevels;
-import osmcd.program.model.Settings;
-import osmcd.program.model.TileImageParameters;
-import osmcd.utilities.I18nUtils;
+import osmcd.program.SelectedZoomLevels;
 
 public class AddGpxTrackAreaPolygonMap implements ActionListener
 {
-
 	public static final AddGpxTrackAreaPolygonMap INSTANCE = new AddGpxTrackAreaPolygonMap();
 
+	@Override
 	public void actionPerformed(ActionEvent event)
 	{
-		MainGUI mg = MainGUI.getMainGUI();
-		GpxEntry entry = mg.gpxPanel.getSelectedEntry();
+		MainFrame mg = MainFrame.getMainGUI();
+		GpxEntry entry = mg.getSelectedGpx();
 
 		if (entry == null)
 			return;
@@ -70,7 +69,7 @@ public class AddGpxTrackAreaPolygonMap implements ActionListener
 			List<TrkType> tlist = re.getLayer().getGpx().getTrk();
 			if (tlist.size() > 1)
 			{
-				JOptionPane.showMessageDialog(mg, I18nUtils.localizedStringForKey("msg_add_gpx_polygon_too_many_track"));
+				JOptionPane.showMessageDialog(mg, OSMCDStrs.RStr("msg_add_gpx_polygon_too_many_track"));
 				return;
 			}
 			else if (tlist.size() == 1)
@@ -82,7 +81,7 @@ public class AddGpxTrackAreaPolygonMap implements ActionListener
 		{
 			if (t.getTrkseg().size() > 1)
 			{
-				JOptionPane.showMessageDialog(mg, I18nUtils.localizedStringForKey("msg_add_gpx_polygon_too_many_segment"));
+				JOptionPane.showMessageDialog(mg, OSMCDStrs.RStr("msg_add_gpx_polygon_too_many_segment"));
 				return;
 			}
 			else if (t.getTrkseg().size() == 1)
@@ -90,21 +89,19 @@ public class AddGpxTrackAreaPolygonMap implements ActionListener
 		}
 		if (trk == null)
 		{
-			JOptionPane.showMessageDialog(mg, I18nUtils.localizedStringForKey("msg_add_gpx_polygon_no_select"), I18nUtils.localizedStringForKey("Error"),
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(mg, OSMCDStrs.RStr("msg_add_gpx_polygon_no_select"), OSMCDStrs.RStr("Error"), JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
-		JAtlasTree jAtlasTree = mg.jAtlasTree;
 		final String mapNameFmt = "%s %02d";
-		BundleInterface atlasInterface = jAtlasTree.getAtlas();
-		String name = mg.getUserText();
-		MapSource mapSource = mg.getSelectedMapSource();
+		IfCatalog catalog = mg.getCatalog();
+		String name = mg.getCatalogName();
+		IfMapSource mapSource = mg.getSelectedMapSource();
 		SelectedZoomLevels sZL = mg.getSelectedZoomLevels();
 		int[] zoomLevels = sZL.getZoomLevels();
 		if (zoomLevels.length == 0)
 		{
-			JOptionPane.showMessageDialog(mg, I18nUtils.localizedStringForKey("msg_no_zoom_level_selected"));
+			JOptionPane.showMessageDialog(mg, OSMCDStrs.RStr("msg_no_zoom_level_selected"));
 			return;
 		}
 		List<? extends GpxPoint> points = trk.getTrkpt();
@@ -123,7 +120,7 @@ public class AddGpxTrackAreaPolygonMap implements ActionListener
 		}
 
 		final int maxZoom = zoomLevels[zoomLevels.length - 1];
-		final MapSpace mapSpace = mapSource.getMapSpace();
+		final IfMapSpace mapSpace = mapSource.getMapSpace();
 
 		TileImageParameters customTileParameters = mg.getSelectedTileImageParameters();
 
@@ -141,17 +138,17 @@ public class AddGpxTrackAreaPolygonMap implements ActionListener
 
 		int width = maxZoomMap.getMaxTileCoordinate().x - maxZoomMap.getMinTileCoordinate().x;
 		int height = maxZoomMap.getMaxTileCoordinate().y - maxZoomMap.getMinTileCoordinate().y;
-		if (Math.max(width, height) > Settings.getInstance().maxMapSize)
+		if (Math.max(width, height) > OSMCDSettings.getInstance().getMaxMapSize())
 		{
-			String msg = I18nUtils.localizedStringForKey("msg_add_gpx_polygon_maxsize");
-			int result = JOptionPane.showConfirmDialog(mg, msg, I18nUtils.localizedStringForKey("msg_add_gpx_polygon_maxsize_title"), JOptionPane.YES_NO_OPTION,
+			String msg = OSMCDStrs.RStr("msg_add_gpx_polygon_maxsize");
+			int result = JOptionPane.showConfirmDialog(mg, msg, OSMCDStrs.RStr("msg_add_gpx_polygon_maxsize_title"), JOptionPane.YES_NO_OPTION,
 					JOptionPane.QUESTION_MESSAGE);
 			if (result != JOptionPane.YES_OPTION)
 				return;
 		}
 
 		Layer layer = null;
-		for (int zoom: zoomLevels)
+		for (int zoom : zoomLevels)
 		{
 			String layerName = name;
 			int c = 1;
@@ -160,22 +157,21 @@ public class AddGpxTrackAreaPolygonMap implements ActionListener
 			{
 				try
 				{
-					layer = new Layer(atlasInterface, layerName, zoom);
+					layer = new Layer(catalog, layerName, zoom);
 					success = true;
 				}
 				catch (InvalidNameException e)
 				{
 					layerName = name + "_" + Integer.toString(c++);
 				}
-			}
-			while (!success);
+			} while (!success);
 
-			String mapName = String.format(mapNameFmt, new Object[] {layerName, zoom});
-			MapInterface map = MapPolygon.createFromMapPolygon(layer, mapName, zoom, maxZoomMap);
+			String mapName = String.format(mapNameFmt, new Object[]
+			{ layerName, zoom });
+			IfMap map = MapPolygon.createFromMapPolygon(layer, mapName, zoom, maxZoomMap);
 			layer.addMap(map);
 		}
-		atlasInterface.addLayer(layer);
-		mg.jAtlasTree.getTreeModel().notifyNodeInsert(layer);
-
+		catalog.addLayer(layer);
+		mg.notifyLayerInsert(layer);
 	}
 }

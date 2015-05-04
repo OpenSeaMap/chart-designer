@@ -2,18 +2,19 @@
 <classpath>
 	<classpathentry kind="src" path="src/main/resources"/>
 	<classpathentry kind="src" path="src/main/java"/>
-	<classpathentry kind="lib" path="C:/Users/Public/Projects/AHDTAC-Java/OSeaM ChartDesigner/lib/log4j-1.2.15.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Public/Projects/AHDTAC-Java/OSeaM ChartDesigner/lib/jai_codec.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Public/Projects/AHDTAC-Java/OSeaM ChartDesigner/lib/jai_core.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Public/Projects/AHDTAC-Java/OSeaM ChartDesigner/lib/bsh-2.0b4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Public/Projects/AHDTAC-Java/OSeaM ChartDesigner/lib/Tidy.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Public/Projects/AHDTAC-Java/OSeaM ChartDesigner/lib/javapng-2.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Public/Projects/AHDTAC-Java/OSeaM ChartDesigner/lib/itextpdf-5.1.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Public/Projects/AHDTAC-Java/OSeaM ChartDesigner/lib/commons-codec-1.4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Public/Projects/AHDTAC-Java/OSeaM ChartDesigner/lib/commons-io-2.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Public/Projects/AHDTAC-Java/OSeaM ChartDesigner/lib/commons-lang3-3.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Public/Projects/AHDTAC-Java/OSeaM ChartDesigner/lib/je-3.3.93.jar"/>
+	<classpathentry kind="lib" path="C:/Projekte/AHDTAC-Java/ChartBase/lib/log4j-1.2.15.jar"/>
+	<classpathentry kind="lib" path="C:/Projekte/AHDTAC-Java/ChartBase/lib/jai_codec.jar"/>
+	<classpathentry kind="lib" path="C:/Projekte/AHDTAC-Java/ChartBase/lib/jai_core.jar"/>
+	<classpathentry kind="lib" path="C:/Projekte/AHDTAC-Java/ChartBase/lib/bsh-2.0b4.jar"/>
+	<classpathentry kind="lib" path="C:/Projekte/AHDTAC-Java/ChartBase/lib/Tidy.jar"/>
+	<classpathentry kind="lib" path="C:/Projekte/AHDTAC-Java/ChartBase/lib/javapng-2.0.jar"/>
+	<classpathentry kind="lib" path="C:/Projekte/AHDTAC-Java/ChartBase/lib/itextpdf-5.1.0.jar"/>
+	<classpathentry kind="lib" path="C:/Projekte/AHDTAC-Java/ChartBase/lib/commons-codec-1.4.jar"/>
+	<classpathentry kind="lib" path="C:/Projekte/AHDTAC-Java/ChartBase/lib/commons-io-2.0.jar"/>
+	<classpathentry kind="lib" path="C:/Projekte/AHDTAC-Java/ChartBase/lib/commons-lang3-3.1.jar"/>
+	<classpathentry kind="lib" path="C:/Projekte/AHDTAC-Java/ChartBase/lib/je-3.3.93.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/OSeaM ChartBase"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

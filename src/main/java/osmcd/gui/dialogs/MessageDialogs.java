@@ -22,7 +22,7 @@ import java.awt.Dimension;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import osmcd.utilities.I18nUtils;
+import osmcd.OSMCDStrs;
 
 public class MessageDialogs {
 
@@ -39,7 +39,7 @@ public class MessageDialogs {
 			size.height *= lineCount;
 			label.setPreferredSize(size);
 		}
-		JOptionPane.showMessageDialog(null, label, I18nUtils.localizedStringForKey("Error"), JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(null, label, OSMCDStrs.RStr("Error"), JOptionPane.ERROR_MESSAGE);
 	}
 
 }

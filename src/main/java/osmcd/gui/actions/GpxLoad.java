@@ -32,65 +32,74 @@ import javax.xml.bind.JAXBException;
 
 import org.apache.log4j.Logger;
 
+import osmb.utilities.file.GpxFileFilter;
+import osmcd.OSMCDSettings;
+import osmcd.OSMCDStrs;
 import osmcd.data.gpx.GPXUtils;
 import osmcd.data.gpx.gpx11.Gpx;
-import osmcd.gui.MainGUI;
-import osmcd.gui.mapview.layer.GpxLayer;
-import osmcd.gui.panels.JGpxPanel;
-import osmcd.program.model.Settings;
-import osmcd.utilities.I18nUtils;
-import osmcd.utilities.file.GpxFileFilter;
+import osmcd.gui.MainFrame;
+import osmcd.gui.gpxtree.JGpxPanel;
+import osmcd.gui.mapview.GpxLayer;
 
-public class GpxLoad implements ActionListener {
-
+public class GpxLoad implements ActionListener
+{
 	private Logger log = Logger.getLogger(GpxLoad.class);
 
 	JGpxPanel panel;
 
-	public GpxLoad(JGpxPanel panel) {
+	public GpxLoad(JGpxPanel panel)
+	{
 		super();
 		this.panel = panel;
 	}
 
-	public void actionPerformed(ActionEvent event) {
+	@Override
+	public void actionPerformed(ActionEvent event)
+	{
 		if (!GPXUtils.checkJAXBVersion())
 			return;
 		JFileChooser fc = new JFileChooser();
-		try {
-			File dir = new File(Settings.getInstance().gpxFileChooserDir);
+		try
+		{
+			File dir = new File(OSMCDSettings.getInstance().getGpxFileChooserDir());
 			fc.setCurrentDirectory(dir); // restore the saved directory
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 		}
 		fc.setMultiSelectionEnabled(true);
 		fc.addChoosableFileFilter(new GpxFileFilter(false));
-		final MainGUI mainGUI = MainGUI.getMainGUI();
+		final MainFrame mainGUI = MainFrame.getMainGUI();
 		int returnVal = fc.showOpenDialog(mainGUI);
 		if (returnVal != JFileChooser.APPROVE_OPTION)
 			return;
-		Settings.getInstance().gpxFileChooserDir = fc.getCurrentDirectory().getAbsolutePath();
+		OSMCDSettings.getInstance().setGpxFileChooserDir(fc.getCurrentDirectory().getAbsolutePath());
 
 		File[] f = fc.getSelectedFiles();
 
 		// check already opened gpx files
 		boolean duplicates = false;
-		for (File selectedFile : f) {
+		for (File selectedFile : f)
+		{
 			duplicates = panel.isFileOpen(selectedFile.getAbsolutePath());
 			if (duplicates)
 				break;
 		}
-		if (duplicates) {
-			int answer = JOptionPane
-					.showConfirmDialog(mainGUI, I18nUtils.localizedStringForKey("rp_gpx_msg_confirm_reopen_file"),
-							I18nUtils.localizedStringForKey("Warning"), JOptionPane.YES_NO_OPTION,
-							JOptionPane.QUESTION_MESSAGE);
+		if (duplicates)
+		{
+			int answer = JOptionPane.showConfirmDialog(mainGUI, OSMCDStrs.RStr("rp_gpx_msg_confirm_reopen_file"), OSMCDStrs.RStr("Warning"),
+					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if (answer != JOptionPane.YES_OPTION)
 				return;
 		}
 
 		// process
-		if (f.length > 1) {
+		if (f.length > 1)
+		{
 			doMultiLoad(f, mainGUI);
-		} else if (f.length == 1) {
+		}
+		else if (f.length == 1)
+		{
 			doLoad(f[0], mainGUI);
 		}
 		mainGUI.previewMap.refreshMap();
@@ -99,29 +108,32 @@ public class GpxLoad implements ActionListener {
 	/**
 	 * @param f
 	 */
-	private void doLoad(File f, Component parent) {
-		try {
+	private void doLoad(File f, Component parent)
+	{
+		try
+		{
 			Gpx gpx = GPXUtils.loadGpxFile(f);
 			GpxLayer gpxLayer = new GpxLayer(gpx);
 			gpxLayer.setFile(f);
 			panel.addGpxLayer(gpxLayer);
-		} catch (JAXBException e) {
+		}
+		catch (JAXBException e)
+		{
 			JOptionPane.showMessageDialog(parent, "<html>Unable to load the GPX file <br><i>" + f.getAbsolutePath()
-					+ "</i><br><br><b>Please make sure the file is a valid GPX v1.1 file.</b><br>"
-					+ "<br>Internal error message:<br>" + e.getMessage() + "</html>", "GPX loading failed",
-					JOptionPane.ERROR_MESSAGE);
+					+ "</i><br><br><b>Please make sure the file is a valid GPX v1.1 file.</b><br>" + "<br>Internal error message:<br>" + e.getMessage() + "</html>",
+					"GPX loading failed", JOptionPane.ERROR_MESSAGE);
 			throw new RuntimeException(e);
 		}
 	}
 
-	private void doMultiLoad(final File[] files, final MainGUI mainGUI) {
+	private void doMultiLoad(final File[] files, final MainFrame mainGUI)
+	{
 		final JDialog progressDialog = new JDialog(mainGUI);
 		// prepare progress dialog
 		progressDialog.setSize(400, 50);
 		progressDialog.setResizable(false);
 		progressDialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-		progressDialog.setLocation(
-				Math.max(0, (int) (mainGUI.getLocation().getX() + mainGUI.getSize().getWidth() / 2 - 200)),
+		progressDialog.setLocation(Math.max(0, (int) (mainGUI.getLocation().getX() + mainGUI.getSize().getWidth() / 2 - 200)),
 				Math.max(0, (int) (mainGUI.getLocation().getY() + mainGUI.getSize().getHeight() / 2 - 25)));
 		final JProgressBar progressBar = new JProgressBar(0, files.length);
 		progressDialog.add(progressBar);
@@ -130,33 +142,48 @@ public class GpxLoad implements ActionListener {
 		mainGUI.setEnabled(false);
 		progressDialog.setVisible(true);
 
-		Thread job = new Thread() {
+		Thread job = new Thread()
+		{
 
 			private int counter = 0;
 
-			public void run() {
-				try {
+			@Override
+			public void run()
+			{
+				try
+				{
 					// iterate over files to load
-					for (final File file : files) {
+					for (final File file : files)
+					{
 						counter++;
-						SwingUtilities.invokeLater(new Runnable() {
-							public void run() {
+						SwingUtilities.invokeLater(new Runnable()
+						{
+							@Override
+							public void run()
+							{
 								progressBar.setValue(counter);
-								progressDialog.setTitle("Processing " + counter + " of " + files.length + " <"
-										+ file.getName() + ">");
+								progressDialog.setTitle("Processing " + counter + " of " + files.length + " <" + file.getName() + ">");
 							}
 						});
 						doLoad(file, progressDialog);
 					}
-				} catch (RuntimeException e) {
+				}
+				catch (RuntimeException e)
+				{
 					log.error(e.getMessage(), e);
-				} finally {
-					SwingUtilities.invokeLater(new Runnable() {
-						public void run() {
+				}
+				finally
+				{
+					SwingUtilities.invokeLater(new Runnable()
+					{
+						@Override
+						public void run()
+						{
 							// close progress dialog
 							mainGUI.previewMap.repaint();
 							mainGUI.setCursor(Cursor.getDefaultCursor());
-							if (progressDialog != null) {
+							if (progressDialog != null)
+							{
 								progressDialog.setVisible(false);
 								progressDialog.dispose();
 							}

@@ -27,8 +27,8 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
+import osmcd.OSMCDStrs;
 import osmcd.gui.actions.GpxElementListener;
-import osmcd.utilities.I18nUtils;
 
 /**
  * Listener for the gpx editor tree.
@@ -85,12 +85,12 @@ public class GpxTreeListener implements MouseListener {
 		}
 
 		popup = new JPopupMenu();
-		JMenuItem delete = new JMenuItem(I18nUtils.localizedStringForKey("rp_gpx_pop_menu_delete_element"));
+		JMenuItem delete = new JMenuItem(OSMCDStrs.RStr("rp_gpx_pop_menu_delete_element"));
 		delete.setName(GpxElementListener.MENU_NAME_DELETE);
 		GpxElementListener listener = new GpxElementListener(gpxEntry);
 		delete.addMouseListener(listener);
 		popup.add(delete);
-		JMenuItem rename = new JMenuItem(I18nUtils.localizedStringForKey("rp_gpx_pop_menu_rename_element"));
+		JMenuItem rename = new JMenuItem(OSMCDStrs.RStr("rp_gpx_pop_menu_rename_element"));
 		rename.setName(GpxElementListener.MENU_NAME_RENAME);
 		rename.addMouseListener(listener);
 		popup.add(rename);

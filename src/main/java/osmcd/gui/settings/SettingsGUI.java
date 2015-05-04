@@ -32,7 +32,6 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
-import java.util.Vector;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -43,13 +42,11 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
@@ -64,33 +61,21 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.xml.bind.JAXBException;
 
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
-import osmcd.StartOSMCD;
-import osmcd.exceptions.UpdateFailedException;
-import osmcd.gui.MainGUI;
+import osmb.mapsources.ACMapSourcesManager;
+import osmb.utilities.GBC;
+import osmb.utilities.GUIExceptionHandler;
+import osmb.utilities.OSMBRsc;
+import osmb.utilities.OSMBUtilities;
+import osmb.utilities.UnitSystem;
+import osmcd.OSMCDSettings;
+import osmcd.OSMCDStrs;
+import osmcd.gui.MainFrame;
 import osmcd.gui.actions.OpenInWebbrowser;
-import osmcd.gui.components.JDirectoryChooser;
 import osmcd.gui.components.JMapSizeCombo;
 import osmcd.gui.components.JTimeSlider;
-import osmcd.mapsources.DefaultMapSourcesManager;
-import osmcd.mapsources.MapSourcesManager;
-import osmcd.mapsources.loader.MapPackManager;
-import osmcd.program.Logging;
-import osmcd.program.ProgramInfo;
-import osmcd.program.interfaces.MapSource;
-import osmcd.program.model.MapSourcesListModel;
-import osmcd.program.model.ProxyType;
-import osmcd.program.model.Settings;
-import osmcd.program.model.UnitSystem;
-import osmcd.program.tilestore.TileStore;
-import osmcd.utilities.GBC;
-import osmcd.utilities.GUIExceptionHandler;
-import osmcd.utilities.I18nUtils;
-import osmcd.utilities.Utilities;
 
 public class SettingsGUI extends JDialog
 {
@@ -104,7 +89,7 @@ public class SettingsGUI extends JDialog
 
 	private enum Bandwidth
 	{
-		UNLIMITED(I18nUtils.localizedStringForKey("set_net_bandwidth_unlimited"), 0), //
+		UNLIMITED(OSMCDStrs.RStr("set_net_bandwidth_unlimited"), 0), //
 		MBit1("1 MBit", MBIT1), //
 		MBit5("5 MBit", MBIT1 * 5), //
 		MBit10("10 MBit", MBIT1 * 10), //
@@ -157,52 +142,34 @@ public class SettingsGUI extends JDialog
 		}
 	};
 
-	private final Settings settings = Settings.getInstance();
+	private final OSMCDSettings settings = OSMCDSettings.getInstance();
 
 	private JComboBox unitSystem;
-
 	private JComboBox languageCombo;
-
 	private JButton mapSourcesOnlineUpdate;
 	private JTextField osmHikingTicket;
-
 	private SettingsGUITileStore tileStoreTab;
-
 	private JTimeSlider defaultExpirationTime;
 	private JTimeSlider minExpirationTime;
 	private JTimeSlider maxExpirationTime;
-
 	private JMapSizeCombo mapSize;
-
 	private JSpinner mapOverlapTiles;
-
 	private JTextField atlasOutputDirectory;
-
 	private JComboBox threadCount;
 	private JComboBox bandwidth;
-
 	private JComboBox proxyType;
 	private JTextField proxyHost;
 	private JTextField proxyPort;
-
 	private JTextField proxyUserName;
 	private JTextField proxyPassword;
-
 	private JCheckBox ignoreDlErrors;
-
 	private JButton okButton;
 	private JButton cancelButton;
-
 	private JTabbedPane tabbedPane;
-
 	private JList enabledMapSources;
-
-	private MapSourcesListModel enabledMapSourcesModel;
-
+	// private MapSourcesListModel enabledMapSourcesModel;
 	private JList disabledMapSources;
-
-	private MapSourcesListModel disabledMapSourcesModel;
-
+	// private MapSourcesListModel disabledMapSourcesModel;
 	private final SettingsGUIPaper paperAtlas;
 	private final SettingsGUIWgsGrid display;
 
@@ -210,6 +177,7 @@ public class SettingsGUI extends JDialog
 	{
 		SwingUtilities.invokeLater(new Runnable()
 		{
+			@Override
 			public void run()
 			{
 				new SettingsGUI(owner);
@@ -219,7 +187,7 @@ public class SettingsGUI extends JDialog
 
 	private SettingsGUI(JFrame owner) {
 		super(owner);
-		setIconImages(MainGUI.OSMCD_ICONS);
+		setIconImages(MainFrame.OSMCD_ICONS);
 		GUIExceptionHandler.registerForCurrentThread();
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setModal(true);
@@ -244,7 +212,7 @@ public class SettingsGUI extends JDialog
 	private void createJFrame()
 	{
 		setLayout(new BorderLayout());
-		setTitle(I18nUtils.localizedStringForKey("set_title"));
+		setTitle(OSMCDStrs.RStr("set_title"));
 	}
 
 	// Create tabbed pane
@@ -288,33 +256,34 @@ public class SettingsGUI extends JDialog
 
 	private void addDisplaySettingsPanel()
 	{
-		JPanel tab = createNewTab(I18nUtils.localizedStringForKey("set_display_title"));
+		JPanel tab = createNewTab(OSMCDStrs.RStr("set_display_title"));
 		tab.setLayout(new GridBagLayout());
 
 		JPanel unitSystemPanel = new JPanel(new GridBagLayout());
-		unitSystemPanel.setBorder(createSectionBorder(I18nUtils.localizedStringForKey("set_display_unit_system_title")));
+		unitSystemPanel.setBorder(createSectionBorder(OSMCDStrs.RStr("set_display_unit_system_title")));
 
 		// Language Panel
 		JPanel languagePanel = new JPanel(new GridBagLayout());
-		languagePanel.setBorder(createSectionBorder(I18nUtils.localizedStringForKey("set_display_language")));
+		languagePanel.setBorder(createSectionBorder(OSMCDStrs.RStr("set_display_language")));
 		languageCombo = new JComboBox(SupportLocale.values());
-		languageCombo.setToolTipText(I18nUtils.localizedStringForKey("set_display_language_choose_tips"));
+		languageCombo.setToolTipText(OSMCDStrs.RStr("set_display_language_choose_tips"));
 		languageCombo.addActionListener(new ActionListener()
 		{
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 
 				Locale locale = ((SupportLocale) languageCombo.getSelectedItem()).locale;
-				String currentLocaleStr = "" + settings.localeLanguage + settings.localeCountry;
+				String currentLocaleStr = "" + settings.getLocaleLanguage() + settings.getLocaleCountry();
 				String LocaleStr = "" + locale.getLanguage() + locale.getCountry();
 				if (!currentLocaleStr.equals(LocaleStr) && isVisible())
 				{
-					settings.localeLanguage = locale.getLanguage();
-					settings.localeCountry = locale.getCountry();
+					settings.setLocaleLanguage(locale.getLanguage());
+					settings.setLocaleCountry(locale.getCountry());
 
-					int result = JOptionPane.showConfirmDialog(null, I18nUtils.localizedStringForKey("set_display_language_restart_desc"),
-							I18nUtils.localizedStringForKey("set_display_language_msg_title"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-					I18nUtils.updateLocalizedStringFormSettings();
+					int result = JOptionPane.showConfirmDialog(null, OSMCDStrs.RStr("set_display_language_restart_desc"),
+							OSMCDStrs.RStr("set_display_language_msg_title"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+					OSMBRsc.updateLocalizedStrings();
 					if (result == JOptionPane.YES_OPTION)
 					{
 						applySettings();
@@ -360,13 +329,13 @@ public class SettingsGUI extends JDialog
 			}
 		});
 
-		languagePanel.add(new JLabel(I18nUtils.localizedStringForKey("set_display_language_choose")), GBC.std());
+		languagePanel.add(new JLabel(OSMCDStrs.RStr("set_display_language_choose")), GBC.std());
 		languagePanel.add(languageCombo, GBC.std());
 		languagePanel.add(Box.createHorizontalGlue(), GBC.eol().fill(GBC.HORIZONTAL));
 
 		UnitSystem[] us = UnitSystem.values();
 		unitSystem = new JComboBox(us);
-		unitSystemPanel.add(new JLabel(I18nUtils.localizedStringForKey("set_display_unit_system_scale_bar")), GBC.std());
+		unitSystemPanel.add(new JLabel(OSMCDStrs.RStr("set_display_unit_system_scale_bar")), GBC.std());
 		unitSystemPanel.add(unitSystem, GBC.std());
 		unitSystemPanel.add(Box.createHorizontalGlue(), GBC.eol().fill(GBC.HORIZONTAL));
 		tab.add(unitSystemPanel, GBC.eol().fill(GBC.HORIZONTAL));
@@ -378,25 +347,25 @@ public class SettingsGUI extends JDialog
 	private void addMapSourceSettingsPanel() throws URISyntaxException
 	{
 
-		JPanel tab = createNewTab(I18nUtils.localizedStringForKey("set_mapsrc_config_title"));
+		JPanel tab = createNewTab(OSMCDStrs.RStr("set_mapsrc_config_title"));
 		tab.setLayout(new GridBagLayout());
 
 		JPanel updatePanel = new JPanel(new GridBagLayout());
-		updatePanel.setBorder(createSectionBorder(I18nUtils.localizedStringForKey("set_mapsrc_config_online_update")));
+		updatePanel.setBorder(createSectionBorder(OSMCDStrs.RStr("set_mapsrc_config_online_update")));
 
-		mapSourcesOnlineUpdate = new JButton(I18nUtils.localizedStringForKey("set_mapsrc_config_online_update_btn"));
+		mapSourcesOnlineUpdate = new JButton(OSMCDStrs.RStr("set_mapsrc_config_online_update_btn"));
 		mapSourcesOnlineUpdate.addActionListener(new MapPacksOnlineUpdateAction());
 		updatePanel.add(mapSourcesOnlineUpdate, GBC.std());
 
 		JPanel osmHikingPanel = new JPanel(new GridBagLayout());
-		osmHikingPanel.setBorder(createSectionBorder(I18nUtils.localizedStringForKey("set_mapsrc_config_osmhiking")));
+		osmHikingPanel.setBorder(createSectionBorder(OSMCDStrs.RStr("set_mapsrc_config_osmhiking")));
 
 		osmHikingTicket = new JTextField(20);
 
-		osmHikingPanel.add(new JLabel(I18nUtils.localizedStringForKey("set_mapsrc_config_osmhiking_purchased")), GBC.std());
+		osmHikingPanel.add(new JLabel(OSMCDStrs.RStr("set_mapsrc_config_osmhiking_purchased")), GBC.std());
 		osmHikingPanel.add(osmHikingTicket, GBC.std().insets(2, 0, 10, 0));
-		JLabel osmHikingTicketUrl = new JLabel(I18nUtils.localizedStringForKey("set_mapsrc_config_osmhiking_howto"));
-		osmHikingTicketUrl.addMouseListener(new OpenInWebbrowser(I18nUtils.localizedStringForKey("set_mapsrc_config_osmhiking_howto_url")));
+		JLabel osmHikingTicketUrl = new JLabel(OSMCDStrs.RStr("set_mapsrc_config_osmhiking_howto"));
+		osmHikingTicketUrl.addMouseListener(new OpenInWebbrowser(OSMCDStrs.RStr("set_mapsrc_config_osmhiking_howto_url")));
 		osmHikingPanel.add(osmHikingTicketUrl, GBC.eol());
 
 		tab.add(updatePanel, GBC.eol().fill(GBC.HORIZONTAL));
@@ -406,24 +375,24 @@ public class SettingsGUI extends JDialog
 
 	private void addMapSourceManagerPanel()
 	{
-		JPanel tab = createNewTab(I18nUtils.localizedStringForKey("set_mapsrc_mgr_title"));
+		JPanel tab = createNewTab(OSMCDStrs.RStr("set_mapsrc_mgr_title"));
 		tab.setLayout(new GridBagLayout());
 
 		JPanel leftPanel = new JPanel(new BorderLayout());
-		leftPanel.setBorder(createSectionBorder(I18nUtils.localizedStringForKey("set_mapsrc_mgr_title_enabled")));
+		leftPanel.setBorder(createSectionBorder(OSMCDStrs.RStr("set_mapsrc_mgr_title_enabled")));
 
 		JPanel centerPanel = new JPanel(new GridBagLayout());
 		JPanel rightPanel = new JPanel(new BorderLayout());
-		rightPanel.setBorder(createSectionBorder(I18nUtils.localizedStringForKey("set_mapsrc_mgr_title_disabled")));
+		rightPanel.setBorder(createSectionBorder(OSMCDStrs.RStr("set_mapsrc_mgr_title_disabled")));
 
-		JButton up = new JButton(Utilities.loadResourceImageIcon("arrow_blue_up.png"));
-		up.setToolTipText(I18nUtils.localizedStringForKey("set_mapsrc_mgr_move_up_tips"));
-		JButton down = new JButton(Utilities.loadResourceImageIcon("arrow_blue_down.png"));
-		down.setToolTipText(I18nUtils.localizedStringForKey("set_mapsrc_mgr_move_down_tips"));
-		JButton toLeft = new JButton(Utilities.loadResourceImageIcon("arrow_blue_left.png"));
-		toLeft.setToolTipText(I18nUtils.localizedStringForKey("set_mapsrc_mgr_move_left_tips"));
-		JButton toRight = new JButton(Utilities.loadResourceImageIcon("arrow_blue_right.png"));
-		toRight.setToolTipText(I18nUtils.localizedStringForKey("set_mapsrc_mgr_move_right_tips"));
+		JButton up = new JButton(OSMBUtilities.loadResourceImageIcon("arrow_blue_up.png"));
+		up.setToolTipText(OSMCDStrs.RStr("set_mapsrc_mgr_move_up_tips"));
+		JButton down = new JButton(OSMBUtilities.loadResourceImageIcon("arrow_blue_down.png"));
+		down.setToolTipText(OSMCDStrs.RStr("set_mapsrc_mgr_move_down_tips"));
+		JButton toLeft = new JButton(OSMBUtilities.loadResourceImageIcon("arrow_blue_left.png"));
+		toLeft.setToolTipText(OSMCDStrs.RStr("set_mapsrc_mgr_move_left_tips"));
+		JButton toRight = new JButton(OSMBUtilities.loadResourceImageIcon("arrow_blue_right.png"));
+		toRight.setToolTipText(OSMCDStrs.RStr("set_mapsrc_mgr_move_right_tips"));
 		Insets buttonInsets = new Insets(4, 4, 4, 4);
 		Dimension buttonDimension = new Dimension(40, 40);
 		up.setPreferredSize(buttonDimension);
@@ -438,33 +407,36 @@ public class SettingsGUI extends JDialog
 		toLeft.addActionListener(new ActionListener()
 		{
 
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				int[] idx = disabledMapSources.getSelectedIndices();
-				for (int i = 0; i < idx.length; i++)
-				{
-					MapSource ms = disabledMapSourcesModel.removeElement(idx[i] - i);
-					enabledMapSourcesModel.addElement(ms);
-				}
+				// for (int i = 0; i < idx.length; i++)
+				// {
+				// IfMapSource ms = disabledMapSourcesModel.removeElement(idx[i] - i);
+				// enabledMapSourcesModel.addElement(ms);
+				// }
 			}
 		});
 		toRight.addActionListener(new ActionListener()
 		{
 
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				int[] idx = enabledMapSources.getSelectedIndices();
-				for (int i = 0; i < idx.length; i++)
-				{
-					MapSource ms = enabledMapSourcesModel.removeElement(idx[i] - i);
-					disabledMapSourcesModel.addElement(ms);
-				}
-				disabledMapSourcesModel.sort();
+				// for (int i = 0; i < idx.length; i++)
+				// {
+				// IfMapSource ms = enabledMapSourcesModel.removeElement(idx[i] - i);
+				// disabledMapSourcesModel.addElement(ms);
+				// }
+				// disabledMapSourcesModel.sort();
 			}
 		});
 		up.addActionListener(new ActionListener()
 		{
 
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				int[] idx = enabledMapSources.getSelectedIndices();
@@ -475,8 +447,8 @@ public class SettingsGUI extends JDialog
 					int index = idx[i];
 					if (index == 0)
 						return;
-					if (enabledMapSourcesModel.moveUp(index))
-						idx[i]--;
+					// if (enabledMapSourcesModel.moveUp(index))
+					// idx[i]--;
 				}
 				enabledMapSources.setSelectedIndices(idx);
 				enabledMapSources.ensureIndexIsVisible(idx[0]);
@@ -485,6 +457,7 @@ public class SettingsGUI extends JDialog
 		down.addActionListener(new ActionListener()
 		{
 
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				int[] idx = enabledMapSources.getSelectedIndices();
@@ -493,10 +466,10 @@ public class SettingsGUI extends JDialog
 				for (int i = idx.length - 1; i >= 0; i--)
 				{
 					int index = idx[i];
-					if (index == enabledMapSourcesModel.getSize() - 1)
-						return;
-					if (enabledMapSourcesModel.moveDown(index))
-						idx[i]++;
+					// if (index == enabledMapSourcesModel.getSize() - 1)
+					// return;
+					// if (enabledMapSourcesModel.moveDown(index))
+					// idx[i]++;
 				}
 				enabledMapSources.setSelectedIndices(idx);
 				enabledMapSources.ensureIndexIsVisible(idx[idx.length - 1]);
@@ -510,18 +483,18 @@ public class SettingsGUI extends JDialog
 		centerPanel.add(down, buttonGbc);
 		centerPanel.add(Box.createVerticalGlue(), GBC.std().fill());
 
-		MapSourcesManager msManager = MapSourcesManager.getInstance();
+		ACMapSourcesManager msManager = ACMapSourcesManager.getInstance();
 
-		enabledMapSourcesModel = new MapSourcesListModel(msManager.getEnabledOrderedMapSources());
-		enabledMapSources = new JList(enabledMapSourcesModel);
-		JScrollPane leftScrollPane = new JScrollPane(enabledMapSources, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		leftPanel.add(leftScrollPane, BorderLayout.CENTER);
+		// enabledMapSourcesModel = new MapSourcesListModel(msManager.getEnabledOrderedMapSources());
+		// enabledMapSources = new JList(enabledMapSourcesModel);
+		// JScrollPane leftScrollPane = new JScrollPane(enabledMapSources, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		// leftPanel.add(leftScrollPane, BorderLayout.CENTER);
 
-		disabledMapSourcesModel = new MapSourcesListModel(msManager.getDisabledMapSources());
-		disabledMapSourcesModel.sort();
-		disabledMapSources = new JList(disabledMapSourcesModel);
-		JScrollPane rightScrollPane = new JScrollPane(disabledMapSources, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		rightPanel.add(rightScrollPane, BorderLayout.CENTER);
+		// disabledMapSourcesModel = new MapSourcesListModel(msManager.getDisabledMapSources());
+		// disabledMapSourcesModel.sort();
+		// disabledMapSources = new JList(disabledMapSourcesModel);
+		// JScrollPane rightScrollPane = new JScrollPane(disabledMapSources, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		// rightPanel.add(rightScrollPane, BorderLayout.CENTER);
 
 		JPanel mapSourcesInnerPanel = new JPanel();
 
@@ -538,49 +511,50 @@ public class SettingsGUI extends JDialog
 
 	private void addTileUpdatePanel()
 	{
-		JPanel backGround = createNewTab(I18nUtils.localizedStringForKey("set_tile_update_title"));
+		JPanel backGround = createNewTab(OSMCDStrs.RStr("set_tile_update_title"));
 		backGround.setLayout(new GridBagLayout());
 
 		ChangeListener sliderChangeListener = new ChangeListener()
 		{
 
+			@Override
 			public void stateChanged(ChangeEvent e)
 			{
 				JTimeSlider slider = ((JTimeSlider) e.getSource());
 				long x = slider.getTimeSecondsValue();
 				JPanel panel = (JPanel) slider.getParent();
 				TitledBorder tb = (TitledBorder) panel.getBorder();
-				tb.setTitle(panel.getName() + ": " + Utilities.formatDurationSeconds(x));
+				tb.setTitle(panel.getName() + ": " + OSMBUtilities.formatDurationSeconds(x));
 				panel.repaint();
 			}
 		};
 		GBC gbc_ef = GBC.eol().fill(GBC.HORIZONTAL);
 
 		JPanel defaultExpirationPanel = new JPanel(new GridBagLayout());
-		defaultExpirationPanel.setName(I18nUtils.localizedStringForKey("set_tile_update_default_expiration"));
+		defaultExpirationPanel.setName(OSMCDStrs.RStr("set_tile_update_default_expiration"));
 		defaultExpirationPanel.setBorder(createSectionBorder(""));
 		defaultExpirationTime = new JTimeSlider();
 		defaultExpirationTime.addChangeListener(sliderChangeListener);
-		JLabel descr = new JLabel(I18nUtils.localizedStringForKey("set_tile_update_default_expiration_desc"), JLabel.CENTER);
+		JLabel descr = new JLabel(OSMCDStrs.RStr("set_tile_update_default_expiration_desc"), JLabel.CENTER);
 
 		defaultExpirationPanel.add(descr, gbc_ef);
 		defaultExpirationPanel.add(defaultExpirationTime, gbc_ef);
 
 		JPanel maxExpirationPanel = new JPanel(new BorderLayout());
-		maxExpirationPanel.setName(I18nUtils.localizedStringForKey("set_tile_update_max_expiration"));
+		maxExpirationPanel.setName(OSMCDStrs.RStr("set_tile_update_max_expiration"));
 		maxExpirationPanel.setBorder(createSectionBorder(""));
 		maxExpirationTime = new JTimeSlider();
 		maxExpirationTime.addChangeListener(sliderChangeListener);
 		maxExpirationPanel.add(maxExpirationTime, BorderLayout.CENTER);
 
 		JPanel minExpirationPanel = new JPanel(new BorderLayout());
-		minExpirationPanel.setName(I18nUtils.localizedStringForKey("set_tile_update_min_expiration"));
+		minExpirationPanel.setName(OSMCDStrs.RStr("set_tile_update_min_expiration"));
 		minExpirationPanel.setBorder(createSectionBorder(""));
 		minExpirationTime = new JTimeSlider();
 		minExpirationTime.addChangeListener(sliderChangeListener);
 		minExpirationPanel.add(minExpirationTime, BorderLayout.CENTER);
 
-		descr = new JLabel(I18nUtils.localizedStringForKey("set_tile_update_desc"), JLabel.CENTER);
+		descr = new JLabel(OSMCDStrs.RStr("set_tile_update_desc"), JLabel.CENTER);
 
 		backGround.add(descr, gbc_ef);
 		backGround.add(defaultExpirationPanel, gbc_ef);
@@ -591,27 +565,28 @@ public class SettingsGUI extends JDialog
 
 	private void addMapSizePanel()
 	{
-		JPanel backGround = createNewTab(I18nUtils.localizedStringForKey("set_map_size_title"));
+		JPanel backGround = createNewTab(OSMCDStrs.RStr("set_map_size_title"));
 		backGround.setLayout(new GridBagLayout());
 		mapSize = new JMapSizeCombo();
 		mapSize.addActionListener(new ActionListener()
 		{
 
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				log.trace("Map size: " + mapSize.getValue());
 			}
 		});
 
-		JLabel mapSizeLabel = new JLabel(I18nUtils.localizedStringForKey("set_map_size_max_size_of_rect"));
-		JLabel mapSizeText = new JLabel(I18nUtils.localizedStringForKey("set_map_size_desc"));
+		JLabel mapSizeLabel = new JLabel(OSMCDStrs.RStr("set_map_size_max_size_of_rect"));
+		JLabel mapSizeText = new JLabel(OSMCDStrs.RStr("set_map_size_desc"));
 
 		mapOverlapTiles = new JSpinner(new SpinnerNumberModel(0, 0, 5, 1));
 
-		JLabel mapOverlapTilesLabel = new JLabel(I18nUtils.localizedStringForKey("set_map_size_overlap_tiles"));
+		JLabel mapOverlapTilesLabel = new JLabel(OSMCDStrs.RStr("set_map_size_overlap_tiles"));
 
 		JPanel leftPanel = new JPanel(new GridBagLayout());
-		leftPanel.setBorder(createSectionBorder(I18nUtils.localizedStringForKey("set_map_size_settings")));
+		leftPanel.setBorder(createSectionBorder(OSMCDStrs.RStr("set_map_size_settings")));
 
 		GBC gbc = GBC.eol().insets(0, 5, 0, 5);
 		leftPanel.add(mapSizeLabel, GBC.std());
@@ -627,29 +602,29 @@ public class SettingsGUI extends JDialog
 
 	private void addDirectoriesPanel()
 	{
-		JPanel backGround = createNewTab(I18nUtils.localizedStringForKey("set_directory_title"));
+		JPanel backGround = createNewTab(OSMCDStrs.RStr("set_directory_title"));
 		backGround.setLayout(new GridBagLayout());
 		JPanel atlasOutputDirPanel = new JPanel(new GridBagLayout());
-		atlasOutputDirPanel.setBorder(createSectionBorder(I18nUtils.localizedStringForKey("set_directory_output")));
+		atlasOutputDirPanel.setBorder(createSectionBorder(OSMCDStrs.RStr("set_directory_output")));
 
-		atlasOutputDirectory = new JTextField();
-		atlasOutputDirectory.setToolTipText(String.format(I18nUtils.localizedStringForKey("set_directory_output_tips"), settings.getChartBundleOutputDirectory()));
-		JButton selectAtlasOutputDirectory = new JButton(I18nUtils.localizedStringForKey("set_directory_output_select"));
-		selectAtlasOutputDirectory.addActionListener(new ActionListener()
-		{
-
-			public void actionPerformed(ActionEvent e)
-			{
-				JDirectoryChooser dc = new JDirectoryChooser();
-				dc.setCurrentDirectory(settings.getChartBundleOutputDirectory());
-				if (dc.showDialog(SettingsGUI.this, I18nUtils.localizedStringForKey("set_directory_output_select_dlg_title")) != JFileChooser.APPROVE_OPTION)
-					return;
-				atlasOutputDirectory.setText(dc.getSelectedFile().getAbsolutePath());
-			}
-		});
-
-		atlasOutputDirPanel.add(atlasOutputDirectory, GBC.std().fillH());
-		atlasOutputDirPanel.add(selectAtlasOutputDirectory, GBC.std());
+		// atlasOutputDirectory = new JTextField();
+		// atlasOutputDirectory.setToolTipText(String.format(OSMCDStrs.RStr("set_directory_output_tips"),
+		// settings.getChartBundleOutputDirectory()));
+		// JButton selectAtlasOutputDirectory = new JButton(OSMCDStrs.RStr("set_directory_output_select"));
+		// selectAtlasOutputDirectory.addActionListener(new ActionListener()
+		// {
+		// public void actionPerformed(ActionEvent e)
+		// {
+		// JDirectoryChooser dc = new JDirectoryChooser();
+		// // dc.setCurrentDirectory(settings.getChartBundleOutputDirectory());
+		// if (dc.showDialog(SettingsGUI.this, OSMCDStrs.RStr("set_directory_output_select_dlg_title")) != JFileChooser.APPROVE_OPTION)
+		// return;
+		// atlasOutputDirectory.setText(dc.getSelectedFile().getAbsolutePath());
+		// }
+		// });
+		//
+		// atlasOutputDirPanel.add(atlasOutputDirectory, GBC.std().fillH());
+		// atlasOutputDirPanel.add(selectAtlasOutputDirectory, GBC.std());
 
 		backGround.add(atlasOutputDirPanel, GBC.eol().fillH());
 		backGround.add(Box.createVerticalGlue(), GBC.eol().fill(GBC.VERTICAL));
@@ -657,20 +632,20 @@ public class SettingsGUI extends JDialog
 
 	private void addNetworkPanel()
 	{
-		JPanel backGround = createNewTab(I18nUtils.localizedStringForKey("set_net_title"));
+		JPanel backGround = createNewTab(OSMCDStrs.RStr("set_net_title"));
 		backGround.setLayout(new GridBagLayout());
 		GBC gbc_eolh = GBC.eol().fill(GBC.HORIZONTAL);
 		JPanel panel = new JPanel(new GridBagLayout());
-		panel.setBorder(createSectionBorder(I18nUtils.localizedStringForKey("set_net_connection")));
+		panel.setBorder(createSectionBorder(OSMCDStrs.RStr("set_net_connection")));
 		threadCount = new JComboBox(THREADCOUNT_LIST);
 		threadCount.setMaximumRowCount(THREADCOUNT_LIST.length);
 		panel.add(threadCount, GBC.std().insets(5, 5, 5, 5).anchor(GBC.EAST));
-		panel.add(new JLabel(I18nUtils.localizedStringForKey("set_net_connection_desc")), GBC.eol().fill(GBC.HORIZONTAL));
+		panel.add(new JLabel(OSMCDStrs.RStr("set_net_connection_desc")), GBC.eol().fill(GBC.HORIZONTAL));
 
 		bandwidth = new JComboBox(Bandwidth.values());
 		bandwidth.setMaximumRowCount(bandwidth.getItemCount());
 		panel.add(bandwidth, GBC.std().insets(5, 5, 5, 5));
-		panel.add(new JLabel(I18nUtils.localizedStringForKey("set_net_bandwidth_desc")), GBC.eol().fill(GBC.HORIZONTAL));
+		panel.add(new JLabel(OSMCDStrs.RStr("set_net_bandwidth_desc")), GBC.eol().fill(GBC.HORIZONTAL));
 
 		backGround.add(panel, gbc_eolh);
 
@@ -679,63 +654,64 @@ public class SettingsGUI extends JDialog
 		// backGround.add(panel, gbc_eolh);
 
 		panel = new JPanel(new GridBagLayout());
-		panel.setBorder(createSectionBorder(I18nUtils.localizedStringForKey("set_net_proxy")));
-		final JLabel proxyTypeLabel = new JLabel(I18nUtils.localizedStringForKey("set_net_proxy_settings"));
-		proxyType = new JComboBox(ProxyType.values());
-		proxyType.setSelectedItem(settings.getProxyType());
-
-		final JLabel proxyHostLabel = new JLabel(I18nUtils.localizedStringForKey("set_net_proxy_host"));
-		proxyHost = new JTextField(settings.getCustomProxyHost());
-
-		final JLabel proxyPortLabel = new JLabel(I18nUtils.localizedStringForKey("set_net_proxy_port"));
-		proxyPort = new JTextField(settings.getCustomProxyPort());
-
-		final JLabel proxyUserNameLabel = new JLabel(I18nUtils.localizedStringForKey("set_net_proxy_username"));
-		proxyUserName = new JTextField(settings.getCustomProxyUserName());
-
-		final JLabel proxyPasswordLabel = new JLabel(I18nUtils.localizedStringForKey("set_net_proxy_password"));
-		proxyPassword = new JTextField(settings.getCustomProxyPassword());
+		panel.setBorder(createSectionBorder(OSMCDStrs.RStr("set_net_proxy")));
+		// final JLabel proxyTypeLabel = new JLabel(OSMCDStrs.RStr("set_net_proxy_settings"));
+		// proxyType = new JComboBox(ProxyType.values());
+		// proxyType.setSelectedItem(settings.getProxyType());
+		//
+		// final JLabel proxyHostLabel = new JLabel(OSMCDStrs.RStr("set_net_proxy_host"));
+		// proxyHost = new JTextField(settings.getCustomProxyHost());
+		//
+		// final JLabel proxyPortLabel = new JLabel(OSMCDStrs.RStr("set_net_proxy_port"));
+		// proxyPort = new JTextField(settings.getCustomProxyPort());
+		//
+		// final JLabel proxyUserNameLabel = new JLabel(OSMCDStrs.RStr("set_net_proxy_username"));
+		// proxyUserName = new JTextField(settings.getCustomProxyUserName());
+		//
+		// final JLabel proxyPasswordLabel = new JLabel(OSMCDStrs.RStr("set_net_proxy_password"));
+		// proxyPassword = new JTextField(settings.getCustomProxyPassword());
 
 		ActionListener al = new ActionListener()
 		{
 
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				boolean b = ProxyType.CUSTOM.equals(proxyType.getSelectedItem());
-				boolean c = ProxyType.CUSTOM_W_AUTH.equals(proxyType.getSelectedItem());
-				proxyHost.setEnabled(b || c);
-				proxyPort.setEnabled(b || c);
-				proxyHostLabel.setEnabled(b || c);
-				proxyPortLabel.setEnabled(b || c);
-				proxyUserName.setEnabled(c);
-				proxyPassword.setEnabled(c);
-				proxyUserNameLabel.setEnabled(c);
-				proxyPasswordLabel.setEnabled(c);
+				// boolean b = ProxyType.CUSTOM.equals(proxyType.getSelectedItem());
+				// boolean c = ProxyType.CUSTOM_W_AUTH.equals(proxyType.getSelectedItem());
+				// proxyHost.setEnabled(b || c);
+				// proxyPort.setEnabled(b || c);
+				// proxyHostLabel.setEnabled(b || c);
+				// proxyPortLabel.setEnabled(b || c);
+				// proxyUserName.setEnabled(c);
+				// proxyPassword.setEnabled(c);
+				// proxyUserNameLabel.setEnabled(c);
+				// proxyPasswordLabel.setEnabled(c);
 			}
 		};
 		al.actionPerformed(null);
 		proxyType.addActionListener(al);
 
-		panel.add(proxyTypeLabel, GBC.std());
-		panel.add(proxyType, gbc_eolh.insets(5, 2, 5, 2));
-
-		panel.add(proxyHostLabel, GBC.std());
-		panel.add(proxyHost, gbc_eolh);
-
-		panel.add(proxyPortLabel, GBC.std());
-		panel.add(proxyPort, gbc_eolh);
-
-		panel.add(proxyUserNameLabel, GBC.std());
-		panel.add(proxyUserName, gbc_eolh);
-
-		panel.add(proxyPasswordLabel, GBC.std());
-		panel.add(proxyPassword, gbc_eolh);
+		// panel.add(proxyTypeLabel, GBC.std());
+		// panel.add(proxyType, gbc_eolh.insets(5, 2, 5, 2));
+		//
+		// panel.add(proxyHostLabel, GBC.std());
+		// panel.add(proxyHost, gbc_eolh);
+		//
+		// panel.add(proxyPortLabel, GBC.std());
+		// panel.add(proxyPort, gbc_eolh);
+		//
+		// panel.add(proxyUserNameLabel, GBC.std());
+		// panel.add(proxyUserName, gbc_eolh);
+		//
+		// panel.add(proxyPasswordLabel, GBC.std());
+		// panel.add(proxyPassword, gbc_eolh);
 
 		backGround.add(panel, GBC.eol().fillH());
 
-		ignoreDlErrors = new JCheckBox(I18nUtils.localizedStringForKey("set_net_default_ignore_error"), settings.ignoreDlErrors);
+		// ignoreDlErrors = new JCheckBox(OSMCDStrs.RStr("set_net_default_ignore_error"), settings.ignoreDlErrors);
 		JPanel jPanel = new JPanel(new GridBagLayout());
-		jPanel.setBorder(createSectionBorder(I18nUtils.localizedStringForKey("set_net_default")));
+		jPanel.setBorder(createSectionBorder(OSMCDStrs.RStr("set_net_default")));
 		jPanel.add(ignoreDlErrors, GBC.std());
 		jPanel.add(Box.createHorizontalGlue(), GBC.eol().fillH());
 		backGround.add(jPanel, GBC.eol().fillH());
@@ -746,8 +722,8 @@ public class SettingsGUI extends JDialog
 	public void createJButtons()
 	{
 		JPanel buttonPanel = new JPanel(new GridBagLayout());
-		okButton = new JButton(I18nUtils.localizedStringForKey("OK"));
-		cancelButton = new JButton(I18nUtils.localizedStringForKey("Cancel"));
+		okButton = new JButton(OSMCDStrs.RStr("OK"));
+		cancelButton = new JButton(OSMCDStrs.RStr("Cancel"));
 
 		GBC gbc = GBC.std().insets(5, 5, 5, 5);
 		buttonPanel.add(okButton, gbc);
@@ -757,121 +733,121 @@ public class SettingsGUI extends JDialog
 
 	private void loadSettings()
 	{
-		Settings s = settings;
+		OSMCDSettings s = settings;
 
-		unitSystem.setSelectedItem(s.unitSystem);
-		tileStoreTab.tileStoreEnabled.setSelected(s.tileStoreEnabled);
+		unitSystem.setSelectedItem(s.getUnitSystem());
+		tileStoreTab.tileStoreEnabled.setSelected(s.getTileStoreEnabled());
 
 		// language
-		languageCombo.setSelectedItem(SupportLocale.localeOf(s.localeLanguage, s.localeCountry));
+		languageCombo.setSelectedItem(SupportLocale.localeOf(s.getLocaleLanguage(), s.getLocaleCountry()));
 
-		mapSize.setValue(s.maxMapSize);
-		mapOverlapTiles.setValue(s.mapOverlapTiles);
+		mapSize.setValue(s.getMaxMapSize());
+		mapOverlapTiles.setValue(s.getMapOverlapTiles());
 
-		atlasOutputDirectory.setText(s.getChartBundleOutputDirectoryString());
+		// atlasOutputDirectory.setText(s.getChartBundleOutputDirectoryString());
 
-		long limit = s.getBandwidthLimit();
-		for (Bandwidth b: Bandwidth.values())
-		{
-			if (limit <= b.limit)
-			{
-				bandwidth.setSelectedItem(b);
-				break;
-			}
-		}
+		// long limit = s.getBandwidthLimit();
+		// for (Bandwidth b : Bandwidth.values())
+		// {
+		// if (limit <= b.limit)
+		// {
+		// bandwidth.setSelectedItem(b);
+		// break;
+		// }
+		// }
 
-		int index = Arrays.binarySearch(THREADCOUNT_LIST, s.downloadThreadCount);
+		int index = Arrays.binarySearch(THREADCOUNT_LIST, s.getDownloadThreadCount());
 		if (index < 0)
 		{
-			if (s.downloadThreadCount > THREADCOUNT_LIST[THREADCOUNT_LIST.length - 1])
+			if (s.getDownloadThreadCount() > THREADCOUNT_LIST[THREADCOUNT_LIST.length - 1])
 				index = THREADCOUNT_LIST.length - 1;
 			else
 				index = 0;
 		}
 		threadCount.setSelectedIndex(index);
 
-		defaultExpirationTime.setTimeMilliValue(s.tileDefaultExpirationTime);
-		maxExpirationTime.setTimeMilliValue(s.tileMaxExpirationTime);
-		minExpirationTime.setTimeMilliValue(s.tileMinExpirationTime);
+		defaultExpirationTime.setTimeMilliValue(s.getTileDefaultExpirationTime());
+		maxExpirationTime.setTimeMilliValue(s.getTileMaxExpirationTime());
+		minExpirationTime.setTimeMilliValue(s.getTileMinExpirationTime());
 
-		osmHikingTicket.setText(s.osmHikingTicket);
+		// osmHikingTicket.setText(s.osmHikingTicket);
 
-		ignoreDlErrors.setSelected(s.ignoreDlErrors);
+		// ignoreDlErrors.setSelected(s.ignoreDlErrors);
 
 		paperAtlas.loadSettings(s);
 		display.loadSettings(s);
 	}
 
 	/**
-	 * Reads the user defined settings from the gui and updates the {@link Settings} values according to the read gui settings.
+	 * Reads the user defined settings from the gui and updates the {@link OSMCDSettings} values according to the read gui settings.
 	 */
 	private void applySettings()
 	{
-		Settings s = settings;
+		OSMCDSettings s = settings;
 
-		s.unitSystem = (UnitSystem) unitSystem.getSelectedItem();
-		s.tileStoreEnabled = tileStoreTab.tileStoreEnabled.isSelected();
-		s.tileDefaultExpirationTime = defaultExpirationTime.getTimeMilliValue();
-		s.tileMinExpirationTime = minExpirationTime.getTimeMilliValue();
-		s.tileMaxExpirationTime = maxExpirationTime.getTimeMilliValue();
-		s.maxMapSize = mapSize.getValue();
-		s.mapOverlapTiles = (Integer) mapOverlapTiles.getValue();
+		s.setUnitSystem((UnitSystem) unitSystem.getSelectedItem());
+		s.setTileStoreEnabled(tileStoreTab.tileStoreEnabled.isSelected());
+		s.setTileDefaultExpirationTime(defaultExpirationTime.getTimeMilliValue());
+		s.setTileMinExpirationTime(minExpirationTime.getTimeMilliValue());
+		s.setTileMaxExpirationTime(maxExpirationTime.getTimeMilliValue());
+		s.setMaxMapSize(mapSize.getValue());
+		s.setMapOverlapTiles((Integer) mapOverlapTiles.getValue());
 
 		Locale locale = ((SupportLocale) languageCombo.getSelectedItem()).locale;
-		s.localeLanguage = locale.getLanguage();
-		s.localeCountry = locale.getCountry();
+		s.setLocaleLanguage(locale.getLanguage());
+		s.setLocaleCountry(locale.getCountry());
 
-		s.setChartBundleOutputDirectory(atlasOutputDirectory.getText());
+		// s.setChartBundleOutputDirectory(atlasOutputDirectory.getText());
 		int threads = ((Integer) threadCount.getSelectedItem()).intValue();
-		s.downloadThreadCount = threads;
+		s.setDownloadThreadCount(threads);
 
-		s.setBandwidthLimit(((Bandwidth) bandwidth.getSelectedItem()).limit);
+		// s.setBandwidthLimit(((Bandwidth) bandwidth.getSelectedItem()).limit);
+		//
+		// s.setProxyType((ProxyType) proxyType.getSelectedItem());
+		// s.setCustomProxyHost(proxyHost.getText());
+		// s.setCustomProxyPort(proxyPort.getText());
+		// s.setCustomProxyUserName(proxyUserName.getText());
+		// s.setCustomProxyPassword(proxyPassword.getText());
+		//
+		// s.applyProxySettings();
 
-		s.setProxyType((ProxyType) proxyType.getSelectedItem());
-		s.setCustomProxyHost(proxyHost.getText());
-		s.setCustomProxyPort(proxyPort.getText());
-		s.setCustomProxyUserName(proxyUserName.getText());
-		s.setCustomProxyPassword(proxyPassword.getText());
-
-		s.applyProxySettings();
-
-		Vector<String> disabledMaps = new Vector<String>();
-		for (MapSource ms: disabledMapSourcesModel.getVector())
-		{
-			disabledMaps.add(ms.getName());
-		}
-		s.mapSourcesDisabled = disabledMaps;
-
-		Vector<String> enabledMaps = new Vector<String>();
-		for (MapSource ms: enabledMapSourcesModel.getVector())
-		{
-			enabledMaps.add(ms.getName());
-		}
-		s.mapSourcesEnabled = enabledMaps;
-
-		s.ignoreDlErrors = ignoreDlErrors.isSelected();
+		// Vector<String> disabledMaps = new Vector<String>();
+		// for (IfMapSource ms : disabledMapSourcesModel.getVector())
+		// {
+		// disabledMaps.add(ms.getName());
+		// }
+		// s.mapSourcesDisabled = disabledMaps;
+		//
+		// Vector<String> enabledMaps = new Vector<String>();
+		// for (IfMapSource ms : enabledMapSourcesModel.getVector())
+		// {
+		// enabledMaps.add(ms.getName());
+		// }
+		// s.mapSourcesEnabled = enabledMaps;
+		//
+		// s.ignoreDlErrors = ignoreDlErrors.isSelected();
 
 		paperAtlas.applySettings(s);
 		display.applySettings(s);
 
-		if (MainGUI.getMainGUI() == null)
+		if (MainFrame.getMainGUI() == null)
 			return;
 
-		MainGUI.getMainGUI().updateMapSourcesList();
+		MainFrame.getMainGUI().updateMapSourcesList();
 
-		s.osmHikingTicket = osmHikingTicket.getText().trim();
+		// s.osmHikingTicket = osmHikingTicket.getText().trim();
 		try
 		{
-			MainGUI.getMainGUI().checkAndSaveSettings();
+			MainFrame.getMainGUI().checkAndSaveSettings();
 		}
 		catch (Exception e)
 		{
 			log.error("Error saving settings to file", e);
-			JOptionPane.showMessageDialog(null, String.format(I18nUtils.localizedStringForKey("set_error_saving_msg"), e.getClass().getSimpleName()),
-					I18nUtils.localizedStringForKey("set_error_saving_title"), JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, String.format(OSMCDStrs.RStr("set_error_saving_msg"), e.getClass().getSimpleName()),
+					OSMCDStrs.RStr("set_error_saving_title"), JOptionPane.ERROR_MESSAGE);
 		}
 
-		MainGUI.getMainGUI().previewMap.repaint();
+		MainFrame.getMainGUI().previewMap.repaint();
 	}
 
 	private void addListeners()
@@ -881,6 +857,7 @@ public class SettingsGUI extends JDialog
 
 		okButton.addActionListener(new ActionListener()
 		{
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				applySettings();
@@ -890,6 +867,7 @@ public class SettingsGUI extends JDialog
 		});
 		cancelButton.addActionListener(new ActionListener()
 		{
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				SettingsGUI.this.dispose();
@@ -899,6 +877,7 @@ public class SettingsGUI extends JDialog
 		tabbedPane.addChangeListener(new ChangeListener()
 		{
 
+			@Override
 			public void stateChanged(ChangeEvent e)
 			{
 				if (tabbedPane.getSelectedComponent() == null)
@@ -918,6 +897,7 @@ public class SettingsGUI extends JDialog
 		{
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				SettingsGUI.this.dispose();
@@ -951,7 +931,7 @@ public class SettingsGUI extends JDialog
 
 	private class MapPacksOnlineUpdateAction implements ActionListener
 	{
-
+		@Override
 		public void actionPerformed(ActionEvent event)
 		{
 			// try {
@@ -959,85 +939,43 @@ public class SettingsGUI extends JDialog
 			// String msg = (result) ? "Online update successfull" : "No new update avilable";
 			// DateFormat df = DateFormat.getDateTimeInstance();
 			// Date date = MapSourcesUpdater.getMapSourcesDate(System.getProperties());
-			// msg += "\nCurrent map source date: " + df.format(date);
+			// msg += "\nCurrent iMap source date: " + df.format(date);
 			// JOptionPane.showMessageDialog(SettingsGUI.this, msg);
 			// if (result)
-			// MainGUI.getMainGUI().refreshPreviewMap();
+			// MainFrame.getMainGUI().refreshPreviewMap();
 			// } catch (MapSourcesUpdateException e) {
 			// JOptionPane.showMessageDialog(SettingsGUI.this, e.getMessage(), "Mapsources online update failed",
 			// JOptionPane.ERROR_MESSAGE);
 			// }
-			MapPackManager mpm;
-			try
-			{
-				mpm = new MapPackManager(Settings.getInstance().getMapSourcesDirectory());
-				int result = mpm.updateMapPacks();
-				switch (result)
-				{
-				case -1:
-					JOptionPane.showMessageDialog(SettingsGUI.this, I18nUtils.localizedStringForKey("set_mapsrc_config_online_update_msg_outdate"),
-							I18nUtils.localizedStringForKey("set_mapsrc_config_online_update_no_update"), JOptionPane.ERROR_MESSAGE);
-					break;
-				case 0:
-					JOptionPane.showMessageDialog(SettingsGUI.this, I18nUtils.localizedStringForKey("set_mapsrc_config_online_update_msg_noneed"),
-							I18nUtils.localizedStringForKey("set_mapsrc_config_online_update_no_update"), JOptionPane.INFORMATION_MESSAGE);
-					break;
-				default:
-					JOptionPane.showMessageDialog(SettingsGUI.this, String.format(I18nUtils.localizedStringForKey("set_mapsrc_config_online_update_msg_done"), result),
-							I18nUtils.localizedStringForKey("set_mapsrc_config_online_update_done"), JOptionPane.INFORMATION_MESSAGE);
-				}
-			}
-			catch (UpdateFailedException e)
-			{
-				JOptionPane.showMessageDialog(SettingsGUI.this, e.getMessage(), I18nUtils.localizedStringForKey("set_mapsrc_config_online_update_failed"),
-						JOptionPane.ERROR_MESSAGE);
-			}
-			catch (Exception e)
-			{
-				Settings.getInstance().mapSourcesUpdate.etag = null;
-				GUIExceptionHandler.processException(e);
-			}
+			// MapPackManager mpm;
+			// try
+			// {
+			// mpm = new MapPackManager(OSMCDSettings.getInstance().getMapSourcesDirectory());
+			// int result = mpm.updateMapPacks();
+			// switch (result)
+			// {
+			// case -1:
+			// JOptionPane.showMessageDialog(SettingsGUI.this, OSMCDStrs.RStr("set_mapsrc_config_online_update_msg_outdate"),
+			// OSMCDStrs.RStr("set_mapsrc_config_online_update_no_update"), JOptionPane.ERROR_MESSAGE);
+			// break;
+			// case 0:
+			// JOptionPane.showMessageDialog(SettingsGUI.this, OSMCDStrs.RStr("set_mapsrc_config_online_update_msg_noneed"),
+			// OSMCDStrs.RStr("set_mapsrc_config_online_update_no_update"), JOptionPane.INFORMATION_MESSAGE);
+			// break;
+			// default:
+			// JOptionPane.showMessageDialog(SettingsGUI.this, String.format(OSMCDStrs.RStr("set_mapsrc_config_online_update_msg_done"), result),
+			// OSMCDStrs.RStr("set_mapsrc_config_online_update_done"), JOptionPane.INFORMATION_MESSAGE);
+			// }
+			// }
+			// catch (UpdateFailedException e)
+			// {
+			// JOptionPane.showMessageDialog(SettingsGUI.this, e.getMessage(), OSMCDStrs.RStr("set_mapsrc_config_online_update_failed"), JOptionPane.ERROR_MESSAGE);
+			// }
+			// catch (Exception e)
+			// {
+			// OSMCDSettings.getInstance().mapSourcesUpdate.etag = null;
+			// GUIExceptionHandler.processException(e);
+			// }
 		}
-	}
-
-	/**
-	 * ??? which main is this
-	 * 
-	 * @param args
-	 */
-	public static void main(String[] args)
-	{
-		Logging.configureConsoleLogging(Level.TRACE);
-		ProgramInfo.initialize();
-		DefaultMapSourcesManager.initialize();
-		TileStore.initialize();
-		StartOSMCD.setLookAndFeel();
-
-		try
-		{
-			Settings.load();
-		}
-		catch (JAXBException e1)
-		{
-			e1.printStackTrace();
-		}
-		new SettingsGUI(null);
-		Runtime.getRuntime().addShutdownHook(new Thread()
-		{
-
-			@Override
-			public void run()
-			{
-				try
-				{
-					Settings.save();
-				}
-				catch (JAXBException e)
-				{
-					e.printStackTrace();
-				}
-			}
-
-		});
 	}
 }

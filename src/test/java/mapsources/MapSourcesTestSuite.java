@@ -37,7 +37,7 @@ import osmcd.program.ProgramInfo;
 import osmcd.program.interfaces.HttpMapSource;
 import osmcd.program.interfaces.MapSource;
 import osmcd.program.model.EastNorthCoordinate;
-import osmcd.program.model.Settings;
+import osmcd.program.model.OSMCDSettings;
 import unittests.helper.DummyTileStore;
 
 /**

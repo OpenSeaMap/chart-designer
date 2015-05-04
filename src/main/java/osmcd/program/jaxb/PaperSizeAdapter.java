@@ -18,29 +18,33 @@ package osmcd.program.jaxb;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-import osmcd.program.model.PaperSize;
-import osmcd.program.model.PaperSize.Format;
+import osmcd.program.PaperSize;
+import osmcd.program.PaperSize.Format;
 
 /**
  * Required {@link XmlAdapter} implementation for serializing {@link PaperSize}
  */
-public class PaperSizeAdapter extends XmlAdapter<String, PaperSize> {
-
+public class PaperSizeAdapter extends XmlAdapter<String, PaperSize>
+{
 	private static final String LANDSCAPE = "_LANDSCAPE", SELECTION = "SELECTION", X = "x";
 
 	@Override
-	public PaperSize unmarshal(String value) throws Exception {
-		if (value.equals(SELECTION)) {
+	public PaperSize unmarshal(String value) throws Exception
+	{
+		if (value.equals(SELECTION))
+		{
 			return null;
 		}
-		if (value.contains(X)) {
+		if (value.contains(X))
+		{
 			String split[] = value.split(X);
 			double width = Double.parseDouble(split[0]);
 			double height = Double.parseDouble(split[1]);
 			return new PaperSize(width, height);
 		}
 		boolean landscape = false;
-		if (value.contains(LANDSCAPE)) {
+		if (value.contains(LANDSCAPE))
+		{
 			value = value.substring(0, value.indexOf(LANDSCAPE));
 			landscape = true;
 		}
@@ -49,13 +53,18 @@ public class PaperSizeAdapter extends XmlAdapter<String, PaperSize> {
 	}
 
 	@Override
-	public String marshal(PaperSize v) throws Exception {
-		if (v == null) {
+	public String marshal(PaperSize v) throws Exception
+	{
+		if (v == null)
+		{
 			return SELECTION;
 		}
-		if (v.format != null) {
+		if (v.format != null)
+		{
 			return v.format.name() + (v.landscape ? LANDSCAPE : "");
-		} else {
+		}
+		else
+		{
 			return v.width + X + v.height;
 		}
 	}

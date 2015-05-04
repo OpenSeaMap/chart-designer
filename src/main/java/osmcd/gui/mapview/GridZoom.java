@@ -16,7 +16,7 @@
  ******************************************************************************/
 package osmcd.gui.mapview;
 
-import osmcd.utilities.I18nUtils;
+import osmcd.OSMCDStrs;
 
 public class GridZoom {
 
@@ -32,7 +32,7 @@ public class GridZoom {
 
 	@Override
 	public String toString() {
-		return String.format(I18nUtils.localizedStringForKey("map_ctrl_zoom_grid_prefix_fmt"), zoom);
+		return String.format(OSMCDStrs.RStr("map_ctrl_zoom_grid_prefix_fmt"), zoom);
 	}
 
 	@Override

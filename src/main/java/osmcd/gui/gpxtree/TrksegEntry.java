@@ -16,9 +16,9 @@
  ******************************************************************************/
 package osmcd.gui.gpxtree;
 
+import osmcd.OSMCDStrs;
 import osmcd.data.gpx.gpx11.TrksegType;
-import osmcd.gui.mapview.layer.GpxLayer;
-import osmcd.utilities.I18nUtils;
+import osmcd.gui.mapview.GpxLayer;
 
 public class TrksegEntry extends GpxEntry {
 	private TrksegType trkseg;
@@ -26,7 +26,7 @@ public class TrksegEntry extends GpxEntry {
 
 	public TrksegEntry(TrksegType trkseg, int segnum, GpxLayer layer) {
 		this.trkseg = trkseg;
-		this.name = String.format(I18nUtils.localizedStringForKey("rp_gpx_node_seg_name"), Integer.toString(segnum));
+		this.name = String.format(OSMCDStrs.RStr("rp_gpx_node_seg_name"), Integer.toString(segnum));
 		this.setLayer(layer);
 		this.setWaypointParent(true);
 	}

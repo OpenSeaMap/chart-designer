@@ -34,9 +34,9 @@ import javax.swing.JLabel;
 
 import org.apache.log4j.Logger;
 
-import osmcd.program.tilestore.berkeleydb.DelayedInterruptThread;
-import osmcd.utilities.I18nUtils;
-import osmcd.utilities.Utilities;
+import osmb.program.tilestore.berkeleydb.DelayedInterruptThread;
+import osmb.utilities.OSMBUtilities;
+import osmcd.OSMCDStrs;
 
 public class WorkinprogressDialog extends JDialog implements WindowListener
 {
@@ -45,22 +45,25 @@ public class WorkinprogressDialog extends JDialog implements WindowListener
 	private final ThreadFactory threadFactory;
 	private Thread workerThread;
 
-	public WorkinprogressDialog(Frame owner, String title) {
+	public WorkinprogressDialog(Frame owner, String title)
+	{
 		this(owner, title, Executors.defaultThreadFactory());
 	}
 
-	public WorkinprogressDialog(Frame owner, String title, ThreadFactory threadFactory) {
+	public WorkinprogressDialog(Frame owner, String title, ThreadFactory threadFactory)
+	{
 		super(owner, title, true);
 		this.threadFactory = threadFactory;
 		setLayout(new FlowLayout());
-		add(new JLabel(new ImageIcon(Utilities.getResourceImageUrl("ajax-loader.gif"))));
+		add(new JLabel(new ImageIcon(OSMBUtilities.getResourceImageUrl("ajax-loader.gif"))));
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(owner);
 		addWindowListener(this);
-		JButton abort = new JButton(I18nUtils.localizedStringForKey("dlg_progress_about_btn"));
+		JButton abort = new JButton(OSMCDStrs.RStr("dlg_progress_about_btn"));
 		abort.addActionListener(new ActionListener()
 		{
 
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				log.debug("User interrupted process");
@@ -76,6 +79,7 @@ public class WorkinprogressDialog extends JDialog implements WindowListener
 		workerThread = threadFactory.newThread(new Runnable()
 		{
 
+			@Override
 			public void run()
 			{
 				try
@@ -128,32 +132,39 @@ public class WorkinprogressDialog extends JDialog implements WindowListener
 		setVisible(false);
 	}
 
+	@Override
 	public void windowActivated(WindowEvent event)
 	{
 	}
 
+	@Override
 	public void windowOpened(WindowEvent event)
 	{
 		workerThread.start();
 	}
 
+	@Override
 	public void windowClosed(WindowEvent event)
 	{
 		abortWorking();
 	}
 
+	@Override
 	public void windowClosing(WindowEvent event)
 	{
 	}
 
+	@Override
 	public void windowDeactivated(WindowEvent event)
 	{
 	}
 
+	@Override
 	public void windowDeiconified(WindowEvent event)
 	{
 	}
 
+	@Override
 	public void windowIconified(WindowEvent event)
 	{
 	}
@@ -163,15 +174,14 @@ public class WorkinprogressDialog extends JDialog implements WindowListener
 		JFrame parentFrame = new JFrame();
 		parentFrame.setSize(500, 150);
 		final JLabel jl = new JLabel();
-		jl.setText(I18nUtils.localizedStringForKey("dlg_progress_count"));
+		jl.setText(OSMCDStrs.RStr("dlg_progress_count"));
 
 		parentFrame.add(BorderLayout.CENTER, jl);
 		parentFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		parentFrame.setVisible(true);
 
-		final WorkinprogressDialog dlg = new WorkinprogressDialog(parentFrame, I18nUtils.localizedStringForKey("dlg_progress_title"),
-				DelayedInterruptThread.createThreadFactory());
+		final WorkinprogressDialog dlg = new WorkinprogressDialog(parentFrame, OSMCDStrs.RStr("dlg_progress_title"), DelayedInterruptThread.createThreadFactory());
 
 		final Thread t = new Thread()
 		{
@@ -183,7 +193,7 @@ public class WorkinprogressDialog extends JDialog implements WindowListener
 				{
 					for (int i = 0; i <= 500; i++)
 					{
-						jl.setText(String.format(I18nUtils.localizedStringForKey("dlg_progress_count_i"), i));
+						jl.setText(String.format(OSMCDStrs.RStr("dlg_progress_count_i"), i));
 						if (Thread.currentThread().isInterrupted())
 						{
 							System.out.println("Aborted");

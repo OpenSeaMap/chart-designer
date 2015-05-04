@@ -16,7 +16,7 @@
  ******************************************************************************/
 package unittests.methods;
 
-import osmcd.utilities.MyMath;
+import osmcd.OSMCBUtilities.MyMath;
 import junit.framework.TestCase;
 import junit.textui.TestRunner;
 

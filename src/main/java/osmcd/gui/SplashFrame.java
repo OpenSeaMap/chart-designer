@@ -24,11 +24,10 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import osmcd.utilities.Utilities;
+import osmb.utilities.OSMBUtilities;
 
 public class SplashFrame extends JFrame
 {
-
 	private static SplashFrame startupFrame;
 
 	public static void showFrame()
@@ -36,13 +35,14 @@ public class SplashFrame extends JFrame
 		startupFrame = new SplashFrame();
 	}
 
-	public SplashFrame() throws HeadlessException {
-		//super(MainGUI.localizedStringForKey("splash_title"));
-		super("OSMCB");
+	public SplashFrame() throws HeadlessException
+	{
+		// super(MainFrame.localizedStringForKey("splash_title"));
+		super("OSMCD");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setUndecorated(true);
-		setIconImages(MainGUI.OSMCD_ICONS);
-		JLabel image = new JLabel(Utilities.loadResourceImageIcon("Splash.jpg"));
+		setIconImages(MainFrame.OSMCD_ICONS);
+		JLabel image = new JLabel(OSMBUtilities.loadResourceImageIcon("Splash.jpg"));
 		image.setBorder(BorderFactory.createEtchedBorder());
 		add(image);
 		pack();

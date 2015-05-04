@@ -10,40 +10,12 @@
   </appender> 
   
   <appender name="file" class="org.apache.log4j.FileAppender">
-    <param name="file" value="OSeaMChartBundler.log" />
+    <param name="file" value="OSeaMChartDesigner.log" />
     <param name="Append" value="false" />
     <layout class="org.apache.log4j.PatternLayout">
       <param name="ConversionPattern" value="%d{ISO8601} %-5p [%t] %c{1}: %m%n" />
     </layout>
   </appender>
-  
-  <logger name="osmcd.mapsources">
-  	<level value="TRACE" />
-  </logger>
-  
-  <logger name="osmcd.program">
-  	<level value="DEBUG" />
-  </logger>
-
-  <logger name="osmcd.program.download">
-  	<level value="TRACE" />
-  </logger>
-      
-  <logger name="osmcd.program.tilestore">
-  	<level value="DEBUG" />
-  </logger>
-  
-  <logger name="osmcd.program.atlascreators">
-  	<level value="DEBUG" />
-  </logger>
-  
-  <logger name="osmcd.program.atlascreators.tileprovider.CacheTileProvider">
-  	<level value="DEBUG" />
-  </logger>
-    
-  <logger name="osmcd.utilities.tar">
-  	<level value="DEBUG" />
-  </logger>
   
   <logger name="SysInfo">
   	<level value="INFO" />
@@ -55,7 +27,7 @@
     <priority value="TRACE" /> 
     -->
     <!-- By default we use log level/priority "DEBUG" -->
-    <priority value="DEBUG" />
+    <priority value="TRACE" />
     <appender-ref ref="console" />
     <appender-ref ref="file" />
   </root>

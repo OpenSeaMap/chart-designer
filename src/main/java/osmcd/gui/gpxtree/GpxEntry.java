@@ -18,7 +18,7 @@ package osmcd.gui.gpxtree;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import osmcd.gui.mapview.layer.GpxLayer;
+import osmcd.gui.mapview.GpxLayer;
 
 /**
  * Generalized entry in the gpx tree. All actual entries derive from this class. The class encapsulates everything

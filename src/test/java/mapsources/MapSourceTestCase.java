@@ -24,8 +24,8 @@ import osmcd.program.interfaces.HttpMapSource;
 import osmcd.program.interfaces.MapSpace;
 import osmcd.program.interfaces.MapSource.LoadMethod;
 import osmcd.program.model.EastNorthCoordinate;
-import osmcd.program.model.Settings;
-import osmcd.utilities.Utilities;
+import osmcd.program.model.OSMCDSettings;
+import osmcd.OSMCBUtilities.OSMCBUtilities;
 import junit.framework.TestCase;
 import mobac.tools.Cities;
 
@@ -80,10 +80,10 @@ public class MapSourceTestCase extends TestCase {
 			if (c.getResponseCode() != 200) {
 				throw new MapSourceTestFailedException(mapSource, c);
 			}
-			byte[] imageData = Utilities.getInputBytes(c.getInputStream());
+			byte[] imageData = OSMCBUtilities.getInputBytes(c.getInputStream());
 			if (imageData.length == 0)
 				throw new MapSourceTestFailedException(mapSource, "Image data empty", c);
-			if (Utilities.getImageType(imageData) == null) {
+			if (OSMCBUtilities.getImageType(imageData) == null) {
 				throw new MapSourceTestFailedException(mapSource, "Image data of unknown format", c);
 			}
 			switch (mapSource.getTileUpdate()) {

@@ -1,130 +1,88 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<settings>
-    <atlasFormatSpecificSettings>
-        <garminCustomMaxMapCount>100</garminCustomMaxMapCount>
-    </atlasFormatSpecificSettings>
-    <bandwidthLimit>0</bandwidthLimit>
+<osmcdSettings>
     <coordinateNumberFormat>DEG_LOCAL</coordinateNumberFormat>
-    <customProxyHost></customProxyHost>
-    <customProxyPassword></customProxyPassword>
-    <customProxyPort></customProxyPort>
-    <customProxyUserName></customProxyUserName>
-    <customTileSize>false</customTileSize>
-    <devMode>false</devMode>
     <directories>
-        <chartBundleOutputDirectory>C:\Users\Public\Documents\OSMCB Bundles</chartBundleOutputDirectory>
+        <bundleOutputDirectory>C:\Users\Public\Documents\Chart Bundles</bundleOutputDirectory>
         <tileStoreDirectory>C:\Users\Public\Documents\OSMCB Tiles</tileStoreDirectory>
+        <mapSourcesDirectory>C:\Projekte\AHDTAC-Java\ChartBase\mapsources</mapSourcesDirectory>
         <catalogsDirectory>C:\Users\Public\Documents\OSMCB Catalogs</catalogsDirectory>
     </directories>
-    <downloadRetryCount>1</downloadRetryCount>
-    <downloadThreadCount>2</downloadThreadCount>
-    <elementName>L</elementName>
-    <googleLanguage>en</googleLanguage>
-    <gpxFileChooserDir></gpxFileChooserDir>
-    <httpConnectionTimeout>10</httpConnectionTimeout>
-    <httpReadTimeout>10</httpReadTimeout>
-    <ignoreDlErrors>false</ignoreDlErrors>
     <localeCountry></localeCountry>
     <localeLanguage>en</localeLanguage>
-    <mainWindow>
-        <size>800/590</size>
-        <position>-1541/-311</position>
-        <maximized>true</maximized>
-        <leftPanelVisible>true</leftPanelVisible>
-        <rightPanelVisible>true</rightPanelVisible>
-        <collapsedPanels>
-            <collapsedPanel>Coordinates</collapsedPanel>
-        </collapsedPanels>
-    </mainWindow>
     <mapOverlapTiles>1</mapOverlapTiles>
     <mapSourcesDisabled/>
     <mapSourcesEnabled>
-        <mapSource>4uMaps</mapSource>
         <mapSource>AH OSM DE</mapSource>
+        <mapSource>AH OpenCycleMap</mapSource>
         <mapSource>AH OpenSeaMap - Mapnik</mapSource>
         <mapSource>Custom OSM Mapnik</mapSource>
-        <mapSource>FAA Sectional Charts</mapSource>
-        <mapSource>FreemapSlovakia</mapSource>
-        <mapSource>FreemapSlovakiaCyclo</mapSource>
-        <mapSource>FreemapSlovakiaHiking</mapSource>
         <mapSource>MapQuest</mapSource>
         <mapSource>Mapnik</mapSource>
-        <mapSource>MoldovaPointMd</mapSource>
-        <mapSource>New Zealand Topographic Maps</mapSource>
-        <mapSource>OSM CloudMade 1</mapSource>
         <mapSource>OSMPublicTransport</mapSource>
-        <mapSource>OSMapaTopo</mapSource>
-        <mapSource>OSMapaTopoContours</mapSource>
-        <mapSource>OpenPisteMapBCL</mapSource>
         <mapSource>OpenSeaMap</mapSource>
         <mapSource>OpenSeaMap-Mapnik</mapSource>
         <mapSource>OpenSeaMapDE</mapSource>
-        <mapSource>OpenStreetMap Hikebikemap.de</mapSource>
-        <mapSource>Turaterkep256</mapSource>
-        <mapSource>UMP-pcPL</mapSource>
-        <mapSource>USGS National Map Base</mapSource>
-        <mapSource>USGS National Map Satellite</mapSource>
-        <mapSource>USGS National Map Satellite+</mapSource>
-        <mapSource>USGS National Map Topo</mapSource>
-        <mapSource>USGS National Map Vector</mapSource>
-        <mapSource>cb-enra</mapSource>
-        <mapSource>cb-enrh</mapSource>
-        <mapSource>cb-enrl</mapSource>
-        <mapSource>cb-sec</mapSource>
-        <mapSource>cb-tac</mapSource>
-        <mapSource>cb-wac</mapSource>
+        
     </mapSourcesEnabled>
-    <MapSourcesUpdate/>
-    <mapviewCenterCoordinate lat="51.069016659603896" lon="9.11865234375"/>
-    <mapviewGridZoom>17</mapviewGridZoom>
-    <mapviewMapSource>Mapnik</mapviewMapSource>
-    <mapviewSelectionMax>544240640/369682432</mapviewSelectionMax>
-    <mapviewSelectionMin>543524864/369101824</mapviewSelectionMin>
-    <mapviewZoom>6</mapviewZoom>
+    <mapviewCenterCoordinate lat="25.173291089819703" lon="55.246639251708984"/>
     <maxMapSize>65536</maxMapSize>
+    <tileDefaultExpirationTime>2446683947</tileDefaultExpirationTime>
+    <tileImageFormat>PNG</tileImageFormat>
+    <tileMaxExpirationTime>31942053996</tileMaxExpirationTime>
+    <tileMinExpirationTime>436196039</tileMinExpirationTime>
+    <tileSize>256/256</tileSize>
+    <tileStoreEnabled>true</tileStoreEnabled>
+    <unitSystem>Metric</unitSystem>
+    <userAgent>OSMCB/0.0.10</userAgent>
+    <version>UNKNOWN</version>
+    <wgsGrid>
+        <color>#0000ff</color>
+        <compressLabels>false</compressLabels>
+        <density>SECONDS_30</density>
+        <enabled>true</enabled>
+        <width>1.0</width>
+    </wgsGrid>
+    <elementName>L</elementName>
+    <googleLanguage>en</googleLanguage>
+    <gpxFileChooserDir></gpxFileChooserDir>
+    <mainWindow>
+        <size>800/590</size>
+        <position>-1928/-308</position>
+        <maximized>true</maximized>
+        <leftPanelVisible>true</leftPanelVisible>
+        <rightPanelVisible>false</rightPanelVisible>
+        <collapsedPanels>
+            <collapsedPanel>TileImageParameters</collapsedPanel>
+        </collapsedPanels>
+    </mainWindow>
+    <mapviewGridZoom>16</mapviewGridZoom>
+    <mapviewMapSource>AH OpenSeaMap - Mapnik</mapviewMapSource>
+    <mapviewSelectionMax>684163072/376832000</mapviewSelectionMax>
+    <mapviewSelectionMin>684163072/376832000</mapviewSelectionMin>
+    <mapviewZoom>15</mapviewZoom>
     <osmHikingTicket></osmHikingTicket>
     <paperAtlas>
-        <compression>6</compression>
+        <compression>8</compression>
         <crop>15</crop>
-        <dpi>180</dpi>
+        <dpi>300</dpi>
         <marginBottom>14.173228346456693</marginBottom>
         <marginLeft>14.173228346456693</marginLeft>
         <marginRight>14.173228346456693</marginRight>
-        <marginTop>14.173228346456693</marginTop>
-        <overlap>14.173228346456693</overlap>
+        <marginTop>28.346456692913385</marginTop>
+        <overlap>7.086614173228346</overlap>
         <compass>true</compass>
         <pageNumbers>true</pageNumbers>
         <scaleBar>true</scaleBar>
         <wgsEnabled>true</wgsEnabled>
         <paperSize>A4</paperSize>
-        <wgsDensity>SECOND_1</wgsDensity>
+        <wgsDensity>SECONDS_10</wgsDensity>
     </paperAtlas>
     <placeBookmarks/>
-    <proxyType>CUSTOM</proxyType>
     <selectedZoomLevels>
+        <zoomLevel>8</zoomLevel>
+        <zoomLevel>9</zoomLevel>
         <zoomLevel>10</zoomLevel>
         <zoomLevel>11</zoomLevel>
         <zoomLevel>12</zoomLevel>
-        <zoomLevel>13</zoomLevel>
-        <zoomLevel>14</zoomLevel>
-        <zoomLevel>15</zoomLevel>
-        <zoomLevel>16</zoomLevel>
     </selectedZoomLevels>
-    <tileDefaultExpirationTime>2433148535</tileDefaultExpirationTime>
-    <tileImageFormat>PNG</tileImageFormat>
-    <tileMaxExpirationTime>31743402975</tileMaxExpirationTime>
-    <tileMinExpirationTime>434079772</tileMinExpirationTime>
-    <tileSize>256/256</tileSize>
-    <tileStoreEnabled>true</tileStoreEnabled>
-    <unitSystem>Metric</unitSystem>
-    <userAgent>OSMCB/0.0.10</userAgent>
-    <version>0.1.12</version>
-    <wgsGrid>
-        <color>#0000ff</color>
-        <compressLabels>false</compressLabels>
-        <density>SECONDS_10</density>
-        <enabled>true</enabled>
-        <font>SansSerif-PLAIN-12</font>
-        <width>1.0</width>
-    </wgsGrid>
-</settings>
+</osmcdSettings>

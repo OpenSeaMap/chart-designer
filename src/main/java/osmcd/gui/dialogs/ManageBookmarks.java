@@ -33,15 +33,14 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import osmcd.gui.MainGUI;
-import osmcd.program.model.Bookmark;
-import osmcd.program.model.Settings;
-import osmcd.utilities.GBC;
-import osmcd.utilities.I18nUtils;
+import osmb.utilities.GBC;
+import osmcd.OSMCDSettings;
+import osmcd.OSMCDStrs;
+import osmcd.gui.MainFrame;
+import osmcd.program.Bookmark;
 
 public class ManageBookmarks extends JDialog implements ListSelectionListener, ActionListener
 {
-
 	private JButton deleteButton;
 
 	private JButton applyButton;
@@ -51,18 +50,18 @@ public class ManageBookmarks extends JDialog implements ListSelectionListener, A
 	private DefaultListModel<Bookmark> bookmarksModel;
 
 	public ManageBookmarks(Window owner) throws HeadlessException {
-		super(owner, I18nUtils.localizedStringForKey("dlg_mgn_bookmark_title"));
-		setIconImages(MainGUI.OSMCD_ICONS);
+		super(owner, OSMCDStrs.RStr("dlg_mgn_bookmark_title"));
+		setIconImages(MainFrame.OSMCD_ICONS);
 		setLayout(new GridBagLayout());
-		applyButton = new JButton(I18nUtils.localizedStringForKey("Close"));
+		applyButton = new JButton(OSMCDStrs.RStr("Close"));
 		applyButton.addActionListener(this);
 		applyButton.setDefaultCapable(true);
 
-		deleteButton = new JButton(I18nUtils.localizedStringForKey("dlg_mgn_bookmark_delete"));
+		deleteButton = new JButton(OSMCDStrs.RStr("dlg_mgn_bookmark_delete"));
 		deleteButton.addActionListener(this);
 
 		bookmarksModel = new DefaultListModel<Bookmark>();
-		for (Bookmark b: Settings.getInstance().placeBookmarks)
+		for (Bookmark b: OSMCDSettings.getInstance().getPlaceBookmarks())
 			bookmarksModel.addElement(b);
 		bookmarks = new JList<Bookmark>(bookmarksModel);
 		bookmarks.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
@@ -81,6 +80,7 @@ public class ManageBookmarks extends JDialog implements ListSelectionListener, A
 		valueChanged(null);
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		if (deleteButton.equals(e.getSource()))
@@ -100,12 +100,13 @@ public class ManageBookmarks extends JDialog implements ListSelectionListener, A
 	{
 		ArrayList<Bookmark> bookmarksList = new ArrayList<Bookmark>(bookmarksModel.getSize());
 		for (int i = 0; i < bookmarksModel.getSize(); i++)
-			bookmarksList.add((Bookmark) bookmarksModel.get(i));
-		Settings.getInstance().placeBookmarks = bookmarksList;
+			bookmarksList.add(bookmarksModel.get(i));
+		OSMCDSettings.getInstance().setPlaceBookmarks(bookmarksList);
 		setVisible(false);
 		dispose();
 	}
 
+	@Override
 	public void valueChanged(ListSelectionEvent e)
 	{
 		deleteButton.setEnabled(bookmarks.getSelectedIndices().length > 0);

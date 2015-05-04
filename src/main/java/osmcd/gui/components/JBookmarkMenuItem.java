@@ -21,8 +21,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JMenuItem;
 
-import osmcd.gui.MainGUI;
-import osmcd.program.model.Bookmark;
+import osmcd.gui.MainFrame;
+import osmcd.program.Bookmark;
 
 public class JBookmarkMenuItem extends JMenuItem implements ActionListener {
 
@@ -35,7 +35,7 @@ public class JBookmarkMenuItem extends JMenuItem implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent paramActionEvent) {
-		MainGUI.getMainGUI().previewMap.gotoPositionBookmark(bookmark);
+		MainFrame.getMainGUI().previewMap.gotoPositionBookmark(bookmark);
 
 	}
 

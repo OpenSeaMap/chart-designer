@@ -19,15 +19,14 @@ package osmcd.program;
 import java.io.InputStream;
 import java.util.Properties;
 
-import osmcd.Main;
-import osmcd.utilities.GUIExceptionHandler;
-import osmcd.utilities.Utilities;
+import osmb.utilities.GUIExceptionHandler;
+import osmb.utilities.OSMBUtilities;
+import osmcd.OSMCDApp;
 
-public class ProgramInfo {
-
-	public static String PROG_NAME = "OpenSeaMap ChartBundler";
-	public static String PROG_NAME_SHORT = "OSMCB";
-
+public class ProgramInfo
+{
+	public static String PROG_NAME = "OpenSeaMap ChartDesigner";
+	public static String PROG_NAME_SHORT = "OSMCD";
 	private static String VERSION = null;
 	private static String SVN_REVISION = "unknown";
 	private static String userAgent = "";
@@ -37,73 +36,93 @@ public class ProgramInfo {
 	 */
 	private static boolean titleHideRevision = false;
 
-	public static void initialize() {
-		InputStream propIn = Main.class.getResourceAsStream("osmcd.properties");
-		try {
+	public static void initialize()
+	{
+		InputStream propIn = OSMCDApp.class.getResourceAsStream("osmcd.properties");
+		try
+		{
 			Properties props = new Properties();
 			props.load(propIn);
 			VERSION = props.getProperty("osmcd.version");
 			titleHideRevision = Boolean.parseBoolean(props.getProperty("osmcd.revision.hide", "false"));
 			System.getProperties().putAll(props);
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			String msg = "Error reading osmcd.properties";
 			GUIExceptionHandler.processFatalExceptionSimpleDialog(msg, e);
-		} finally {
-			Utilities.closeStream(propIn);
 		}
-		propIn = Main.class.getResourceAsStream("osmcd-rev.properties");
-		try {
+		finally
+		{
+			OSMBUtilities.closeStream(propIn);
+		}
+		propIn = OSMCDApp.class.getResourceAsStream("osmcd-rev.properties");
+		try
+		{
 			String rev;
-			if (propIn != null) {
+			if (propIn != null)
+			{
 				Properties props = new Properties();
 				props.load(propIn);
 				rev = props.getProperty("osmcd.revision");
-				SVN_REVISION = Integer.toString(Utilities.parseSVNRevision(rev));
-			} else {
-				rev = System.getProperty("osmcd.revision.fallback");
-				SVN_REVISION = Integer.toString(Utilities.parseSVNRevision(rev)) + " exported";
+				SVN_REVISION = Integer.toString(OSMBUtilities.parseSVNRevision(rev));
 			}
-		} catch (Exception e) {
+			else
+			{
+				rev = System.getProperty("osmcd.revision.fallback");
+				SVN_REVISION = Integer.toString(OSMBUtilities.parseSVNRevision(rev)) + " exported";
+			}
+		}
+		catch (Exception e)
+		{
 			Logging.LOG.error("Error reading osmcd-rev.properties", e);
-		} finally {
-			Utilities.closeStream(propIn);
+		}
+		finally
+		{
+			OSMBUtilities.closeStream(propIn);
 		}
 		userAgent = PROG_NAME_SHORT + "/" + (getVersion().replaceAll(" ", "_"));
 	}
 
-	public static String getVersion() {
+	public static String getVersion()
+	{
 		if (VERSION != null)
 			return VERSION;
 		else
 			return "UNKNOWN";
 	}
 
-	public static String getRevisionStr() {
+	public static String getRevisionStr()
+	{
 		return SVN_REVISION;
 	}
 
-	public static String getVersionTitle() {
+	public static String getVersionTitle()
+	{
 		String title = PROG_NAME;
 		if (PROG_NAME_SHORT != null)
 			title += " (" + PROG_NAME_SHORT + ") ";
 		else
 			title += " ";
-		if (VERSION != null) {
+		if (VERSION != null)
+		{
 			title += getVersion();
-		} else
+		}
+		else
 			title += "unknown version";
 		return title;
 	}
 
-	public static String getCompleteTitle() {
+	public static String getCompleteTitle()
+	{
 		String title = getVersionTitle();
 		if (!titleHideRevision)
 			title += " (" + SVN_REVISION + ")";
 		return title;
 	}
 
-	public static String getUserAgent() {
+	public static String getUserAgent()
+	{
 		return userAgent;
 	}
-
 }

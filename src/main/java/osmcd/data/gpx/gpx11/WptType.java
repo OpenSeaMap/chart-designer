@@ -39,7 +39,7 @@ import osmcd.data.gpx.interfaces.GpxPoint;
 
 /**
  * 
- * wpt represents a waypoint, point of interest, or named feature on a map.
+ * wpt represents a waypoint, point of interest, or named feature on a iMap.
  * 
  * 
  * <p>

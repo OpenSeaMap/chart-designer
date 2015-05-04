@@ -38,85 +38,100 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.w3c.dom.Document;
 
+import osmb.utilities.OSMBUtilities;
 import osmcd.data.gpx.gpx11.Gpx;
 import osmcd.program.Logging;
-import osmcd.utilities.Utilities;
 
-public class GPXUtils {
-
-	public static boolean checkJAXBVersion() {
-		boolean res = Utilities.checkJAXBVersion();
+public class GPXUtils
+{
+	public static boolean checkJAXBVersion()
+	{
+		boolean res = OSMBUtilities.checkJAXBVersion();
 		if (!res)
-			JOptionPane.showMessageDialog(null,
-					"Outdated Java Runtime Environment and JAXB version",
-					"Mobile Bundle Creator has detected that your used "
-							+ "Java Runtime Environment is too old.\n Please update "
-							+ "the Java Runtime Environment to at least \nversion "
-							+ "1.6.0_14 and restart Mobile Bundle Creator.",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Outdated Java Runtime Environment and JAXB version", "Mobile Bundle Creator has detected that your used "
+					+ "Java Runtime Environment is too old.\n Please update " + "the Java Runtime Environment to at least \nversion "
+					+ "1.6.0_14 and restart Mobile Bundle Creator.", JOptionPane.ERROR_MESSAGE);
 		return res;
 	}
 
-	public static Gpx loadGpxFile(File f) throws JAXBException {
+	public static Gpx loadGpxFile(File f) throws JAXBException
+	{
 		// Create GPX 1.1 JAXB context
 		JAXBContext context = JAXBContext.newInstance(Gpx.class);
 
 		Unmarshaller unmarshaller = context.createUnmarshaller();
 		InputStream is = null;
-		try {
+		try
+		{
 			is = new FileInputStream(f);
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			factory.setNamespaceAware(true);
 			DocumentBuilder loader = factory.newDocumentBuilder();
 			Document document = loader.parse(is);
 			String namespace = document.getDocumentElement().getNamespaceURI();
-			if ("http://www.topografix.com/GPX/1/1".equals(namespace)) {
+			if ("http://www.topografix.com/GPX/1/1".equals(namespace))
+			{
 				return (Gpx) unmarshaller.unmarshal(document);
 			}
-			if ("http://www.topografix.com/GPX/1/0".equals(namespace)) {
+			if ("http://www.topografix.com/GPX/1/0".equals(namespace))
+			{
 				Source xmlSource = new javax.xml.transform.dom.DOMSource(document);
-				Source xsltSource = new StreamSource(Utilities
-						.loadResourceAsStream("xsl/gpx10to11.xsl"));
+				Source xsltSource = new StreamSource(OSMBUtilities.loadResourceAsStream("xsl/gpx10to11.xsl"));
 				JAXBResult result = new JAXBResult(unmarshaller);
 				TransformerFactory transFact = TransformerFactory.newInstance();
 				Transformer trans = transFact.newTransformer(xsltSource);
 				trans.transform(xmlSource, result);
 				return (Gpx) result.getResult();
 			}
-			throw new JAXBException("Expected GPX 1.0 or GPX1.1 namespace but found \n\""
-					+ namespace + "\"");
-		} catch (JAXBException e) {
+			throw new JAXBException("Expected GPX 1.0 or GPX1.1 namespace but found \n\"" + namespace + "\"");
+		}
+		catch (JAXBException e)
+		{
 			throw e;
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			throw new JAXBException(e);
-		} finally {
-			Utilities.closeStream(is);
+		}
+		finally
+		{
+			OSMBUtilities.closeStream(is);
 		}
 	}
 
-	public static void saveGpxFile(Gpx gpx, File f) throws JAXBException {
+	public static void saveGpxFile(Gpx gpx, File f) throws JAXBException
+	{
 		// Create GPX 1.1 JAXB context
 		JAXBContext context = JAXBContext.newInstance(Gpx.class);
 
 		Marshaller marshaller = context.createMarshaller();
 		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 		OutputStream os = null;
-		try {
+		try
+		{
 			os = new FileOutputStream(f);
 			marshaller.marshal(gpx, os);
-		} catch (FileNotFoundException e) {
+		}
+		catch (FileNotFoundException e)
+		{
 			throw new JAXBException(e);
-		} finally {
-			Utilities.closeStream(os);
+		}
+		finally
+		{
+			OSMBUtilities.closeStream(os);
 		}
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
 		Logging.configureConsoleLogging();
-		try {
+		try
+		{
 			loadGpxFile(new File("misc/samples/gpx/gpx11 wpt.gpx"));
 			loadGpxFile(new File("misc/samples/gpx/gpx10 wpt.gpx"));
-		} catch (JAXBException e) {
+		}
+		catch (JAXBException e)
+		{
 			e.printStackTrace();
 		}
 	}

@@ -42,24 +42,19 @@ import javax.swing.event.ChangeListener;
 
 import org.apache.log4j.Logger;
 
-import osmcd.gui.mapview.interfaces.MapLayer;
-import osmcd.gui.mapview.interfaces.MapTileLayer;
-import osmcd.gui.mapview.interfaces.TileLoaderListener;
-import osmcd.gui.mapview.layer.DefaultMapTileLayer;
-import osmcd.gui.mapview.layer.MapGridLayer;
-import osmcd.program.interfaces.MapSource;
-import osmcd.program.interfaces.MapSpace;
-import osmcd.utilities.Utilities;
+import osmb.mapsources.IfMapSource;
+import osmb.program.map.IfMapSpace;
+import osmb.utilities.OSMBUtilities;
 
 /**
  * 
- * Provides a simple panel that displays pre-rendered map tiles loaded from the OpenStreetMap project.
+ * Provides a simple panel that displays pre-rendered iMap tiles loaded from the OpenStreetMap project.
  * 
  * @author Jan Peter Stotz
  * 
  */
-public class JMapViewer extends JPanel implements TileLoaderListener {
-
+public class JMapViewer extends JPanel implements TileLoaderListener
+{
 	private static final long serialVersionUID = 1L;
 
 	private static Logger log = Logger.getLogger(JMapViewer.class);
@@ -67,14 +62,15 @@ public class JMapViewer extends JPanel implements TileLoaderListener {
 	/**
 	 * Vectors for clock-wise tile painting
 	 */
-	protected static final Point[] move = { new Point(1, 0), new Point(0, 1), new Point(-1, 0), new Point(0, -1) };
+	protected static final Point[] move =
+	{ new Point(1, 0), new Point(0, 1), new Point(-1, 0), new Point(0, -1) };
 
 	public static final int MAX_ZOOM = 22;
 	public static final int MIN_ZOOM = 0;
 
 	protected TileLoader tileLoader;
 	protected MemoryTileCache tileCache;
-	protected MapSource mapSource;
+	protected IfMapSource mapSource;
 	protected boolean usePlaceHolderTiles = true;
 
 	protected boolean mapMarkersVisible;
@@ -84,8 +80,7 @@ public class JMapViewer extends JPanel implements TileLoaderListener {
 	public List<MapLayer> mapLayers;
 
 	/**
-	 * x- and y-position of the center of this map-panel on the world map denoted in screen pixel regarding the current
-	 * zoom level.
+	 * x- and y-position of the center of this map-panel on the world map denoted in screen pixel regarding the current zoom level.
 	 */
 	protected Point center = new Point();
 
@@ -100,7 +95,8 @@ public class JMapViewer extends JPanel implements TileLoaderListener {
 
 	protected JobDispatcher jobDispatcher;
 
-	public JMapViewer(MapSource defaultMapSource, int downloadThreadCount) {
+	public JMapViewer(IfMapSource defaultMapSource, int downloadThreadCount)
+	{
 		super();
 		mapTileLayers = new LinkedList<MapTileLayer>();
 		mapLayers = new LinkedList<MapLayer>();
@@ -116,45 +112,61 @@ public class JMapViewer extends JPanel implements TileLoaderListener {
 		setDisplayPositionByLatLon(50.0, 9.0, 1);
 	}
 
-	protected void initializeZoomSlider() {
+	protected void initializeZoomSlider()
+	{
 		zoomSlider.setOrientation(JSlider.VERTICAL);
 		zoomSlider.setBounds(10, 10, 30, 150);
 		zoomSlider.setOpaque(false);
-		zoomSlider.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
+		zoomSlider.addChangeListener(new ChangeListener()
+		{
+			@Override
+			public void stateChanged(ChangeEvent e)
+			{
 				setZoom(zoomSlider.getValue());
 			}
 		});
 		add(zoomSlider);
 		int size = 18;
-		try {
-			ImageIcon icon = Utilities.loadResourceImageIcon("plus.png");
+		try
+		{
+			ImageIcon icon = OSMBUtilities.loadResourceImageIcon("plus.png");
 			zoomInButton = new JButton(icon);
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			zoomInButton = new JButton("+");
 			zoomInButton.setFont(new Font("sansserif", Font.BOLD, 9));
 			zoomInButton.setMargin(new Insets(0, 0, 0, 0));
 		}
 		zoomInButton.setBounds(4, 155, size, size);
-		zoomInButton.addActionListener(new ActionListener() {
+		zoomInButton.addActionListener(new ActionListener()
+		{
 
-			public void actionPerformed(ActionEvent e) {
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
 				zoomIn();
 			}
 		});
 		add(zoomInButton);
-		try {
-			ImageIcon icon = Utilities.loadResourceImageIcon("minus.png");
+		try
+		{
+			ImageIcon icon = OSMBUtilities.loadResourceImageIcon("minus.png");
 			zoomOutButton = new JButton(icon);
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 			zoomOutButton = new JButton("-");
 			zoomOutButton.setFont(new Font("sansserif", Font.BOLD, 9));
 			zoomOutButton.setMargin(new Insets(0, 0, 0, 0));
 		}
 		zoomOutButton.setBounds(8 + size, 155, size, size);
-		zoomOutButton.addActionListener(new ActionListener() {
+		zoomOutButton.addActionListener(new ActionListener()
+		{
 
-			public void actionPerformed(ActionEvent e) {
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
 				zoomOut();
 			}
 		});
@@ -162,45 +174,48 @@ public class JMapViewer extends JPanel implements TileLoaderListener {
 	}
 
 	/**
-	 * Changes the map pane so that it is centered on the specified coordinate at the given zoom level.
+	 * Changes the iMap pane so that it is centered on the specified coordinate at the given zoom level.
 	 * 
 	 * @param lat
-	 *            latitude of the specified coordinate
+	 *          latitude of the specified coordinate
 	 * @param lon
-	 *            longitude of the specified coordinate
+	 *          longitude of the specified coordinate
 	 * @param zoom
-	 *            {@link #MIN_ZOOM} <= zoom level <= {@link #MAX_ZOOM}
+	 *          {@link #MIN_ZOOM} <= zoom level <= {@link #MAX_ZOOM}
 	 */
-	public void setDisplayPositionByLatLon(double lat, double lon, int zoom) {
+	public void setDisplayPositionByLatLon(double lat, double lon, int zoom)
+	{
 		setDisplayPositionByLatLon(new Point(getWidth() / 2, getHeight() / 2), lat, lon, zoom);
 	}
 
 	/**
-	 * Changes the map pane so that the specified coordinate at the given zoom level is displayed on the map at the
-	 * screen coordinate <code>mapPoint</code>.
+	 * Changes the iMap pane so that the specified coordinate at the given zoom level is displayed on the iMap at the screen coordinate <code>mapPoint</code>.
 	 * 
 	 * @param mapPoint
-	 *            point on the map denoted in pixels where the coordinate should be set
+	 *          point on the iMap denoted in pixels where the coordinate should be set
 	 * @param lat
-	 *            latitude of the specified coordinate
+	 *          latitude of the specified coordinate
 	 * @param lon
-	 *            longitude of the specified coordinate
+	 *          longitude of the specified coordinate
 	 * @param zoom
-	 *            {@link #MIN_ZOOM} <= zoom level <= {@link MapSource#getMaxZoom()}
+	 *          {@link #MIN_ZOOM} <= zoom level <= {@link IfMapSource#getMaxZoom()}
 	 */
-	public void setDisplayPositionByLatLon(Point mapPoint, double lat, double lon, int zoom) {
+	public void setDisplayPositionByLatLon(Point mapPoint, double lat, double lon, int zoom)
+	{
 		zoom = Math.max(Math.min(zoom, mapSource.getMaxZoom()), mapSource.getMinZoom());
-		MapSpace mapSpace = mapSource.getMapSpace();
+		IfMapSpace mapSpace = mapSource.getMapSpace();
 		int x = mapSpace.cLonToX(lon, zoom);
 		int y = mapSpace.cLatToY(lat, zoom);
 		setDisplayPosition(mapPoint, x, y, zoom);
 	}
 
-	public void setDisplayPosition(int x, int y, int zoom) {
+	public void setDisplayPosition(int x, int y, int zoom)
+	{
 		setDisplayPosition(new Point(getWidth() / 2, getHeight() / 2), x, y, zoom);
 	}
 
-	public void setDisplayPosition(Point mapPoint, int x, int y, int zoom) {
+	public void setDisplayPosition(Point mapPoint, int x, int y, int zoom)
+	{
 		if (zoom > mapSource.getMaxZoom() || zoom < MIN_ZOOM)
 			return;
 
@@ -210,42 +225,47 @@ public class JMapViewer extends JPanel implements TileLoaderListener {
 		p.y = y - mapPoint.y + getHeight() / 2;
 		center = p;
 		setIgnoreRepaint(true);
-		try {
+		try
+		{
 			int oldZoom = this.zoom;
 			this.zoom = zoom;
 			if (oldZoom != zoom)
 				zoomChanged(oldZoom);
 			if (zoomSlider.getValue() != zoom)
 				zoomSlider.setValue(zoom);
-		} finally {
+		}
+		finally
+		{
 			setIgnoreRepaint(false);
 			repaint();
 		}
 	}
 
 	/**
-	 * Sets the displayed map pane and zoom level so that the two points (x1/y1) and (x2/y2) visible. Please note that
-	 * the coordinates have to be specified regarding {@link #MAX_ZOOM}.
+	 * Sets the displayed iMap pane and zoom level so that the two points (x1/y1) and (x2/y2) visible. Please note that the coordinates have to be specified
+	 * regarding {@link #MAX_ZOOM}.
 	 * 
 	 * @param x1
 	 * @param y1
 	 * @param x2
 	 * @param y2
 	 */
-	public void setDisplayToFitPixelCoordinates(int x1, int y1, int x2, int y2) {
+	public void setDisplayToFitPixelCoordinates(int x1, int y1, int x2, int y2)
+	{
 		int mapZoomMax = mapSource.getMaxZoom();
 		int height = Math.max(0, getHeight());
 		int width = Math.max(0, getWidth());
 		int newZoom = MAX_ZOOM;
 		int x = Math.abs(x1 - x2);
 		int y = Math.abs(y1 - y2);
-		while (x > width || y > height || newZoom > mapZoomMax) {
+		while (x > width || y > height || newZoom > mapZoomMax)
+		{
 			newZoom--;
 			x >>= 1;
 			y >>= 1;
 		}
 
-		// Do not select a zoom level that is unsupported by the current map
+		// Do not select a zoom level that is unsupported by the current iMap
 		// source
 		newZoom = Math.max(mapSource.getMinZoom(), Math.min(mapSource.getMaxZoom(), newZoom));
 
@@ -257,15 +277,17 @@ public class JMapViewer extends JPanel implements TileLoaderListener {
 		setDisplayPosition(x, y, newZoom);
 	}
 
-	public Point2D.Double getPosition() {
-		MapSpace mapSpace = mapSource.getMapSpace();
+	public Point2D.Double getPosition()
+	{
+		IfMapSpace mapSpace = mapSource.getMapSpace();
 		double lon = mapSpace.cXToLon(center.x, zoom);
 		double lat = mapSpace.cYToLat(center.y, zoom);
 		return new Point2D.Double(lat, lon);
 	}
 
-	public Point2D.Double getPosition(Point mapPoint) {
-		MapSpace mapSpace = mapSource.getMapSpace();
+	public Point2D.Double getPosition(Point mapPoint)
+	{
+		IfMapSpace mapSpace = mapSource.getMapSpace();
 		int x = center.x + mapPoint.x - getWidth() / 2;
 		int y = center.y + mapPoint.y - getHeight() / 2;
 		double lon = mapSpace.cXToLon(x, zoom);
@@ -274,14 +296,15 @@ public class JMapViewer extends JPanel implements TileLoaderListener {
 	}
 
 	/**
-	 * Calculates the position on the map of a given coordinate
+	 * Calculates the position on the iMap of a given coordinate
 	 * 
 	 * @param lat
 	 * @param lon
-	 * @return point on the map or <code>null</code> if the point is not visible
+	 * @return point on the iMap or <code>null</code> if the point is not visible
 	 */
-	public Point getMapPosition(double lat, double lon) {
-		MapSpace mapSpace = mapSource.getMapSpace();
+	public Point getMapPosition(double lat, double lon)
+	{
+		IfMapSpace mapSpace = mapSource.getMapSpace();
 		int x = mapSpace.cLonToX(lon, zoom);
 		int y = mapSpace.cLatToY(lat, zoom);
 		x -= center.x - getWidth() / 2;
@@ -292,7 +315,8 @@ public class JMapViewer extends JPanel implements TileLoaderListener {
 	}
 
 	@Override
-	protected void paintComponent(Graphics graphics) {
+	protected void paintComponent(Graphics graphics)
+	{
 		Graphics2D g = (Graphics2D) graphics;
 		// if (mapIsMoving) {
 		// mapIsMoving = false;
@@ -327,12 +351,15 @@ public class JMapViewer extends JPanel implements TileLoaderListener {
 		boolean start_left = diff_left < diff_right;
 		boolean start_top = diff_top < diff_bottom;
 
-		if (start_top) {
+		if (start_top)
+		{
 			if (start_left)
 				iMove = 2;
 			else
 				iMove = 3;
-		} else {
+		}
+		else
+		{
 			if (start_left)
 				iMove = 1;
 			else
@@ -343,22 +370,28 @@ public class JMapViewer extends JPanel implements TileLoaderListener {
 		int x_max = getWidth();
 		int y_max = getHeight();
 
-		// paint the tiles in a spiral, starting from center of the map
+		// paint the tiles in a spiral, starting from center of the iMap
 		boolean painted = (mapTileLayers.size() > 0);
-		for (MapTileLayer l : mapTileLayers) {
+		for (MapTileLayer l : mapTileLayers)
+		{
 			l.startPainting(mapSource);
 		}
 		int x = 0;
-		while (painted) {
+		while (painted)
+		{
 			painted = false;
-			for (int i = 0; i < 4; i++) {
+			for (int i = 0; i < 4; i++)
+			{
 				if (i % 2 == 0)
 					x++;
-				for (int j = 0; j < x; j++) {
-					if (x_min <= posx && posx <= x_max && y_min <= posy && posy <= y_max) {
+				for (int j = 0; j < x; j++)
+				{
+					if (x_min <= posx && posx <= x_max && y_min <= posy && posy <= y_max)
+					{
 						// tile is visible
 						painted = true;
-						for (MapTileLayer l : mapTileLayers) {
+						for (MapTileLayer l : mapTileLayers)
+						{
 							l.paintTile(g, posx, posy, tilex, tiley, zoom);
 						}
 					}
@@ -374,21 +407,28 @@ public class JMapViewer extends JPanel implements TileLoaderListener {
 
 		int bottomRightX = topLeftX + getWidth();
 		int bottomRightY = topLeftY + getHeight();
-		try {
-			for (MapLayer l : mapLayers) {
-				l.paint(this, (Graphics2D) g, zoom, topLeftX, topLeftY, bottomRightX, bottomRightY);
+		try
+		{
+			for (MapLayer l : mapLayers)
+			{
+				l.paint(this, g, zoom, topLeftX, topLeftY, bottomRightX, bottomRightY);
 			}
-		} catch (ConcurrentModificationException e) {
-			// This may happen when multiple GPX files are loaded at once and in the mean time the map view is
+		}
+		catch (ConcurrentModificationException e)
+		{
+			// This may happen when multiple GPX files are loaded at once and in the mean time the iMap view is
 			// repainted.
-			SwingUtilities.invokeLater(new Runnable() {
-				public void run() {
+			SwingUtilities.invokeLater(new Runnable()
+			{
+				@Override
+				public void run()
+				{
 					JMapViewer.this.repaint();
 				}
 			});
 		}
 
-		// outer border of the map
+		// outer border of the iMap
 		int mapSize = tileSize << zoom;
 		g.setColor(Color.BLACK);
 		g.drawRect(w2 - center.x, h2 - center.y, mapSize, mapSize);
@@ -397,14 +437,15 @@ public class JMapViewer extends JPanel implements TileLoaderListener {
 	}
 
 	/**
-	 * Moves the visible map pane.
+	 * Moves the visible iMap pane.
 	 * 
 	 * @param x
-	 *            horizontal movement in pixel.
+	 *          horizontal movement in pixel.
 	 * @param y
-	 *            vertical movement in pixel
+	 *          vertical movement in pixel
 	 */
-	public void moveMap(int x, int y) {
+	public void moveMap(int x, int y)
+	{
 		center.x += x;
 		center.y += y;
 		repaint();
@@ -413,39 +454,45 @@ public class JMapViewer extends JPanel implements TileLoaderListener {
 	/**
 	 * @return the current zoom level
 	 */
-	public int getZoom() {
+	public int getZoom()
+	{
 		return zoom;
 	}
 
 	/**
 	 * Increases the current zoom level by one
 	 */
-	public void zoomIn() {
+	public void zoomIn()
+	{
 		setZoom(zoom + 1);
 	}
 
 	/**
 	 * Increases the current zoom level by one
 	 */
-	public void zoomIn(Point mapPoint) {
+	public void zoomIn(Point mapPoint)
+	{
 		setZoom(zoom + 1, mapPoint);
 	}
 
 	/**
 	 * Decreases the current zoom level by one
 	 */
-	public void zoomOut() {
+	public void zoomOut()
+	{
 		setZoom(zoom - 1);
 	}
 
 	/**
 	 * Decreases the current zoom level by one
 	 */
-	public void zoomOut(Point mapPoint) {
+	public void zoomOut(Point mapPoint)
+	{
 		setZoom(zoom - 1, mapPoint);
 	}
 
-	public void setZoom(int zoom, Point mapPoint) {
+	public void setZoom(int zoom, Point mapPoint)
+	{
 		if (zoom > mapSource.getMaxZoom() || zoom < mapSource.getMinZoom() || zoom == this.zoom)
 			return;
 		Point2D.Double zoomPos = getPosition(mapPoint);
@@ -454,19 +501,21 @@ public class JMapViewer extends JPanel implements TileLoaderListener {
 		setDisplayPositionByLatLon(mapPoint, zoomPos.x, zoomPos.y, zoom);
 	}
 
-	public void setZoom(int zoom) {
+	public void setZoom(int zoom)
+	{
 		setZoom(zoom, new Point(getWidth() / 2, getHeight() / 2));
 		repaint();
 	}
 
 	/**
-	 * Every time the zoom level changes this method is called. Override it in derived implementations for adapting zoom
-	 * dependent values. The new zoom level can be obtained via {@link #getZoom()}.
+	 * Every time the zoom level changes this method is called. Override it in derived implementations for adapting zoom dependent values. The new zoom level can
+	 * be obtained via {@link #getZoom()}.
 	 * 
 	 * @param oldZoom
-	 *            the previous zoom level
+	 *          the previous zoom level
 	 */
-	protected void zoomChanged(int oldZoom) {
+	protected void zoomChanged(int oldZoom)
+	{
 		zoomSlider.setToolTipText("Zoom level " + zoom);
 		zoomInButton.setToolTipText("Zoom to level " + (zoom + 1));
 		zoomOutButton.setToolTipText("Zoom to level " + (zoom - 1));
@@ -474,50 +523,63 @@ public class JMapViewer extends JPanel implements TileLoaderListener {
 		zoomInButton.setEnabled(zoom < mapSource.getMaxZoom());
 	}
 
-	public boolean isTileGridVisible() {
+	public boolean isTileGridVisible()
+	{
 		return (mapGridLayer != null);
 	}
 
-	public void setTileGridVisible(boolean tileGridVisible) {
+	public void setTileGridVisible(boolean tileGridVisible)
+	{
 		if (isTileGridVisible() == tileGridVisible)
 			return;
-		if (tileGridVisible) {
+		if (tileGridVisible)
+		{
 			mapGridLayer = new MapGridLayer();
 			addMapTileLayers(mapGridLayer);
-		} else {
+		}
+		else
+		{
 			removeMapTileLayers(mapGridLayer);
 			mapGridLayer = null;
 		}
 		repaint();
 	}
 
-	public boolean getMapMarkersVisible() {
+	public boolean getMapMarkersVisible()
+	{
 		return mapMarkersVisible;
 	}
 
-	public void setZoomContolsVisible(boolean visible) {
+	public void setZoomControlsVisible(boolean visible)
+	{
 		zoomSlider.setVisible(visible);
 		zoomInButton.setVisible(visible);
 		zoomOutButton.setVisible(visible);
 	}
 
-	public boolean getZoomContolsVisible() {
+	public boolean getZoomContolsVisible()
+	{
 		return zoomSlider.isVisible();
 	}
 
-	public MemoryTileCache getTileImageCache() {
+	@Override
+	public MemoryTileCache getTileImageCache()
+	{
 		return tileCache;
 	}
 
-	public TileLoader getTileLoader() {
+	public TileLoader getTileLoader()
+	{
 		return tileLoader;
 	}
 
-	public MapSource getMapSource() {
+	public IfMapSource getMapSource()
+	{
 		return mapSource;
 	}
 
-	public void setMapSource(MapSource mapSource) {
+	public void setMapSource(IfMapSource mapSource)
+	{
 		if (mapSource.getMaxZoom() > MAX_ZOOM)
 			throw new RuntimeException("Maximum zoom level too high");
 		if (mapSource.getMinZoom() < MIN_ZOOM)
@@ -536,23 +598,29 @@ public class JMapViewer extends JPanel implements TileLoaderListener {
 		repaint();
 	}
 
-	public JobDispatcher getJobDispatcher() {
+	public JobDispatcher getJobDispatcher()
+	{
 		return jobDispatcher;
 	}
 
-	public boolean isUsePlaceHolderTiles() {
+	public boolean isUsePlaceHolderTiles()
+	{
 		return usePlaceHolderTiles;
 	}
 
-	public void tileLoadingFinished(Tile tile, boolean success) {
+	@Override
+	public void tileLoadingFinished(Tile tile, boolean success)
+	{
 		repaint();
 	}
 
-	public void addMapTileLayers(MapTileLayer mapTileLayer) {
+	public void addMapTileLayers(MapTileLayer mapTileLayer)
+	{
 		mapTileLayers.add(mapTileLayer);
 	}
 
-	public void removeMapTileLayers(MapTileLayer mapTileLayer) {
+	public void removeMapTileLayers(MapTileLayer mapTileLayer)
+	{
 		mapTileLayers.remove(mapTileLayer);
 	}
 

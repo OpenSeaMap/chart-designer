@@ -19,14 +19,14 @@ package osmcd.gui.actions;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import osmcd.gui.MainGUI;
+import osmcd.gui.MainFrame;
+import osmcd.gui.mapview.PolygonCircleSelectionMapController;
 import osmcd.gui.mapview.PreviewMap;
-import osmcd.gui.mapview.controller.PolygonCircleSelectionMapController;
 
 public class SelectionModeCircle implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
-		PreviewMap previewMap = MainGUI.getMainGUI().previewMap;
+		PreviewMap previewMap = MainFrame.getMainGUI().previewMap;
 		previewMap.setMapSelectionController(new PolygonCircleSelectionMapController(previewMap));
 
 	}

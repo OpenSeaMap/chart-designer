@@ -16,9 +16,9 @@
  ******************************************************************************/
 package osmcd.gui.gpxtree;
 
+import osmcd.OSMCDStrs;
 import osmcd.data.gpx.gpx11.RteType;
-import osmcd.gui.mapview.layer.GpxLayer;
-import osmcd.utilities.I18nUtils;
+import osmcd.gui.mapview.GpxLayer;
 
 public class RteEntry extends GpxEntry {
 	private RteType rte;
@@ -39,7 +39,7 @@ public class RteEntry extends GpxEntry {
 		if (name != null && !name.equals("")) {
 			return name;
 		} else {
-			return I18nUtils.localizedStringForKey("rp_gpx_unname_route_name");
+			return OSMCDStrs.RStr("rp_gpx_unname_route_name");
 		}
 	}
 

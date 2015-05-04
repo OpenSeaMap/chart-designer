@@ -16,7 +16,7 @@
  ******************************************************************************/
 package osmcd.gui.actions;
 
-import java.awt.event.ActionEvent;  
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
@@ -24,22 +24,22 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.xml.bind.JAXBException;
 
+import osmb.utilities.file.GpxFileFilter;
+import osmcd.OSMCDSettings;
+import osmcd.OSMCDStrs;
 import osmcd.data.gpx.GPXUtils;
 import osmcd.data.gpx.gpx11.Gpx;
-import osmcd.gui.MainGUI;
+import osmcd.gui.MainFrame;
 import osmcd.gui.gpxtree.GpxEntry;
-import osmcd.gui.panels.JGpxPanel;
-import osmcd.program.model.Settings;
-import osmcd.utilities.I18nUtils;
-import osmcd.utilities.file.GpxFileFilter;
+import osmcd.gui.gpxtree.JGpxPanel;
 
-
-public class GpxSave implements ActionListener {
-
+public class GpxSave implements ActionListener
+{
 	private JGpxPanel panel;
 	private boolean saveAs;
 
-	public GpxSave(JGpxPanel panel) {
+	public GpxSave(JGpxPanel panel)
+	{
 		this(panel, false);
 	}
 
@@ -47,22 +47,23 @@ public class GpxSave implements ActionListener {
 	 * 
 	 * @param panel
 	 * @param saveAs
-	 *            if true a file chooser dialog is displayed where the user can
-	 *            change the filename
+	 *          if true a file chooser dialog is displayed where the user can change the filename
 	 */
-	public GpxSave(JGpxPanel panel, boolean saveAs) {
+	public GpxSave(JGpxPanel panel, boolean saveAs)
+	{
 		super();
 		this.panel = panel;
 		this.saveAs = saveAs;
 	}
 
-	public void actionPerformed(ActionEvent event) {
+	@Override
+	public void actionPerformed(ActionEvent event)
+	{
 
 		GpxEntry entry = panel.getSelectedEntry();
-		if (entry == null) {
-			JOptionPane.showMessageDialog(null, 
-					I18nUtils.localizedStringForKey("rp_gpx_msg_error_save_gpx_file"), 
-					I18nUtils.localizedStringForKey("rp_gpx_msg_no_select_file"),
+		if (entry == null)
+		{
+			JOptionPane.showMessageDialog(null, OSMCDStrs.RStr("rp_gpx_msg_error_save_gpx_file"), OSMCDStrs.RStr("rp_gpx_msg_no_select_file"),
 					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
@@ -71,7 +72,8 @@ public class GpxSave implements ActionListener {
 
 		Gpx gpx = entry.getLayer().getGpx();
 
-		try {
+		try
+		{
 			File f = entry.getLayer().getFile();
 			if (saveAs || f == null)
 				f = selectFile(f);
@@ -81,27 +83,33 @@ public class GpxSave implements ActionListener {
 				f = new File(f.getAbsolutePath() + ".gpx");
 			entry.getLayer().setFile(f);
 			GPXUtils.saveGpxFile(gpx, f);
-		} catch (JAXBException e) {
+		}
+		catch (JAXBException e)
+		{
 			throw new RuntimeException(e);
 		}
-		MainGUI.getMainGUI().previewMap.repaint();
+		MainFrame.getMainGUI().previewMap.repaint();
 	}
 
-	private File selectFile(File f) {
+	private File selectFile(File f)
+	{
 		JFileChooser fc = new JFileChooser();
-		try {
-			File dir = new File(Settings.getInstance().gpxFileChooserDir);
+		try
+		{
+			File dir = new File(OSMCDSettings.getInstance().getGpxFileChooserDir());
 			if (f == null)
 				fc.setCurrentDirectory(dir); // restore the saved directory
 			else
 				fc.setSelectedFile(f);
-		} catch (Exception e) {
+		}
+		catch (Exception e)
+		{
 		}
 		fc.addChoosableFileFilter(new GpxFileFilter(true));
-		int returnVal = fc.showSaveDialog(MainGUI.getMainGUI());
+		int returnVal = fc.showSaveDialog(MainFrame.getMainGUI());
 		if (returnVal != JFileChooser.APPROVE_OPTION)
 			return null;
-		Settings.getInstance().gpxFileChooserDir = fc.getCurrentDirectory().getAbsolutePath();
+		OSMCDSettings.getInstance().setGpxFileChooserDir(fc.getCurrentDirectory().getAbsolutePath());
 		return fc.getSelectedFile();
 	}
 }

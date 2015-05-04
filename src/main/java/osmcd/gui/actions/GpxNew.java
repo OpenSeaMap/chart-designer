@@ -21,10 +21,10 @@ import java.awt.event.ActionListener;
 
 import osmcd.data.gpx.GPXUtils;
 import osmcd.data.gpx.gpx11.Gpx;
-import osmcd.gui.MainGUI;
+import osmcd.gui.MainFrame;
 import osmcd.gui.gpxtree.GpxRootEntry;
-import osmcd.gui.mapview.layer.GpxLayer;
-import osmcd.gui.panels.JGpxPanel;
+import osmcd.gui.gpxtree.JGpxPanel;
+import osmcd.gui.mapview.GpxLayer;
 
 
 public class GpxNew implements ActionListener {
@@ -40,7 +40,7 @@ public class GpxNew implements ActionListener {
 		if (!GPXUtils.checkJAXBVersion())
 			return;
 		newGpx();
-		MainGUI.getMainGUI().previewMap.repaint();
+		MainFrame.getMainGUI().previewMap.repaint();
 	}
 
 	public GpxRootEntry newGpx() {

@@ -25,7 +25,7 @@ import org.apache.log4j.Logger;
 import osmcd.mapsources.loader.MapPackManager;
 import osmcd.program.Logging;
 import osmcd.program.ProgramInfo;
-import osmcd.utilities.Utilities;
+import osmcd.OSMCBUtilities.OSMCBUtilities;
 
 public class MapPackUploadSelector {
 
@@ -39,11 +39,11 @@ public class MapPackUploadSelector {
 		try {
 			File mapPackDir = new File("mapsources");
 			File mapPackUpdateDir = new File(mapPackDir, "updates");
-			Utilities.mkDirs(mapPackUpdateDir);
+			OSMCBUtilities.mkDirs(mapPackUpdateDir);
 			for (File newMapPack : mapPackUpdateDir.listFiles())
-				Utilities.deleteFile(newMapPack);
+				OSMCBUtilities.deleteFile(newMapPack);
 
-			Utilities.mkDirs(mapPackUpdateDir);
+			OSMCBUtilities.mkDirs(mapPackUpdateDir);
 			MapPackManager mpm = new MapPackManager(mapPackDir);
 			String md5sumList = mpm.downloadMD5SumList();
 			String[] changedMapPacks = mpm.searchForOutdatedMapPacks(md5sumList);
@@ -53,13 +53,13 @@ public class MapPackUploadSelector {
 				try {
 					mpm.testMapPack(mapPack);
 					File mapPackCopy = new File(mapPackUpdateDir, mapPackName);
-					Utilities.copyFile(mapPack, mapPackCopy);
+					OSMCBUtilities.copyFile(mapPack, mapPackCopy);
 				} catch (CertificateException e) {
 					log.error("Map pack not copied because of invalid signature", e);
 				}
 			}
 			if (changedMapPacks.length > 0) {
-				Utilities.copyFile(new File(mapPackDir, "mappacks-md5.txt"), new File(mapPackUpdateDir,
+				OSMCBUtilities.copyFile(new File(mapPackDir, "mappacks-md5.txt"), new File(mapPackUpdateDir,
 						"mappacks-md5.txt"));
 			} else {
 				log.info("No updated map packs found");

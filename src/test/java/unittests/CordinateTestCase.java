@@ -16,9 +16,9 @@
  ******************************************************************************/
 package unittests;
 
-import osmcd.utilities.Utilities;
-import osmcd.utilities.geo.CoordinateDm2Format;
-import osmcd.utilities.geo.CoordinateDms2Format;
+import osmcd.OSMCBUtilities.OSMCBUtilities;
+import osmcd.OSMCBUtilities.geo.CoordinateDm2Format;
+import osmcd.OSMCBUtilities.geo.CoordinateDms2Format;
 import junit.framework.TestCase;
 
 public class CordinateTestCase extends TestCase {
@@ -28,7 +28,7 @@ public class CordinateTestCase extends TestCase {
 	}
 
 	public void testCoordinateDm2Format() throws Exception {
-		CoordinateDm2Format cf = new CoordinateDm2Format(Utilities.DFS_ENG);
+		CoordinateDm2Format cf = new CoordinateDm2Format(OSMCBUtilities.DFS_ENG);
 
 		assertEquals("03° 30.00'", cf.format(3.5d));
 		assertEquals("-03° 30.00'", cf.format(-3.5d));
@@ -57,7 +57,7 @@ public class CordinateTestCase extends TestCase {
 	}
 
 	public void testCoordinateDms2Format() throws Exception {
-		CoordinateDms2Format cf = new CoordinateDms2Format(Utilities.DFS_ENG);
+		CoordinateDms2Format cf = new CoordinateDms2Format(OSMCBUtilities.DFS_ENG);
 
 		assertEquals("03° 32' 59.99\"", cf.format(3.55d));
 		assertEquals("-03° 32' 59.99\"", cf.format(-3.55d));

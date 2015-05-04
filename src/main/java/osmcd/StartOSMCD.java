@@ -17,83 +17,42 @@
 package osmcd;
 
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
 
-import osmcd.utilities.I18nUtils;
+import osmb.program.ACStarter;
 
 /**
- * Main class for starting OpenSeaMap ChartDefiner.
+ * OSMCBApp class for starting OpenSeaMap ChartDefiner.
  * 
  * This class performs the Java Runtime version check and if the correct version is installed it creates a new instance of the class specified by
  * {@link #MAIN_CLASS}. The class to be instantiated is specified by it's name intentionally as this allows to compile this class without any further class
  * dependencies.
  * 
  */
-public class StartOSMCD
+public class StartOSMCD extends ACStarter
 {
-
-	public static final String MAIN_CLASS = "osmcd.Main";
-
-	public static String[] ARGS;
+	static final String MAIN_CLASS = "osmcd.OSMCDApp";
+	static protected OSMCDApp theApp;
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args)
 	{
-		ARGS = args;
 		setLookAndFeel();
-		checkVersion();
+		checkJavaVersion();
 		try
 		{
-			Class.forName(MAIN_CLASS).newInstance();
+			int nRet = 0;
+			theApp = (OSMCDApp) Class.forName(MAIN_CLASS).newInstance();
+			theApp.setArgs(args);
+			if ((nRet = theApp.runWork()) < 0)
+				System.exit(nRet);
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, I18nUtils.localizedStringForKey("msg_environment_unable_to_start") + e.getMessage(),
-					I18nUtils.localizedStringForKey("Error"), JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, OSMCDStrs.RStr("msg_environment_unable_to_start") + e.getMessage(), OSMCDStrs.RStr("Error"),
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
-
-	public static void setLookAndFeel()
-	{
-		try
-		{
-			if (System.getProperty("swing.defaultlaf") != null)
-				return;
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			// MainGUI.setDefaultFontOfAllUIComponents(MainGUI.customFont());
-		}
-		catch (Exception e)
-		{
-		}
-	}
-
-	protected static void checkVersion()
-	{
-		String ver = System.getProperty("java.specification.version");
-		if (ver == null)
-			ver = "Unknown";
-		String[] v = ver.split("\\.");
-		int major = 0;
-		int minor = 0;
-		try
-		{
-			major = Integer.parseInt(v[0]);
-			minor = Integer.parseInt(v[1]);
-		}
-		catch (Exception e)
-		{
-		}
-		int version = (major * 1000) + minor;
-		// 1.5 -> 1005; 1.6 -> 1006; 1.7 -> 1007
-		if (version < 1006)
-		{
-			JOptionPane.showMessageDialog(null, String.format(I18nUtils.localizedStringForKey("msg_environment_jre_bellow"), ver),
-					I18nUtils.localizedStringForKey("msg_environment_jre_bellow_title"), JOptionPane.ERROR_MESSAGE);
-			System.exit(1);
-		}
-	}
-
 }

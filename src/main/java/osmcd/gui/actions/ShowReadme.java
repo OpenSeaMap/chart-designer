@@ -24,21 +24,20 @@ import java.io.IOException;
 
 import javax.swing.JOptionPane;
 
-import osmcd.gui.MainGUI;
-import osmcd.program.DirectoryManager;
-import osmcd.utilities.GUIExceptionHandler;
-import osmcd.utilities.I18nUtils;
+import osmb.program.DirectoryManager;
+import osmb.utilities.GUIExceptionHandler;
+import osmcd.OSMCDStrs;
+import osmcd.gui.MainFrame;
 
 public class ShowReadme implements ActionListener
 {
-
+	@Override
 	public void actionPerformed(ActionEvent event)
 	{
 		File readme = new File(DirectoryManager.programDir, "README.HTM");
 		if (!readme.isFile())
 		{
-			JOptionPane.showMessageDialog(MainGUI.getMainGUI(), I18nUtils.localizedStringForKey("msg_no_found_readme_file"),
-					I18nUtils.localizedStringForKey("Error"), JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(MainFrame.getMainGUI(), OSMCDStrs.RStr("msg_no_found_readme_file"), OSMCDStrs.RStr("Error"), JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		try
@@ -50,5 +49,4 @@ public class ShowReadme implements ActionListener
 			GUIExceptionHandler.processException(e);
 		}
 	}
-
 }

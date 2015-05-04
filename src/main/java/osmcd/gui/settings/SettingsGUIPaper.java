@@ -43,19 +43,21 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
-import osmcd.gui.mapview.WgsGrid.WgsDensity;
-import osmcd.program.model.PaperSize;
-import osmcd.program.model.Settings;
-import osmcd.program.model.SettingsPaperAtlas;
-import osmcd.program.model.UnitSystem;
-import osmcd.program.model.PaperSize.Format;
-import osmcd.utilities.GBCTable;
-import osmcd.utilities.I18nUtils;
+import osmb.program.WgsGrid.WgsDensity;
+import osmb.utilities.GBCTable;
+import osmb.utilities.UnitSystem;
+import osmcd.OSMCDSettings;
+import osmcd.OSMCDStrs;
+import osmcd.program.PaperSize;
+import osmcd.program.PaperSize.Format;
+import osmcd.program.SettingsPaperAtlas;
 
-public class SettingsGUIPaper extends JPanel {
+public class SettingsGUIPaper extends JPanel
+{
 	private static final long serialVersionUID = -8265562215604604074L;
 
-	private static void setModel(SpinnerNumberModel model, double min, double max, Double step) {
+	private static void setModel(SpinnerNumberModel model, double min, double max, Double step)
+	{
 		model.setMaximum(max);
 		model.setMinimum(min);
 		model.setStepSize(step);
@@ -64,11 +66,13 @@ public class SettingsGUIPaper extends JPanel {
 		model.setValue(value);
 	}
 
-	private static void setEditor(JSpinner jSpinner, String pattern) {
+	private static void setEditor(JSpinner jSpinner, String pattern)
+	{
 		jSpinner.setEditor(new JSpinner.NumberEditor(jSpinner, pattern));
 	}
 
-	private static JPanel createSection(TitledBorder border) {
+	private static JPanel createSection(TitledBorder border)
+	{
 		JPanel jPanel = new JPanel(new GridBagLayout());
 		jPanel.setBorder(border);
 		return jPanel;
@@ -92,10 +96,8 @@ public class SettingsGUIPaper extends JPanel {
 	private final TitledBorder titledBorderMargins = SettingsGUI.createSectionBorder("");
 	private final TitledBorder titledBorderSize = SettingsGUI.createSectionBorder("");
 
-	private final JPanel jPanelActions = createSection(titledBorderActions),
-			jPanelAdditions = createSection(titledBorderAdditions),
-			jPanelAdvanced = createSection(titledBorderAdvanced), jPanelMargins = createSection(titledBorderMargins),
-			jPanelSize = createSection(titledBorderSize);
+	private final JPanel jPanelActions = createSection(titledBorderActions), jPanelAdditions = createSection(titledBorderAdditions),
+			jPanelAdvanced = createSection(titledBorderAdvanced), jPanelMargins = createSection(titledBorderMargins), jPanelSize = createSection(titledBorderSize);
 
 	private final JComboBox jComboBoxFormat = new JComboBox(Format.values());
 	private final JComboBox jComboBoxWgsDensity = new JComboBox(WgsDensity.values());
@@ -104,12 +106,12 @@ public class SettingsGUIPaper extends JPanel {
 	private final JRadioButton jRadioButtonDefault = new JRadioButton("", true);
 	private final JRadioButton jRadioButtonSelection = new JRadioButton("", true);
 
-	private final SpinnerNumberModel modelCompression = new SpinnerNumberModel(SettingsPaperAtlas.COMPRESSION_DEFAULT,
-			SettingsPaperAtlas.COMPRESSION_MIN, SettingsPaperAtlas.COMPRESSION_MAX, 1);
+	private final SpinnerNumberModel modelCompression = new SpinnerNumberModel(SettingsPaperAtlas.COMPRESSION_DEFAULT, SettingsPaperAtlas.COMPRESSION_MIN,
+			SettingsPaperAtlas.COMPRESSION_MAX, 1);
 
-	private final SpinnerNumberModel modelCrop = new SpinnerNumberModel(SettingsPaperAtlas.CROP_DEFAULT,
-			SettingsPaperAtlas.CROP_MIN, SettingsPaperAtlas.CROP_MAX, 1), modelDpi = new SpinnerNumberModel(
-			SettingsPaperAtlas.DPI_DEFAULT, SettingsPaperAtlas.DPI_MIN, SettingsPaperAtlas.DPI_MAX, 1);
+	private final SpinnerNumberModel modelCrop = new SpinnerNumberModel(SettingsPaperAtlas.CROP_DEFAULT, SettingsPaperAtlas.CROP_MIN,
+			SettingsPaperAtlas.CROP_MAX, 1), modelDpi = new SpinnerNumberModel(SettingsPaperAtlas.DPI_DEFAULT, SettingsPaperAtlas.DPI_MIN,
+			SettingsPaperAtlas.DPI_MAX, 1);
 
 	private final SpinnerNumberModel modelHeight = new SpinnerNumberModel(0.0, 0.0, 0.0, 1.0);
 	private final SpinnerNumberModel modelWidth = new SpinnerNumberModel(0.0, 0.0, 0.0, 1.0);
@@ -121,16 +123,14 @@ public class SettingsGUIPaper extends JPanel {
 
 	private final SpinnerNumberModel modelOverlap = new SpinnerNumberModel(0.0, 0.0, 0.0, 1.0);
 
-	private final JSpinner jSpinnerDpi = new JSpinner(modelDpi), jSpinnerWidth = new JSpinner(modelWidth),
-			jSpinnerHeight = new JSpinner(modelHeight), jSpinnerMarginTop = new JSpinner(modelMarginTop),
-			jSpinnerMarginLeft = new JSpinner(modelMarginLeft), jSpinnerMarginBottom = new JSpinner(modelMarginBottom),
-			jSpinnerMarginRight = new JSpinner(modelMarginRight), jSpinnerOverlap = new JSpinner(modelOverlap),
-			jSpinnerCrop = new JSpinner(modelCrop), jSpinnerCompression = new JSpinner(modelCompression);
+	private final JSpinner jSpinnerDpi = new JSpinner(modelDpi), jSpinnerWidth = new JSpinner(modelWidth), jSpinnerHeight = new JSpinner(modelHeight),
+			jSpinnerMarginTop = new JSpinner(modelMarginTop), jSpinnerMarginLeft = new JSpinner(modelMarginLeft), jSpinnerMarginBottom = new JSpinner(
+					modelMarginBottom), jSpinnerMarginRight = new JSpinner(modelMarginRight), jSpinnerOverlap = new JSpinner(modelOverlap), jSpinnerCrop = new JSpinner(
+					modelCrop), jSpinnerCompression = new JSpinner(modelCompression);
 
-	private final JLabel jLabelCompression = new JLabel(), jLabelDpi = new JLabel(), jLabelWidth = new JLabel(),
-			jLabelHeight = new JLabel(), jLabelMarginTop = new JLabel(), jLabelMarginLeft = new JLabel(),
-			jLabelMarginBottom = new JLabel(), jLabelMarginRight = new JLabel(), jLabelOverlap = new JLabel(),
-			jLabelCrop = new JLabel();
+	private final JLabel jLabelCompression = new JLabel(), jLabelDpi = new JLabel(), jLabelWidth = new JLabel(), jLabelHeight = new JLabel(),
+			jLabelMarginTop = new JLabel(), jLabelMarginLeft = new JLabel(), jLabelMarginBottom = new JLabel(), jLabelMarginRight = new JLabel(),
+			jLabelOverlap = new JLabel(), jLabelCrop = new JLabel();
 
 	private String importError, exportError, errorReason, errorTitle, xmlFileFilter;
 
@@ -141,34 +141,49 @@ public class SettingsGUIPaper extends JPanel {
 		jSpinnerCrop.setEditor(new JSpinner.NumberEditor(jSpinnerCrop, "#0'%'"));
 		setUnitSystem(UnitSystem.Metric);
 		i18n();
-		jFileChooser.setFileFilter(new FileFilter() {
+		jFileChooser.setFileFilter(new FileFilter()
+		{
 			@Override
-			public boolean accept(File f) {
+			public boolean accept(File f)
+			{
 				return f.isDirectory() || f.getName().endsWith(".xml");
 			}
 
 			@Override
-			public String getDescription() {
+			public String getDescription()
+			{
 				return xmlFileFilter;
 			}
 		});
-		jButtonImport.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		jButtonImport.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
 				importFromXml();
 			}
 		});
-		jButtonExport.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		jButtonExport.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
 				exportToXml();
 			}
 		});
-		jButtonDefaults.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		jButtonDefaults.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
 				resetToDefaults();
 			}
 		});
-		jComboBoxFormat.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		jComboBoxFormat.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
 				Format format = (Format) jComboBoxFormat.getSelectedItem();
 				double width = unitSystem.pointsToUnits(format.width);
 				double height = unitSystem.pointsToUnits(format.height);
@@ -176,14 +191,20 @@ public class SettingsGUIPaper extends JPanel {
 				modelHeight.setValue(height);
 			}
 		});
-		jCheckBoxWgsGrid.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
+		jCheckBoxWgsGrid.addItemListener(new ItemListener()
+		{
+			@Override
+			public void itemStateChanged(ItemEvent e)
+			{
 				boolean enabled = e.getStateChange() != ItemEvent.DESELECTED;
 				jComboBoxWgsDensity.setEnabled(enabled);
 			}
 		});
-		jRadioButtonCustom.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
+		jRadioButtonCustom.addItemListener(new ItemListener()
+		{
+			@Override
+			public void itemStateChanged(ItemEvent e)
+			{
 				boolean enabled = e.getStateChange() != ItemEvent.DESELECTED;
 				jLabelWidth.setEnabled(enabled);
 				jLabelHeight.setEnabled(enabled);
@@ -191,8 +212,11 @@ public class SettingsGUIPaper extends JPanel {
 				jSpinnerHeight.setEnabled(enabled);
 			}
 		});
-		jRadioButtonDefault.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
+		jRadioButtonDefault.addItemListener(new ItemListener()
+		{
+			@Override
+			public void itemStateChanged(ItemEvent e)
+			{
 				boolean enabled = e.getStateChange() != ItemEvent.DESELECTED;
 				jComboBoxFormat.setEnabled(enabled);
 				jCheckBoxLandscape.setEnabled(enabled);
@@ -260,121 +284,134 @@ public class SettingsGUIPaper extends JPanel {
 		add(Box.createGlue(), gbc.incY().gridwidth(2).fill());
 	}
 
-	private void importFromXml() {
+	private void importFromXml()
+	{
 		int state = jFileChooser.showOpenDialog(SettingsGUIPaper.this);
-		if (state == JFileChooser.APPROVE_OPTION) {
+		if (state == JFileChooser.APPROVE_OPTION)
+		{
 			File file = jFileChooser.getSelectedFile();
 			JAXBContext context;
-			try {
+			try
+			{
 				context = JAXBContext.newInstance(SettingsPaperAtlas.class);
 				Unmarshaller um = context.createUnmarshaller();
 				SettingsPaperAtlas s = (SettingsPaperAtlas) um.unmarshal(file);
 				loadSettings(s);
-			} catch (JAXBException ex) {
+			}
+			catch (JAXBException ex)
+			{
 				String text = importError + file.getName() + "\n" + errorReason + ex.getMessage();
 				JOptionPane.showMessageDialog(SettingsGUIPaper.this, text, errorTitle, JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
 
-	private void exportToXml() {
+	private void exportToXml()
+	{
 		int state = jFileChooser.showSaveDialog(SettingsGUIPaper.this);
-		if (state == JFileChooser.APPROVE_OPTION) {
+		if (state == JFileChooser.APPROVE_OPTION)
+		{
 			File file = jFileChooser.getSelectedFile();
 			JAXBContext context;
-			try {
+			try
+			{
 				context = JAXBContext.newInstance(SettingsPaperAtlas.class);
 				Marshaller m = context.createMarshaller();
 				SettingsPaperAtlas s = new SettingsPaperAtlas();
 				applySettings(s);
 				m.marshal(s, file);
-			} catch (JAXBException ex) {
+			}
+			catch (JAXBException ex)
+			{
 				String text = exportError + file.getName() + "\n" + errorReason + ex.getMessage();
 				JOptionPane.showMessageDialog(SettingsGUIPaper.this, text, errorTitle, JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
 
-	private void resetToDefaults() {
+	private void resetToDefaults()
+	{
 		loadSettings(new SettingsPaperAtlas());
 	}
 
-	private void i18n() {
-		setName(I18nUtils.localizedStringForKey("set_paper_title"));
-		titledBorderActions.setTitle(I18nUtils.localizedStringForKey("set_paper_actions"));
-		titledBorderAdditions.setTitle(I18nUtils.localizedStringForKey("set_paper_additions"));
-		titledBorderAdvanced.setTitle(I18nUtils.localizedStringForKey("set_paper_advanced"));
-		titledBorderMargins.setTitle(I18nUtils.localizedStringForKey("set_paper_margins"));
-		titledBorderSize.setTitle(I18nUtils.localizedStringForKey("set_paper_size"));
-		jComboBoxFormat.setToolTipText(I18nUtils.localizedStringForKey("set_paper_size_default_format_tips"));
-		jComboBoxWgsDensity.setToolTipText(I18nUtils.localizedStringForKey("set_paper_wgs_grid_density_tips"));
-		jRadioButtonSelection.setText(I18nUtils.localizedStringForKey("set_paper_size_selection"));
-		jRadioButtonSelection.setToolTipText(I18nUtils.localizedStringForKey("set_paper_size_selection_tips"));
-		jRadioButtonDefault.setText(I18nUtils.localizedStringForKey("set_paper_size_default"));
-		jRadioButtonDefault.setToolTipText(I18nUtils.localizedStringForKey("set_paper_size_default_tips"));
-		jRadioButtonCustom.setText(I18nUtils.localizedStringForKey("set_paper_size_custom"));
-		jRadioButtonCustom.setToolTipText(I18nUtils.localizedStringForKey("set_paper_size_custom_tips"));
-		jCheckBoxScaleBar.setText(I18nUtils.localizedStringForKey("set_paper_scale_bar"));
-		jCheckBoxScaleBar.setToolTipText(I18nUtils.localizedStringForKey("set_paper_scale_tips"));
-		jCheckBoxCompass.setText(I18nUtils.localizedStringForKey("set_paper_compass"));
-		jCheckBoxCompass.setToolTipText(I18nUtils.localizedStringForKey("set_paper_compass_tips"));
-		jCheckBoxLandscape.setText(I18nUtils.localizedStringForKey("set_paper_size_default_landscape"));
-		jCheckBoxLandscape.setToolTipText(I18nUtils.localizedStringForKey("set_paper_size_default_landscape_tips"));
-		jCheckBoxWgsGrid.setText(I18nUtils.localizedStringForKey(I18nUtils.localizedStringForKey("set_paper_wgs_grid")));
-		jCheckBoxWgsGrid.setToolTipText(I18nUtils.localizedStringForKey("set_paper_wgs_grid_tips"));
-		jCheckBoxPageNumbers.setText(I18nUtils.localizedStringForKey("set_paper_paper_nubmer"));
-		jCheckBoxPageNumbers.setToolTipText(I18nUtils.localizedStringForKey("set_paper_paper_nubmer_tips"));
-		jLabelCompression.setText(I18nUtils.localizedStringForKey("set_paper_advanced_compression"));
-		String compression = I18nUtils.localizedStringForKey("set_paper_advanced_compression_tips");
+	private void i18n()
+	{
+		setName(OSMCDStrs.RStr("set_paper_title"));
+		titledBorderActions.setTitle(OSMCDStrs.RStr("set_paper_actions"));
+		titledBorderAdditions.setTitle(OSMCDStrs.RStr("set_paper_additions"));
+		titledBorderAdvanced.setTitle(OSMCDStrs.RStr("set_paper_advanced"));
+		titledBorderMargins.setTitle(OSMCDStrs.RStr("set_paper_margins"));
+		titledBorderSize.setTitle(OSMCDStrs.RStr("set_paper_size"));
+		jComboBoxFormat.setToolTipText(OSMCDStrs.RStr("set_paper_size_default_format_tips"));
+		jComboBoxWgsDensity.setToolTipText(OSMCDStrs.RStr("set_paper_wgs_grid_density_tips"));
+		jRadioButtonSelection.setText(OSMCDStrs.RStr("set_paper_size_selection"));
+		jRadioButtonSelection.setToolTipText(OSMCDStrs.RStr("set_paper_size_selection_tips"));
+		jRadioButtonDefault.setText(OSMCDStrs.RStr("set_paper_size_default"));
+		jRadioButtonDefault.setToolTipText(OSMCDStrs.RStr("set_paper_size_default_tips"));
+		jRadioButtonCustom.setText(OSMCDStrs.RStr("set_paper_size_custom"));
+		jRadioButtonCustom.setToolTipText(OSMCDStrs.RStr("set_paper_size_custom_tips"));
+		jCheckBoxScaleBar.setText(OSMCDStrs.RStr("set_paper_scale_bar"));
+		jCheckBoxScaleBar.setToolTipText(OSMCDStrs.RStr("set_paper_scale_tips"));
+		jCheckBoxCompass.setText(OSMCDStrs.RStr("set_paper_compass"));
+		jCheckBoxCompass.setToolTipText(OSMCDStrs.RStr("set_paper_compass_tips"));
+		jCheckBoxLandscape.setText(OSMCDStrs.RStr("set_paper_size_default_landscape"));
+		jCheckBoxLandscape.setToolTipText(OSMCDStrs.RStr("set_paper_size_default_landscape_tips"));
+		jCheckBoxWgsGrid.setText(OSMCDStrs.RStr(OSMCDStrs.RStr("set_paper_wgs_grid")));
+		jCheckBoxWgsGrid.setToolTipText(OSMCDStrs.RStr("set_paper_wgs_grid_tips"));
+		jCheckBoxPageNumbers.setText(OSMCDStrs.RStr("set_paper_paper_nubmer"));
+		jCheckBoxPageNumbers.setToolTipText(OSMCDStrs.RStr("set_paper_paper_nubmer_tips"));
+		jLabelCompression.setText(OSMCDStrs.RStr("set_paper_advanced_compression"));
+		String compression = OSMCDStrs.RStr("set_paper_advanced_compression_tips");
 		jLabelCompression.setToolTipText(compression);
 		jSpinnerCompression.setToolTipText(compression);
-		jLabelDpi.setText(I18nUtils.localizedStringForKey("set_paper_advanced_dpi"));
-		String dpi = I18nUtils.localizedStringForKey("set_paper_advanced_dpi_tips");
+		jLabelDpi.setText(OSMCDStrs.RStr("set_paper_advanced_dpi"));
+		String dpi = OSMCDStrs.RStr("set_paper_advanced_dpi_tips");
 		jLabelDpi.setToolTipText(dpi);
 		jSpinnerDpi.setToolTipText(dpi);
-		jLabelWidth.setText(I18nUtils.localizedStringForKey("set_paper_size_custom_width"));
-		String width = I18nUtils.localizedStringForKey("set_paper_size_custom_width_tips");
+		jLabelWidth.setText(OSMCDStrs.RStr("set_paper_size_custom_width"));
+		String width = OSMCDStrs.RStr("set_paper_size_custom_width_tips");
 		jLabelWidth.setToolTipText(width);
 		jSpinnerWidth.setToolTipText(width);
-		jLabelHeight.setText(I18nUtils.localizedStringForKey("set_paper_size_custom_height"));
-		String height = I18nUtils.localizedStringForKey("set_paper_size_custom_height_tips");
+		jLabelHeight.setText(OSMCDStrs.RStr("set_paper_size_custom_height"));
+		String height = OSMCDStrs.RStr("set_paper_size_custom_height_tips");
 		jLabelHeight.setToolTipText(height);
 		jSpinnerHeight.setToolTipText(height);
-		String margin = I18nUtils.localizedStringForKey("set_paper_margins_tips");
-		jLabelMarginTop.setText(I18nUtils.localizedStringForKey("set_paper_margins_top"));
+		String margin = OSMCDStrs.RStr("set_paper_margins_tips");
+		jLabelMarginTop.setText(OSMCDStrs.RStr("set_paper_margins_top"));
 		jLabelMarginTop.setToolTipText(margin);
 		jSpinnerMarginTop.setToolTipText(margin);
-		jLabelMarginLeft.setText(I18nUtils.localizedStringForKey("set_paper_margins_left"));
+		jLabelMarginLeft.setText(OSMCDStrs.RStr("set_paper_margins_left"));
 		jLabelMarginLeft.setToolTipText(margin);
 		jSpinnerMarginLeft.setToolTipText(margin);
-		jLabelMarginBottom.setText(I18nUtils.localizedStringForKey("set_paper_margins_bottom"));
+		jLabelMarginBottom.setText(OSMCDStrs.RStr("set_paper_margins_bottom"));
 		jLabelMarginBottom.setToolTipText(margin);
 		jSpinnerMarginBottom.setToolTipText(margin);
-		jLabelMarginRight.setText(I18nUtils.localizedStringForKey("set_paper_margins_right"));
+		jLabelMarginRight.setText(OSMCDStrs.RStr("set_paper_margins_right"));
 		jLabelMarginRight.setToolTipText(margin);
 		jSpinnerMarginRight.setToolTipText(margin);
-		jLabelOverlap.setText(I18nUtils.localizedStringForKey("set_paper_advanced_overlap"));
-		String overlap = I18nUtils.localizedStringForKey("set_paper_advanced_overlap_tips");
+		jLabelOverlap.setText(OSMCDStrs.RStr("set_paper_advanced_overlap"));
+		String overlap = OSMCDStrs.RStr("set_paper_advanced_overlap_tips");
 		jLabelOverlap.setToolTipText(overlap);
 		jSpinnerOverlap.setToolTipText(overlap);
-		jLabelCrop.setText(I18nUtils.localizedStringForKey("set_paper_advanced_crop"));
-		String crop = I18nUtils.localizedStringForKey("set_paper_advanced_crop_tips");
+		jLabelCrop.setText(OSMCDStrs.RStr("set_paper_advanced_crop"));
+		String crop = OSMCDStrs.RStr("set_paper_advanced_crop_tips");
 		jLabelCrop.setToolTipText(crop);
 		jSpinnerCrop.setToolTipText(crop);
-		jButtonImport.setText(I18nUtils.localizedStringForKey("set_paper_actions_import_xml"));
-		jButtonImport.setToolTipText(I18nUtils.localizedStringForKey("set_paper_actions_import_xml_tip"));
-		jButtonExport.setText(I18nUtils.localizedStringForKey("set_paper_actions_export_xml"));
-		jButtonExport.setToolTipText(I18nUtils.localizedStringForKey("set_paper_actions_export_xml_tip"));
-		jButtonDefaults.setText(I18nUtils.localizedStringForKey("set_paper_actions_restore_default"));
-		jButtonDefaults.setToolTipText(I18nUtils.localizedStringForKey("set_paper_actions_restore_default_tips"));
-		importError = I18nUtils.localizedStringForKey("set_paper_actions_error_import");
-		exportError = I18nUtils.localizedStringForKey("set_paper_actions_error_export");
-		errorReason = I18nUtils.localizedStringForKey("set_paper_actions_error_reason");
-		errorTitle = I18nUtils.localizedStringForKey("set_paper_actions_error_title");
-		xmlFileFilter = I18nUtils.localizedStringForKey("set_paper_actions_xml_filter");
+		jButtonImport.setText(OSMCDStrs.RStr("set_paper_actions_import_xml"));
+		jButtonImport.setToolTipText(OSMCDStrs.RStr("set_paper_actions_import_xml_tip"));
+		jButtonExport.setText(OSMCDStrs.RStr("set_paper_actions_export_xml"));
+		jButtonExport.setToolTipText(OSMCDStrs.RStr("set_paper_actions_export_xml_tip"));
+		jButtonDefaults.setText(OSMCDStrs.RStr("set_paper_actions_restore_default"));
+		jButtonDefaults.setToolTipText(OSMCDStrs.RStr("set_paper_actions_restore_default_tips"));
+		importError = OSMCDStrs.RStr("set_paper_actions_error_import");
+		exportError = OSMCDStrs.RStr("set_paper_actions_error_export");
+		errorReason = OSMCDStrs.RStr("set_paper_actions_error_reason");
+		errorTitle = OSMCDStrs.RStr("set_paper_actions_error_title");
+		xmlFileFilter = OSMCDStrs.RStr("set_paper_actions_xml_filter");
 	}
 
-	private void setUnitSystem(UnitSystem unitSystem) {
+	private void setUnitSystem(UnitSystem unitSystem)
+	{
 		if (unitSystem.equals(this.unitSystem))
 			return;
 		this.unitSystem = unitSystem;
@@ -403,13 +440,16 @@ public class SettingsGUIPaper extends JPanel {
 		setEditor(jSpinnerOverlap, pattern);
 	}
 
-	private PaperSize getPaperSize() {
-		if (jRadioButtonDefault.isSelected()) {
+	private PaperSize getPaperSize()
+	{
+		if (jRadioButtonDefault.isSelected())
+		{
 			Format format = (Format) jComboBoxFormat.getSelectedItem();
 			boolean landscape = jCheckBoxLandscape.isSelected();
 			return new PaperSize(format, landscape);
 		}
-		if (jRadioButtonCustom.isSelected()) {
+		if (jRadioButtonCustom.isSelected())
+		{
 			double width = modelWidth.getNumber().doubleValue();
 			double height = modelHeight.getNumber().doubleValue();
 			width = unitSystem.unitsToPoints(width);
@@ -419,26 +459,33 @@ public class SettingsGUIPaper extends JPanel {
 		return null;
 	}
 
-	private void setPaperSize(PaperSize paperSize) {
-		if (paperSize == null) {
+	private void setPaperSize(PaperSize paperSize)
+	{
+		if (paperSize == null)
+		{
 			jRadioButtonSelection.setSelected(true);
 			return;
 		}
-		if (paperSize.format != null) {
+		if (paperSize.format != null)
+		{
 			jRadioButtonDefault.setSelected(true);
 			jComboBoxFormat.setSelectedIndex(paperSize.format.ordinal());
 			jCheckBoxLandscape.setSelected(paperSize.landscape);
-		} else {
+		}
+		else
+		{
 			jRadioButtonCustom.setSelected(true);
 		}
 	}
 
-	public void loadSettings(Settings s) {
-		setUnitSystem(s.unitSystem);
-		loadSettings(s.paperAtlas);
+	public void loadSettings(OSMCDSettings s)
+	{
+		setUnitSystem(s.getUnitSystem());
+		loadSettings(s.getPaperAtlas());
 	}
 
-	public void loadSettings(SettingsPaperAtlas s) {
+	public void loadSettings(SettingsPaperAtlas s)
+	{
 		setPaperSize(s.paperSize);
 		modelMarginTop.setValue(unitSystem.pointsToUnits(s.marginTop));
 		modelMarginLeft.setValue(unitSystem.pointsToUnits(s.marginLeft));
@@ -455,11 +502,13 @@ public class SettingsGUIPaper extends JPanel {
 		modelDpi.setValue(s.dpi);
 	}
 
-	public void applySettings(Settings s) {
-		applySettings(s.paperAtlas);
+	public void applySettings(OSMCDSettings s)
+	{
+		applySettings(s.getPaperAtlas());
 	}
 
-	public void applySettings(SettingsPaperAtlas s) {
+	public void applySettings(SettingsPaperAtlas s)
+	{
 		s.paperSize = getPaperSize();
 		s.marginTop = unitSystem.unitsToPoints(modelMarginTop.getNumber().doubleValue());
 		s.marginLeft = unitSystem.unitsToPoints(modelMarginLeft.getNumber().doubleValue());

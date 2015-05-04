@@ -16,10 +16,10 @@
  ******************************************************************************/
 package osmcd.gui.gpxtree;
 
+import osmcd.OSMCDStrs;
 import osmcd.data.gpx.gpx11.Gpx;
 import osmcd.data.gpx.gpx11.MetadataType;
-import osmcd.gui.mapview.layer.GpxLayer;
-import osmcd.utilities.I18nUtils;
+import osmcd.gui.mapview.GpxLayer;
 
 public class GpxRootEntry extends GpxEntry {
 
@@ -34,9 +34,9 @@ public class GpxRootEntry extends GpxEntry {
 			return name;
 		} else {
 			if (getLayer().getFile() == null) {
-				return I18nUtils.localizedStringForKey("rp_gpx_root_default_name_nofile");
+				return OSMCDStrs.RStr("rp_gpx_root_default_name_nofile");
 			} else {
-				return String.format(I18nUtils.localizedStringForKey("rp_gpx_root_default_name_hasfile"), getLayer()
+				return String.format(OSMCDStrs.RStr("rp_gpx_root_default_name_hasfile"), getLayer()
 						.getFile().getName());
 			}
 		}

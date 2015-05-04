@@ -20,13 +20,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Iterator;
 
-import osmcd.gui.MainGUI;
-import osmcd.gui.mapview.interfaces.MapLayer;
-import osmcd.gui.mapview.layer.GpxLayer;
-import osmcd.gui.panels.JGpxPanel;
+import osmcd.gui.MainFrame;
+import osmcd.gui.gpxtree.JGpxPanel;
+import osmcd.gui.mapview.GpxLayer;
+import osmcd.gui.mapview.MapLayer;
 
 /**
- * Deletes all loaded {@link GpxLayer}s from the main map viewer.
+ * Deletes all loaded {@link GpxLayer}s from the main iMap viewer.
  * 
  */
 public class GpxClear implements ActionListener
@@ -41,14 +41,14 @@ public class GpxClear implements ActionListener
 
 	public void actionPerformed(ActionEvent e)
 	{
-		Iterator<MapLayer> mapLayers = MainGUI.getMainGUI().previewMap.mapLayers.iterator();
+		Iterator<MapLayer> mapLayers = MainFrame.getMainGUI().previewMap.mapLayers.iterator();
 		while (mapLayers.hasNext())
 		{
 			if (mapLayers.next() instanceof GpxLayer)
 				mapLayers.remove();
 		}
 		panel.resetModel();
-		MainGUI.getMainGUI().previewMap.repaint();
+		MainFrame.getMainGUI().previewMap.repaint();
 	}
 
 }

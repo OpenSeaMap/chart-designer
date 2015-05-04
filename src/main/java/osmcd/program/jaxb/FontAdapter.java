@@ -25,15 +25,17 @@ import osmcd.gui.dialogs.FontChooser;
 /**
  * Required {@link XmlAdapter} implementation for serializing {@link Font}
  */
-public class FontAdapter extends XmlAdapter<String, Font> {
-
+public class FontAdapter extends XmlAdapter<String, Font>
+{
 	@Override
-	public Font unmarshal(String value) throws Exception {
+	public Font unmarshal(String value) throws Exception
+	{
 		return Font.decode(value);
 	}
 
 	@Override
-	public String marshal(Font font) throws Exception {
+	public String marshal(Font font) throws Exception
+	{
 		return FontChooser.encodeFont(font);
 	}
 }

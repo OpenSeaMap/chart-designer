@@ -34,39 +34,41 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import osmcd.utilities.GBCTable;
-import osmcd.utilities.I18nUtils;
+import osmb.utilities.GBCTable;
+import osmcd.OSMCDStrs;
 
-public class FontChooser {
-
-	private static final String FONT_NAMES[] = GraphicsEnvironment.getLocalGraphicsEnvironment()
-			.getAvailableFontFamilyNames();
-	private static final String STYLES[] = new String[] { "Plain", "Bold", "Italic", "Bold + Italic" };
-
+public class FontChooser
+{
+	private static final String FONT_NAMES[] = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+	private static final String STYLES[] = new String[]
+	{ "Plain", "Bold", "Italic", "Bold + Italic" };
 	public static final Font DEFAULT = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
 
-	public static String encodeFont(Font font) {
+	public static String encodeFont(Font font)
+	{
 		String style;
-		switch (font.getStyle()) {
-		case Font.PLAIN:
-			style = "PLAIN";
-			break;
-		case Font.BOLD:
-			style = "BOLD";
-			break;
-		case Font.ITALIC:
-			style = "ITALIC";
-			break;
-		case Font.BOLD | Font.ITALIC:
-			style = "BOLDITALIC";
-			break;
-		default:
-			style = "PLAIN";
+		switch (font.getStyle())
+		{
+			case Font.PLAIN:
+				style = "PLAIN";
+				break;
+			case Font.BOLD:
+				style = "BOLD";
+				break;
+			case Font.ITALIC:
+				style = "ITALIC";
+				break;
+			case Font.BOLD | Font.ITALIC:
+				style = "BOLDITALIC";
+				break;
+			default:
+				style = "PLAIN";
 		}
 		return font.getName() + "-" + style + "-" + font.getSize();
 	}
 
-	private static JScrollPane scroll(JList<?> jList, String title) {
+	private static JScrollPane scroll(JList<?> jList, String title)
+	{
 		JLabel jLabel = new JLabel(title);
 		jLabel.setHorizontalAlignment(JLabel.CENTER);
 		JScrollPane jScrollPane = new JScrollPane(jList);
@@ -75,37 +77,38 @@ public class FontChooser {
 	}
 
 	private final JDialog jDialog = new JDialog();
-
 	private final JLabel jLabelPreview = new JLabel("DUMMY");
-
 	private final JList<String> jListName = createJList(FONT_NAMES);
 	private final JList<String> jListStyle = createJList(STYLES);
-	private final JList<Integer> jListSize = createJList(new Integer[] { 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-			20, 21, 22, 23, 24 });
-
-	private final JButton jButtonOK = new JButton(I18nUtils.localizedStringForKey("OK")), jButtonCancel = new JButton(
-			I18nUtils.localizedStringForKey("Cancel"));
-
+	private final JList<Integer> jListSize = createJList(new Integer[]
+	{ 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24 });
+	private final JButton jButtonOK = new JButton(OSMCDStrs.RStr("OK")), jButtonCancel = new JButton(OSMCDStrs.RStr("Cancel"));
 	private boolean wasCanceled;
 
-	public FontChooser() {
-		jDialog.setTitle(I18nUtils.localizedStringForKey("dlg_font_choose_title"));
+	public FontChooser()
+	{
+		jDialog.setTitle(OSMCDStrs.RStr("dlg_font_choose_title"));
 		jDialog.setModalityType(ModalityType.APPLICATION_MODAL);
 
 		jLabelPreview.setHorizontalAlignment(JLabel.CENTER);
 		jLabelPreview.setVerticalAlignment(JLabel.CENTER);
-		jLabelPreview.setBorder(BorderFactory.createTitledBorder(I18nUtils
-				.localizedStringForKey("dlg_font_choose_preview")));
+		jLabelPreview.setBorder(BorderFactory.createTitledBorder(OSMCDStrs.RStr("dlg_font_choose_preview")));
 
-		jButtonOK.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		jButtonOK.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
 				wasCanceled = false;
 				jDialog.setVisible(false);
 			}
 		});
 
-		jButtonCancel.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		jButtonCancel.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
 				jDialog.setVisible(false);
 			}
 		});
@@ -118,9 +121,9 @@ public class FontChooser {
 		jPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
 		GBCTable gbc = new GBCTable();
-		jPanel.add(scroll(jListName, I18nUtils.localizedStringForKey("dlg_font_choose_name")), gbc.begin().fill());
-		jPanel.add(scroll(jListStyle, I18nUtils.localizedStringForKey("dlg_font_choose_style")), gbc.incX().fill());
-		jPanel.add(scroll(jListSize, I18nUtils.localizedStringForKey("dlg_font_choose_size")), gbc.incX().fill());
+		jPanel.add(scroll(jListName, OSMCDStrs.RStr("dlg_font_choose_name")), gbc.begin().fill());
+		jPanel.add(scroll(jListStyle, OSMCDStrs.RStr("dlg_font_choose_style")), gbc.incX().fill());
+		jPanel.add(scroll(jListSize, OSMCDStrs.RStr("dlg_font_choose_size")), gbc.incX().fill());
 		jPanel.add(jLabelPreview, gbc.begin(1, 2).fillH().gridwidth(3));
 		jPanel.add(buttonPane, gbc.incY().fillH().gridwidth(3));
 
@@ -130,12 +133,17 @@ public class FontChooser {
 		setFont(DEFAULT);
 	}
 
-	private <E> JList<E> createJList(E[] objects) {
+	private <E> JList<E> createJList(E[] objects)
+	{
 		JList<E> jList = new JList<E>(objects);
 		jList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		jList.addListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent e) {
-				if (!e.getValueIsAdjusting()) {
+		jList.addListSelectionListener(new ListSelectionListener()
+		{
+			@Override
+			public void valueChanged(ListSelectionEvent e)
+			{
+				if (!e.getValueIsAdjusting())
+				{
 					Font font = getFont();
 					jLabelPreview.setFont(font);
 					jLabelPreview.setText(encodeFont(font));
@@ -145,8 +153,10 @@ public class FontChooser {
 		return jList;
 	}
 
-	public void setFont(Font font) {
-		if (font == null) {
+	public void setFont(Font font)
+	{
+		if (font == null)
+		{
 			font = DEFAULT;
 		}
 		jListName.setSelectedValue(font.getName(), true);
@@ -154,29 +164,35 @@ public class FontChooser {
 		jListSize.setSelectedValue(font.getSize(), true);
 	}
 
-	public Font getFont() {
-		String name = (String) jListName.getSelectedValue();
-		if (name == null) {
+	public Font getFont()
+	{
+		String name = jListName.getSelectedValue();
+		if (name == null)
+		{
 			name = DEFAULT.getName();
 		}
 		int style = jListStyle.getSelectedIndex();
-		if (style == -1) {
+		if (style == -1)
+		{
 			style = DEFAULT.getStyle();
 		}
-		Integer size = (Integer) jListSize.getSelectedValue();
-		if (size == null) {
+		Integer size = jListSize.getSelectedValue();
+		if (size == null)
+		{
 			size = DEFAULT.getSize();
 		}
 		return new Font(name, style, size);
 	}
 
-	public void show() {
+	public void show()
+	{
 		wasCanceled = true;
 		jDialog.setLocationRelativeTo(jDialog.getParent());
 		jDialog.setVisible(true);
 	}
 
-	public boolean wasCanceled() {
+	public boolean wasCanceled()
+	{
 		return wasCanceled;
 	}
 }

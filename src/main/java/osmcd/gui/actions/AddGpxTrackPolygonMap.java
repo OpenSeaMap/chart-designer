@@ -30,42 +30,43 @@ import javax.swing.JPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import osmb.exceptions.InvalidNameException;
+import osmb.mapsources.IfMapSource;
+import osmb.program.ACSettings;
+import osmb.program.catalog.IfCatalog;
+import osmb.program.map.IfMap;
+import osmb.program.map.IfMapSpace;
+import osmb.program.map.Layer;
+import osmb.program.map.MapPolygon;
+import osmb.program.tiles.TileImageParameters;
+import osmb.utilities.UnitSystem;
+import osmb.utilities.geo.EastNorthCoordinate;
+import osmcd.OSMCDSettings;
+import osmcd.OSMCDStrs;
 import osmcd.data.gpx.gpx11.TrkType;
 import osmcd.data.gpx.gpx11.TrksegType;
 import osmcd.data.gpx.interfaces.GpxPoint;
-import osmcd.exceptions.InvalidNameException;
-import osmcd.gui.MainGUI;
-import osmcd.gui.atlastree.JAtlasTree;
+import osmcd.gui.MainFrame;
+import osmcd.gui.catalog.JCatalogTree;
 import osmcd.gui.components.JDistanceSlider;
 import osmcd.gui.gpxtree.GpxEntry;
 import osmcd.gui.gpxtree.GpxRootEntry;
 import osmcd.gui.gpxtree.TrkEntry;
 import osmcd.gui.gpxtree.TrksegEntry;
-import osmcd.gui.mapview.layer.MapAreaHighlightingLayer;
-import osmcd.program.interfaces.BundleInterface;
-import osmcd.program.interfaces.MapInterface;
-import osmcd.program.interfaces.MapSource;
-import osmcd.program.interfaces.MapSpace;
-import osmcd.program.model.EastNorthCoordinate;
-import osmcd.program.model.Layer;
-import osmcd.program.model.MapPolygon;
-import osmcd.program.model.SelectedZoomLevels;
-import osmcd.program.model.Settings;
-import osmcd.program.model.TileImageParameters;
-import osmcd.program.model.UnitSystem;
-import osmcd.utilities.I18nUtils;
+import osmcd.gui.mapview.MapAreaHighlightingLayer;
+import osmcd.program.SelectedZoomLevels;
 
 public class AddGpxTrackPolygonMap implements ActionListener
 {
-
 	public static final AddGpxTrackPolygonMap INSTANCE = new AddGpxTrackPolygonMap();
 
 	private MapAreaHighlightingLayer msl = null;
 
+	@Override
 	public void actionPerformed(ActionEvent event)
 	{
-		final MainGUI mg = MainGUI.getMainGUI();
-		GpxEntry entry = mg.gpxPanel.getSelectedEntry();
+		final MainFrame mg = MainFrame.getMainGUI();
+		GpxEntry entry = mg.getSelectedGpx();
 
 		if (entry == null)
 			return;
@@ -82,7 +83,7 @@ public class AddGpxTrackPolygonMap implements ActionListener
 			List<TrkType> tlist = re.getLayer().getGpx().getTrk();
 			if (tlist.size() > 1)
 			{
-				JOptionPane.showMessageDialog(mg, I18nUtils.localizedStringForKey("msg_add_gpx_polygon_too_many_track"));
+				JOptionPane.showMessageDialog(mg, OSMCDStrs.RStr("msg_add_gpx_polygon_too_many_track"));
 				return;
 			}
 			else if (tlist.size() == 1)
@@ -94,7 +95,7 @@ public class AddGpxTrackPolygonMap implements ActionListener
 		{
 			if (t.getTrkseg().size() > 1)
 			{
-				JOptionPane.showMessageDialog(mg, I18nUtils.localizedStringForKey("msg_add_gpx_polygon_too_many_segment"));
+				JOptionPane.showMessageDialog(mg, OSMCDStrs.RStr("msg_add_gpx_polygon_too_many_segment"));
 				return;
 			}
 			else if (t.getTrkseg().size() == 1)
@@ -102,21 +103,20 @@ public class AddGpxTrackPolygonMap implements ActionListener
 		}
 		if (trk == null)
 		{
-			JOptionPane.showMessageDialog(mg, I18nUtils.localizedStringForKey("msg_add_gpx_polygon_no_select"), I18nUtils.localizedStringForKey("Error"),
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(mg, OSMCDStrs.RStr("msg_add_gpx_polygon_no_select"), OSMCDStrs.RStr("Error"), JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
-		JAtlasTree jAtlasTree = mg.jAtlasTree;
+		JCatalogTree catalogTree = mg.getCatalogTree();
 		final String mapNameFmt = "%s %02d";
-		BundleInterface atlasInterface = jAtlasTree.getAtlas();
-		String name = mg.getUserText();
-		final MapSource mapSource = mg.getSelectedMapSource();
+		IfCatalog catalog = catalogTree.getCatalog();
+		String name = mg.getCatalogName();
+		final IfMapSource mapSource = mg.getSelectedMapSource();
 		SelectedZoomLevels sZL = mg.getSelectedZoomLevels();
 		int[] zoomLevels = sZL.getZoomLevels();
 		if (zoomLevels.length == 0)
 		{
-			JOptionPane.showMessageDialog(mg, I18nUtils.localizedStringForKey("msg_no_zoom_level_selected"));
+			JOptionPane.showMessageDialog(mg, OSMCDStrs.RStr("msg_no_zoom_level_selected"));
 			return;
 		}
 		List<? extends GpxPoint> points = trk.getTrkpt();
@@ -135,13 +135,13 @@ public class AddGpxTrackPolygonMap implements ActionListener
 		}
 
 		final int maxZoom = zoomLevels[zoomLevels.length - 1];
-		final MapSpace mapSpace = mapSource.getMapSpace();
+		final IfMapSpace mapSpace = mapSource.getMapSpace();
 		Point p1 = maxCoordinate.toTileCoordinate(mapSpace, maxZoom);
 		Point p2 = minCoordinate.toTileCoordinate(mapSpace, maxZoom);
 
 		final int centerY = p1.y + ((p1.y - p2.y) / 2);
 
-		final UnitSystem unitSystem = Settings.getInstance().getUnitSystem();
+		final UnitSystem unitSystem = ACSettings.getInstance().getUnitSystem();
 
 		final TileImageParameters customTileParameters = mg.getSelectedTileImageParameters();
 
@@ -152,6 +152,7 @@ public class AddGpxTrackPolygonMap implements ActionListener
 		ChangeListener cl = new ChangeListener()
 		{
 
+			@Override
 			public void stateChanged(ChangeEvent e)
 			{
 				double d = mapSpace.horizontalDistance(maxZoom, centerY, slider.getValue());
@@ -162,10 +163,10 @@ public class AddGpxTrackPolygonMap implements ActionListener
 					d /= unitSystem.unitFactor;
 					unitName = unitSystem.unitLarge;
 				}
-				label.setText(String.format(I18nUtils.localizedStringForKey("dlg_gpx_track_select_distance"), ((int) d), unitName));
+				label.setText(String.format(OSMCDStrs.RStr("dlg_gpx_track_select_distance"), ((int) d), unitName));
 			}
 		};
-		final JButton previewButton = new JButton(I18nUtils.localizedStringForKey("dlg_gpx_track_select_preview"));
+		final JButton previewButton = new JButton(OSMCDStrs.RStr("dlg_gpx_track_select_preview"));
 		previewButton.addActionListener(new ActionListener()
 		{
 
@@ -187,7 +188,7 @@ public class AddGpxTrackPolygonMap implements ActionListener
 		panel.add(slider, BorderLayout.CENTER);
 		panel.add(previewButton, BorderLayout.SOUTH);
 
-		int result = JOptionPane.showConfirmDialog(mg, panel, I18nUtils.localizedStringForKey("dlg_gpx_track_select_title"), JOptionPane.OK_CANCEL_OPTION);
+		int result = JOptionPane.showConfirmDialog(mg, panel, OSMCDStrs.RStr("dlg_gpx_track_select_title"), JOptionPane.OK_CANCEL_OPTION);
 
 		if (msl != null)
 		{
@@ -203,17 +204,17 @@ public class AddGpxTrackPolygonMap implements ActionListener
 
 		int width = maxZoomMap.getMaxTileCoordinate().x - maxZoomMap.getMinTileCoordinate().x;
 		int height = maxZoomMap.getMaxTileCoordinate().y - maxZoomMap.getMinTileCoordinate().y;
-		if (Math.max(width, height) > Settings.getInstance().maxMapSize)
+		if (Math.max(width, height) > OSMCDSettings.getInstance().getMaxMapSize())
 		{
-			String msg = I18nUtils.localizedStringForKey("msg_add_gpx_polygon_maxsize");
-			result = JOptionPane.showConfirmDialog(mg, msg, I18nUtils.localizedStringForKey("msg_add_gpx_polygon_maxsize_title"), JOptionPane.YES_NO_OPTION,
+			String msg = OSMCDStrs.RStr("msg_add_gpx_polygon_maxsize");
+			result = JOptionPane.showConfirmDialog(mg, msg, OSMCDStrs.RStr("msg_add_gpx_polygon_maxsize_title"), JOptionPane.YES_NO_OPTION,
 					JOptionPane.QUESTION_MESSAGE);
 			if (result != JOptionPane.YES_OPTION)
 				return;
 		}
 
 		Layer layer = null;
-		for (int zoom: zoomLevels)
+		for (int zoom : zoomLevels)
 		{
 			String layerName = name;
 			int c = 1;
@@ -222,21 +223,20 @@ public class AddGpxTrackPolygonMap implements ActionListener
 			{
 				try
 				{
-					layer = new Layer(atlasInterface, layerName, zoom);
+					layer = new Layer(catalog, layerName, zoom);
 					success = true;
 				}
 				catch (InvalidNameException e)
 				{
 					layerName = name + "_" + Integer.toString(c++);
 				}
-			}
-			while (!success);
-			String mapName = String.format(mapNameFmt, new Object[] {layerName, zoom});
-			MapInterface map = MapPolygon.createFromMapPolygon(layer, mapName, zoom, maxZoomMap);
+			} while (!success);
+			String mapName = String.format(mapNameFmt, new Object[]
+			{ layerName, zoom });
+			IfMap map = MapPolygon.createFromMapPolygon(layer, mapName, zoom, maxZoomMap);
 			layer.addMap(map);
 		}
-		atlasInterface.addLayer(layer);
-		mg.jAtlasTree.getTreeModel().notifyNodeInsert(layer);
-
+		catalog.addLayer(layer);
+		mg.notifyLayerInsert(layer);
 	}
 }

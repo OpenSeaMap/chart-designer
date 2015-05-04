@@ -23,14 +23,13 @@ import java.net.ConnectException;
 
 import org.apache.log4j.Logger;
 
-import osmcd.exceptions.DownloadFailedException;
+import osmb.mapsources.IfMapSource;
+import osmb.mapsources.IfMapSource.LoadMethod;
+import osmb.program.tiles.DownloadFailedException;
+import osmb.program.tiles.TileDownLoader;
+import osmb.program.tilestore.ACSiTileStore;
+import osmb.program.tilestore.IfTileStoreEntry;
 import osmcd.gui.mapview.Tile.TileState;
-import osmcd.gui.mapview.interfaces.TileLoaderListener;
-import osmcd.program.download.TileDownLoader;
-import osmcd.program.interfaces.MapSource;
-import osmcd.program.interfaces.MapSource.LoadMethod;
-import osmcd.program.tilestore.TileStore;
-import osmcd.program.tilestore.TileStoreEntry;
 
 /**
  * A {@link TileLoaderJobCreator} implementation that loads tiles from OSM via HTTP and saves all loaded files in a directory located in the the temporary
@@ -41,19 +40,19 @@ import osmcd.program.tilestore.TileStoreEntry;
  */
 public class TileLoader
 {
-
 	private static final Logger log = Logger.getLogger(TileLoader.class);
 
-	protected TileStore tileStore;
+	protected ACSiTileStore tileStore;
 	protected TileLoaderListener listener;
 
-	public TileLoader(TileLoaderListener listener) {
+	public TileLoader(TileLoaderListener listener)
+	{
 		super();
 		this.listener = listener;
-		tileStore = TileStore.getInstance();
+		tileStore = ACSiTileStore.getInstance();
 	}
 
-	public Runnable createTileLoaderJob(final MapSource source, final int tilex, final int tiley, final int zoom)
+	public Runnable createTileLoaderJob(final IfMapSource source, final int tilex, final int tiley, final int zoom)
 	{
 		return new TileAsyncLoadJob(source, tilex, tiley, zoom);
 	}
@@ -62,12 +61,13 @@ public class TileLoader
 	{
 
 		final int tilex, tiley, zoom;
-		final MapSource mapSource;
+		final IfMapSource mapSource;
 		Tile tile;
 		boolean fileTilePainted = false;
-		protected TileStoreEntry tileStoreEntry = null;
+		protected IfTileStoreEntry tileStoreEntry = null;
 
-		public TileAsyncLoadJob(MapSource source, int tilex, int tiley, int zoom) {
+		public TileAsyncLoadJob(IfMapSource source, int tilex, int tiley, int zoom)
+		{
 			super();
 			this.mapSource = source;
 			this.tilex = tilex;
@@ -75,6 +75,7 @@ public class TileLoader
 			this.zoom = zoom;
 		}
 
+		@Override
 		public void run()
 		{
 			MemoryTileCache cache = listener.getTileImageCache();
@@ -92,6 +93,7 @@ public class TileLoader
 				Runnable job = new Runnable()
 				{
 
+					@Override
 					public void run()
 					{
 						loadOrUpdateTile();

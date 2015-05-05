@@ -4,7 +4,7 @@
     <directories>
         <bundleOutputDirectory>C:\Users\Public\Documents\Chart Bundles</bundleOutputDirectory>
         <tileStoreDirectory>C:\Users\Public\Documents\OSMCB Tiles</tileStoreDirectory>
-        <mapSourcesDirectory>C:\Projekte\AHDTAC-Java\ChartBase\mapsources</mapSourcesDirectory>
+        <mapSourcesDirectory>..\OSeaMChartBase\mapsources</mapSourcesDirectory>
         <catalogsDirectory>C:\Users\Public\Documents\OSMCB Catalogs</catalogsDirectory>
     </directories>
     <localeCountry></localeCountry>

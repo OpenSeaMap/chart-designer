@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>OSM ChartDesigner</name>
+	<name>OSeaMChartDesigner</name>
 	<comment></comment>
 	<projects>
-		<project>OSeaM ChartBundler</project>
+		<project>OSeaMChartBundler</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

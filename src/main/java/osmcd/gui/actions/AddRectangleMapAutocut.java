@@ -65,7 +65,7 @@ public class AddRectangleMapAutocut implements ActionListener
 		MapSelection ms = mg.getMapSelectionCoordinates();
 		if (ms == null)
 		{
-			JOptionPane.showMessageDialog(mg, OSMCDStrs.RStr("msg_no_select_area"));
+			JOptionPane.showMessageDialog(mg, OSMCDStrs.RStr("GUI.NoSelectedArea"));
 			return;
 		}
 		OSMCDSettings settings = OSMCDSettings.getInstance();
@@ -78,7 +78,7 @@ public class AddRectangleMapAutocut implements ActionListener
 		int[] zoomLevels = sZL.getZoomLevels();
 		if (zoomLevels.length == 0)
 		{
-			JOptionPane.showMessageDialog(mg, OSMCDStrs.RStr("msg_no_zoom_level_selected"));
+			JOptionPane.showMessageDialog(mg, OSMCDStrs.RStr("GUI.NoZoomLevels"));
 			return;
 		}
 

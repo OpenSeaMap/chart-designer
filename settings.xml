@@ -21,8 +21,7 @@
         <mapSource>OSMPublicTransport</mapSource>
         <mapSource>OpenSeaMap</mapSource>
         <mapSource>OpenSeaMap-Mapnik</mapSource>
-        <mapSource>OpenSeaMapDE</mapSource>
-        
+        <mapSource>OpenSeaMapDE</mapSource>        
     </mapSourcesEnabled>
     <mapviewCenterCoordinate lat="25.173291089819703" lon="55.246639251708984"/>
     <maxMapSize>65536</maxMapSize>
@@ -43,7 +42,6 @@
         <width>1.0</width>
     </wgsGrid>
     <elementName>L</elementName>
-    <googleLanguage>en</googleLanguage>
     <gpxFileChooserDir></gpxFileChooserDir>
     <mainWindow>
         <size>800/590</size>
@@ -60,7 +58,6 @@
     <mapviewSelectionMax>684163072/376832000</mapviewSelectionMax>
     <mapviewSelectionMin>684163072/376832000</mapviewSelectionMin>
     <mapviewZoom>15</mapviewZoom>
-    <osmHikingTicket></osmHikingTicket>
     <paperAtlas>
         <compression>8</compression>
         <crop>15</crop>

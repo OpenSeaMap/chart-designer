@@ -64,7 +64,8 @@ public class JobDispatcher implements ThreadFactory, RejectedExecutionHandler
 		jobQueue.clear();
 	}
 
-	private JobDispatcher() {
+	private JobDispatcher()
+	{
 		jobQueue = new LinkedBlockingQueue<Runnable>();
 		executor = new ThreadPoolExecutor(WORKER_THREAD_MAX_COUNT, WORKER_THREAD_MAX_COUNT, WORKER_THREAD_TIMEOUT, TimeUnit.SECONDS, jobQueue, this, this);
 		executor.allowCoreThreadTimeOut(true);
@@ -75,6 +76,7 @@ public class JobDispatcher implements ThreadFactory, RejectedExecutionHandler
 		executor.execute(job);
 	}
 
+	@Override
 	public Thread newThread(Runnable r)
 	{
 		int id;
@@ -82,10 +84,11 @@ public class JobDispatcher implements ThreadFactory, RejectedExecutionHandler
 		{
 			id = WORKER_THREAD_ID++;
 		}
-		log.trace("New iMap preview worker thread created with id=" + id);
+		log.trace("New map preview worker thread created with id=" + id);
 		return new DelayedInterruptThread(r, "Map preview thread " + id);
 	}
 
+	@Override
 	public void rejectedExecution(Runnable r, ThreadPoolExecutor executor)
 	{
 		log.error("Map preview job rejected: " + r);

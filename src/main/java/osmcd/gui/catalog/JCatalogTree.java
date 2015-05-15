@@ -85,7 +85,8 @@ public class JCatalogTree extends JTree implements Autoscroll
 	protected DragDropController ddc;
 	protected boolean displaySelectedMapArea = false;
 
-	public JCatalogTree(PreviewMap mapView) {
+	public JCatalogTree(PreviewMap mapView)
+	{
 		super(new CatalogTreeModel());
 		if (mapView == null)
 			throw new NullPointerException(OSMCDStrs.RStr("CatalogTree.MVParamNULL"));
@@ -135,7 +136,7 @@ public class JCatalogTree extends JTree implements Autoscroll
 		// if (!SQLiteLoader.loadSQLiteOrShowError())
 		// return false;
 		// }
-		if ((catalog.getFile() != null) && (catalog.calculateTilesToDownload() > 0))
+		if ((catalog.getFile() != null) || (catalog.calculateTilesToDownload() > 0))
 		{
 			bValid = true;
 		}
@@ -370,7 +371,7 @@ public class JCatalogTree extends JTree implements Autoscroll
 						IfLayer layer = (IfLayer) o;
 						EastNorthCoordinate max = new EastNorthCoordinate(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
 						EastNorthCoordinate min = new EastNorthCoordinate(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
-						for (IfMap map: layer)
+						for (IfMap map : layer)
 						{
 							MapSelection ms = new MapSelection(map);
 							EastNorthCoordinate mapMax = ms.getMax();
@@ -439,7 +440,7 @@ public class JCatalogTree extends JTree implements Autoscroll
 		if (o instanceof Iterable<?>)
 		{
 			Iterable<?> it = (Iterable<?>) o;
-			for (Object ao: it)
+			for (Object ao : it)
 			{
 				applyTileImageParameters(ao, p);
 			}

@@ -27,7 +27,7 @@ public class OSMCDStrs
 		catch (MissingResourceException e)
 		{
 			// log.info("RSC bundle='" + RESOURCE_BUNDLE.getBaseBundleName() + "' missing");
-			log.info("RSC bundle='" + BUNDLE_NAME + "' missing");
+			log.info("RSC key='" + key + "' from bundle='" + BUNDLE_NAME + "' missing");
 			return '!' + key + '!';
 		}
 	}

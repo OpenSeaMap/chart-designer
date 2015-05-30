@@ -80,6 +80,7 @@ public class OSMCDSettings extends ACSettings
 	// instance data, usually all protected
 	// esp. this classes instances are load from a xml-file by loadOrQuit()
 
+	@XmlElement
 	// GUI/Main Window related
 	// public String googleLanguage = "en";
 	private MainWindowSettings mainWindow = new MainWindowSettings();
@@ -113,6 +114,7 @@ public class OSMCDSettings extends ACSettings
 	 */
 	private String gpxFileChooserDir = "";
 
+	@XmlElement
 	// Paper Atlas related settings
 	private final SettingsPaperAtlas paperAtlas = new SettingsPaperAtlas();
 

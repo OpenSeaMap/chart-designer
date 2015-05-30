@@ -766,7 +766,7 @@ public class SettingsGUI extends JDialog
 		}
 		threadCount.setSelectedIndex(index);
 
-		defaultExpirationTime.setTimeMilliValue(s.getTileDefaultExpirationTime());
+		defaultExpirationTime.setTimeMilliValue(OSMCDSettings.getTileDefaultExpirationTime());
 		maxExpirationTime.setTimeMilliValue(s.getTileMaxExpirationTime());
 		minExpirationTime.setTimeMilliValue(s.getTileMinExpirationTime());
 
@@ -787,7 +787,7 @@ public class SettingsGUI extends JDialog
 
 		s.setUnitSystem((UnitSystem) unitSystem.getSelectedItem());
 		s.setTileStoreEnabled(tileStoreTab.tileStoreEnabled.isSelected());
-		s.setTileDefaultExpirationTime(defaultExpirationTime.getTimeMilliValue());
+		OSMCDSettings.setTileDefaultExpirationTime(defaultExpirationTime.getTimeMilliValue());
 		s.setTileMinExpirationTime(minExpirationTime.getTimeMilliValue());
 		s.setTileMaxExpirationTime(maxExpirationTime.getTimeMilliValue());
 		s.setMaxMapSize(mapSize.getValue());

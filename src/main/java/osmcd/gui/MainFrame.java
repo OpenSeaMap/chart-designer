@@ -300,10 +300,11 @@ public class MainFrame extends JFrame implements MapEventListener
 		setJMenuBar(menuBar);
 
 		// the left pane consists of XX panels
+		updateZoomLevelCheckBoxes(); //W muss vor loadSettings() einmal aufgerufen werden!
 		loadSettings();
 		mCatalogsPanel.initialize();
 		mapSourceChanged(previewMap.getMapSource());
-		updateZoomLevelCheckBoxes();
+		//updateZoomLevelCheckBoxes(); //W ungeklärt, ?weg oder nochmal?
 		updateGridSizeCombo();
 		mTileImageParametersPanel.updateControlsState();
 		zoomChanged(previewMap.getZoom());
@@ -768,7 +769,7 @@ public class MainFrame extends JFrame implements MapEventListener
 					if (currentZoomCb.getZoomLevel() == currentListZoom)
 					{
 						currentZoomCb.setSelected(true);
-						nextZoom = 1;
+						//nextZoom = 1; //W Nutzen?: Fehler bei nicht festgelegter Reihenfolge in zoomList
 						break;
 					}
 				}

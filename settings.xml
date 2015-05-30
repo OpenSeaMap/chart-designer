@@ -3,9 +3,9 @@
     <coordinateNumberFormat>DEG_LOCAL</coordinateNumberFormat>
     <directories>
         <bundleOutputDirectory>C:\Users\Public\Documents\Chart Bundles</bundleOutputDirectory>
-        <tileStoreDirectory>C:\Users\Public\Documents\OSMCB Tiles</tileStoreDirectory>
-        <mapSourcesDirectory>..\OSeaMChartBase\mapsources</mapSourcesDirectory>
-        <catalogsDirectory>C:\Users\Public\Documents\OSMCB Catalogs</catalogsDirectory>
+        <tileStoreDirectory>../tilestore</tileStoreDirectory>
+        <mapSourcesDirectory>../OSeaMChartBase/mapsources</mapSourcesDirectory>
+        <catalogsDirectory>../catalogs</catalogsDirectory>
     </directories>
     <localeCountry></localeCountry>
     <localeLanguage>en</localeLanguage>
@@ -25,7 +25,10 @@
     </mapSourcesEnabled>
     <mapviewCenterCoordinate lat="25.173291089819703" lon="55.246639251708984"/>
     <maxMapSize>65536</maxMapSize>
-    <tileDefaultExpirationTime>2446683947</tileDefaultExpirationTime>
+<!--
+	<tileDefaultExpirationTime>2446683947</tileDefaultExpirationTime>
+? kein Zugriff auf statische Felder!, ungeklärt: wird tileDefaultExpirationTime benötigt?
+-->
     <tileImageFormat>PNG</tileImageFormat>
     <tileMaxExpirationTime>31942053996</tileMaxExpirationTime>
     <tileMinExpirationTime>436196039</tileMinExpirationTime>
@@ -34,16 +37,21 @@
     <unitSystem>Metric</unitSystem>
     <userAgent>OSMCB/0.0.10</userAgent>
     <version>UNKNOWN</version>
-    <wgsGrid>
+<!-- einlesen wgsGrid tut's jetzt ?Name: cfgWgsGrid oder wgsGrid (ggf. in ACSettings ändern) -->
+   <cfgWgsGrid>
         <color>#0000ff</color>
         <compressLabels>false</compressLabels>
         <density>SECONDS_30</density>
         <enabled>true</enabled>
         <width>1.0</width>
-    </wgsGrid>
+    </cfgWgsGrid>
+<!--
     <elementName>L</elementName>
+? // public String elementName = null; ehemals in OSMCBSettings.java, jetzt dort auskommentiert
+-->
     <gpxFileChooserDir></gpxFileChooserDir>
-    <mainWindow>
+<!-- einlesen mainWindow tut's jetzt -->
+   <mainWindow>
         <size>800/590</size>
         <position>-1928/-308</position>
         <maximized>true</maximized>
@@ -58,7 +66,8 @@
     <mapviewSelectionMax>684163072/376832000</mapviewSelectionMax>
     <mapviewSelectionMin>684163072/376832000</mapviewSelectionMin>
     <mapviewZoom>15</mapviewZoom>
-    <paperAtlas>
+<!-- einlesen paperAtlas tut's jetzt -->
+   <paperAtlas>
         <compression>8</compression>
         <crop>15</crop>
         <dpi>300</dpi>
@@ -75,6 +84,8 @@
         <wgsDensity>SECONDS_10</wgsDensity>
     </paperAtlas>
     <placeBookmarks/>
+<!-- einlesen selectedZoomLevels tut's jetzt: Änderungen in MainFrame.java,
+     ungeklärt Zeile 307?, dann können alle Kommentare //W dort weg -->
     <selectedZoomLevels>
         <zoomLevel>8</zoomLevel>
         <zoomLevel>9</zoomLevel>

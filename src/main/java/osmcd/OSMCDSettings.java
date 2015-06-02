@@ -39,10 +39,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.apache.log4j.Logger;
 
 import osmb.program.ACSettings;
+import osmb.program.jaxb.DimensionAdapter;
+import osmb.program.jaxb.PointAdapter;
 import osmb.utilities.OSMBRsc;
 import osmb.utilities.OSMBStrs;
 import osmb.utilities.OSMBUtilities;
@@ -65,7 +68,9 @@ public class OSMCDSettings extends ACSettings
 
 	public static class MainWindowSettings
 	{
+		@XmlJavaTypeAdapter(DimensionAdapter.class)
 		public Dimension size = new Dimension();
+		@XmlJavaTypeAdapter(PointAdapter.class)
 		public Point position = new Point(-1, -1);
 		public boolean maximized = true;
 
@@ -80,9 +85,9 @@ public class OSMCDSettings extends ACSettings
 	// instance data, usually all protected
 	// esp. this classes instances are load from a xml-file by loadOrQuit()
 
-	@XmlElement
 	// GUI/Main Window related
 	// public String googleLanguage = "en";
+	@XmlElement
 	private MainWindowSettings mainWindow = new MainWindowSettings();
 
 	// Mapview related settings
@@ -114,8 +119,8 @@ public class OSMCDSettings extends ACSettings
 	 */
 	private String gpxFileChooserDir = "";
 
-	@XmlElement
 	// Paper Atlas related settings
+	@XmlElement
 	private final SettingsPaperAtlas paperAtlas = new SettingsPaperAtlas();
 
 	/**
@@ -293,6 +298,7 @@ public class OSMCDSettings extends ACSettings
 	/**
 	 * @return the mapviewSelectionMax
 	 */
+	@XmlJavaTypeAdapter(PointAdapter.class)
 	public Point getMapviewSelectionMax()
 	{
 		return mapviewSelectionMax;
@@ -310,6 +316,7 @@ public class OSMCDSettings extends ACSettings
 	/**
 	 * @return the mapviewSelectionMin
 	 */
+	@XmlJavaTypeAdapter(PointAdapter.class)
 	public Point getMapviewSelectionMin()
 	{
 		return mapviewSelectionMin;

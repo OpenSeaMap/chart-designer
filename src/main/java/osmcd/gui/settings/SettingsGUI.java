@@ -157,12 +157,12 @@ public class SettingsGUI extends JDialog
 	private JTextField atlasOutputDirectory;
 	private JComboBox threadCount;
 	private JComboBox bandwidth;
-	private JComboBox proxyType;
+	private JComboBox proxyType; ///W ?proxyType wird nicht initialisiert?
 	private JTextField proxyHost;
 	private JTextField proxyPort;
 	private JTextField proxyUserName;
 	private JTextField proxyPassword;
-	private JCheckBox ignoreDlErrors;
+	private JCheckBox ignoreDlErrors; ///W ?ignoreDlErrors wird nicht initialisiert?
 	private JButton okButton;
 	private JButton cancelButton;
 	private JTabbedPane tabbedPane;
@@ -690,7 +690,7 @@ public class SettingsGUI extends JDialog
 			}
 		};
 		al.actionPerformed(null);
-		proxyType.addActionListener(al);
+		//proxyType.addActionListener(al); ///W ?proxyType nicht initialisiert? -> //
 
 		// panel.add(proxyTypeLabel, GBC.std());
 		// panel.add(proxyType, gbc_eolh.insets(5, 2, 5, 2));
@@ -712,7 +712,7 @@ public class SettingsGUI extends JDialog
 		// ignoreDlErrors = new JCheckBox(OSMCDStrs.RStr("set_net_default_ignore_error"), settings.ignoreDlErrors);
 		JPanel jPanel = new JPanel(new GridBagLayout());
 		jPanel.setBorder(createSectionBorder(OSMCDStrs.RStr("set_net_default")));
-		jPanel.add(ignoreDlErrors, GBC.std());
+		//jPanel.add(ignoreDlErrors, GBC.std()); ///W ?ignoreDlErrors nicht initialisiert? -> //
 		jPanel.add(Box.createHorizontalGlue(), GBC.eol().fillH());
 		backGround.add(jPanel, GBC.eol().fillH());
 

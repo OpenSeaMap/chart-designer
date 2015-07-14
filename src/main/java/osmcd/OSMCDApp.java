@@ -97,6 +97,10 @@ public class OSMCDApp extends ACWindowsApp
 					Logging.LOG.debug("Starting GUI");
 					MainFrame.createMainGui();
 					SplashFrame.hideFrame();
+					
+					///W ####
+					MainFrame.runFirstStart();
+					
 					runMainGUI();
 				}
 			});

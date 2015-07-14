@@ -32,6 +32,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.Vector;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -42,11 +43,13 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
@@ -58,6 +61,7 @@ import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
+import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -65,6 +69,8 @@ import javax.swing.event.ChangeListener;
 import org.apache.log4j.Logger;
 
 import osmb.mapsources.ACMapSourcesManager;
+import osmb.mapsources.IfMapSource;
+import osmb.mapsources.MapSourcesListModel;
 import osmb.utilities.GBC;
 import osmb.utilities.GUIExceptionHandler;
 import osmb.utilities.OSMBRsc;
@@ -74,6 +80,7 @@ import osmcd.OSMCDSettings;
 import osmcd.OSMCDStrs;
 import osmcd.gui.MainFrame;
 import osmcd.gui.actions.OpenInWebbrowser;
+import osmcd.gui.components.JDirectoryChooser;
 import osmcd.gui.components.JMapSizeCombo;
 import osmcd.gui.components.JTimeSlider;
 
@@ -111,7 +118,7 @@ public class SettingsGUI extends JDialog
 		}
 	};
 
-	private enum SupportLocale
+	private enum SupportLocale ///W default???
 	{
 		SupportLocaleEn(new Locale("en"), "English"); // default
 
@@ -144,8 +151,8 @@ public class SettingsGUI extends JDialog
 
 	private final OSMCDSettings settings = OSMCDSettings.getInstance();
 
-	private JComboBox unitSystem;
-	private JComboBox languageCombo;
+	private JComboBox<UnitSystem> unitSystem; ///W <UnitSystem>
+	private JComboBox<SupportLocale> languageCombo; ///W <SupportLocale>
 	private JButton mapSourcesOnlineUpdate;
 	private JTextField osmHikingTicket;
 	private SettingsGUITileStore tileStoreTab;
@@ -155,8 +162,10 @@ public class SettingsGUI extends JDialog
 	private JMapSizeCombo mapSize;
 	private JSpinner mapOverlapTiles;
 	private JTextField atlasOutputDirectory;
-	private JComboBox threadCount;
-	private JComboBox bandwidth;
+	private JLabel jlCatalogsDirectory;
+	private JTextField jtfTileStoreDirectory;
+	private JComboBox<Integer> threadCount; ///W <Integer>
+	private JComboBox<Bandwidth> bandwidth; ///W <Bandwidth>
 	private JComboBox proxyType; ///W ?proxyType wird nicht initialisiert?
 	private JTextField proxyHost;
 	private JTextField proxyPort;
@@ -166,26 +175,26 @@ public class SettingsGUI extends JDialog
 	private JButton okButton;
 	private JButton cancelButton;
 	private JTabbedPane tabbedPane;
-	private JList enabledMapSources;
-	// private MapSourcesListModel enabledMapSourcesModel;
-	private JList disabledMapSources;
-	// private MapSourcesListModel disabledMapSourcesModel;
+	private JList<IfMapSource> enabledMapSources;
+	private MapSourcesListModel enabledMapSourcesModel; ///W eingeschaltet
+	private JList<IfMapSource> disabledMapSources;
+	private MapSourcesListModel disabledMapSourcesModel; ///W eingeschaltet
 	private final SettingsGUIPaper paperAtlas;
 	private final SettingsGUIWgsGrid display;
 
-	public static void showSettingsDialog(final JFrame owner)
+	public static void showSettingsDialog(final JFrame owner, final int nSelectedIndex)
 	{
 		SwingUtilities.invokeLater(new Runnable()
 		{
 			@Override
 			public void run()
 			{
-				new SettingsGUI(owner);
+				new SettingsGUI(owner, nSelectedIndex);
 			}
 		});
 	}
 
-	private SettingsGUI(JFrame owner) {
+	private SettingsGUI(JFrame owner, int nSelectedIndex) {
 		super(owner);
 		setIconImages(MainFrame.OSMCD_ICONS);
 		GUIExceptionHandler.registerForCurrentThread();
@@ -197,7 +206,7 @@ public class SettingsGUI extends JDialog
 		display = new SettingsGUIWgsGrid();
 
 		createJFrame();
-		createTabbedPane();
+		createTabbedPane(nSelectedIndex);
 		createJButtons();
 		loadSettings();
 		addListeners();
@@ -216,10 +225,11 @@ public class SettingsGUI extends JDialog
 	}
 
 	// Create tabbed pane
-	public void createTabbedPane()
+	public void createTabbedPane(int nSelectedIndex)
 	{
 		tabbedPane = new JTabbedPane();
 		tabbedPane.setBounds(0, 0, 492, 275);
+		addDirectoriesPanel(); ///W #####firstStart: an Position 0 gesetzt?
 		addDisplaySettingsPanel();
 		try
 		{
@@ -233,11 +243,17 @@ public class SettingsGUI extends JDialog
 		addTileUpdatePanel();
 		tileStoreTab = new SettingsGUITileStore(this);
 		addMapSizePanel();
-		addDirectoriesPanel();
+		///W 1: addDirectoriesPanel();
 		addNetworkPanel();
 		tabbedPane.addTab(paperAtlas.getName(), paperAtlas);
 
 		add(tabbedPane, BorderLayout.CENTER);
+		
+		///W ##### Tabauswahl
+		if ((tabbedPane.getTabCount() > nSelectedIndex) && (nSelectedIndex > -1))
+			tabbedPane.setSelectedIndex(nSelectedIndex);
+		else
+			tabbedPane.setSelectedIndex(-1);
 	}
 
 	private JPanel createNewTab(String tabTitle)
@@ -265,7 +281,7 @@ public class SettingsGUI extends JDialog
 		// Language Panel
 		JPanel languagePanel = new JPanel(new GridBagLayout());
 		languagePanel.setBorder(createSectionBorder(OSMCDStrs.RStr("set_display_language")));
-		languageCombo = new JComboBox(SupportLocale.values());
+		languageCombo = new JComboBox<SupportLocale>(SupportLocale.values());
 		languageCombo.setToolTipText(OSMCDStrs.RStr("set_display_language_choose_tips"));
 		languageCombo.addActionListener(new ActionListener()
 		{
@@ -334,7 +350,7 @@ public class SettingsGUI extends JDialog
 		languagePanel.add(Box.createHorizontalGlue(), GBC.eol().fill(GBC.HORIZONTAL));
 
 		UnitSystem[] us = UnitSystem.values();
-		unitSystem = new JComboBox(us);
+		unitSystem = new JComboBox<UnitSystem>(us);
 		unitSystemPanel.add(new JLabel(OSMCDStrs.RStr("set_display_unit_system_scale_bar")), GBC.std());
 		unitSystemPanel.add(unitSystem, GBC.std());
 		unitSystemPanel.add(Box.createHorizontalGlue(), GBC.eol().fill(GBC.HORIZONTAL));
@@ -411,11 +427,11 @@ public class SettingsGUI extends JDialog
 			public void actionPerformed(ActionEvent e)
 			{
 				int[] idx = disabledMapSources.getSelectedIndices();
-				// for (int i = 0; i < idx.length; i++)
-				// {
-				// IfMapSource ms = disabledMapSourcesModel.removeElement(idx[i] - i);
-				// enabledMapSourcesModel.addElement(ms);
-				// }
+				for (int i = 0; i < idx.length; i++)
+				{
+					IfMapSource ms = disabledMapSourcesModel.removeElement(idx[i] - i);
+					enabledMapSourcesModel.addElement(ms);
+				}
 			}
 		});
 		toRight.addActionListener(new ActionListener()
@@ -425,12 +441,12 @@ public class SettingsGUI extends JDialog
 			public void actionPerformed(ActionEvent e)
 			{
 				int[] idx = enabledMapSources.getSelectedIndices();
-				// for (int i = 0; i < idx.length; i++)
-				// {
-				// IfMapSource ms = enabledMapSourcesModel.removeElement(idx[i] - i);
-				// disabledMapSourcesModel.addElement(ms);
-				// }
-				// disabledMapSourcesModel.sort();
+				for (int i = 0; i < idx.length; i++)
+				{
+					IfMapSource ms = enabledMapSourcesModel.removeElement(idx[i] - i);
+					disabledMapSourcesModel.addElement(ms);
+				}
+				disabledMapSourcesModel.sort();
 			}
 		});
 		up.addActionListener(new ActionListener()
@@ -447,8 +463,8 @@ public class SettingsGUI extends JDialog
 					int index = idx[i];
 					if (index == 0)
 						return;
-					// if (enabledMapSourcesModel.moveUp(index))
-					// idx[i]--;
+					if (enabledMapSourcesModel.moveUp(index))
+					idx[i]--;
 				}
 				enabledMapSources.setSelectedIndices(idx);
 				enabledMapSources.ensureIndexIsVisible(idx[0]);
@@ -466,10 +482,10 @@ public class SettingsGUI extends JDialog
 				for (int i = idx.length - 1; i >= 0; i--)
 				{
 					int index = idx[i];
-					// if (index == enabledMapSourcesModel.getSize() - 1)
-					// return;
-					// if (enabledMapSourcesModel.moveDown(index))
-					// idx[i]++;
+					if (index == enabledMapSourcesModel.getSize() - 1)
+					return;
+					if (enabledMapSourcesModel.moveDown(index))
+					idx[i]++;
 				}
 				enabledMapSources.setSelectedIndices(idx);
 				enabledMapSources.ensureIndexIsVisible(idx[idx.length - 1]);
@@ -485,16 +501,16 @@ public class SettingsGUI extends JDialog
 
 		ACMapSourcesManager msManager = ACMapSourcesManager.getInstance();
 
-		// enabledMapSourcesModel = new MapSourcesListModel(msManager.getEnabledOrderedMapSources());
-		// enabledMapSources = new JList(enabledMapSourcesModel);
-		// JScrollPane leftScrollPane = new JScrollPane(enabledMapSources, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		// leftPanel.add(leftScrollPane, BorderLayout.CENTER);
+		enabledMapSourcesModel = new MapSourcesListModel(msManager.getEnabledOrderedMapSources());
+		enabledMapSources = new JList<IfMapSource>(enabledMapSourcesModel);
+		JScrollPane leftScrollPane = new JScrollPane(enabledMapSources, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED); ///W_NEVER HORIZONTAL_SCROLLBAR_NEVER sollte sicherstellen, dass Namen nicht zu lang
+		leftPanel.add(leftScrollPane, BorderLayout.CENTER);
 
-		// disabledMapSourcesModel = new MapSourcesListModel(msManager.getDisabledMapSources());
-		// disabledMapSourcesModel.sort();
-		// disabledMapSources = new JList(disabledMapSourcesModel);
-		// JScrollPane rightScrollPane = new JScrollPane(disabledMapSources, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		// rightPanel.add(rightScrollPane, BorderLayout.CENTER);
+		disabledMapSourcesModel = new MapSourcesListModel(msManager.getDisabledMapSources());
+		disabledMapSourcesModel.sort();
+		disabledMapSources = new JList<IfMapSource>(disabledMapSourcesModel);
+		JScrollPane rightScrollPane = new JScrollPane(disabledMapSources, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		rightPanel.add(rightScrollPane, BorderLayout.CENTER);
 
 		JPanel mapSourcesInnerPanel = new JPanel();
 
@@ -574,7 +590,7 @@ public class SettingsGUI extends JDialog
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				log.trace("Map size: " + mapSize.getValue());
+				log.trace("Map size: " + mapSize.getValue());///W ???? beim Aufruf 32767 <-> in settings 65536
 			}
 		});
 
@@ -604,29 +620,112 @@ public class SettingsGUI extends JDialog
 	{
 		JPanel backGround = createNewTab(OSMCDStrs.RStr("set_directory_title"));
 		backGround.setLayout(new GridBagLayout());
+		
+		///W info
+		JLabel jlInfo1 = new JLabel("Beim ersten Start sollen hier die Pfade gesetzt werden:");
+		backGround.add(jlInfo1, GBC.eol());
+		JLabel jlInfo2 = new JLabel("   -Schreib- und Lesezugriff des Users für alle Pfade nötig");
+		backGround.add(jlInfo2, GBC.eol());
+		JLabel jlInfo3 = new JLabel("   -tilstore und bundles(atlas) können groß werden und brauchen schnellen Zugriff!");
+		backGround.add(jlInfo3, GBC.eol());
+		JLabel jlInfo4 = new JLabel("   ");
+		backGround.add(jlInfo4, GBC.eol());
+		JLabel jlInfo5 = new JLabel("ToolTipTexte bearbeiten, Abstände einstellen, JTextField <-> JLabel?");
+		backGround.add(jlInfo5, GBC.eol());
+		JLabel jlInfo6 = new JLabel("   ");
+		backGround.add(jlInfo6, GBC.eol());
+		
+		///W //bundleOutputDir/##################################################################################################################
+		///W ? atlas <-> bundle
 		JPanel atlasOutputDirPanel = new JPanel(new GridBagLayout());
 		atlasOutputDirPanel.setBorder(createSectionBorder(OSMCDStrs.RStr("set_directory_output")));
 
-		// atlasOutputDirectory = new JTextField();
-		// atlasOutputDirectory.setToolTipText(String.format(OSMCDStrs.RStr("set_directory_output_tips"),
-		// settings.getChartBundleOutputDirectory()));
-		// JButton selectAtlasOutputDirectory = new JButton(OSMCDStrs.RStr("set_directory_output_select"));
-		// selectAtlasOutputDirectory.addActionListener(new ActionListener()
-		// {
-		// public void actionPerformed(ActionEvent e)
-		// {
-		// JDirectoryChooser dc = new JDirectoryChooser();
-		// // dc.setCurrentDirectory(settings.getChartBundleOutputDirectory());
-		// if (dc.showDialog(SettingsGUI.this, OSMCDStrs.RStr("set_directory_output_select_dlg_title")) != JFileChooser.APPROVE_OPTION)
-		// return;
-		// atlasOutputDirectory.setText(dc.getSelectedFile().getAbsolutePath());
-		// }
-		// });
-		//
-		// atlasOutputDirPanel.add(atlasOutputDirectory, GBC.std().fillH());
-		// atlasOutputDirPanel.add(selectAtlasOutputDirectory, GBC.std());
+		atlasOutputDirectory = new JTextField();
+		atlasOutputDirectory.setToolTipText(String.format(OSMCDStrs.RStr("set_directory_output_tips"), settings.getChartBundleOutputDirectory()));
+		atlasOutputDirectory.setText(settings.getChartBundleOutputDirectory().toString());
+		JButton selectAtlasOutputDirectory = new JButton(OSMCDStrs.RStr("set_directory_output_select"));
+		selectAtlasOutputDirectory.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				JDirectoryChooser dc = new JDirectoryChooser();
+				dc.setCurrentDirectory(settings.getChartBundleOutputDirectory());
+				if (dc.showDialog(SettingsGUI.this, OSMCDStrs.RStr("set_directory_output_select_dlg_title")) != JFileChooser.APPROVE_OPTION)
+					return;
+				atlasOutputDirectory.setText(dc.getSelectedFile().getAbsolutePath());
+				settings.setChartBundleOutputDirectory(dc.getSelectedFile());
+			}
+		});
+		
+		 atlasOutputDirPanel.add(atlasOutputDirectory, GBC.std().fillH());
+		 atlasOutputDirPanel.add(selectAtlasOutputDirectory, GBC.std());
 
 		backGround.add(atlasOutputDirPanel, GBC.eol().fillH());
+		backGround.add(Box.createVerticalGlue(), GBC.eol().fill(GBC.VERTICAL));
+		
+		///W //tilestoreDir##################################################################################################################
+		JPanel tileStoreDirPanel = new JPanel(new GridBagLayout());
+		tileStoreDirPanel.setBorder(createSectionBorder("Tilestore directory")); ///W loc-nls anpassen OSMCDStrs.RStr("set_directory_output"): tileStore
+
+		jtfTileStoreDirectory = new JTextField();
+		jtfTileStoreDirectory.setToolTipText(String.format(OSMCDStrs.RStr("set_directory_output_tips"), settings.getTileStoreDirectory()));
+		jtfTileStoreDirectory.setText(settings.getTileStoreDirectory().toString());
+		JButton selectTileStoreDirectory = new JButton(OSMCDStrs.RStr("set_directory_output_select"));
+		selectTileStoreDirectory.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				JDirectoryChooser dc = new JDirectoryChooser();
+				dc.setCurrentDirectory(settings.getTileStoreDirectory());
+				if (dc.showDialog(SettingsGUI.this, OSMCDStrs.RStr("set_directory_output_select_dlg_title")) != JFileChooser.APPROVE_OPTION)
+					return;
+				jtfTileStoreDirectory.setText(dc.getSelectedFile().getAbsolutePath());
+				settings.setTileStoreDirectory(dc.getSelectedFile());
+			}
+		});
+		
+		tileStoreDirPanel.add(jtfTileStoreDirectory, GBC.std().fillH());
+		tileStoreDirPanel.add(selectTileStoreDirectory, GBC.std());
+
+		backGround.add(tileStoreDirPanel, GBC.eol().fillH());
+		backGround.add(Box.createVerticalGlue(), GBC.eol().fill(GBC.VERTICAL));
+
+		///W //catalogsDir##################################################################################################################
+		JPanel catalogsDirPanel = new JPanel(new GridBagLayout());
+		catalogsDirPanel.setBorder(createSectionBorder("Catalogs directory")); ///W loc-nls anpassen OSMCDStrs.RStr("set_directory_output"): catalogs
+		
+		jlCatalogsDirectory = new JLabel();
+		jlCatalogsDirectory.setOpaque(true);
+		jlCatalogsDirectory.setBackground(Color.WHITE);
+		jlCatalogsDirectory.setText(settings.getCatalogsDirectory().toString());
+		jlCatalogsDirectory.setBorder(new LineBorder(Color.BLACK));
+		jlCatalogsDirectory.setToolTipText("catalog: ..., tilestore und bundles groß/schnell"); ///(String.format(OSMCDStrs.RStr("set_directory_output_tips"), settings.getCatalogsDirectory()));
+		
+		///W ######layout? tut's so nicht
+		//JScrollPane jspLabel = new JScrollPane(jlCatalogsDirectory, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED); ///W_NEVER HORIZONTAL_SCROLLBAR_NEVER sollte sicherstellen, dass Namen nicht zu lang
+		
+		
+		JButton selectCatalogsDirectory = new JButton("Change"); ///W loc-nls anpassen (OSMCDStrs.RStr("set_directory_output_select"));
+		selectCatalogsDirectory.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+				JDirectoryChooser dc = new JDirectoryChooser();
+				dc.setCurrentDirectory(settings.getCatalogsDirectory());
+				if (dc.showDialog(SettingsGUI.this, OSMCDStrs.RStr("set_directory_output_select_dlg_title")) != JFileChooser.APPROVE_OPTION)
+					return;
+				jlCatalogsDirectory.setText(dc.getSelectedFile().getAbsolutePath());
+				settings.setCatalogsDirectory(dc.getSelectedFile());
+				///W System.out.println(settings.getDirectories());///W Test
+			}
+		});
+		
+//		catalogsDirPanel.add(jlCatalogsDirectory, GBC.eol());
+//		catalogsDirPanel.add(jspLabel, GBC.std().fillH());
+		catalogsDirPanel.add(jlCatalogsDirectory, GBC.std().fillH());
+		catalogsDirPanel.add(selectCatalogsDirectory, GBC.std());
+
+		backGround.add(catalogsDirPanel, GBC.eol().fillH());
 		backGround.add(Box.createVerticalGlue(), GBC.eol().fill(GBC.VERTICAL));
 	}
 
@@ -637,12 +736,12 @@ public class SettingsGUI extends JDialog
 		GBC gbc_eolh = GBC.eol().fill(GBC.HORIZONTAL);
 		JPanel panel = new JPanel(new GridBagLayout());
 		panel.setBorder(createSectionBorder(OSMCDStrs.RStr("set_net_connection")));
-		threadCount = new JComboBox(THREADCOUNT_LIST);
+		threadCount = new JComboBox<Integer>(THREADCOUNT_LIST);
 		threadCount.setMaximumRowCount(THREADCOUNT_LIST.length);
 		panel.add(threadCount, GBC.std().insets(5, 5, 5, 5).anchor(GBC.EAST));
 		panel.add(new JLabel(OSMCDStrs.RStr("set_net_connection_desc")), GBC.eol().fill(GBC.HORIZONTAL));
 
-		bandwidth = new JComboBox(Bandwidth.values());
+		bandwidth = new JComboBox<Bandwidth>(Bandwidth.values());
 		bandwidth.setMaximumRowCount(bandwidth.getItemCount());
 		panel.add(bandwidth, GBC.std().insets(5, 5, 5, 5));
 		panel.add(new JLabel(OSMCDStrs.RStr("set_net_bandwidth_desc")), GBC.eol().fill(GBC.HORIZONTAL));
@@ -811,20 +910,20 @@ public class SettingsGUI extends JDialog
 		//
 		// s.applyProxySettings();
 
-		// Vector<String> disabledMaps = new Vector<String>();
-		// for (IfMapSource ms : disabledMapSourcesModel.getVector())
-		// {
-		// disabledMaps.add(ms.getName());
-		// }
-		// s.mapSourcesDisabled = disabledMaps;
-		//
-		// Vector<String> enabledMaps = new Vector<String>();
-		// for (IfMapSource ms : enabledMapSourcesModel.getVector())
-		// {
-		// enabledMaps.add(ms.getName());
-		// }
-		// s.mapSourcesEnabled = enabledMaps;
-		//
+		Vector<String> disabledMaps = new Vector<String>();
+		for (IfMapSource ms : disabledMapSourcesModel.getVector())
+		{
+			disabledMaps.add(ms.getName());
+		}
+		s.mapSourcesDisabled = disabledMaps;
+		
+		Vector<String> enabledMaps = new Vector<String>();
+		for (IfMapSource ms : enabledMapSourcesModel.getVector())
+		{
+			enabledMaps.add(ms.getName());
+		}
+		s.mapSourcesEnabled = enabledMaps;
+
 		// s.ignoreDlErrors = ignoreDlErrors.isSelected();
 
 		paperAtlas.applySettings(s);
@@ -925,6 +1024,8 @@ public class SettingsGUI extends JDialog
 			// On close we check if the tile store information retrieval thread
 			// is still running and if yes we interrupt it
 			tileStoreTab.stopThread();
+			///W #####firstStart: Tab merken -> firstStart vorbei!
+			OSMCDSettings.getInstance().setSettingsTabSelected(tabbedPane.getSelectedIndex());
 		}
 
 	}

@@ -62,7 +62,7 @@ public class SplashFrame extends JFrame
 		startupFrame = null;
 	}
 
-	public static void main(String[] arg)
+	public static void main(String[] arg) ///W ? wozu main-Methode hier?
 	{
 		new SplashFrame();
 	}

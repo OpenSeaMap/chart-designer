@@ -41,8 +41,8 @@ public class JTileStoreCoveragePanel extends JCollapsiblePanel implements MapEve
 
 	private JButton showCoverage;
 	private JButton hideCoverage;
-	private JComboBox layerSelector;
-	private JComboBox zoomCombo;
+	private JComboBox<IfMapSource> layerSelector; ///W <IfMapSource>
+	private JComboBox<Integer> zoomCombo; ///W <Integer>
 	private PreviewMap mapViewer;
 
 	public JTileStoreCoveragePanel(PreviewMap mapViewer)
@@ -57,10 +57,10 @@ public class JTileStoreCoveragePanel extends JCollapsiblePanel implements MapEve
 		hideCoverage = new JButton(OSMCDStrs.RStr("lp_tile_store_hide_coverage_btn_title"));
 		hideCoverage.addActionListener(this);
 		hideCoverage.setEnabled(false);
-		zoomCombo = new JComboBox();
+		zoomCombo = new JComboBox<Integer>();
 		zoomCombo.setToolTipText(OSMCDStrs.RStr("lp_tile_store_zoom_combo_tips"));
 		titlePanel.setToolTipText(OSMCDStrs.RStr("lp_tile_store_title_tips"));
-		layerSelector = new JComboBox();
+		layerSelector = new JComboBox<IfMapSource>();
 
 		GBC gbc_eol = GBC.eol().insets(2, 2, 2, 2);
 		GBC gbc_std = GBC.std().insets(2, 2, 2, 2);
@@ -115,7 +115,7 @@ public class JTileStoreCoveragePanel extends JCollapsiblePanel implements MapEve
 		{
 			items[i] = new Integer(zoom++);
 		}
-		zoomCombo.setModel(new DefaultComboBoxModel(items));
+		zoomCombo.setModel(new DefaultComboBoxModel<Integer>(items));
 		zoomCombo.setMaximumRowCount(10);
 		zoomCombo.setSelectedItem(selZoom);
 		IfMapSource[] layers;
@@ -130,7 +130,7 @@ public class JTileStoreCoveragePanel extends JCollapsiblePanel implements MapEve
 			{ newMapSource };
 			layerSelector.setEnabled(false);
 		}
-		layerSelector.setModel(new DefaultComboBoxModel(layers));
+		layerSelector.setModel(new DefaultComboBoxModel<IfMapSource>(layers));
 		layerSelector.setSelectedIndex(0);
 	}
 

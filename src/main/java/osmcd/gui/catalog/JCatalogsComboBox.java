@@ -28,7 +28,7 @@ import osmb.program.catalog.IfCatalogProfile;
 /**
  * An editable {@link JComboBox} for displaying the saved atlases catalogs.
  */
-public class JCatalogsComboBox extends JComboBox
+public class JCatalogsComboBox extends JComboBox<Catalog> ///W <Catalog>
 {
 	private static final long serialVersionUID = 1L;
 
@@ -44,7 +44,7 @@ public class JCatalogsComboBox extends JComboBox
 	 */
 	public void loadCatalogsList()
 	{
-		setModel(new DefaultComboBoxModel(Catalog.getCatalogs()));
+		setModel(new DefaultComboBoxModel<Catalog>(Catalog.getCatalogs())); ///W <Catalog>
 		setSelectedIndex(-1);
 	}
 

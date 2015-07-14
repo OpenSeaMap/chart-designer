@@ -1,8 +1,8 @@
 package osmcd.gui;
 
-import java.awt.Container;
+///W import java.awt.Container;
 import java.awt.GridBagLayout;
-import java.awt.LayoutManager;
+///W import java.awt.LayoutManager;
 import java.awt.Toolkit;
 
 import javax.swing.DefaultComboBoxModel;
@@ -15,57 +15,68 @@ import osmcd.OSMCDStrs;
 import osmcd.gui.MainFrame.MapSourceComboListener;
 import osmcd.gui.components.JCollapsiblePanel;
 
+@SuppressWarnings("serial") ///W
 public class JMapSourcePanel extends JCollapsiblePanel
 {
-	private JComboBox mapSourceCombo = new JComboBox();
+	private JComboBox<IfMapSource> mapSourceCombo; ///W <IfMapSource>
 
-	public JMapSourcePanel(Container container, String title)
-	{
-		super(container, title);
-		// TODO Auto-generated constructor stub
-	}
-
-	public JMapSourcePanel(Container container)
-	{
-		super(container);
-		// TODO Auto-generated constructor stub
-	}
-
-	public JMapSourcePanel(String title, LayoutManager layout)
-	{
-		super(title, layout);
-		// TODO Auto-generated constructor stub
-	}
-
-	public JMapSourcePanel(String title)
-	{
-		super(title);
-		JCollapsiblePanel mapSourcePanel = new JCollapsiblePanel(title, new GridBagLayout());
-		mapSourcePanel.addContent(mapSourceCombo, GBC.std().insets(2, 2, 2, 2).fill());
-	}
+///W Block weg!
+//	public JMapSourcePanel(Container container, String title)
+//	{
+//		super(container, title);
+//		// TODO Auto-generated constructor stub
+//	}
+//
+//	public JMapSourcePanel(Container container)
+//	{
+//		super(container);
+//		// TODO Auto-generated constructor stub
+//	}
+//
+//	public JMapSourcePanel(String title, LayoutManager layout)
+//	{
+//		super(title, layout);
+//		// TODO Auto-generated constructor stub
+//	}
+//
+//	public JMapSourcePanel(String title)
+//	{
+//		super(title);
+//		JCollapsiblePanel mapSourcePanel = new JCollapsiblePanel(title, new GridBagLayout());
+//		mapSourcePanel.addContent(mapSourceCombo, GBC.std().insets(2, 2, 2, 2).fill());
+//	}
 
 	public JMapSourcePanel()
 	{
-		this(OSMCDStrs.RStr("MapSources.Title"));
-
+		super(OSMCDStrs.RStr("MapSources.Title"), new GridBagLayout());
 		// map source combo
-		mapSourceCombo = new JComboBox(ACMapSourcesManager.getInstance().getEnabledOrderedMapSources());
+		mapSourceCombo = new JComboBox<IfMapSource>(ACMapSourcesManager.getInstance().getEnabledOrderedMapSources());
 		mapSourceCombo.setMaximumRowCount(20);
-		// mapSourceCombo.addActionListener(new MainFrame.MapSourceComboListener());
 		mapSourceCombo.setToolTipText(OSMCDStrs.RStr("MapSourceCombo.ToolTips"));
+		addContent(mapSourceCombo, GBC.std().insets(2, 2, 2, 2).fill());
+		///W addSccollBar Horizont ?????????????
 	}
 
 	public IfMapSource getSelectedMapSource()
 	{
-		IfMapSource ms = (IfMapSource) mapSourceCombo.getSelectedItem();
-		// mapSourceCombo.setSelectedItem(ms);
-		if (ms == null)
-		{
-			mapSourceCombo.setModel(new DefaultComboBoxModel(ACMapSourcesManager.getInstance().getEnabledOrderedMapSources()));
-			mapSourceCombo.setSelectedIndex(0);
-			ms = (IfMapSource) mapSourceCombo.getSelectedItem();
-		}
+//		IfMapSource ms = (IfMapSource) mapSourceCombo.getSelectedItem();
+//		// mapSourceCombo.setSelectedItem(ms);
+//		if (ms == null)
+//		{
+//			mapSourceCombo.setModel(new DefaultComboBoxModel<IfMapSource>(ACMapSourcesManager.getInstance().getEnabledOrderedMapSources()));
+//			mapSourceCombo.setSelectedIndex(0);
+//			ms = (IfMapSource) mapSourceCombo.getSelectedItem();
+//		}
+		///W ? hiervor? => //
 		return (IfMapSource) mapSourceCombo.getSelectedItem();
+	}
+	
+	///W
+	public void updateMapSourceComboBox()
+	{
+		IfMapSource ms = getSelectedMapSource();
+		mapSourceCombo.setModel(new DefaultComboBoxModel<IfMapSource>(ACMapSourcesManager.getInstance().getEnabledOrderedMapSources()));
+		mapSourceCombo.setSelectedItem(ms);
 	}
 
 	public IfMapSource selectMapSource(IfMapSource newMapSource)

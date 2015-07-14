@@ -122,15 +122,19 @@ public class OSMCDSettings extends ACSettings
 	// Paper Atlas related settings
 	@XmlElement
 	private final SettingsPaperAtlas paperAtlas = new SettingsPaperAtlas();
+	
+	///W #####Tabauswahl Settings-Dialog
+	private int nSettingsTabSelected = -2; ///W #####firstStart: -2 <-> firstStart
 
 	/**
 	 * constructor should provide default values for every element
 	 */
-	protected OSMCDSettings() {
+	protected OSMCDSettings() ///W ? Was wird ausgeführt???
+	{
 		catalogName = "Layer";
-		Dimension dScreen = Toolkit.getDefaultToolkit().getScreenSize();
-		getMainWindow().size.width = (int) (0.9f * dScreen.width);
-		getMainWindow().size.height = (int) (0.9f * dScreen.height);
+		Dimension dScreen = Toolkit.getDefaultToolkit().getScreenSize();///W
+		getMainWindow().size.width = (int) (0.9f * dScreen.width);///W wird mit 'private MainWindowSettings mainWindow = new MainWindowSettings();' überschrieben
+		getMainWindow().size.height = (int) (0.9f * dScreen.height);///W dto
 		getMainWindow().collapsedPanels.add(JCoordinatesPanel.NAME);
 		getMainWindow().collapsedPanels.add("Gpx");
 	}
@@ -434,5 +438,15 @@ public class OSMCDSettings extends ACSettings
 	public void setGpxFileChooserDir(String gpxFileChooserDir)
 	{
 		this.gpxFileChooserDir = gpxFileChooserDir;
+	}
+	
+	///W ##### Tabauswahl Settings-Dialog
+	public int getSettingsTabSelected()
+	{
+		return nSettingsTabSelected;
+	}
+	public void setSettingsTabSelected(int nTabSel)
+	{
+		nSettingsTabSelected = nTabSel;
 	}
 }

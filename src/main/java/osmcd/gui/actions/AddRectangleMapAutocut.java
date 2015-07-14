@@ -45,7 +45,7 @@ import osmcd.program.SelectedZoomLevels;
  *         name scheme for trekbuddy atlases LNN with iMap names LNN-XXXX
  * 
  *         probably redirect this to AtlasCreator as base class of Bundle, since a lot of parameters are depending on the atlas format to produce Layer
- *         AtlasCreator.AddLayer(zoom, GUI.getUserText()) Add Layer (if necessary) and give name conformimg to name scheme of this atlas, use user given name,
+ *         AtlasCreator.AddLayer(zoom, GUI.getUserText()) Add Layer (if necessary) and give name conforming to name scheme of this atlas, use user given name,
  *         if any, AtlasCreator.
  * 
  */

@@ -250,8 +250,11 @@ public class JCatalogTree extends JTree implements Autoscroll
 					return true;
 				}
 			}
-			boolean problemsDetected = treeModel.getCatalog().check();
-			if (problemsDetected)
+//			boolean problemsDetected = treeModel.getCatalog().check();///W ? problemsDetected == bOK (boolean osmb.program.catalog.Catalog.check()), bOK = !isInvalid();
+//			///W aber leerer catalog -> bOK: Widerspruch zu loc-nls.properties Zeile 42: Catalog.DataCheckFailed=The catalog data are invalid. Probably it is empty.  
+//			if (problemsDetected)
+			///W Änderung in isInvalid() -> jetzt sind auch leere catalogs invalid
+			if (!(treeModel.getCatalog().check()))
 			{
 				JOptionPane.showMessageDialog(null, MSG_CATALOG_DATA_CHECK_FAILED, OSMCDStrs.RStr("CatalogTree.ProblemLoading"), JOptionPane.WARNING_MESSAGE);
 			}

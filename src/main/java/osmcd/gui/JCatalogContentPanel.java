@@ -4,6 +4,8 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.LayoutManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -72,8 +74,22 @@ public class JCatalogContentPanel extends JCollapsiblePanel
 		JButton addToLayers = new JButton(OSMCDStrs.RStr("CatalogTree.AddSelected"));
 		contentContainer.add(addToLayers, gbc_eol);
 		addToLayers.addActionListener(AddMapLayer.INSTANCE);
-		contentContainer.add(new JLabel(OSMCDStrs.RStr("CatalogTree.NameLabel")), gbc_eol);
-
+		///W --
+		//contentContainer.add(new JLabel(OSMCDStrs.RStr("CatalogTree.NameLabel")), gbc_eol);
+		///W ++
+		contentContainer.add(new JLabel(OSMCDStrs.RStr("CatalogTree.NameLabel")), gbc_std);
+		JButton saveNewCatalog = new JButton("Save new catalog");
+		contentContainer.add(saveNewCatalog, gbc_eol);
+		saveNewCatalog.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				getCatalogTree().save(); ///W true: Erfolg else???
+			}
+		});
+		///W end
+		
 		// catalog name text field
 		catalogNameTextField = new JCatalogNameField();
 		catalogNameTextField.setColumns(12);

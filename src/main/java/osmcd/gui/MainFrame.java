@@ -152,10 +152,10 @@ public class MainFrame extends JFrame implements MapEventListener
 	// public final JCatalogTree jCatalogTree = new JCatalogTree(previewMap);
 
 	private JCheckBox wgsGridCheckBox;
-	private JComboBox wgsGridCombo;
+	private JComboBox<WgsDensity> wgsGridCombo; ///W <WgsDensity>
 
 	private JLabel zoomLevelText;
-	private JComboBox gridZoomCombo;
+	private JComboBox<GridZoom> gridZoomCombo; ///W <GridZoom>
 	private JSlider zoomSlider;
 	// private JComboBox mapSourceCombo;
 	private JButton settingsButton;
@@ -180,13 +180,14 @@ public class MainFrame extends JFrame implements MapEventListener
 	private JPanel leftPane = new JPanel(new GridBagLayout());
 	private JPanel leftPanelContent = null;
 
-	private JCoordinatesPanel mCoordinatesPanel = new JCoordinatesPanel(); // selection coordinates
-	private JMapSourcePanel mMapSourcePanel = new JMapSourcePanel(); // map source
-	private JPanel mZoomLevelPanel = new JPanel();
-	private JTileImageParametersPanel mTileImageParametersPanel = new JTileImageParametersPanel(); // layer settings | custom tile processing
-	private JCatalogContentPanel mCatalogContentPanel = new JCatalogContentPanel(previewMap); // catalog content
-	private JCatalogsPanel mCatalogsPanel = new JCatalogsPanel(mCatalogContentPanel.getCatalogTree()); // saved catalogs
-	private JTileStoreCoveragePanel mTileStoreCoveragePanel = new JTileStoreCoveragePanel(previewMap); // tile store coverage
+	///W initialization of members in createLeftPanelControls()
+	private JCoordinatesPanel mCoordinatesPanel; // selection coordinates
+	private JMapSourcePanel mMapSourcePanel; // map source
+	private JPanel mZoomLevelPanel; // zoom levels
+	private JTileImageParametersPanel mTileImageParametersPanel;  // layer settings | custom tile processing
+	private JCatalogContentPanel mCatalogContentPanel; // catalog content
+	private JCatalogsPanel mCatalogsPanel; // saved catalogs
+	private JTileStoreCoveragePanel mTileStoreCoveragePanel; // tile store coverage
 
 	// In the right panel is currently only the gpx panel
 	private JPanel rightPane = new JPanel(new GridBagLayout());
@@ -208,6 +209,14 @@ public class MainFrame extends JFrame implements MapEventListener
 		mainGUI = new MainFrame();
 		mainGUI.setVisible(true);
 		log.trace("MainFrame now visible");
+	}
+	
+	public static void runFirstStart() ///W #####firstStart: beim ersten Start des Programms: Settings-Dialog.Directories starten
+	{
+		if (OSMCDSettings.getInstance().getSettingsTabSelected() == -2) ///W -2: firstStart
+		{
+			SettingsGUI.showSettingsDialog(mainGUI, 0);
+		}
 	}
 
 	public static MainFrame getMainGUI()
@@ -293,18 +302,18 @@ public class MainFrame extends JFrame implements MapEventListener
 		updateLeftPanel();
 		updateRightPanel();
 		// updateZoomLevelCheckBoxes();
-		// calculateNrOfTilesToDownload();
+		// calculateNrOfTilesToDownload(); ///W? XXXXXXXXXXXXXXXXXX
 
 		menuBar = new JMenuBar();
 		prepareMenuBar();
 		setJMenuBar(menuBar);
 
 		// the left pane consists of XX panels
-		updateZoomLevelCheckBoxes(); //W muss vor loadSettings() einmal aufgerufen werden!
+		updateZoomLevelCheckBoxes(); ///W muss vor loadSettings() einmal aufgerufen werden! ///W? XXXXXXXXXXXXXXXXXX
 		loadSettings();
 		mCatalogsPanel.initialize();
 		mapSourceChanged(previewMap.getMapSource());
-		//updateZoomLevelCheckBoxes(); //W ungeklärt, ?weg oder nochmal?
+		//updateZoomLevelCheckBoxes(); ///W ungeklärt, ?weg oder nochmal?
 		updateGridSizeCombo();
 		mTileImageParametersPanel.updateControlsState();
 		zoomChanged(previewMap.getZoom());
@@ -335,7 +344,7 @@ public class MainFrame extends JFrame implements MapEventListener
 		zoomLevelText.setToolTipText(OSMCDStrs.RStr("map_ctrl_zoom_level_title_tips"));
 
 		// grid zoom combo
-		gridZoomCombo = new JComboBox();
+		gridZoomCombo = new JComboBox<GridZoom>();
 		gridZoomCombo.setEditable(false);
 		gridZoomCombo.addActionListener(new GridZoomComboListener());
 		gridZoomCombo.setToolTipText(OSMCDStrs.RStr("map_ctrl_zoom_grid_tips"));
@@ -363,7 +372,7 @@ public class MainFrame extends JFrame implements MapEventListener
 		});
 
 		// WGS Grid combo
-		wgsGridCombo = new JComboBox(WgsDensity.values());
+		wgsGridCombo = new JComboBox<WgsDensity>(WgsDensity.values());
 		wgsGridCombo.setMaximumRowCount(WgsDensity.values().length);
 		wgsGridCombo.setVisible(s.enabled);
 		wgsGridCombo.setSelectedItem(s.density);
@@ -387,6 +396,7 @@ public class MainFrame extends JFrame implements MapEventListener
 	private void createLeftPanelControls()
 	{
 		// map source combo
+		mMapSourcePanel = new JMapSourcePanel();
 		mMapSourcePanel.addComboActionListener(new MapSourceComboListener());
 
 		// settings button
@@ -623,6 +633,7 @@ public class MainFrame extends JFrame implements MapEventListener
 		zoomLevelsPanel.addContent(mZoomLevelPanel, GBC.eol().insets(2, 4, 2, 0));
 		zoomLevelsPanel.addContent(amountOfTilesLabel, GBC.std().anchor(GBC.WEST).insets(0, 5, 0, 2));
 
+		@SuppressWarnings("unused")///W
 		GBC gbc_std = GBC.std().insets(5, 2, 5, 3);
 		GBC gbc_eol = GBC.eol().insets(5, 2, 5, 3);
 
@@ -646,7 +657,7 @@ public class MainFrame extends JFrame implements MapEventListener
 		// mCatalogContentPanel.addContent(new JLabel(OSMCDStrs.RStr("CatalogTree.NameLabel")), gbc_std);
 		// mCatalogContentPanel.addContent(catalogNameTextField, gbc_eol.fill(GBC.HORIZONTAL));
 
-		gbc_eol = GBC.eol().insets(5, 2, 5, 2).fill(GBC.HORIZONTAL);
+		gbc_eol = GBC.eol().insets(5, 2, 10, 2).fill(GBC.HORIZONTAL);///W alt (5, 2, 5, 2) wg Scrollbar
 
 		leftPanelContent = new JPanel(new GridBagLayout());
 		leftPanelContent.add(mCatalogsPanel, gbc_eol);
@@ -654,7 +665,7 @@ public class MainFrame extends JFrame implements MapEventListener
 		leftPanelContent.add(mMapSourcePanel, gbc_eol);
 		leftPanelContent.add(mTileStoreCoveragePanel, gbc_eol);
 		leftPanelContent.add(zoomLevelsPanel, gbc_eol);
-		// leftPanelContent.add(mCoordinatesPanel, gbc_eol);
+			leftPanelContent.add(mCoordinatesPanel, gbc_eol);///W //weg => funktioniert
 		leftPanelContent.add(mTileImageParametersPanel, gbc_eol);
 		// leftPanelContent.add(createAtlasButton, gbc_eol);
 		leftPanelContent.add(settingsButton, gbc_eol);
@@ -666,11 +677,11 @@ public class MainFrame extends JFrame implements MapEventListener
 		// Set the scroll pane width large enough so that the
 		// scroll bar has enough space to appear right to it
 		Dimension d = scrollPane.getPreferredSize();
-		d.width += 5 + scrollPane.getVerticalScrollBar().getWidth();
+		d.width += 0 + scrollPane.getVerticalScrollBar().getWidth();///W alt: += 5 + wg Scrollbar
 		// scrollPane.setPreferredSize(d);
 		scrollPane.setMinimumSize(d);
 		leftPane.add(scrollPane, GBC.std().fill());
-		// leftPanel.add(leftPanelContent, GBC.std().fill());
+		// leftPane.add(leftPanelContent, GBC.std().fill());///W (// leftPanel) weg, // leftPane hin
 	}
 
 	private void updateRightPanel()
@@ -716,12 +727,11 @@ public class MainFrame extends JFrame implements MapEventListener
 	public void updateMapSourcesList()
 	{
 		IfMapSource ms = mMapSourcePanel.getSelectedMapSource();
-		// IfMapSource ms = (IfMapSource) mapSourceCombo.getSelectedItem();
-		// mapSourceCombo.setModel(new DefaultComboBoxModel(ACMapSourcesManager.getInstance().getEnabledOrderedMapSources()));
-		// mapSourceCombo.setSelectedItem(ms);
-		// IfMapSource ms2 = (IfMapSource) mapSourceCombo.getSelectedItem();
-		// if (!ms.equals(ms2))
-		previewMap.setMapSource(ms);
+		///W 
+		mMapSourcePanel.updateMapSourceComboBox();
+		IfMapSource ms2 = mMapSourcePanel.getSelectedMapSource();
+		if (!ms.equals(ms2))
+			handleNewMapSource();
 	}
 
 	// public void updateBookmarksMenu()
@@ -751,8 +761,9 @@ public class MainFrame extends JFrame implements MapEventListener
  */
 	private void loadSettings()
 	{
-		new CatalogNew().actionPerformed(null);
-
+		///W test wozu immer mit neuem catalog anfangen
+		///new CatalogNew().actionPerformed(null);
+		
 		OSMCDSettings settings = OSMCDSettings.getInstance();
 		mCatalogsPanel.setCatalogName(settings.getCatalogName());
 		// catalogNameTextField.setText(settings.getCatalogName());
@@ -769,7 +780,7 @@ public class MainFrame extends JFrame implements MapEventListener
 					if (currentZoomCb.getZoomLevel() == currentListZoom)
 					{
 						currentZoomCb.setSelected(true);
-						//nextZoom = 1; //W Nutzen?: Fehler bei nicht festgelegter Reihenfolge in zoomList
+						//nextZoom = 1; ///W Nutzen?: Fehler bei nicht festgelegter Reihenfolge in zoomList
 						break;
 					}
 				}
@@ -951,6 +962,23 @@ public class MainFrame extends JFrame implements MapEventListener
 		}
 	}
 
+	///W auch in updateMapSourcesList() benötigt
+	private void handleNewMapSource()
+	{
+		IfMapSource mapSource = mMapSourcePanel.getSelectedMapSource();
+		// IfMapSource mapSource = (IfMapSource) mapSourceCombo.getSelectedItem();
+		if (mapSource instanceof IfInitializableMapSource)
+			// initialize the map source e.g. detect available zoom levels
+			((IfInitializableMapSource) mapSource).initialize();
+
+		previewMap.setMapSource(mapSource);
+		zoomSlider.setMinimum(mapSource.getMinZoom());
+		zoomSlider.setMaximum(mapSource.getMaxZoom());
+		updateGridSizeCombo();
+		updateZoomLevelCheckBoxes();
+		calculateNrOfTilesToDownload();
+	}
+	
 	/**
 	 * handles a newly selected map source from the list
 	 * 
@@ -962,18 +990,7 @@ public class MainFrame extends JFrame implements MapEventListener
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			IfMapSource mapSource = mMapSourcePanel.getSelectedMapSource();
-			// IfMapSource mapSource = (IfMapSource) mapSourceCombo.getSelectedItem();
-			if (mapSource instanceof IfInitializableMapSource)
-				// initialize the map source e.g. detect available zoom levels
-				((IfInitializableMapSource) mapSource).initialize();
-
-			previewMap.setMapSource(mapSource);
-			zoomSlider.setMinimum(mapSource.getMinZoom());
-			zoomSlider.setMaximum(mapSource.getMaxZoom());
-			updateGridSizeCombo();
-			updateZoomLevelCheckBoxes();
-			calculateNrOfTilesToDownload();
+			handleNewMapSource(); ///W 
 		}
 	}
 
@@ -999,7 +1016,7 @@ public class MainFrame extends JFrame implements MapEventListener
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			SettingsGUI.showSettingsDialog(MainFrame.this);
+			SettingsGUI.showSettingsDialog(MainFrame.this, OSMCDSettings.getInstance().getSettingsTabSelected());
 		}
 	}
 

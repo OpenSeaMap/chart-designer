@@ -25,7 +25,8 @@ import javax.swing.JComboBox;
 
 import org.apache.log4j.Logger;
 
-public class JIntCombo extends JComboBox {
+public class JIntCombo extends JComboBox<Integer> ///W <Integer>
+{
 
 	private static final long serialVersionUID = 1L;
 

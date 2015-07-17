@@ -414,8 +414,10 @@ public class PreviewMap extends JMapViewer
 
 		int zoomDiff = MAX_ZOOM - cZoom;
 
-		pNewEnd.x <<= zoomDiff;
-		pNewEnd.y <<= zoomDiff;
+		///W pNewEnd.x <<= zoomDiff;
+		pNewEnd.x = ((pNewEnd.x + 1) << zoomDiff) -1;
+		///W pNewEnd.y <<= zoomDiff;
+		pNewEnd.y = ((pNewEnd.y + 1) << zoomDiff) -1;
 		pNewStart.x <<= zoomDiff;
 		pNewStart.y <<= zoomDiff;
 

@@ -57,7 +57,8 @@ public class AddRectangleMapAutocut implements ActionListener
 	{
 		MainFrame mg = MainFrame.getMainGUI();
 		JCatalogTree catalogTree = mg.getCatalogTree();
-		final String mapNameFmt = "%s %03d";
+		// final String mapNameFmt = "%s %03d";
+		final String mapNameFmt = "%s";
 		IfCatalog catalog = catalogTree.getCatalog();
 		// String name = mg.getUserText();
 		IfMapSource mapSource = mg.getSelectedMapSource();
@@ -123,8 +124,9 @@ public class AddRectangleMapAutocut implements ActionListener
 			TileImageParameters customTileParameters = mg.getSelectedTileImageParameters();
 			try
 			{
-				String mapName = String.format(mapNameFmt, new Object[]
-				{ layerName, layer.getMapCount() });
+				// String mapName = String.format(mapNameFmt, new Object[]
+				// { layerName, layer.getMapCount() });
+				String mapName = layerName;
 				layer.addMapsAutocut(mapName, mapSource, tl, br, zoom, customTileParameters, settings.getMaxMapSize(), settings.getMapOverlapTiles());
 			}
 			catch (InvalidNameException e)

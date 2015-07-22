@@ -11,3 +11,10 @@
 /OSMChartDesigner.jar
 /OSMTest001
 /osmcb-catalog-OOTest.xml
+/settings.xml
+
+OSeaMChartDesigner ${osmcd.version}.zip
+OSeaMChartDesigner${osmcd.version}src.zip
+OSeaMChartDesigner.jar
+settings.xml
+settings.xml

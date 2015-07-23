@@ -1,4 +1,85 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <osmcdSettings>
+    <directories>
+        <bundleOutputDirectory>C:\Users\Public\Documents\Chart Bundles</bundleOutputDirectory>
+        <tileStoreDirectory>C:\Users\Public\Documents\OSMCB Tiles</tileStoreDirectory>
+        <catalogsDirectory>C:\Users\Public\Documents\OSMCB Catalogs</catalogsDirectory>
+    </directories>
+    <wgsGrid>
+        <color>#0000ff</color>
+        <compressLabels>false</compressLabels>
+        <density>SECOND_1</density>
+        <enabled>false</enabled>
+        <width>1.0</width>
+    </wgsGrid>
+    <mapSourcesDisabled/>
+    <mapSourcesEnabled>
+        <mapSource>AH OpenSeaMap - Mapnik</mapSource>
+        <mapSource>AH OpenStreetMap Mapnik</mapSource>
+    </mapSourcesEnabled>
+    <coordinateNumberFormat>DEG_LOCAL</coordinateNumberFormat>
+    <downloadRetryCount>1</downloadRetryCount>
+    <downloadThreadCount>2</downloadThreadCount>
+    <httpConnectionTimeout>10</httpConnectionTimeout>
+    <httpReadTimeout>10</httpReadTimeout>
+    <localeCountry></localeCountry>
+    <localeLanguage>en</localeLanguage>
+    <tileImageFormat>PNG</tileImageFormat>
+    <tileMaxExpirationTime>36236976038</tileMaxExpirationTime>
+    <tileMinExpirationTime>478419072</tileMinExpirationTime>
+    <tileSize>256/256</tileSize>
+    <tileStoreEnabled>true</tileStoreEnabled>
+    <unitSystem>Metric</unitSystem>
+    <userAgent>OSMCB/0.0.10</userAgent>
+    <version>0.1.12</version>
+    <catalogName>AHTest001</catalogName>
+    <gpxFileChooserDir></gpxFileChooserDir>
+    <mainWindow>
+        <size>1235/928</size>
+        <position>1996/90</position>
+        <maximized>true</maximized>
+        <leftPanelVisible>true</leftPanelVisible>
+        <rightPanelVisible>false</rightPanelVisible>
+        <collapsedPanels/>
+    </mainWindow>
+    <mapOverlapTiles>1</mapOverlapTiles>
+    <mapviewCenterCoordinate>
+        <lat>54.75633118164469</lat>
+        <lon>15.40283203125</lon>
+    </mapviewCenterCoordinate>
+    <mapviewGridZoom>16</mapviewGridZoom>
     <mapviewMapSource>AH OpenSeaMap - Mapnik</mapviewMapSource>
+    <mapviewSelectionMax>576344064/339605504</mapviewSelectionMax>
+    <mapviewSelectionMin>576344064/339605504</mapviewSelectionMin>
+    <mapviewZoom>7</mapviewZoom>
+    <maxMapSize>65536</maxMapSize>
+    <paperAtlas>
+        <compression>6</compression>
+        <crop>15</crop>
+        <dpi>96</dpi>
+        <marginBottom>14.173228346456693</marginBottom>
+        <marginLeft>14.173228346456693</marginLeft>
+        <marginRight>14.173228346456693</marginRight>
+        <marginTop>28.346456692913385</marginTop>
+        <overlap>28.2</overlap>
+        <compass>true</compass>
+        <pageNumbers>true</pageNumbers>
+        <scaleBar>true</scaleBar>
+        <wgsEnabled>true</wgsEnabled>
+        <paperSize>A4</paperSize>
+        <wgsDensity>SECOND_1</wgsDensity>
+    </paperAtlas>
+    <placeBookmarks/>
+    <selectedZoomLevels>
+        <zoomLevel>8</zoomLevel>
+        <zoomLevel>9</zoomLevel>
+        <zoomLevel>10</zoomLevel>
+        <zoomLevel>11</zoomLevel>
+        <zoomLevel>12</zoomLevel>
+        <zoomLevel>13</zoomLevel>
+        <zoomLevel>14</zoomLevel>
+        <zoomLevel>15</zoomLevel>
+        <zoomLevel>16</zoomLevel>
+    </selectedZoomLevels>
+    <settingsTabSelected>0</settingsTabSelected>
 </osmcdSettings>

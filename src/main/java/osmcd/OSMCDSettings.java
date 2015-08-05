@@ -20,6 +20,7 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -52,6 +53,7 @@ import osmb.utilities.OSMBUtilities;
 import osmb.utilities.geo.EastNorthCoordinate;
 import osmcd.gui.actions.GpxLoad;
 import osmcd.gui.components.JCoordinatesPanel;
+import osmcd.gui.components.JTileStoreCoveragePanel;
 import osmcd.program.Bookmark;
 import osmcd.program.ProgramInfo;
 import osmcd.program.SettingsPaperAtlas;
@@ -72,10 +74,10 @@ public class OSMCDSettings extends ACSettings
 		public Dimension size = new Dimension();
 		@XmlJavaTypeAdapter(PointAdapter.class)
 		public Point position = new Point(-1, -1);
-		public boolean maximized = true;
+		public boolean maximized = false;
 
 		public boolean leftPanelVisible = true;
-		public boolean rightPanelVisible = true;
+		// /W #--- public boolean rightPanelVisible = true;
 
 		@XmlElementWrapper(name = "collapsedPanels")
 		@XmlElement(name = "collapsedPanel")
@@ -105,10 +107,11 @@ public class OSMCDSettings extends ACSettings
 	// @XmlElement(nillable = false)
 	private String mapviewMapSource = null;
 	private String catalogName = null;
+	private boolean catalogNameMakeNew = true; // /W #boolNew
 
 	// Bookmark related
-	@XmlElementWrapper(name = "placeBookmarks")
-	@XmlElement(name = "bookmark")
+	// /W #--- @XmlElementWrapper(name = "placeBookmarks")
+	// /W #--- @XmlElement(name = "bookmark")
 	private List<Bookmark> placeBookmarks = new ArrayList<Bookmark>();
 
 	// public String osmHikingTicket = "";
@@ -120,23 +123,24 @@ public class OSMCDSettings extends ACSettings
 	private String gpxFileChooserDir = "";
 
 	// Paper Atlas related settings
-	@XmlElement
+	// /W #--- @XmlElement
 	private final SettingsPaperAtlas paperAtlas = new SettingsPaperAtlas();
 	
-	///W #####Tabauswahl Settings-Dialog
-	private int nSettingsTabSelected = -2; ///W #####firstStart: -2 <-> firstStart
+	// /W #tabSelection SettingsDialog
+	private int nSettingsTabSelected = -2; // /W #firstStart: -2 <-> firstStart
 
 	/**
 	 * constructor should provide default values for every element
 	 */
-	protected OSMCDSettings() ///W ? Was wird ausgeführt???
+	protected OSMCDSettings()
 	{
-		catalogName = "Layer";
-		Dimension dScreen = Toolkit.getDefaultToolkit().getScreenSize();///W
-		getMainWindow().size.width = (int) (0.9f * dScreen.width);///W wird mit 'private MainWindowSettings mainWindow = new MainWindowSettings();' überschrieben
-		getMainWindow().size.height = (int) (0.9f * dScreen.height);///W dto
+		// /W #??? catalogName = "Layer";
+		Dimension dScreen = Toolkit.getDefaultToolkit().getScreenSize();
+		getMainWindow().size.width = (int) (0.5f * dScreen.width);
+		getMainWindow().size.height = (int) (0.5f * dScreen.height);
 		getMainWindow().collapsedPanels.add(JCoordinatesPanel.NAME);
-		getMainWindow().collapsedPanels.add("Gpx");
+		getMainWindow().collapsedPanels.add(JTileStoreCoveragePanel.NAME);
+		// /W #--- getMainWindow().collapsedPanels.add("Gpx");
 	}
 
 	public static OSMCDSettings getInstance()
@@ -162,6 +166,11 @@ public class OSMCDSettings extends ACSettings
 					return true;
 				}
 			});
+			// /W #firstStart apply settings.xml to filesystem
+			File sets = getFile();
+			if (sets.length() == 0)
+				save(); // /W #???catch
+			
 			s = (OSMCDSettings) um.unmarshal(getFile());
 			s.getWgsGrid().checkValues();
 			s.paperAtlas.checkValues();
@@ -403,6 +412,22 @@ public class OSMCDSettings extends ACSettings
 	{
 		this.catalogName = catalogName;
 	}
+	
+	/**
+	 * @return option to start program with new catalog
+	 */
+	public boolean getCatalogNameMakeNew()
+	{
+		return catalogNameMakeNew;
+	}
+	
+	/**
+	 * @param option to start program with new catalog to set
+	 */
+	public void setCatalogNameMakeNew(boolean makeNew)
+	{
+		catalogNameMakeNew = makeNew;
+	}
 
 	/**
 	 * @return the placeBookmarks
@@ -430,6 +455,7 @@ public class OSMCDSettings extends ACSettings
 		return paperAtlas;
 	}
 
+	@XmlTransient // /W #---
 	public String getGpxFileChooserDir()
 	{
 		return gpxFileChooserDir;
@@ -440,7 +466,7 @@ public class OSMCDSettings extends ACSettings
 		this.gpxFileChooserDir = gpxFileChooserDir;
 	}
 	
-	///W ##### Tabauswahl Settings-Dialog
+	// /W #tabSelection SettingsDialog
 	public int getSettingsTabSelected()
 	{
 		return nSettingsTabSelected;

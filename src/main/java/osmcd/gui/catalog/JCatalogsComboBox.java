@@ -28,7 +28,7 @@ import osmb.program.catalog.IfCatalogProfile;
 /**
  * An editable {@link JComboBox} for displaying the saved atlases catalogs.
  */
-public class JCatalogsComboBox extends JComboBox<Catalog> ///W <Catalog>
+public class JCatalogsComboBox extends JComboBox<Catalog>
 {
 	private static final long serialVersionUID = 1L;
 
@@ -44,7 +44,7 @@ public class JCatalogsComboBox extends JComboBox<Catalog> ///W <Catalog>
 	 */
 	public void loadCatalogsList()
 	{
-		setModel(new DefaultComboBoxModel<Catalog>(Catalog.getCatalogs())); ///W <Catalog>
+		setModel(new DefaultComboBoxModel<Catalog>(Catalog.getCatalogs()));
 		setSelectedIndex(-1);
 	}
 
@@ -78,6 +78,28 @@ public class JCatalogsComboBox extends JComboBox<Catalog> ///W <Catalog>
 			return (IfCatalogProfile) selItem;
 		else
 			return null;
+	}
+	
+	/**
+	 * 
+	 */
+	public boolean setSelectedCatalogByName(String filenamePart)
+	{
+		if (Catalog.isCatalogsFileNamePart(filenamePart))
+		{
+			int nCount = getItemCount();
+			int nIter = 0;
+			while (nIter < nCount)
+			{
+				if (getItemAt(nIter).getFile().getName().equals(Catalog.getCatalogFileName(filenamePart)))
+				{
+					setSelectedIndex(nIter);
+					return true;
+				}
+				nIter++;
+			}
+		}
+		return false; 
 	}
 
 	protected static class CatalogsComboBoxEditor extends BasicComboBoxEditor

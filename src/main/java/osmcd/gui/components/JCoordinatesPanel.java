@@ -49,7 +49,7 @@ public class JCoordinatesPanel extends JCollapsiblePanel
 	private JCoordinateField latMaxTextField;
 	private JCoordinateField lonMinTextField;
 	private JCoordinateField lonMaxTextField;
-	private JButton applySelectionButton;
+	private JButton applySelectionButton; // /W #---
 	private CoordinateStringFormat csf = CoordinateStringFormat.DEG_ENG;
 
 	public JCoordinatesPanel()
@@ -66,7 +66,7 @@ public class JCoordinatesPanel extends JCollapsiblePanel
 		latMinTextField = new JCoordinateField(MapSelection.LAT_MIN, MapSelection.LAT_MAX);
 		latMinTextField.setActionCommand("latMinTextField");
 
-		applySelectionButton = new JButton(OSMCDStrs.RStr("lp_coords_select_btn_title"));
+		applySelectionButton = new JButton(OSMCDStrs.RStr("lp_coords_select_btn_title")); // /W #---
 
 		JLabel latMaxLabel = new JLabel(OSMCDStrs.RStr("lp_coords_label_N"), JLabel.CENTER);
 		JLabel lonMinLabel = new JLabel(OSMCDStrs.RStr("lp_coords_label_W"), JLabel.CENTER);
@@ -109,7 +109,7 @@ public class JCoordinatesPanel extends JCollapsiblePanel
 		southPanel.add(latMinLabel);
 		southPanel.add(latMinTextField);
 		contentContainer.add(southPanel, GBC.eol().anchor(GBC.CENTER));
-		contentContainer.add(applySelectionButton, GBC.eol().anchor(GBC.CENTER).insets(0, 5, 0, 0));
+		// /W #--- contentContainer.add(applySelectionButton, GBC.eol().anchor(GBC.CENTER).insets(0, 5, 0, 0));
 	}
 
 	public void setNumberFormat(CoordinateStringFormat csf)
@@ -206,6 +206,7 @@ public class JCoordinatesPanel extends JCollapsiblePanel
 		return new EastNorthCoordinate(latMinTextField.getCoordinateOrNaN(), lonMinTextField.getCoordinateOrNaN());
 	}
 
+	// /W #--- 
 	public void addButtonActionListener(ActionListener l)
 	{
 		applySelectionButton.addActionListener(l);

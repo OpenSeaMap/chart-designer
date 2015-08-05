@@ -20,6 +20,7 @@ import java.awt.Point;
 
 import osmb.mapsources.ACMultiLayerMapSource;
 import osmb.mapsources.IfMapSource;
+import osmb.mapsources.mapspace.MercatorPower2MapSpace; // /W #selCoord
 import osmb.program.map.IfMap;
 import osmb.program.map.IfMapSpace;
 import osmb.utilities.geo.EastNorthCoordinate;
@@ -28,10 +29,17 @@ import osmcd.gui.mapview.JMapViewer;
 
 public class MapSelection
 {
-	public static final int LAT_MAX = 85;
-	public static final int LAT_MIN = -85;
-	public static final int LON_MAX = 179;
-	public static final int LON_MIN = -179;
+	// /W #selCoord Only used in public JCoordinatesPanel(): new JCoordinateField(MapSelection.LAT_MIN, MapSelection.LAT_MAX) [JCoordinateField(double min, double max)]
+	// /W prevents correct use of possible input to JCoordinateField
+	// public static final int LAT_MAX = 85;
+	// public static final int LAT_MIN = -85;
+	// public static final int LON_MAX = 179;
+	// public static final int LON_MIN = -179;
+	public static final double LAT_MAX = MercatorPower2MapSpace.MAX_LAT;
+	public static final double LAT_MIN = MercatorPower2MapSpace.MIN_LAT;
+	public static final double LON_MAX = 180.0;
+	public static final double LON_MIN = -180.0;
+	
 
 	private final IfMapSource mapSource;
 	private final IfMapSpace mapSpace;

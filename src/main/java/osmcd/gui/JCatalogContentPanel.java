@@ -74,9 +74,9 @@ public class JCatalogContentPanel extends JCollapsiblePanel
 		JButton addToLayers = new JButton(OSMCDStrs.RStr("CatalogTree.AddSelected"));
 		contentContainer.add(addToLayers, gbc_eol);
 		addToLayers.addActionListener(AddMapLayer.INSTANCE);
-		///W --
+		// /W --
 		//contentContainer.add(new JLabel(OSMCDStrs.RStr("CatalogTree.NameLabel")), gbc_eol);
-		///W ++
+		// /W ++
 		contentContainer.add(new JLabel(OSMCDStrs.RStr("CatalogTree.NameLabel")), gbc_std);
 		JButton saveNewCatalog = new JButton("Save new catalog");
 		contentContainer.add(saveNewCatalog, gbc_eol);
@@ -88,7 +88,7 @@ public class JCatalogContentPanel extends JCollapsiblePanel
 				getCatalogTree().save(); ///W true: Erfolg else???
 			}
 		});
-		///W end
+		// /W end
 		
 		// catalog name text field
 		catalogNameTextField = new JCatalogNameField();

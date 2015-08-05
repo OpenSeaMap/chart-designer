@@ -32,7 +32,7 @@
     <unitSystem>Metric</unitSystem>
     <userAgent>OSMCB/0.0.10</userAgent>
     <version>0.1.12</version>
-    <catalogName>AHTest001</catalogName>
+    <catalogName>AHTest002</catalogName>
     <gpxFileChooserDir></gpxFileChooserDir>
     <mainWindow>
         <size>1235/928</size>
@@ -44,14 +44,12 @@
     </mainWindow>
     <mapOverlapTiles>1</mapOverlapTiles>
     <mapviewCenterCoordinate>
-        <lat>54.75633118164469</lat>
-        <lon>15.40283203125</lon>
+        <lat>55.4663993639382</lat>
+        <lon>14.12841796875</lon>
     </mapviewCenterCoordinate>
     <mapviewGridZoom>16</mapviewGridZoom>
     <mapviewMapSource>AH OpenSeaMap - Mapnik</mapviewMapSource>
-    <mapviewSelectionMax>576344064/339605504</mapviewSelectionMax>
-    <mapviewSelectionMin>576344064/339605504</mapviewSelectionMin>
-    <mapviewZoom>7</mapviewZoom>
+    <mapviewZoom>6</mapviewZoom>
     <maxMapSize>65536</maxMapSize>
     <paperAtlas>
         <compression>6</compression>

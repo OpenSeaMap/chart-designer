@@ -267,7 +267,7 @@ public class CatalogTreeModel implements TreeModel
 	 */
 	public void load(IfCatalogProfile catalog) throws Exception
 	{
-		mCatalog = catalog.load();
+		// mCatalog = catalog.load();
 		notifyStructureChanged();
 	}
 }

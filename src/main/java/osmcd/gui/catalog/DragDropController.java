@@ -63,7 +63,6 @@ public class DragDropController
 
 	protected class CatalogDragSource implements DragSourceListener, DragGestureListener
 	{
-
 		final DragGestureRecognizer recognizer;
 		final DragSource source;
 
@@ -121,7 +120,6 @@ public class DragDropController
 
 	protected class CatalogDropTarget implements DropTargetListener
 	{
-
 		final DropTarget target;
 
 		public CatalogDropTarget() throws HeadlessException
@@ -240,7 +238,5 @@ public class DragDropController
 			TreePath path = tree.getClosestPathForLocation(p.x, p.y);
 			return (TreeNode) path.getLastPathComponent();
 		}
-
 	}
-
 }

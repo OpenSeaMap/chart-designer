@@ -83,8 +83,9 @@ public class AddRectangleMapAutocut implements ActionListener
 			return;
 		}
 
-		for (int zoom : zoomLevels)
+		for (int z = zoomLevels.length; z > 0; --z)
 		{
+			int zoom = zoomLevels[z - 1];
 			boolean bNewLayer = false;
 			// String layerName = name;
 			String layerName = String.format("L%02d", zoom);

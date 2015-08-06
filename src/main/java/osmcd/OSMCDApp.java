@@ -22,6 +22,7 @@ import javax.swing.SwingUtilities;
 import osmb.mapsources.DefaultMapSourcesManager;
 import osmb.program.ACWindowsApp;
 import osmb.program.EnvironmentSetup;
+import osmb.program.catalog.Catalog;
 import osmb.program.tilestore.ACSiTileStore;
 import osmb.utilities.GUIExceptionHandler;
 import osmcd.gui.MainFrame;
@@ -31,6 +32,8 @@ import osmcd.program.ProgramInfo;
 
 public class OSMCDApp extends ACWindowsApp
 {
+	protected Catalog gCatalog = null;
+
 	static public OSMCDApp getApp()
 	{
 		return (OSMCDApp) gApp;
@@ -97,10 +100,10 @@ public class OSMCDApp extends ACWindowsApp
 					Logging.LOG.debug("Starting GUI");
 					MainFrame.createMainGui();
 					SplashFrame.hideFrame();
-					
+
 					// /W #firstStart
 					MainFrame.runFirstStart();
-					
+
 					runMainGUI();
 				}
 			});

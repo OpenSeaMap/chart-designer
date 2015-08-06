@@ -57,14 +57,14 @@ public class JCoordinatesPanel extends JCollapsiblePanel
 		super(OSMCDStrs.RStr("lp_coords_title"), new GridBagLayout());
 		setName(NAME);
 		// coordinates panel
+		latMinTextField = new JCoordinateField(MapSelection.LAT_MIN, MapSelection.LAT_MAX);
+		latMinTextField.setActionCommand("latMinTextField");
 		latMaxTextField = new JCoordinateField(MapSelection.LAT_MIN, MapSelection.LAT_MAX);
 		latMaxTextField.setActionCommand("latMaxTextField");
 		lonMinTextField = new JCoordinateField(MapSelection.LON_MIN, MapSelection.LON_MAX);
 		lonMinTextField.setActionCommand("longMinTextField");
 		lonMaxTextField = new JCoordinateField(MapSelection.LON_MIN, MapSelection.LON_MAX);
 		lonMaxTextField.setActionCommand("longMaxTextField");
-		latMinTextField = new JCoordinateField(MapSelection.LAT_MIN, MapSelection.LAT_MAX);
-		latMinTextField.setActionCommand("latMinTextField");
 
 		applySelectionButton = new JButton(OSMCDStrs.RStr("lp_coords_select_btn_title")); // /W #---
 
@@ -144,15 +144,15 @@ public class JCoordinatesPanel extends JCollapsiblePanel
 	public void setSelection(MercatorPixelCoordinate max, MercatorPixelCoordinate min)
 	{
 		EastNorthCoordinate c1 = min.getEastNorthCoordinate();
-		EastNorthCoordinate c2 = max.getEastNorthCoordinate();
 		latMaxTextField.setCoordinate(c1.lat);
-		lonMaxTextField.setCoordinate(c2.lon);
-		latMinTextField.setCoordinate(c2.lat);
 		lonMinTextField.setCoordinate(c1.lon);
+		EastNorthCoordinate c2 = max.getEastNorthCoordinate();
+		latMinTextField.setCoordinate(c2.lat);
+		lonMaxTextField.setCoordinate(c2.lon);
 	}
 
 	/**
-	 * Checks if the values for min/max langitude and min/max latitude are interchanged (smaller value in the max field and larger value in the min field) and
+	 * Checks if the values for min/max latitude and min/max longitude are disordered (smaller value in the max field and larger value in the min field) and
 	 * swaps them if necessary.
 	 */
 	public void correctMinMax()
@@ -206,7 +206,6 @@ public class JCoordinatesPanel extends JCollapsiblePanel
 		return new EastNorthCoordinate(latMinTextField.getCoordinateOrNaN(), lonMinTextField.getCoordinateOrNaN());
 	}
 
-	// /W #--- 
 	public void addButtonActionListener(ActionListener l)
 	{
 		applySelectionButton.addActionListener(l);
@@ -214,7 +213,6 @@ public class JCoordinatesPanel extends JCollapsiblePanel
 
 	protected class JNumberFormatMenuItem extends JMenuItem implements ActionListener
 	{
-
 		private static final long serialVersionUID = 1L;
 		private final CoordinateStringFormat csf;
 
@@ -231,6 +229,5 @@ public class JCoordinatesPanel extends JCollapsiblePanel
 			System.out.println(e);
 			JCoordinatesPanel.this.setNumberFormat(csf);
 		}
-
 	}
 }

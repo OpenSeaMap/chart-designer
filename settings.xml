@@ -25,49 +25,33 @@
     <localeCountry></localeCountry>
     <localeLanguage>en</localeLanguage>
     <tileImageFormat>PNG</tileImageFormat>
-    <tileMaxExpirationTime>36236976038</tileMaxExpirationTime>
-    <tileMinExpirationTime>478419072</tileMinExpirationTime>
+    <tileMaxExpirationTime>33810225583</tileMaxExpirationTime>
+    <tileMinExpirationTime>610478978</tileMinExpirationTime>
     <tileSize>256/256</tileSize>
     <tileStoreEnabled>true</tileStoreEnabled>
     <unitSystem>Metric</unitSystem>
     <userAgent>OSMCB/0.0.10</userAgent>
     <version>0.1.12</version>
-    <catalogName>AHTest002</catalogName>
-    <gpxFileChooserDir></gpxFileChooserDir>
+    <catalogName>AHTest003</catalogName>
+    <catalogNameMakeNew>false</catalogNameMakeNew>
     <mainWindow>
         <size>1235/928</size>
         <position>1996/90</position>
         <maximized>true</maximized>
         <leftPanelVisible>true</leftPanelVisible>
-        <rightPanelVisible>false</rightPanelVisible>
         <collapsedPanels/>
     </mainWindow>
     <mapOverlapTiles>1</mapOverlapTiles>
     <mapviewCenterCoordinate>
-        <lat>55.4663993639382</lat>
-        <lon>14.12841796875</lon>
+        <lat>50.62855775525793</lat>
+        <lon>0.737457275390625</lon>
     </mapviewCenterCoordinate>
     <mapviewGridZoom>16</mapviewGridZoom>
     <mapviewMapSource>AH OpenSeaMap - Mapnik</mapviewMapSource>
-    <mapviewZoom>6</mapviewZoom>
+    <mapviewSelectionMax>360732672/541382656</mapviewSelectionMax>
+    <mapviewSelectionMin>360731648/541382656</mapviewSelectionMin>
+    <mapviewZoom>10</mapviewZoom>
     <maxMapSize>65536</maxMapSize>
-    <paperAtlas>
-        <compression>6</compression>
-        <crop>15</crop>
-        <dpi>96</dpi>
-        <marginBottom>14.173228346456693</marginBottom>
-        <marginLeft>14.173228346456693</marginLeft>
-        <marginRight>14.173228346456693</marginRight>
-        <marginTop>28.346456692913385</marginTop>
-        <overlap>28.2</overlap>
-        <compass>true</compass>
-        <pageNumbers>true</pageNumbers>
-        <scaleBar>true</scaleBar>
-        <wgsEnabled>true</wgsEnabled>
-        <paperSize>A4</paperSize>
-        <wgsDensity>SECOND_1</wgsDensity>
-    </paperAtlas>
-    <placeBookmarks/>
     <selectedZoomLevels>
         <zoomLevel>8</zoomLevel>
         <zoomLevel>9</zoomLevel>
@@ -79,5 +63,5 @@
         <zoomLevel>15</zoomLevel>
         <zoomLevel>16</zoomLevel>
     </selectedZoomLevels>
-    <settingsTabSelected>0</settingsTabSelected>
+    <settingsTabSelected>6</settingsTabSelected>
 </osmcdSettings>

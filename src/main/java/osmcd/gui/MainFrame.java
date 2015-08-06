@@ -74,7 +74,6 @@ import osmb.mapsources.IfMapSource;
 import osmb.program.WgsGrid.WgsDensity;
 import osmb.program.WgsGridSettings;
 import osmb.program.catalog.IfCatalog;
-import osmb.program.catalog.IfCatalogProfile;
 import osmb.program.map.Layer;
 import osmb.program.tiles.TileImageParameters;
 import osmb.utilities.GBC;
@@ -219,6 +218,9 @@ public class MainFrame extends JFrame implements MapEventListener
 		log.trace("MainFrame now visible");
 	}
 
+	/**
+	 * Why runFirstStart(), this is called every time the program runs
+	 */
 	public static void runFirstStart() // /W #firstStart: at first start of the programms: open withSettingsDialog.Directories
 	{
 		if (OSMCDSettings.getInstance().getSettingsTabSelected() == -2) // /W -2: firstStart
@@ -436,7 +438,7 @@ public class MainFrame extends JFrame implements MapEventListener
 		mCatalogsPanel = new JCatalogsPanel(previewMap);
 		// /W +++ mCatalogsPanel = new JCatalogsPanel(mCatalogContentPanel.getCatalogTree());
 		// /W +++ mCatalogsPanel = new JCatalogsPanel(new JCatalogTree(previewMap));
-//		mCatalogsPanel.getLoadButton().addActionListener(new LoadCatalogListener()); // /W ???
+		// mCatalogsPanel.getLoadButton().addActionListener(new LoadCatalogListener()); // /W ???
 		mTileStoreCoveragePanel = new JTileStoreCoveragePanel(previewMap);
 	}
 
@@ -651,8 +653,8 @@ public class MainFrame extends JFrame implements MapEventListener
 		// mCatalogContentPanel = new JCatalogContentPanel(previewMap);
 		// /W mCatalogContentPanel.addListener(mCatalogsPanel);
 		// /W wird zu
-		//mCatalogsPanel.addListener(); // /W +++ ?wieso hier -> JCatalogsPanel(PreviewMap previewMap)
-		
+		// mCatalogsPanel.addListener(); // /W +++ ?wieso hier -> JCatalogsPanel(PreviewMap previewMap)
+
 		// // The catalog content panel hosts a collapsible tree
 		// JCollapsiblePanel mCatalogContentPanel = new JCollapsiblePanel(OSMCDStrs.RStr("CatalogTree.Title"), new GridBagLayout());
 		// JScrollPane treeScrollPane = new JScrollPane(jCatalogTree, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -848,7 +850,7 @@ public class MainFrame extends JFrame implements MapEventListener
 			if (mCatalogsPanel.getCatalog().getLayerCount() > 0)
 				mCatalogsPanel.getCatalogTree().save();
 			// else: empty catalog -> do nothing
-			
+
 			OSMCDSettings s = OSMCDSettings.getInstance();
 			previewMap.settingsSave();
 			s.setMapviewMapSource(previewMap.getMapSource().getName());
@@ -898,7 +900,7 @@ public class MainFrame extends JFrame implements MapEventListener
 		OSMCDSettings.save();
 	}
 
-	// /W #--- 
+	// /W #---
 	public JTileImageParametersPanel getParametersPanel()
 	{
 		return mTileImageParametersPanel;
@@ -935,13 +937,13 @@ public class MainFrame extends JFrame implements MapEventListener
 				return;
 			log.debug("Selected grid zoom combo box item has changed: " + g.getZoom());
 			previewMap.setGridZoom(g.getZoom());
-			
+
 			// /W #selCoord
 			if (g.getZoom() < 0)
 				CoordinateTileFormat.setActZoom(JMapViewer.MAX_ZOOM);
 			else
 				CoordinateTileFormat.setActZoom(g.getZoom());
-			
+
 			repaint();
 			previewMap.updateMapSelection();
 		}
@@ -1015,27 +1017,27 @@ public class MainFrame extends JFrame implements MapEventListener
 		}
 	}
 
-//	private class LoadCatalogListener implements ActionListener
-//	{
-//		@Override
-//		public void actionPerformed(ActionEvent e)
-//		{
-//			IfCatalogProfile profile = mCatalogsPanel.getSelectedCatalog();
-//			mCatalogsPanel.getDeleteButton().setEnabled(profile != null);
-//			if (profile == null)
-//				return;
-//
-//			// jCatalogTree.load(profile);
-//			
-//			// /W mCatalogContentPanel.getCatalogTree().load(profile);
-//			// /W +++ wird zu
-//			mCatalogsPanel.getCatalogTree().load(profile);
-//			
-//			
-//			previewMap.repaint();
-//			// mTileImageParametersPanel.bundleFormatChanged(jBundleTree.getBundle().getOutputFormat());
-//		}
-//	}
+	// private class LoadCatalogListener implements ActionListener
+	// {
+	// @Override
+	// public void actionPerformed(ActionEvent e)
+	// {
+	// IfCatalogProfile profile = mCatalogsPanel.getSelectedCatalog();
+	// mCatalogsPanel.getDeleteButton().setEnabled(profile != null);
+	// if (profile == null)
+	// return;
+	//
+	// // jCatalogTree.load(profile);
+	//
+	// // /W mCatalogContentPanel.getCatalogTree().load(profile);
+	// // /W +++ wird zu
+	// mCatalogsPanel.getCatalogTree().load(profile);
+	//
+	//
+	// previewMap.repaint();
+	// // mTileImageParametersPanel.bundleFormatChanged(jBundleTree.getBundle().getOutputFormat());
+	// }
+	// }
 
 	private class SettingsButtonListener implements ActionListener
 	{
@@ -1165,7 +1167,7 @@ public class MainFrame extends JFrame implements MapEventListener
 		return new MapSelection(previewMap.getMapSource(), mapSelectionMax, mapSelectionMin);
 	}
 
-	// /W #--- 
+	// /W #---
 	public TileImageParameters getSelectedTileImageParameters()
 	{
 		return mTileImageParametersPanel.getSelectedTileImageParameters();

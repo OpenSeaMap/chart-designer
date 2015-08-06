@@ -125,7 +125,7 @@ public class OSMCDSettings extends ACSettings
 	// Paper Atlas related settings
 	// /W #--- @XmlElement
 	private final SettingsPaperAtlas paperAtlas = new SettingsPaperAtlas();
-	
+
 	// /W #tabSelection SettingsDialog
 	private int nSettingsTabSelected = -2; // /W #firstStart: -2 <-> firstStart
 
@@ -170,7 +170,7 @@ public class OSMCDSettings extends ACSettings
 			File sets = getFile();
 			if (sets.length() == 0)
 				save(); // /W #???catch
-			
+
 			s = (OSMCDSettings) um.unmarshal(getFile());
 			s.getWgsGrid().checkValues();
 			s.paperAtlas.checkValues();
@@ -412,7 +412,7 @@ public class OSMCDSettings extends ACSettings
 	{
 		this.catalogName = catalogName;
 	}
-	
+
 	/**
 	 * @return option to start program with new catalog
 	 */
@@ -420,9 +420,10 @@ public class OSMCDSettings extends ACSettings
 	{
 		return catalogNameMakeNew;
 	}
-	
+
 	/**
-	 * @param option to start program with new catalog to set
+	 * @param option
+	 *          to start program with new catalog to set
 	 */
 	public void setCatalogNameMakeNew(boolean makeNew)
 	{
@@ -455,7 +456,8 @@ public class OSMCDSettings extends ACSettings
 		return paperAtlas;
 	}
 
-	@XmlTransient // /W #---
+	@XmlTransient
+	// /W #---
 	public String getGpxFileChooserDir()
 	{
 		return gpxFileChooserDir;
@@ -465,12 +467,13 @@ public class OSMCDSettings extends ACSettings
 	{
 		this.gpxFileChooserDir = gpxFileChooserDir;
 	}
-	
+
 	// /W #tabSelection SettingsDialog
 	public int getSettingsTabSelected()
 	{
 		return nSettingsTabSelected;
 	}
+
 	public void setSettingsTabSelected(int nTabSel)
 	{
 		nSettingsTabSelected = nTabSel;

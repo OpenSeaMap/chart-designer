@@ -38,6 +38,7 @@ import osmcd.gui.mapview.TileStoreCoverageLayer;
 public class JTileStoreCoveragePanel extends JCollapsiblePanel implements MapEventListener, ActionListener
 {
 	private static final long serialVersionUID = 1L;
+	public static final String NAME = OSMCDStrs.RStr("lp_tile_store_title"); // /W to collapse panel at #firstStart
 
 	private JButton showCoverage;
 	private JButton hideCoverage;
@@ -48,6 +49,7 @@ public class JTileStoreCoveragePanel extends JCollapsiblePanel implements MapEve
 	public JTileStoreCoveragePanel(PreviewMap mapViewer)
 	{
 		super(OSMCDStrs.RStr("lp_tile_store_title"));
+		setName(NAME);
 		contentContainer.setLayout(new GridBagLayout());
 		this.mapViewer = mapViewer;
 

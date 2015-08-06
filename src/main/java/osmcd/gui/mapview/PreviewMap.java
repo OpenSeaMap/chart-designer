@@ -124,9 +124,9 @@ public class PreviewMap extends JMapViewer
 		OSMCDSettings settings = OSMCDSettings.getInstance();
 		IfMapSource mapSource = ACMapSourcesManager.getInstance().getSourceByName(settings.getMapviewMapSource());
 		if (mapSource != null)
-			setMapSource(mapSource);///W else? Standard??? knallt ohne settings-Eintrag
-		else
-			mapSource = ACMapSourcesManager.getInstance().getDefaultMapSource();///W
+			setMapSource(mapSource);
+		else // /W
+			mapSource = ACMapSourcesManager.getInstance().getDefaultMapSource();
 		EastNorthCoordinate c = settings.getMapviewCenterCoordinate();
 		gridZoom = settings.getMapviewGridZoom();
 		setDisplayPositionByLatLon(c, settings.getMapviewZoom());
@@ -156,7 +156,7 @@ public class PreviewMap extends JMapViewer
 			for (MapEventListener listener : mapEventListeners)
 				listener.zoomChanged(zoom);
 		updateGridValues();
-		log.trace("zoomChanged()");
+		// log.trace("zoomChanged()"); // /W #???
 	}
 
 	public void setGridZoom(int gridZoom)
@@ -414,9 +414,9 @@ public class PreviewMap extends JMapViewer
 
 		int zoomDiff = MAX_ZOOM - cZoom;
 
-		///W pNewEnd.x <<= zoomDiff;
+		// /W pNewEnd.x <<= zoomDiff;
 		pNewEnd.x = ((pNewEnd.x + 1) << zoomDiff) -1;
-		///W pNewEnd.y <<= zoomDiff;
+		// /W pNewEnd.y <<= zoomDiff;
 		pNewEnd.y = ((pNewEnd.y + 1) << zoomDiff) -1;
 		pNewStart.x <<= zoomDiff;
 		pNewStart.y <<= zoomDiff;
@@ -490,8 +490,8 @@ public class PreviewMap extends JMapViewer
 		}
 		MercatorPixelCoordinate min = new MercatorPixelCoordinate(mapSource.getMapSpace(), x_min, y_min, MAX_ZOOM);
 		MercatorPixelCoordinate max = new MercatorPixelCoordinate(mapSource.getMapSpace(), x_max, y_max, MAX_ZOOM);
-		 log.debug("sel min: [" + min + "]");///W //weg
-		 log.debug("sel max: [" + max + "]");///W //weg
+		log.debug("sel min: [" + min + "]"); // /W //
+		log.debug("sel max: [" + max + "]"); // /W //
 		for (MapEventListener listener : mapEventListeners)
 			listener.selectionChanged(max, min);
 	}

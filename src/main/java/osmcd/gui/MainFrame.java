@@ -80,6 +80,7 @@ import osmb.program.tiles.TileImageParameters;
 import osmb.utilities.GBC;
 import osmb.utilities.GUIExceptionHandler;
 import osmb.utilities.OSMBUtilities;
+import osmb.utilities.geo.CoordinateTileFormat;
 import osmb.utilities.image.MercatorPixelCoordinate;
 import osmcd.OSMCDSettings;
 import osmcd.OSMCDStrs;
@@ -191,8 +192,8 @@ public class MainFrame extends JFrame implements MapEventListener
 	private JCoordinatesPanel mCoordinatesPanel; // selection coordinates
 	private JMapSourcePanel mMapSourcePanel; // map source
 	private JPanel mZoomLevelPanel; // zoom levels
-	private JTileImageParametersPanel mTileImageParametersPanel; // layer settings | custom tile processing
-	private JCatalogContentPanel mCatalogContentPanel; // catalog content
+	private JTileImageParametersPanel mTileImageParametersPanel; // /W #--- // layer settings | custom tile processing
+	// /W +++ private JCatalogContentPanel mCatalogContentPanel; // catalog content
 	private JCatalogsPanel mCatalogsPanel; // saved catalogs
 	private JTileStoreCoveragePanel mTileStoreCoveragePanel; // tile store coverage
 
@@ -218,7 +219,7 @@ public class MainFrame extends JFrame implements MapEventListener
 		log.trace("MainFrame now visible");
 	}
 
-	public static void runFirstStart() // /W #####firstStart: beim ersten Start des Programms: Settings-Dialog.Directories starten
+	public static void runFirstStart() // /W #firstStart: at first start of the programms: open withSettingsDialog.Directories
 	{
 		if (OSMCDSettings.getInstance().getSettingsTabSelected() == -2) // /W -2: firstStart
 		{
@@ -299,7 +300,7 @@ public class MainFrame extends JFrame implements MapEventListener
 		calculateNrOfTilesToDownload();
 		setLayout(new BorderLayout());
 		add(leftPane, BorderLayout.WEST);
-		add(rightPane, BorderLayout.EAST);
+		// /W #--- add(rightPane, BorderLayout.EAST);
 		JLayeredPane layeredPane = new FilledLayeredPane();
 		layeredPane.add(previewMap, Integer.valueOf(0));
 		layeredPane.add(mapControlsPanel, Integer.valueOf(1));
@@ -309,20 +310,20 @@ public class MainFrame extends JFrame implements MapEventListener
 		updateLeftPanel();
 		updateRightPanel();
 		// updateZoomLevelCheckBoxes();
-		// calculateNrOfTilesToDownload(); ///W? XXXXXXXXXXXXXXXXXX
+		// calculateNrOfTilesToDownload(); // /W #???
 
 		menuBar = new JMenuBar();
 		prepareMenuBar();
 		setJMenuBar(menuBar);
 
 		// the left pane consists of XX panels
-		updateZoomLevelCheckBoxes(); // /W muss vor loadSettings() einmal aufgerufen werden! ///W? XXXXXXXXXXXXXXXXXX
+		updateZoomLevelCheckBoxes(); // /W muss vor loadSettings() einmal aufgerufen werden! // /W? #???
 		loadSettings();
 		mCatalogsPanel.initialize();
 		mapSourceChanged(previewMap.getMapSource());
-		// updateZoomLevelCheckBoxes(); ///W ungeklärt, ?weg oder nochmal?
+		// updateZoomLevelCheckBoxes(); // /W ungeklärt, ?weg oder nochmal?
 		updateGridSizeCombo();
-		mTileImageParametersPanel.updateControlsState();
+		mTileImageParametersPanel.updateControlsState(); // /W #---
 		zoomChanged(previewMap.getZoom());
 		gridZoomChanged(previewMap.getGridZoom());
 		previewMap.updateMapSelection();
@@ -430,10 +431,12 @@ public class MainFrame extends JFrame implements MapEventListener
 		amountOfTilesLabel.setForeground(labelForegroundColor);
 
 		mCoordinatesPanel = new JCoordinatesPanel();
-		mTileImageParametersPanel = new JTileImageParametersPanel();
-		mCatalogContentPanel = new JCatalogContentPanel(previewMap);
-		mCatalogsPanel = new JCatalogsPanel(mCatalogContentPanel.getCatalogTree());
-		mCatalogsPanel.getLoadButton().addActionListener(new LoadCatalogListener());
+		mTileImageParametersPanel = new JTileImageParametersPanel(); // /W #---
+		// /W #--- mCatalogContentPanel = new JCatalogContentPanel(previewMap);
+		mCatalogsPanel = new JCatalogsPanel(previewMap);
+		// /W +++ mCatalogsPanel = new JCatalogsPanel(mCatalogContentPanel.getCatalogTree());
+		// /W +++ mCatalogsPanel = new JCatalogsPanel(new JCatalogTree(previewMap));
+//		mCatalogsPanel.getLoadButton().addActionListener(new LoadCatalogListener()); // /W ???
 		mTileStoreCoveragePanel = new JTileStoreCoveragePanel(previewMap);
 	}
 
@@ -444,7 +447,7 @@ public class MainFrame extends JFrame implements MapEventListener
 
 	private void prepareMenuBar()
 	{
-		// Bundle menu
+		// Bundle menu // /W #---
 		JMenu bundleMenu = new JMenu(OSMCDStrs.RStr("Menu.Catalog"));
 		bundleMenu.setMnemonic(KeyEvent.VK_A);
 
@@ -460,7 +463,7 @@ public class MainFrame extends JFrame implements MapEventListener
 		mapsMenu.setMnemonic(KeyEvent.VK_M);
 		JMenu selectionModeMenu = new JMenu(OSMCDStrs.RStr("menu_maps_selection"));
 		selectionModeMenu.setMnemonic(KeyEvent.VK_M);
-		mapsMenu.add(selectionModeMenu);
+		// /W #--- mapsMenu.add(selectionModeMenu);
 
 		smRectangle = new JRadioButtonMenuItem(OSMCDStrs.RStr("menu_maps_selection_rect"));
 		smRectangle.addActionListener(new SelectionModeRectangle());
@@ -482,10 +485,10 @@ public class MainFrame extends JFrame implements MapEventListener
 		mapsMenu.add(addSelection);
 
 		JMenuItem addGpxTrackSelection = new JMenuItem2(OSMCDStrs.RStr("menu_maps_selection_add_around_gpx"), AddGpxTrackPolygonMap.class);
-		mapsMenu.add(addGpxTrackSelection);
+		// /W #--- mapsMenu.add(addGpxTrackSelection);
 
 		JMenuItem addGpxTrackAreaSelection = new JMenuItem2(OSMCDStrs.RStr("menu_maps_selection_add_by_gpx"), AddGpxTrackAreaPolygonMap.class);
-		mapsMenu.add(addGpxTrackAreaSelection);
+		// /W #--- mapsMenu.add(addGpxTrackAreaSelection);
 
 		// // Bookmarks menu
 		// bookmarkMenu = new JMenu(OSMCDStrs.RStr("menu_bookmark"));
@@ -508,9 +511,9 @@ public class MainFrame extends JFrame implements MapEventListener
 		JMenuItem showRightPanel = new JMenuItem(OSMCDStrs.RStr("menu_show_hide_gpx_panel"));
 		showRightPanel.addActionListener(new PanelShowHide(rightPane));
 		panelsMenu.add(showLeftPanel);
-		panelsMenu.add(showRightPanel);
+		// /W #--- panelsMenu.add(showRightPanel);
 
-		menuBar.add(bundleMenu);
+		// /W #--- menuBar.add(bundleMenu);
 		menuBar.add(mapsMenu);
 		// menuBar.add(bookmarkMenu);
 		menuBar.add(panelsMenu);
@@ -634,7 +637,7 @@ public class MainFrame extends JFrame implements MapEventListener
 	{
 		leftPane.removeAll();
 
-		mCoordinatesPanel.addButtonActionListener(new ApplySelectionButtonListener());
+		// /W #--- mCoordinatesPanel.addButtonActionListener(new ApplySelectionButtonListener());
 
 		JCollapsiblePanel zoomLevelsPanel = new JCollapsiblePanel(OSMCDStrs.RStr("Zoomlevel.Title"), new GridBagLayout());
 		zoomLevelsPanel.addContent(mZoomLevelPanel, GBC.eol().insets(2, 4, 2, 0));
@@ -646,7 +649,10 @@ public class MainFrame extends JFrame implements MapEventListener
 		GBC gbc_eol = GBC.eol().insets(5, 2, 5, 3);
 
 		// mCatalogContentPanel = new JCatalogContentPanel(previewMap);
-		mCatalogContentPanel.addListener(mCatalogsPanel);
+		// /W mCatalogContentPanel.addListener(mCatalogsPanel);
+		// /W wird zu
+		//mCatalogsPanel.addListener(); // /W +++ ?wieso hier -> JCatalogsPanel(PreviewMap previewMap)
+		
 		// // The catalog content panel hosts a collapsible tree
 		// JCollapsiblePanel mCatalogContentPanel = new JCollapsiblePanel(OSMCDStrs.RStr("CatalogTree.Title"), new GridBagLayout());
 		// JScrollPane treeScrollPane = new JScrollPane(jCatalogTree, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -669,12 +675,12 @@ public class MainFrame extends JFrame implements MapEventListener
 
 		leftPanelContent = new JPanel(new GridBagLayout());
 		leftPanelContent.add(mCatalogsPanel, gbc_eol);
-		leftPanelContent.add(mCatalogContentPanel, gbc_eol);
+		// /W +++ leftPanelContent.add(mCatalogContentPanel, gbc_eol);
 		leftPanelContent.add(mMapSourcePanel, gbc_eol);
 		leftPanelContent.add(mTileStoreCoveragePanel, gbc_eol);
 		leftPanelContent.add(zoomLevelsPanel, gbc_eol);
 		leftPanelContent.add(mCoordinatesPanel, gbc_eol);// /W //weg => funktioniert
-		leftPanelContent.add(mTileImageParametersPanel, gbc_eol);
+		// /W #--- leftPanelContent.add(mTileImageParametersPanel, gbc_eol);
 		// leftPanelContent.add(createAtlasButton, gbc_eol);
 		leftPanelContent.add(settingsButton, gbc_eol);
 		leftPanelContent.add(Box.createVerticalGlue(), GBC.eol().fill(GBC.VERTICAL));
@@ -685,11 +691,11 @@ public class MainFrame extends JFrame implements MapEventListener
 		// Set the scroll pane width large enough so that the
 		// scroll bar has enough space to appear right to it
 		Dimension d = scrollPane.getPreferredSize();
-		d.width += 0 + scrollPane.getVerticalScrollBar().getWidth();// /W alt: += 5 + wg Scrollbar
+		d.width += 0 + scrollPane.getVerticalScrollBar().getWidth();// /W old: += 5 + (to see more of scrollbar)
 		// scrollPane.setPreferredSize(d);
 		scrollPane.setMinimumSize(d);
 		leftPane.add(scrollPane, GBC.std().fill());
-		// leftPane.add(leftPanelContent, GBC.std().fill());///W (// leftPanel) weg, // leftPane hin
+		// leftPane.add(leftPanelContent, GBC.std().fill());
 	}
 
 	private void updateRightPanel()
@@ -764,17 +770,17 @@ public class MainFrame extends JFrame implements MapEventListener
 	// bookmarkMenu.add(new JBookmarkMenuItem(b));
 	// }
 	// }
+
 	/**
- * 
- */
+	 * 
+	 */
 	private void loadSettings()
 	{
 		// /W test wozu immer mit neuem catalog anfangen
 		// /new CatalogNew().actionPerformed(null);
 
 		OSMCDSettings settings = OSMCDSettings.getInstance();
-		mCatalogsPanel.setCatalogName(settings.getCatalogName());
-		// catalogNameTextField.setText(settings.getCatalogName());
+
 		previewMap.settingsLoad();
 		int nextZoom = 0;
 		List<Integer> zoomList = settings.getSelectedZoomLevels();
@@ -788,7 +794,7 @@ public class MainFrame extends JFrame implements MapEventListener
 					if (currentZoomCb.getZoomLevel() == currentListZoom)
 					{
 						currentZoomCb.setSelected(true);
-						// nextZoom = 1; ///W Nutzen?: Fehler bei nicht festgelegter Reihenfolge in zoomList
+						// nextZoom = 1; // /W Nutzen?: Fehler bei nicht festgelegter Reihenfolge in zoomList
 						break;
 					}
 				}
@@ -796,7 +802,7 @@ public class MainFrame extends JFrame implements MapEventListener
 		}
 		mCoordinatesPanel.setNumberFormat(settings.getCoordinateNumberFormat());
 
-		mTileImageParametersPanel.loadSettings();
+		mTileImageParametersPanel.loadSettings(); // /W #---
 		// mTileImageParametersPanel.bundleFormatChanged(jBundleTree.getBundle().getOutputFormat());
 		// mapSourceCombo
 		// .setSelectedItem(MapSourcesManager.getSourceByName(settings.
@@ -816,7 +822,7 @@ public class MainFrame extends JFrame implements MapEventListener
 			setExtendedState(Frame.MAXIMIZED_BOTH);
 
 		leftPane.setVisible(settings.getMainWindow().leftPanelVisible);
-		rightPane.setVisible(settings.getMainWindow().rightPanelVisible);
+		// /W #--- rightPane.setVisible(settings.getMainWindow().rightPanelVisible);
 
 		if (leftPanelContent != null)
 		{
@@ -839,17 +845,16 @@ public class MainFrame extends JFrame implements MapEventListener
 		try
 		{
 			// jCatalogTree.save()
-			mCatalogContentPanel.getCatalogTree().save();
-
+			if (mCatalogsPanel.getCatalog().getLayerCount() > 0)
+				mCatalogsPanel.getCatalogTree().save();
+			// else: empty catalog -> do nothing
+			
 			OSMCDSettings s = OSMCDSettings.getInstance();
 			previewMap.settingsSave();
 			s.setMapviewMapSource(previewMap.getMapSource().getName());
 			s.setSelectedZoomLevels(new SelectedZoomLevels(cbZoom).getZoomLevelList());
-
-			s.setCatalogName(mCatalogContentPanel.getCatalog().getName());
 			s.setCoordinateNumberFormat(mCoordinatesPanel.getNumberFormat());
-
-			mTileImageParametersPanel.saveSettings();
+			mTileImageParametersPanel.saveSettings(); // /W #---
 			boolean maximized = (getExtendedState() & Frame.MAXIMIZED_BOTH) != 0;
 			s.getMainWindow().maximized = maximized;
 			if (!maximized)
@@ -871,7 +876,7 @@ public class MainFrame extends JFrame implements MapEventListener
 				}
 			}
 			s.getMainWindow().leftPanelVisible = leftPane.isVisible();
-			s.getMainWindow().rightPanelVisible = rightPane.isVisible();
+			// /W #--- s.getMainWindow().rightPanelVisible = rightPane.isVisible();
 			checkAndSaveSettings();
 		}
 		catch (Exception e)
@@ -893,6 +898,7 @@ public class MainFrame extends JFrame implements MapEventListener
 		OSMCDSettings.save();
 	}
 
+	// /W #--- 
 	public JTileImageParametersPanel getParametersPanel()
 	{
 		return mTileImageParametersPanel;
@@ -929,6 +935,13 @@ public class MainFrame extends JFrame implements MapEventListener
 				return;
 			log.debug("Selected grid zoom combo box item has changed: " + g.getZoom());
 			previewMap.setGridZoom(g.getZoom());
+			
+			// /W #selCoord
+			if (g.getZoom() < 0)
+				CoordinateTileFormat.setActZoom(JMapViewer.MAX_ZOOM);
+			else
+				CoordinateTileFormat.setActZoom(g.getZoom());
+			
 			repaint();
 			previewMap.updateMapSelection();
 		}
@@ -1002,22 +1015,27 @@ public class MainFrame extends JFrame implements MapEventListener
 		}
 	}
 
-	private class LoadCatalogListener implements ActionListener
-	{
-		@Override
-		public void actionPerformed(ActionEvent e)
-		{
-			IfCatalogProfile profile = mCatalogsPanel.getSelectedCatalog();
-			mCatalogsPanel.getDeleteButton().setEnabled(profile != null);
-			if (profile == null)
-				return;
-
-			// jCatalogTree.load(profile);
-			mCatalogContentPanel.getCatalogTree().load(profile);
-			previewMap.repaint();
-			// mTileImageParametersPanel.bundleFormatChanged(jBundleTree.getBundle().getOutputFormat());
-		}
-	}
+//	private class LoadCatalogListener implements ActionListener
+//	{
+//		@Override
+//		public void actionPerformed(ActionEvent e)
+//		{
+//			IfCatalogProfile profile = mCatalogsPanel.getSelectedCatalog();
+//			mCatalogsPanel.getDeleteButton().setEnabled(profile != null);
+//			if (profile == null)
+//				return;
+//
+//			// jCatalogTree.load(profile);
+//			
+//			// /W mCatalogContentPanel.getCatalogTree().load(profile);
+//			// /W +++ wird zu
+//			mCatalogsPanel.getCatalogTree().load(profile);
+//			
+//			
+//			previewMap.repaint();
+//			// mTileImageParametersPanel.bundleFormatChanged(jBundleTree.getBundle().getOutputFormat());
+//		}
+//	}
 
 	private class SettingsButtonListener implements ActionListener
 	{
@@ -1147,6 +1165,7 @@ public class MainFrame extends JFrame implements MapEventListener
 		return new MapSelection(previewMap.getMapSource(), mapSelectionMax, mapSelectionMin);
 	}
 
+	// /W #--- 
 	public TileImageParameters getSelectedTileImageParameters()
 	{
 		return mTileImageParametersPanel.getSelectedTileImageParameters();
@@ -1272,12 +1291,12 @@ public class MainFrame extends JFrame implements MapEventListener
 	 */
 	public JCatalogTree getCatalogTree()
 	{
-		return mCatalogContentPanel.jCatalogTree;
+		return mCatalogsPanel.getCatalogTree(); // /W +++ mCatalogContentPanel ersetzt durch mCatalogsPanel
 	}
 
 	public String getCatalogName()
 	{
-		return mCatalogContentPanel.getCatalog().getName();
+		return mCatalogsPanel.getCatalog().getName(); // /W +++ mCatalogContentPanel ersetzt durch mCatalogsPanel
 	}
 
 	public GpxEntry getSelectedGpx()
@@ -1292,16 +1311,17 @@ public class MainFrame extends JFrame implements MapEventListener
 	 */
 	public void notifyLayerInsert(Layer layer)
 	{
-		mCatalogContentPanel.jCatalogTree.getTreeModel().notifyNodeInsert(layer);
+		mCatalogsPanel.getCatalogTree().getTreeModel().notifyNodeInsert(layer); // /W +++ mCatalogContentPanel ersetzt durch mCatalogsPanel
 	}
 
 	public IfCatalog getCatalog()
 	{
-		return mCatalogContentPanel.getCatalog();
+		return mCatalogsPanel.getCatalog(); // /W +++ mCatalogContentPanel ersetzt durch mCatalogsPanel
 	}
 
+	// /W #--- +++ Menü-Eintrag?
 	public void newCatalog(String newName)
 	{
-		mCatalogContentPanel.jCatalogTree.newCatalog(newName);
+		mCatalogsPanel.getCatalogTree().newCatalog(newName); // /W +++ mCatalogContentPanel ersetzt durch mCatalogsPanel
 	}
 }

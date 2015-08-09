@@ -39,8 +39,8 @@ import osmcd.OSMCDStrs;
 
 public class FontChooser
 {
-	private static final String FONT_NAMES[] = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
-	private static final String STYLES[] = new String[]
+	private static final String[] FONT_NAMES = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+	private static final String[] STYLES = new String[]
 	{ "Plain", "Bold", "Italic", "Bold + Italic" };
 	public static final Font DEFAULT = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
 

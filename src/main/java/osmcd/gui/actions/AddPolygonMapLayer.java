@@ -97,8 +97,8 @@ public class AddPolygonMapLayer implements ActionListener
 				} while (!success);
 			}
 
-			int xpoints[] = new int[polygonPoints.size()];
-			int ypoints[] = new int[polygonPoints.size()];
+			int[] xpoints = new int[polygonPoints.size()];
+			int[] ypoints = new int[polygonPoints.size()];
 			for (int i = 0; i < xpoints.length; i++)
 			{
 				Point p = mapSpace.changeZoom(polygonPoints.get(i), JMapViewer.MAX_ZOOM, zoom);

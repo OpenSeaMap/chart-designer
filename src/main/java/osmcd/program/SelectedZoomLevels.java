@@ -23,48 +23,57 @@ import java.util.TreeSet;
 
 import osmcd.gui.components.JZoomCheckBox;
 
-public class SelectedZoomLevels {
-
+public class SelectedZoomLevels
+{
 	private TreeSet<Integer> zoomLevels = new TreeSet<Integer>();
 
-	public SelectedZoomLevels(JZoomCheckBox[] zoomCheckboxes) {
-		for (JZoomCheckBox cb : zoomCheckboxes) {
+	public SelectedZoomLevels(JZoomCheckBox[] zoomCheckboxes)
+	{
+		for (JZoomCheckBox cb : zoomCheckboxes)
+		{
 			if (cb.isSelected())
 				setZoomLevelSelected(cb.getZoomLevel());
 		}
 	}
 
-	public SelectedZoomLevels(List<Integer> zoomLevelList) {
+	public SelectedZoomLevels(List<Integer> zoomLevelList)
+	{
 		zoomLevels.addAll(zoomLevelList);
 	}
 
-	protected SelectedZoomLevels() {
+	protected SelectedZoomLevels()
+	{
 	}
 
-	public void setZoomLevelSelected(int zoomLevel) {
+	public void setZoomLevelSelected(int zoomLevel)
+	{
 		zoomLevels.add(new Integer(zoomLevel));
 	}
 
-	public int[] getZoomLevels() {
-		int result[] = new int[zoomLevels.size()];
+	public int[] getZoomLevels()
+	{
+		int[] result = new int[zoomLevels.size()];
 		int i = 0;
-		for (Integer z : zoomLevels) {
+		for (Integer z : zoomLevels)
+		{
 			result[i++] = z.intValue();
 		}
 		return result;
 	}
 
-	public List<Integer> getZoomLevelList() {
+	public List<Integer> getZoomLevelList()
+	{
 		return new ArrayList<Integer>(zoomLevels);
 	}
 
-	public int getZoomLevelCount() {
+	public int getZoomLevelCount()
+	{
 		return zoomLevels.size();
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "ZoomLevels: " + Arrays.toString(getZoomLevels());
 	}
-
 }

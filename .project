@@ -3,7 +3,6 @@
 	<name>OSeaMChartDesigner</name>
 	<comment></comment>
 	<projects>
-		<project>OSeaMChartBundler</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

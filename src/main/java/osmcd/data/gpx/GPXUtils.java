@@ -40,7 +40,6 @@ import org.w3c.dom.Document;
 
 import osmb.utilities.OSMBUtilities;
 import osmcd.data.gpx.gpx11.Gpx;
-import osmcd.program.Logging;
 
 public class GPXUtils
 {
@@ -119,20 +118,6 @@ public class GPXUtils
 		finally
 		{
 			OSMBUtilities.closeStream(os);
-		}
-	}
-
-	public static void main(String[] args)
-	{
-		Logging.configureConsoleLogging();
-		try
-		{
-			loadGpxFile(new File("misc/samples/gpx/gpx11 wpt.gpx"));
-			loadGpxFile(new File("misc/samples/gpx/gpx10 wpt.gpx"));
-		}
-		catch (JAXBException e)
-		{
-			e.printStackTrace();
 		}
 	}
 }

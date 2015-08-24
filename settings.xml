@@ -32,7 +32,7 @@
     <unitSystem>Metric</unitSystem>
     <userAgent>OSMCB/0.0.10</userAgent>
     <version>0.1.12</version>
-    <catalogName>AHTest005</catalogName>
+    <catalogName>Medi-001</catalogName>
     <catalogNameMakeNew>false</catalogNameMakeNew>
     <mainWindow>
         <size>1235/928</size>
@@ -43,16 +43,25 @@
     </mainWindow>
     <mapOverlapTiles>1</mapOverlapTiles>
     <mapviewCenterCoordinate>
-        <lat>54.32553406877723</lat>
-        <lon>13.089179992675781</lon>
+        <lat>44.17826452922576</lat>
+        <lon>14.81231689453125</lon>
     </mapviewCenterCoordinate>
     <mapviewGridZoom>16</mapviewGridZoom>
     <mapviewMapSource>AH OpenSeaMap - Mapnik</mapviewMapSource>
-    <mapviewSelectionMax>343196672/575974400</mapviewSelectionMax>
-    <mapviewSelectionMin>343179264/575951872</mapviewSelectionMin>
-    <mapviewZoom>12</mapviewZoom>
+    <mapviewSelectionMax>392734720/586645504</mapviewSelectionMax>
+    <mapviewSelectionMin>392734720/586645504</mapviewSelectionMin>
+    <mapviewZoom>9</mapviewZoom>
     <maxMapSize>65536</maxMapSize>
     <selectedZoomLevels>
+        <zoomLevel>7</zoomLevel>
+        <zoomLevel>8</zoomLevel>
+        <zoomLevel>9</zoomLevel>
+        <zoomLevel>10</zoomLevel>
+        <zoomLevel>11</zoomLevel>
+        <zoomLevel>12</zoomLevel>
+        <zoomLevel>13</zoomLevel>
+        <zoomLevel>14</zoomLevel>
+        <zoomLevel>15</zoomLevel>
         <zoomLevel>16</zoomLevel>
     </selectedZoomLevels>
     <settingsTabSelected>6</settingsTabSelected>

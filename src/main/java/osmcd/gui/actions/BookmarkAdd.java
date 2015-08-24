@@ -18,19 +18,27 @@ package osmcd.gui.actions;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JOptionPane;
+<<<<<<< HEAD
 
 import osmcd.OSMCDSettings;
 import osmcd.OSMCDStrs;
 import osmcd.gui.mapview.PreviewMap;
 import osmcd.program.Bookmark;
+=======
+import osmcd.OSMCDStrs;
+import osmcd.gui.MainGUI;
+import osmcd.gui.mapview.PreviewMap;
+import osmcd.program.model.Bookmark;
+import osmcd.program.model.OSMCDSettings;
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 
 public class BookmarkAdd implements ActionListener
 {
 	private final PreviewMap previewMap;
 
-	public BookmarkAdd(PreviewMap previewMap) {
+	public BookmarkAdd(PreviewMap previewMap)
+	{
 		this.previewMap = previewMap;
 	}
 
@@ -42,7 +50,12 @@ public class BookmarkAdd implements ActionListener
 		if (name == null)
 			return;
 		bm.setName(name);
+<<<<<<< HEAD
 		OSMCDSettings.getInstance().getPlaceBookmarks().add(bm);
 		// MainFrame.getMainGUI().updateBookmarksMenu();
+=======
+		OSMCDSettings.getInstance().placeBookmarks.add(bm);
+		MainGUI.getMainGUI().updateBookmarksMenu();
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 	}
 }

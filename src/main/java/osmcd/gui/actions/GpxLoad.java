@@ -32,6 +32,7 @@ import javax.xml.bind.JAXBException;
 
 import org.apache.log4j.Logger;
 
+<<<<<<< HEAD
 import osmb.utilities.file.GpxFileFilter;
 import osmcd.OSMCDSettings;
 import osmcd.OSMCDStrs;
@@ -40,6 +41,19 @@ import osmcd.data.gpx.gpx11.Gpx;
 import osmcd.gui.MainFrame;
 import osmcd.gui.gpxtree.JGpxPanel;
 import osmcd.gui.mapview.GpxLayer;
+=======
+import osmcb.utilities.file.GpxFileFilter;
+import osmcd.OSMCDStrs;
+import osmcd.data.gpx.GPXUtils;
+import osmcd.data.gpx.gpx11.Gpx;
+import osmcd.gui.MainGUI;
+import osmcd.gui.mapview.layer.GpxLayer;
+import osmcd.gui.panels.JGpxPanel;
+import osmcd.program.model.OSMCDSettings;
+
+public class GpxLoad implements ActionListener
+{
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 
 public class GpxLoad implements ActionListener
 {
@@ -53,7 +67,10 @@ public class GpxLoad implements ActionListener
 		this.panel = panel;
 	}
 
+<<<<<<< HEAD
 	@Override
+=======
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 	public void actionPerformed(ActionEvent event)
 	{
 		if (!GPXUtils.checkJAXBVersion())
@@ -61,7 +78,11 @@ public class GpxLoad implements ActionListener
 		JFileChooser fc = new JFileChooser();
 		try
 		{
+<<<<<<< HEAD
 			File dir = new File(OSMCDSettings.getInstance().getGpxFileChooserDir());
+=======
+			File dir = new File(OSMCDSettings.getInstance().gpxFileChooserDir);
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 			fc.setCurrentDirectory(dir); // restore the saved directory
 		}
 		catch (Exception e)
@@ -73,13 +94,21 @@ public class GpxLoad implements ActionListener
 		int returnVal = fc.showOpenDialog(mainGUI);
 		if (returnVal != JFileChooser.APPROVE_OPTION)
 			return;
+<<<<<<< HEAD
 		OSMCDSettings.getInstance().setGpxFileChooserDir(fc.getCurrentDirectory().getAbsolutePath());
+=======
+		OSMCDSettings.getInstance().gpxFileChooserDir = fc.getCurrentDirectory().getAbsolutePath();
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 
 		File[] f = fc.getSelectedFiles();
 
 		// check already opened gpx files
 		boolean duplicates = false;
+<<<<<<< HEAD
 		for (File selectedFile : f)
+=======
+		for (File selectedFile: f)
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 		{
 			duplicates = panel.isFileOpen(selectedFile.getAbsolutePath());
 			if (duplicates)
@@ -126,7 +155,11 @@ public class GpxLoad implements ActionListener
 		}
 	}
 
+<<<<<<< HEAD
 	private void doMultiLoad(final File[] files, final MainFrame mainGUI)
+=======
+	private void doMultiLoad(final File[] files, final MainGUI mainGUI)
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 	{
 		final JDialog progressDialog = new JDialog(mainGUI);
 		// prepare progress dialog
@@ -147,18 +180,28 @@ public class GpxLoad implements ActionListener
 
 			private int counter = 0;
 
+<<<<<<< HEAD
 			@Override
+=======
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 			public void run()
 			{
 				try
 				{
 					// iterate over files to load
+<<<<<<< HEAD
 					for (final File file : files)
+=======
+					for (final File file: files)
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 					{
 						counter++;
 						SwingUtilities.invokeLater(new Runnable()
 						{
+<<<<<<< HEAD
 							@Override
+=======
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 							public void run()
 							{
 								progressBar.setValue(counter);
@@ -176,7 +219,10 @@ public class GpxLoad implements ActionListener
 				{
 					SwingUtilities.invokeLater(new Runnable()
 					{
+<<<<<<< HEAD
 						@Override
+=======
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 						public void run()
 						{
 							// close progress dialog

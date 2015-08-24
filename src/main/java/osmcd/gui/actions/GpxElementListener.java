@@ -33,6 +33,10 @@ import osmcd.gui.gpxtree.TrksegEntry;
 import osmcd.gui.gpxtree.WptEntry;
 import osmcd.gui.mapview.GpxMapController;
 import osmcd.gui.mapview.PreviewMap;
+<<<<<<< HEAD
+=======
+import osmcd.gui.mapview.controller.GpxMapController;
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 
 /**
  * Listener for the gpx editor tree elements.

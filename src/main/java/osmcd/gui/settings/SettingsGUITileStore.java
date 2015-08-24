@@ -37,12 +37,21 @@ import javax.swing.JSeparator;
 import javax.swing.SwingUtilities;
 import javax.swing.border.BevelBorder;
 
+<<<<<<< HEAD
 import osmb.mapsources.ACMapSourcesManager;
 import osmb.mapsources.IfMapSource;
 import osmb.program.tilestore.ACSiTileStore;
 import osmb.program.tilestore.TileStoreInfo;
 import osmb.program.tilestore.berkeleydb.DelayedInterruptThread;
 import osmb.utilities.OSMBUtilities;
+=======
+import osmcb.mapsources.ACMapSourcesManager;
+import osmcb.program.interfaces.IfMapSource;
+import osmcb.program.tilestore.ACSiTileStore;
+import osmcb.program.tilestore.TileStoreInfo;
+import osmcb.program.tilestore.berkeleydb.DelayedInterruptThread;
+import osmcb.utilities.OSMCBUtilities;
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 import osmcd.OSMCDStrs;
 
 public class SettingsGUITileStore extends JPanel
@@ -100,7 +109,11 @@ public class SettingsGUITileStore extends JPanel
 			for (final TileSourceInfoComponents info : tileStoreInfoList)
 			{
 				String storeName = info.name;
+<<<<<<< HEAD
 				OSMBUtilities.checkForInterruption();
+=======
+				OSMCBUtilities.checkForInterruption();
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 				int count;
 				long size;
 				if (updateStoreName == null || info.name.equals(updateStoreName))
@@ -111,7 +124,11 @@ public class SettingsGUITileStore extends JPanel
 					info.count = count;
 					info.size = size;
 					final String mapTileCountText = (count < 0) ? "??" : Integer.toString(count);
+<<<<<<< HEAD
 					final String mapTileSizeText = OSMBUtilities.formatBytes(size);
+=======
+					final String mapTileSizeText = OSMCBUtilities.formatBytes(size);
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 					SwingUtilities.invokeLater(new Runnable()
 					{
 						@Override
@@ -131,7 +148,11 @@ public class SettingsGUITileStore extends JPanel
 				totalTileSize += size;
 			}
 			final String totalTileCountText = "<html><b>" + Long.toString(totalTileCount) + "</b></html>";
+<<<<<<< HEAD
 			final String totalTileSizeText = "<html><b>" + OSMBUtilities.formatBytes(totalTileSize) + "</b></html>";
+=======
+			final String totalTileSizeText = "<html><b>" + OSMCBUtilities.formatBytes(totalTileSize) + "</b></html>";
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 			SwingUtilities.invokeLater(new Runnable()
 			{
 				@Override
@@ -189,7 +210,11 @@ public class SettingsGUITileStore extends JPanel
 		tileStoreInfoPanel.add(new JLabel(OSMCDStrs.RStr("set_tile_store_info_tiles")), gbc_mapTiles);
 		tileStoreInfoPanel.add(new JLabel(OSMCDStrs.RStr("set_tile_store_info_size")), gbc_eol);
 
+<<<<<<< HEAD
 		ImageIcon trash = OSMBUtilities.loadResourceImageIcon("trash.png");
+=======
+		ImageIcon trash = OSMCBUtilities.loadResourceImageIcon("trash.png");
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 
 		for (String name : tileStore.getAllStoreNames())
 		{

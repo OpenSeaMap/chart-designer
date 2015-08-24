@@ -26,16 +26,23 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.DataInputStream;
 import java.io.IOException;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+<<<<<<< HEAD
 
 import osmb.utilities.Charsets;
 import osmb.utilities.GBC;
 import osmb.utilities.OSMBRsc;
 import osmcd.OSMCDStrs;
 import osmcd.gui.MainFrame;
+=======
+import osmcb.utilities.Charsets;
+import osmcb.utilities.GBC;
+import osmcb.utilities.OSMCBRsc;
+import osmcd.OSMCDStrs;
+import osmcd.gui.MainGUI;
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 
 public class Help extends JFrame implements WindowListener
 {
@@ -51,14 +58,21 @@ public class Help extends JFrame implements WindowListener
 	public Help() throws HeadlessException
 	{
 		super(OSMCDStrs.RStr("dlg_help_title"));
+<<<<<<< HEAD
 		setIconImages(MainFrame.OSMCD_ICONS);
+=======
+		setIconImages(MainGUI.OSMCD_ICONS);
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 		setLayout(new GridBagLayout());
 		JLabel text = new JLabel();
 		JButton closeButton = new JButton(OSMCDStrs.RStr("Close"));
 		closeButton.setDefaultCapable(true);
 		closeButton.addActionListener(new ActionListener()
 		{
+<<<<<<< HEAD
 
+=======
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
@@ -67,7 +81,11 @@ public class Help extends JFrame implements WindowListener
 			}
 		});
 
+<<<<<<< HEAD
 		DataInputStream in = new DataInputStream(OSMBRsc.getResourceAsStream("resources/text/help_dialog", "html"));
+=======
+		DataInputStream in = new DataInputStream(OSMCBRsc.getResourceAsStream("resources/text/help_dialog", "html"));
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 		byte[] buf;
 		try
 		{
@@ -82,8 +100,7 @@ public class Help extends JFrame implements WindowListener
 			text.setText(helpMessage);
 		}
 		catch (IOException e)
-		{
-		}
+		{}
 		add(text, GBC.eol().insets(10, 10, 10, 10));
 		add(closeButton, GBC.eol().anchor(GBC.CENTER).insets(0, 0, 0, 10));
 		pack();
@@ -97,8 +114,7 @@ public class Help extends JFrame implements WindowListener
 
 	@Override
 	public void windowActivated(WindowEvent e)
-	{
-	}
+	{}
 
 	@Override
 	public void windowClosed(WindowEvent e)
@@ -108,26 +124,21 @@ public class Help extends JFrame implements WindowListener
 
 	@Override
 	public void windowClosing(WindowEvent e)
-	{
-	}
+	{}
 
 	@Override
 	public void windowDeactivated(WindowEvent e)
-	{
-	}
+	{}
 
 	@Override
 	public void windowDeiconified(WindowEvent e)
-	{
-	}
+	{}
 
 	@Override
 	public void windowIconified(WindowEvent e)
-	{
-	}
+	{}
 
 	@Override
 	public void windowOpened(WindowEvent e)
-	{
-	}
+	{}
 }

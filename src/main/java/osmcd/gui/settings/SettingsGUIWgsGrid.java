@@ -34,11 +34,22 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
+<<<<<<< HEAD
 import osmb.program.WgsGridSettings;
 import osmb.utilities.GBCTable;
 import osmcd.OSMCDSettings;
 import osmcd.OSMCDStrs;
 import osmcd.gui.dialogs.FontChooser;
+=======
+import osmcb.program.model.SettingsWgsGrid;
+import osmcb.utilities.GBCTable;
+import osmcd.OSMCDStrs;
+import osmcd.gui.dialogs.FontChooser;
+import osmcd.program.model.OSMCDSettings;
+
+public class SettingsGUIWgsGrid extends JPanel
+{
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 
 public class SettingsGUIWgsGrid extends JPanel
 {
@@ -67,7 +78,10 @@ public class SettingsGUIWgsGrid extends JPanel
 
 		jButtonFont.addActionListener(new ActionListener()
 		{
+<<<<<<< HEAD
 			@Override
+=======
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 			public void actionPerformed(ActionEvent e)
 			{
 				fontChooser.show();
@@ -85,7 +99,10 @@ public class SettingsGUIWgsGrid extends JPanel
 		jPanelColor.setBorder(BorderFactory.createEtchedBorder());
 		jPanelColor.addMouseListener(new MouseAdapter()
 		{
+<<<<<<< HEAD
 			@Override
+=======
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 			public void mouseClicked(MouseEvent e)
 			{
 				Color color = jPanelColor.getBackground();
@@ -96,13 +113,19 @@ public class SettingsGUIWgsGrid extends JPanel
 				}
 			}
 
+<<<<<<< HEAD
 			@Override
+=======
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 			public void mouseEntered(MouseEvent e)
 			{
 				jPanelColor.setBorder(BorderFactory.createRaisedBevelBorder());
 			}
 
+<<<<<<< HEAD
 			@Override
+=======
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 			public void mouseExited(MouseEvent e)
 			{
 				jPanelColor.setBorder(BorderFactory.createEtchedBorder());
@@ -142,10 +165,17 @@ public class SettingsGUIWgsGrid extends JPanel
 
 	public void applySettings(OSMCDSettings s)
 	{
+<<<<<<< HEAD
 		applySettings(s.getWgsGrid());
 	}
 
 	public void applySettings(WgsGridSettings s)
+=======
+		applySettings(s.wgsGrid);
+	}
+
+	public void applySettings(SettingsWgsGrid s)
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 	{
 		s.compressLabels = jCheckBoxCompressLabels.isSelected();
 		// s.font = fontChooser.getFont();
@@ -155,10 +185,17 @@ public class SettingsGUIWgsGrid extends JPanel
 
 	public void loadSettings(OSMCDSettings s)
 	{
+<<<<<<< HEAD
 		loadSettings(s.getWgsGrid());
 	}
 
 	public void loadSettings(WgsGridSettings s)
+=======
+		loadSettings(s.wgsGrid);
+	}
+
+	public void loadSettings(SettingsWgsGrid s)
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 	{
 		jCheckBoxCompressLabels.setSelected(s.compressLabels);
 		// fontChooser.setFont(s.font);

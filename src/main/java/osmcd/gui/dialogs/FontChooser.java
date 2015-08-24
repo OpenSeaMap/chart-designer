@@ -22,7 +22,6 @@ import java.awt.GraphicsEnvironment;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -33,15 +32,27 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+<<<<<<< HEAD
 
 import osmb.utilities.GBCTable;
+=======
+import osmcb.utilities.GBCTable;
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 import osmcd.OSMCDStrs;
 
 public class FontChooser
 {
+<<<<<<< HEAD
 	private static final String[] FONT_NAMES = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
 	private static final String[] STYLES = new String[]
 	{ "Plain", "Bold", "Italic", "Bold + Italic" };
+=======
+	private static final String FONT_NAMES[] = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+	private static final String STYLES[] = new String[]
+	{
+			"Plain", "Bold", "Italic", "Bold + Italic"
+	};
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 	public static final Font DEFAULT = new Font(Font.SANS_SERIF, Font.PLAIN, 12);
 
 	public static String encodeFont(Font font)
@@ -81,7 +92,13 @@ public class FontChooser
 	private final JList<String> jListName = createJList(FONT_NAMES);
 	private final JList<String> jListStyle = createJList(STYLES);
 	private final JList<Integer> jListSize = createJList(new Integer[]
+<<<<<<< HEAD
 	{ 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24 });
+=======
+	{
+			8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24
+	});
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 	private final JButton jButtonOK = new JButton(OSMCDStrs.RStr("OK")), jButtonCancel = new JButton(OSMCDStrs.RStr("Cancel"));
 	private boolean wasCanceled;
 

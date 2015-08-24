@@ -17,19 +17,24 @@
 package osmcd.gui.mapview;
 
 import java.awt.Graphics2D;
+<<<<<<< HEAD:src/main/java/osmcd/gui/mapview/MapLayer.java
+=======
+import osmcd.gui.mapview.JMapViewer;
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/mapview/interfaces/MapLayer.java
 
 /**
  * General purpose iMap layer
  */
-public interface MapLayer {
-
+public interface MapLayer
+{
 	/**
 	 * 
 	 * @param iMap
 	 * @param g
 	 * @param zoom
-	 *            current zoom level
+	 *          current zoom level
 	 * @param minX
+<<<<<<< HEAD:src/main/java/osmcd/gui/mapview/MapLayer.java
 	 *            top left x coordinate of the visible iMap region
 	 * @param minYtop
 	 *            left y coordinate of the visible iMap region
@@ -37,6 +42,15 @@ public interface MapLayer {
 	 *            bottom right x coordinate of the visible iMap region
 	 * @param maxY
 	 *            bottom right y coordinate of the visible iMap region
+=======
+	 *          top left x coordinate of the visible map region
+	 * @param minYtop
+	 *          left y coordinate of the visible map region
+	 * @param maxX
+	 *          bottom right x coordinate of the visible map region
+	 * @param maxY
+	 *          bottom right y coordinate of the visible map region
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/mapview/interfaces/MapLayer.java
 	 */
 	public void paint(JMapViewer map, Graphics2D g, int zoom, int minX, int minY, int maxX, int maxY);
 

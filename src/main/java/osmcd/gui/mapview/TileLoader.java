@@ -23,6 +23,7 @@ import java.net.ConnectException;
 
 import org.apache.log4j.Logger;
 
+<<<<<<< HEAD
 import osmb.mapsources.IfMapSource;
 import osmb.mapsources.IfMapSource.LoadMethod;
 import osmb.program.tiles.DownloadFailedException;
@@ -30,6 +31,16 @@ import osmb.program.tiles.TileDownLoader;
 import osmb.program.tilestore.ACSiTileStore;
 import osmb.program.tilestore.IfTileStoreEntry;
 import osmcd.gui.mapview.Tile.TileState;
+=======
+import osmcb.exceptions.DownloadFailedException;
+import osmcb.program.download.TileDownLoader;
+import osmcb.program.interfaces.IfMapSource;
+import osmcb.program.interfaces.IfMapSource.LoadMethod;
+import osmcb.program.tilestore.ACSiTileStore;
+import osmcb.program.tilestore.IfTileStoreEntry;
+import osmcd.gui.mapview.Tile.TileState;
+import osmcd.gui.mapview.interfaces.TileLoaderListener;
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 
 /**
  * A {@link TileLoaderJobCreator} implementation that loads tiles from OSM via HTTP and saves all loaded files in a directory located in the the temporary
@@ -66,8 +77,12 @@ public class TileLoader
 		boolean fileTilePainted = false;
 		protected IfTileStoreEntry tileStoreEntry = null;
 
+<<<<<<< HEAD
 		public TileAsyncLoadJob(IfMapSource source, int tilex, int tiley, int zoom)
 		{
+=======
+		public TileAsyncLoadJob(IfMapSource source, int tilex, int tiley, int zoom) {
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 			super();
 			this.mapSource = source;
 			this.tilex = tilex;

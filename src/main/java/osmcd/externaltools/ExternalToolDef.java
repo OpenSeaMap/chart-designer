@@ -27,14 +27,25 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.log4j.Logger;
 
+<<<<<<< HEAD
 import osmb.utilities.GUIExceptionHandler;
 import osmcd.OSMCDStrs;
 import osmcd.gui.MainFrame;
 import osmcd.program.MapSelection;
+=======
+import osmcb.utilities.GUIExceptionHandler;
+import osmcd.OSMCDStrs;
+import osmcd.gui.MainGUI;
+import osmcd.program.model.MapSelection;
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 
 @XmlRootElement(name = "ExternalTool")
 public class ExternalToolDef implements ActionListener
 {
+<<<<<<< HEAD
+=======
+
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 	private static final Logger log = Logger.getLogger(ExternalToolDef.class);
 
 	/**
@@ -56,26 +67,43 @@ public class ExternalToolDef implements ActionListener
 	{
 		if (mapSel != null)
 			return false;
+<<<<<<< HEAD
 		JOptionPane.showMessageDialog(MainFrame.getMainGUI(), OSMCDStrs.RStr("msg_tools_exec_error_selected_area"), OSMCDStrs.RStr("Error"),
+=======
+		JOptionPane.showMessageDialog(MainGUI.getMainGUI(), OSMCDStrs.RStr("msg_tools_exec_error_selected_area"), OSMCDStrs.RStr("Error"),
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 				JOptionPane.ERROR_MESSAGE);
 		return true;
 
 	}
 
+<<<<<<< HEAD
 	@Override
+=======
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 	public void actionPerformed(ActionEvent e)
 	{
 		try
 		{
+<<<<<<< HEAD
 			String executeCommand = command;
 			MainFrame mainFrame = MainFrame.getMainGUI();
 			MapSelection mapSel = mainFrame.getMapSelectionCoordinates();
 			int[] zooms = mainFrame.getSelectedZoomLevels().getZoomLevels();
 			for (ToolParameters param : parameters)
+=======
+
+			String executeCommand = command;
+			MainGUI gui = MainGUI.getMainGUI();
+			MapSelection mapSel = gui.getMapSelectionCoordinates();
+			int[] zooms = gui.getSelectedZoomLevels().getZoomLevels();
+			for (ToolParameters param: parameters)
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 			{
 				String add = "";
 				switch (param)
 				{
+<<<<<<< HEAD
 					case MAX_LAT:
 						if (mapSelNull(mapSel))
 							return;
@@ -124,6 +152,55 @@ public class ExternalToolDef implements ActionListener
 					// break;
 					default:
 						throw new RuntimeException("Unsupported parameter type: " + param);
+=======
+				case MAX_LAT:
+					if (mapSelNull(mapSel))
+						return;
+					add = Double.toString(mapSel.getMax().lat);
+					break;
+				case MIN_LAT:
+					if (mapSelNull(mapSel))
+						return;
+					add = Double.toString(mapSel.getMin().lat);
+					break;
+				case MAX_LON:
+					if (mapSelNull(mapSel))
+						return;
+					add = Double.toString(mapSel.getMax().lon);
+					break;
+				case MIN_LON:
+					if (mapSelNull(mapSel))
+						return;
+					add = Double.toString(mapSel.getMin().lon);
+					break;
+				case MAX_ZOOM:
+					if (zooms.length == 0)
+					{
+						JOptionPane.showMessageDialog(gui, OSMCDStrs.RStr("msg_no_zoom_level_selected"), OSMCDStrs.RStr("Error"), JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+					add = Integer.toString(zooms[zooms.length - 1]);
+					break;
+				case MIN_ZOOM:
+					if (zooms.length == 0)
+					{
+						JOptionPane.showMessageDialog(gui, OSMCDStrs.RStr("msg_no_zoom_level_selected"), OSMCDStrs.RStr("Error"), JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+					add = Integer.toString(zooms[0]);
+					break;
+				case MAPSOURCE_NAME:
+					add = gui.previewMap.getMapSource().getName();
+					break;
+				case MAPSOURCE_DISPLAYNAME:
+					add = gui.previewMap.getMapSource().toString();
+					break;
+				case NAME_EDITBOX:
+					add = gui.getUserText();
+					break;
+				default:
+					throw new RuntimeException("Unsupported parameter type: " + param);
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 				}
 				if (add.indexOf(' ') >= 0)
 					add = "\"" + add + "\"";
@@ -131,7 +208,11 @@ public class ExternalToolDef implements ActionListener
 			}
 			if (debug)
 			{
+<<<<<<< HEAD
 				int r = JOptionPane.showConfirmDialog(mainFrame, String.format(OSMCDStrs.RStr("msg_tools_exec_command_ask"), executeCommand),
+=======
+				int r = JOptionPane.showConfirmDialog(gui, String.format(OSMCDStrs.RStr("msg_tools_exec_command_ask"), executeCommand),
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 						OSMCDStrs.RStr("msg_tools_exec_command_ask_title"), JOptionPane.OK_CANCEL_OPTION);
 				if (r != JOptionPane.OK_OPTION)
 					return;

@@ -18,25 +18,36 @@ package osmcd.gui.components;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JMenuItem;
+<<<<<<< HEAD
 
 import osmcd.gui.MainFrame;
 import osmcd.program.Bookmark;
+=======
+import osmcd.gui.MainGUI;
+import osmcd.program.model.Bookmark;
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 
-public class JBookmarkMenuItem extends JMenuItem implements ActionListener {
-
+public class JBookmarkMenuItem extends JMenuItem implements ActionListener
+{
 	private final Bookmark bookmark;
 
-	public JBookmarkMenuItem(Bookmark bookmark) {
+	public JBookmarkMenuItem(Bookmark bookmark)
+	{
 		super(bookmark.toString());
 		this.bookmark = bookmark;
 		addActionListener(this);
 	}
 
+<<<<<<< HEAD
 	public void actionPerformed(ActionEvent paramActionEvent) {
 		MainFrame.getMainGUI().previewMap.gotoPositionBookmark(bookmark);
 
+=======
+	@Override
+	public void actionPerformed(ActionEvent paramActionEvent)
+	{
+		MainGUI.getMainGUI().previewMap.gotoPositionBookmark(bookmark);
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 	}
-
 }

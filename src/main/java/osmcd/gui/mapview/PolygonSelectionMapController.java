@@ -19,29 +19,40 @@ package osmcd.gui.mapview;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+<<<<<<< HEAD:src/main/java/osmcd/gui/mapview/PolygonSelectionMapController.java
+=======
+import osmcd.gui.mapview.PreviewMap;
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/mapview/controller/PolygonSelectionMapController.java
 
 /**
  * Implements the GUI logic for the preview iMap panel that manages the iMap selection and actions triggered by key
  * strokes.
  * 
  */
-public class PolygonSelectionMapController extends AbstractPolygonSelectionMapController implements MouseListener {
+public class PolygonSelectionMapController extends AbstractPolygonSelectionMapController implements MouseListener
+{
 
-	public PolygonSelectionMapController(PreviewMap map) {
+	public PolygonSelectionMapController(PreviewMap map)
+	{
 		super(map);
 	}
 
-	public void mouseClicked(MouseEvent e) {
+	@Override
+	public void mouseClicked(MouseEvent e)
+	{}
+
+	@Override
+	public void mousePressed(MouseEvent e)
+	{
+
 	}
 
-	public void mousePressed(MouseEvent e) {
-
-	}
-
-	public void mouseReleased(MouseEvent e) {
-		if (e.getButton() == MouseEvent.BUTTON1) {
-			if (finished)
-				reset();
+	@Override
+	public void mouseReleased(MouseEvent e)
+	{
+		if (e.getButton() == MouseEvent.BUTTON1)
+		{
+			if (finished) reset();
 			Point mapPoint = map.getTopLeftCoordinate();
 			mapPoint.x += e.getX();
 			mapPoint.y += e.getY();
@@ -52,10 +63,12 @@ public class PolygonSelectionMapController extends AbstractPolygonSelectionMapCo
 		map.repaint();
 	}
 
-	public void mouseEntered(MouseEvent e) {
-	}
+	@Override
+	public void mouseEntered(MouseEvent e)
+	{}
 
-	public void mouseExited(MouseEvent e) {
-	}
+	@Override
+	public void mouseExited(MouseEvent e)
+	{}
 
 }

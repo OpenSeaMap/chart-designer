@@ -18,8 +18,12 @@ package osmcd.gui.actions;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+<<<<<<< HEAD
 
 import osmcd.gui.MainFrame;
+=======
+import osmcd.gui.MainGUI;
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 import osmcd.gui.dialogs.ManageBookmarks;
 
 public class BookmarkManage implements ActionListener

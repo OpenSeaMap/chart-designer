@@ -1,3 +1,4 @@
+<<<<<<< HEAD:src/test/java/mobac/tools/MapUpdateTypeLister.java
 /*******************************************************************************
  * Copyright (c) OSMCB developers
  * 
@@ -41,3 +42,48 @@ public class MapUpdateTypeLister {
 		}
 	}
 }
+=======
+/*******************************************************************************
+ * Copyright (c) OSMCB developers
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+package mobac.tools;
+
+import java.util.Vector;
+
+import osmcd.mapsources.MapSourcesManager;
+import osmcd.program.Logging;
+import osmcd.program.interfaces.HttpMapSource;
+import osmcd.program.interfaces.MapSource;
+
+public class MapUpdateTypeLister {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		Logging.configureConsoleLogging();
+		Vector<MapSource> mapSources = MapSourcesManager.getInstance().getAllMapSources();
+		for (MapSource mapSource : mapSources) {
+			if (mapSource instanceof HttpMapSource) {
+				HttpMapSource httpMapSource = (HttpMapSource) mapSource;
+				String name = mapSource.getName();
+				name = name.substring(0, Math.min(25, name.length()));
+				System.out.println(String.format("%25s  %s", name, httpMapSource.getTileUpdate()));
+			}
+		}
+	}
+}
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/test/java/mobac/tools/MapUpdateTypeLister.java

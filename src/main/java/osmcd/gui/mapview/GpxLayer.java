@@ -21,14 +21,24 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.io.File;
+<<<<<<< HEAD:src/main/java/osmcd/gui/mapview/GpxLayer.java
 
 import osmb.program.map.IfMapSpace;
+=======
+import osmcb.program.interfaces.IfMapSpace;
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/mapview/layer/GpxLayer.java
 import osmcd.data.gpx.gpx11.Gpx;
 import osmcd.data.gpx.gpx11.RteType;
 import osmcd.data.gpx.gpx11.TrkType;
 import osmcd.data.gpx.gpx11.TrksegType;
 import osmcd.data.gpx.gpx11.WptType;
+<<<<<<< HEAD:src/main/java/osmcd/gui/mapview/GpxLayer.java
 import osmcd.gui.gpxtree.JGpxPanel;
+=======
+import osmcd.gui.mapview.JMapViewer;
+import osmcd.gui.mapview.interfaces.MapLayer;
+import osmcd.gui.panels.JGpxPanel;
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/mapview/layer/GpxLayer.java
 
 /**
  * A {@link MapLayer} displaying the content of a loaded GPX file in a {@link JMapViewer} instance.
@@ -114,11 +124,9 @@ public class GpxLayer implements MapLayer
 			int maxX, int maxY)
 	{
 		int x = mapSpace.cLonToX(point.getLon().doubleValue(), zoom);
-		if (x < minX || x > maxX)
-			return false; // Point outside of visible region
+		if (x < minX || x > maxX) return false; // Point outside of visible region
 		int y = mapSpace.cLatToY(point.getLat().doubleValue(), zoom);
-		if (y < minY || y > maxY)
-			return false; // Point outside of visible region
+		if (y < minY || y > maxY) return false; // Point outside of visible region
 		x -= minX;
 		y -= minY;
 		g.setColor(color);
@@ -126,15 +134,18 @@ public class GpxLayer implements MapLayer
 		g.setColor(Color.BLACK);
 		g.setStroke(outlineStroke);
 		g.drawOval(x - POINT_RADIUS, y - POINT_RADIUS, POINT_DIAMETER, POINT_DIAMETER);
-		if (paintPointName && point.getName() != null)
-			g.drawString(point.getName(), x + POINT_RADIUS + 5, y - POINT_RADIUS);
+		if (paintPointName && point.getName() != null) g.drawString(point.getName(), x + POINT_RADIUS + 5, y - POINT_RADIUS);
 
 		return true;
 	}
 
 	private boolean paintTrack(final WptType point, Color color, final Graphics2D g, IfMapSpace mapSpace, int zoom, int minX, int minY, int maxX, int maxY)
 	{
+<<<<<<< HEAD:src/main/java/osmcd/gui/mapview/GpxLayer.java
 		// Absolute iMap space coordinates
+=======
+		// Absolute map space coordinates
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/mapview/layer/GpxLayer.java
 		int xAbs = mapSpace.cLonToX(point.getLon().doubleValue(), zoom);
 		int yAbs = mapSpace.cLatToY(point.getLat().doubleValue(), zoom);
 		// Relative coordinates regarding the top left point on iMap

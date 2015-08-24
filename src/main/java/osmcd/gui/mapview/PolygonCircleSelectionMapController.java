@@ -20,41 +20,55 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+<<<<<<< HEAD:src/main/java/osmcd/gui/mapview/PolygonCircleSelectionMapController.java
+=======
+import osmcd.gui.mapview.PreviewMap;
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/mapview/controller/PolygonCircleSelectionMapController.java
 
 /**
  * Implements the GUI logic for the preview iMap panel that manages the iMap selection and actions triggered by key
  * strokes.
  * 
  */
-public class PolygonCircleSelectionMapController extends AbstractPolygonSelectionMapController implements
-		MouseMotionListener, MouseListener {
+public class PolygonCircleSelectionMapController extends AbstractPolygonSelectionMapController implements MouseMotionListener, MouseListener
+{
 
 	private static final int POLYGON_POINTS = 16;
 	private static final double ANGLE_PART = Math.PI * 2.0 / POLYGON_POINTS;
 
 	private Point center;
 
-	public PolygonCircleSelectionMapController(PreviewMap map) {
+	public PolygonCircleSelectionMapController(PreviewMap map)
+	{
 		super(map);
 	}
 
-	public void mouseClicked(MouseEvent e) {
-	}
+	@Override
+	public void mouseClicked(MouseEvent e)
+	{}
 
-	public void mousePressed(MouseEvent e) {
-		if (e.getButton() == MouseEvent.BUTTON1) {
+	@Override
+	public void mousePressed(MouseEvent e)
+	{
+		if (e.getButton() == MouseEvent.BUTTON1)
+		{
 			center = convertToAbsolutePoint(e.getPoint());
 			polygonPoints.ensureCapacity(POLYGON_POINTS);
 		}
 	}
 
-	public void mouseDragged(MouseEvent e) {
-		if ((e.getModifiersEx() & MouseEvent.BUTTON1_DOWN_MASK) == MouseEvent.BUTTON1_DOWN_MASK) {
-			if (center != null) {
+	@Override
+	public void mouseDragged(MouseEvent e)
+	{
+		if ((e.getModifiersEx() & MouseEvent.BUTTON1_DOWN_MASK) == MouseEvent.BUTTON1_DOWN_MASK)
+		{
+			if (center != null)
+			{
 				Point circlePoint = convertToAbsolutePoint(e.getPoint());
 				double radius = circlePoint.distance(center);
 				polygonPoints.clear();
-				for (int i = 0; i < POLYGON_POINTS; i++) {
+				for (int i = 0; i < POLYGON_POINTS; i++)
+				{
 					double angle = ANGLE_PART * i;
 					int y = (int) Math.round(Math.sin(angle) * radius);
 					int x = (int) Math.round(Math.cos(angle) * radius);
@@ -66,16 +80,20 @@ public class PolygonCircleSelectionMapController extends AbstractPolygonSelectio
 		}
 	}
 
-	public void mouseMoved(MouseEvent e) {
-	}
+	@Override
+	public void mouseMoved(MouseEvent e)
+	{}
 
-	public void mouseReleased(MouseEvent e) {
-	}
+	@Override
+	public void mouseReleased(MouseEvent e)
+	{}
 
-	public void mouseEntered(MouseEvent e) {
-	}
+	@Override
+	public void mouseEntered(MouseEvent e)
+	{}
 
-	public void mouseExited(MouseEvent e) {
-	}
+	@Override
+	public void mouseExited(MouseEvent e)
+	{}
 
 }

@@ -25,17 +25,20 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-
 import org.apache.log4j.Logger;
+<<<<<<< HEAD
 
 import osmb.program.tilestore.berkeleydb.DelayedInterruptThread;
 import osmb.utilities.OSMBUtilities;
+=======
+import osmcb.program.tilestore.berkeleydb.DelayedInterruptThread;
+import osmcb.utilities.OSMCBUtilities;
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 import osmcd.OSMCDStrs;
 
 public class WorkinprogressDialog extends JDialog implements WindowListener
@@ -55,14 +58,21 @@ public class WorkinprogressDialog extends JDialog implements WindowListener
 		super(owner, title, true);
 		this.threadFactory = threadFactory;
 		setLayout(new FlowLayout());
+<<<<<<< HEAD
 		add(new JLabel(new ImageIcon(OSMBUtilities.getResourceImageUrl("ajax-loader.gif"))));
+=======
+		add(new JLabel(new ImageIcon(OSMCBUtilities.getResourceImageUrl("ajax-loader.gif"))));
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(owner);
 		addWindowListener(this);
 		JButton abort = new JButton(OSMCDStrs.RStr("dlg_progress_about_btn"));
 		abort.addActionListener(new ActionListener()
 		{
+<<<<<<< HEAD
 
+=======
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
@@ -78,7 +88,10 @@ public class WorkinprogressDialog extends JDialog implements WindowListener
 	{
 		workerThread = threadFactory.newThread(new Runnable()
 		{
+<<<<<<< HEAD
 
+=======
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 			@Override
 			public void run()
 			{
@@ -134,8 +147,7 @@ public class WorkinprogressDialog extends JDialog implements WindowListener
 
 	@Override
 	public void windowActivated(WindowEvent event)
-	{
-	}
+	{}
 
 	@Override
 	public void windowOpened(WindowEvent event)
@@ -151,23 +163,19 @@ public class WorkinprogressDialog extends JDialog implements WindowListener
 
 	@Override
 	public void windowClosing(WindowEvent event)
-	{
-	}
+	{}
 
 	@Override
 	public void windowDeactivated(WindowEvent event)
-	{
-	}
+	{}
 
 	@Override
 	public void windowDeiconified(WindowEvent event)
-	{
-	}
+	{}
 
 	@Override
 	public void windowIconified(WindowEvent event)
-	{
-	}
+	{}
 
 	public static void main(String[] args)
 	{
@@ -185,7 +193,6 @@ public class WorkinprogressDialog extends JDialog implements WindowListener
 
 		final Thread t = new Thread()
 		{
-
 			@Override
 			public void run()
 			{
@@ -212,7 +219,6 @@ public class WorkinprogressDialog extends JDialog implements WindowListener
 					dlg.setVisible(false);
 				}
 			}
-
 		};
 		dlg.startWork(t);
 	}

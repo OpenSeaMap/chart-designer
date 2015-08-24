@@ -31,7 +31,11 @@ import javax.management.NotificationListener;
 
 import org.apache.log4j.Logger;
 
+<<<<<<< HEAD
 import osmb.mapsources.IfMapSource;
+=======
+import osmcb.program.interfaces.IfMapSource;
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 import osmcd.gui.mapview.Tile.TileState;
 
 /**
@@ -118,8 +122,12 @@ public class MemoryTileCache implements NotificationListener
 			removeOldEntries();
 	}
 
+<<<<<<< HEAD
 	public Tile getTile(IfMapSource source, int x, int y, int z)
 	{
+=======
+	public Tile getTile(IfMapSource source, int x, int y, int z) {
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 		CacheEntry entry = hashtable.get(Tile.getTileKey(source, x, y, z));
 		if (entry == null)
 			return null;

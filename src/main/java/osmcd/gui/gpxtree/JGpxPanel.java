@@ -29,7 +29,11 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
+<<<<<<< HEAD:src/main/java/osmcd/gui/gpxtree/JGpxPanel.java
 import osmb.utilities.GBC;
+=======
+import osmcb.utilities.GBC;
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/panels/JGpxPanel.java
 import osmcd.OSMCDStrs;
 import osmcd.data.gpx.gpx11.RteType;
 import osmcd.data.gpx.gpx11.TrkType;
@@ -43,6 +47,10 @@ import osmcd.gui.actions.GpxSave;
 import osmcd.gui.components.JCollapsiblePanel;
 import osmcd.gui.mapview.GpxLayer;
 import osmcd.gui.mapview.PreviewMap;
+<<<<<<< HEAD:src/main/java/osmcd/gui/gpxtree/JGpxPanel.java
+=======
+import osmcd.gui.mapview.layer.GpxLayer;
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/panels/JGpxPanel.java
 
 /**
  * Allows to load, display, edit and save gpx files using a tree view. TODO warn unsaved changes on exit
@@ -65,6 +73,7 @@ public class JGpxPanel extends JCollapsiblePanel
 
 		this.previewMap = previewMap;
 
+<<<<<<< HEAD:src/main/java/osmcd/gui/gpxtree/JGpxPanel.java
 		GBC eol = GBC.eol().fill(GBC.HORIZONTAL);
 		GBC std = GBC.std().fill(GBC.HORIZONTAL);
 
@@ -72,6 +81,8 @@ public class JGpxPanel extends JCollapsiblePanel
 		treeView.setPreferredSize(new Dimension(100, 300));
 		addContent(treeView, GBC.eol().fill());
 
+=======
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/panels/JGpxPanel.java
 		JButton newGpx = new JButton(OSMCDStrs.RStr("rp_gpx_new_gpx"));
 		newGpx.addActionListener(new GpxNew(this));
 		addContent(newGpx, std);
@@ -268,8 +279,12 @@ public class JGpxPanel extends JCollapsiblePanel
 	 * Resets the tree view. Used by GpxClear.
 	 * 
 	 */
+<<<<<<< HEAD:src/main/java/osmcd/gui/gpxtree/JGpxPanel.java
 	public void resetModel()
 	{
+=======
+	public void resetModel() {
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/panels/JGpxPanel.java
 		rootNode = new DefaultMutableTreeNode(OSMCDStrs.RStr("rp_gpx_default_node_name"));
 		model.setRoot(rootNode);
 		openedFiles = new ArrayList<String>();

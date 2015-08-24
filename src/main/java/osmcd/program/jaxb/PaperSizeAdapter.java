@@ -37,7 +37,11 @@ public class PaperSizeAdapter extends XmlAdapter<String, PaperSize>
 		}
 		if (value.contains(X))
 		{
+<<<<<<< HEAD
 			String[] split = value.split(X);
+=======
+			String split[] = value.split(X);
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 			double width = Double.parseDouble(split[0]);
 			double height = Double.parseDouble(split[1]);
 			return new PaperSize(width, height);

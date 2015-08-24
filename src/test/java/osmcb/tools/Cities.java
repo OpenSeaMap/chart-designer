@@ -60,8 +60,8 @@ public class Cities {
 		// TEST_COORDINATES.put(GoogleMapsKorea.class, Cities.SEOUL);
 		// TEST_COORDINATES.put(MicrosoftMapsChina.class, Cities.SHANGHAI);
 		// TEST_COORDINATES.put(MicrosoftVirtualEarth.class, Cities.NEY_YORK);
-		// TEST_COORDINATES.put(MultimapCom.class, Cities.LONDON);
-		// TEST_COORDINATES.put(MultimapOSUkCom.class, Cities.LONDON);
+		// TEST_COORDINATES.put(MultmapCom.class, Cities.LONDON);
+		// TEST_COORDINATES.put(MultmapOSUkCom.class, Cities.LONDON);
 		// TEST_COORDINATES.put(DoCeluPL.class, Cities.WARSZAWA);
 		// TEST_COORDINATES.put(YahooMapsJapan.class, TOKYO);
 		// TEST_COORDINATES.put(YahooMapsTaiwan.class, TAIPEI);

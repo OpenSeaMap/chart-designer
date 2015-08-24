@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <osmcdSettings>
+<<<<<<< HEAD
     <directories>
         <bundleOutputDirectory>C:\Users\Public\Documents\Chart Bundles</bundleOutputDirectory>
+=======
+    <bandwidthLimit>0</bandwidthLimit>
+    <coordinateNumberFormat>DEG_LOCAL</coordinateNumberFormat>
+    <customProxyHost></customProxyHost>
+    <customProxyPassword></customProxyPassword>
+    <customProxyPort></customProxyPort>
+    <customProxyUserName></customProxyUserName>
+    <customTileSize>false</customTileSize>
+    <devMode>false</devMode>
+    <directories>
+        <bundleOutputDirectory>C:\Users\Public\Documents\Atlanten</bundleOutputDirectory>
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
         <tileStoreDirectory>C:\Users\Public\Documents\OSMCB Tiles</tileStoreDirectory>
+        <mapSourcesDirectory>C:\Projekte\AHDTAC-Java\OSeaM ChartBundler\mapsources</mapSourcesDirectory>
         <catalogsDirectory>C:\Users\Public\Documents\OSMCB Catalogs</catalogsDirectory>
     </directories>
     <wgsGrid>
@@ -24,6 +38,7 @@
     <httpReadTimeout>10</httpReadTimeout>
     <localeCountry></localeCountry>
     <localeLanguage>en</localeLanguage>
+<<<<<<< HEAD
     <tileImageFormat>PNG</tileImageFormat>
     <tileMaxExpirationTime>33810225583</tileMaxExpirationTime>
     <tileMinExpirationTime>610478978</tileMinExpirationTime>
@@ -56,13 +71,116 @@
         <zoomLevel>7</zoomLevel>
         <zoomLevel>8</zoomLevel>
         <zoomLevel>9</zoomLevel>
+=======
+    <mapOverlapTiles>3</mapOverlapTiles>
+    <mapSourcesDisabled>
+        <mapSource>cb-enra</mapSource>
+        <mapSource>cb-enrh</mapSource>
+        <mapSource>cb-enrl</mapSource>
+        <mapSource>cb-tac</mapSource>
+        <mapSource>FAA Sectional Charts</mapSource>
+        <mapSource>FreemapSlovakia</mapSource>
+        <mapSource>FreemapSlovakiaCyclo</mapSource>
+        <mapSource>FreemapSlovakiaHiking</mapSource>
+        <mapSource>OSMapaTopo</mapSource>
+        <mapSource>OSMapaTopoContours</mapSource>
+        <mapSource>OpenPisteMapBCL</mapSource>
+        <mapSource>4uMaps</mapSource>
+        <mapSource>OpenStreetMap Hikebikemap.de</mapSource>
+        <mapSource>Turaterkep256</mapSource>
+        <mapSource>UMP-pcPL</mapSource>
+        <mapSource>USGS National Map Base</mapSource>
+        <mapSource>USGS National Map Satellite</mapSource>
+        <mapSource>USGS National Map Satellite+</mapSource>
+        <mapSource>USGS National Map Topo</mapSource>
+        <mapSource>New Zealand Topographic Maps</mapSource>
+    </mapSourcesDisabled>
+    <mapSourcesEnabled>
+        <mapSource>AH OSM DE</mapSource>
+        <mapSource>AH OpenCycleMap</mapSource>
+        <mapSource>AH OpenSeaMap - Mapnik</mapSource>
+        <mapSource>Custom OSM Mapnik</mapSource>
+        <mapSource>MapQuest</mapSource>
+        <mapSource>Mapnik</mapSource>
+        <mapSource>MoldovaPointMd</mapSource>
+        <mapSource>OSM CloudMade 1</mapSource>
+        <mapSource>OSMPublicTransport</mapSource>
+        <mapSource>OpenSeaMap</mapSource>
+        <mapSource>OpenSeaMap-Mapnik</mapSource>
+        <mapSource>OpenSeaMapDE</mapSource>
+        <mapSource>USGS National Map Vector</mapSource>
+        <mapSource>cb-sec</mapSource>
+        <mapSource>cb-wac</mapSource>
+        <mapSource>AH Bing Aerial Layer</mapSource>
+        <mapSource>AH Eniro Aerial</mapSource>
+        <mapSource>AH Eniro Aerial Layer</mapSource>
+        <mapSource>AH OpenStreetMap Mapnik</mapSource>
+    </mapSourcesEnabled>
+    <MapSourcesUpdate/>
+    <mapviewCenterCoordinate lat="53.4357192066942" lon="6.943359375"/>
+    <maxMapSize>65536</maxMapSize>
+    <proxyType>CUSTOM</proxyType>
+    <tileDefaultExpirationTime>2529491709</tileDefaultExpirationTime>
+    <tileImageFormat>PNG</tileImageFormat>
+    <tileMaxExpirationTime>33160339689</tileMaxExpirationTime>
+    <tileMinExpirationTime>449111555</tileMinExpirationTime>
+    <tileSize>256/256</tileSize>
+    <tileStoreEnabled>true</tileStoreEnabled>
+    <unitSystem>Metric</unitSystem>
+    <userAgent>OSMCB/0.0.10</userAgent>
+    <version>UNKNOWN</version>
+    <wgsGrid>
+        <color>#0000ff</color>
+        <compressLabels>false</compressLabels>
+        <density>SECONDS_30</density>
+        <enabled>true</enabled>
+        <width>1.0</width>
+    </wgsGrid>
+    <bundleFormatSpecificSettings>
+        <garminCustomMaxMapCount>100</garminCustomMaxMapCount>
+    </bundleFormatSpecificSettings>
+    <elementName>L</elementName>
+    <googleLanguage>en</googleLanguage>
+    <gpxFileChooserDir></gpxFileChooserDir>
+    <mainWindow>
+        <size>800/590</size>
+        <position>0/0</position>
+        <maximized>true</maximized>
+        <leftPanelVisible>true</leftPanelVisible>
+        <rightPanelVisible>false</rightPanelVisible>
+        <collapsedPanels/>
+    </mainWindow>
+    <mapviewGridZoom>16</mapviewGridZoom>
+    <mapviewMapSource>AH OpenSeaMap - Mapnik</mapviewMapSource>
+    <mapviewZoom>5</mapviewZoom>
+    <osmHikingTicket></osmHikingTicket>
+    <paperAtlas>
+        <compression>8</compression>
+        <crop>15</crop>
+        <dpi>300</dpi>
+        <marginBottom>14.173228346456693</marginBottom>
+        <marginLeft>14.173228346456693</marginLeft>
+        <marginRight>14.173228346456693</marginRight>
+        <marginTop>28.346456692913385</marginTop>
+        <overlap>7.086614173228346</overlap>
+        <compass>true</compass>
+        <pageNumbers>true</pageNumbers>
+        <scaleBar>true</scaleBar>
+        <wgsEnabled>true</wgsEnabled>
+        <paperSize>A4</paperSize>
+        <wgsDensity>SECONDS_10</wgsDensity>
+    </paperAtlas>
+    <placeBookmarks/>
+    <selectedZoomLevels>
+        <zoomLevel>8</zoomLevel>
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
         <zoomLevel>10</zoomLevel>
-        <zoomLevel>11</zoomLevel>
         <zoomLevel>12</zoomLevel>
-        <zoomLevel>13</zoomLevel>
         <zoomLevel>14</zoomLevel>
-        <zoomLevel>15</zoomLevel>
         <zoomLevel>16</zoomLevel>
     </selectedZoomLevels>
+<<<<<<< HEAD
     <settingsTabSelected>6</settingsTabSelected>
+=======
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 </osmcdSettings>

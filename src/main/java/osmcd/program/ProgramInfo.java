@@ -19,8 +19,13 @@ package osmcd.program;
 import java.io.InputStream;
 import java.util.Properties;
 
+<<<<<<< HEAD
 import osmb.utilities.GUIExceptionHandler;
 import osmb.utilities.OSMBUtilities;
+=======
+import osmcb.utilities.GUIExceptionHandler;
+import osmcb.utilities.OSMCBUtilities;
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 import osmcd.OSMCDApp;
 
 public class ProgramInfo
@@ -54,7 +59,11 @@ public class ProgramInfo
 		}
 		finally
 		{
+<<<<<<< HEAD
 			OSMBUtilities.closeStream(propIn);
+=======
+			OSMCBUtilities.closeStream(propIn);
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 		}
 		propIn = OSMCDApp.class.getResourceAsStream("osmcd-rev.properties");
 		try
@@ -65,12 +74,20 @@ public class ProgramInfo
 				Properties props = new Properties();
 				props.load(propIn);
 				rev = props.getProperty("osmcd.revision");
+<<<<<<< HEAD
 				SVN_REVISION = Integer.toString(OSMBUtilities.parseSVNRevision(rev));
+=======
+				SVN_REVISION = Integer.toString(OSMCBUtilities.parseSVNRevision(rev));
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 			}
 			else
 			{
 				rev = System.getProperty("osmcd.revision.fallback");
+<<<<<<< HEAD
 				SVN_REVISION = Integer.toString(OSMBUtilities.parseSVNRevision(rev)) + " exported";
+=======
+				SVN_REVISION = Integer.toString(OSMCBUtilities.parseSVNRevision(rev)) + " exported";
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 			}
 		}
 		catch (Exception e)
@@ -79,7 +96,11 @@ public class ProgramInfo
 		}
 		finally
 		{
+<<<<<<< HEAD
 			OSMBUtilities.closeStream(propIn);
+=======
+			OSMCBUtilities.closeStream(propIn);
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 		}
 		userAgent = PROG_NAME_SHORT + "/" + (getVersion().replaceAll(" ", "_"));
 	}

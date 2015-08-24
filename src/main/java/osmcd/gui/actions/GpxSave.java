@@ -24,14 +24,26 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.xml.bind.JAXBException;
 
+<<<<<<< HEAD
 import osmb.utilities.file.GpxFileFilter;
 import osmcd.OSMCDSettings;
+=======
+import osmcb.utilities.file.GpxFileFilter;
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 import osmcd.OSMCDStrs;
 import osmcd.data.gpx.GPXUtils;
 import osmcd.data.gpx.gpx11.Gpx;
 import osmcd.gui.MainFrame;
 import osmcd.gui.gpxtree.GpxEntry;
+<<<<<<< HEAD
 import osmcd.gui.gpxtree.JGpxPanel;
+=======
+import osmcd.gui.panels.JGpxPanel;
+import osmcd.program.model.OSMCDSettings;
+
+public class GpxSave implements ActionListener
+{
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 
 public class GpxSave implements ActionListener
 {
@@ -56,7 +68,10 @@ public class GpxSave implements ActionListener
 		this.saveAs = saveAs;
 	}
 
+<<<<<<< HEAD
 	@Override
+=======
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 	public void actionPerformed(ActionEvent event)
 	{
 
@@ -96,7 +111,11 @@ public class GpxSave implements ActionListener
 		JFileChooser fc = new JFileChooser();
 		try
 		{
+<<<<<<< HEAD
 			File dir = new File(OSMCDSettings.getInstance().getGpxFileChooserDir());
+=======
+			File dir = new File(OSMCDSettings.getInstance().gpxFileChooserDir);
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 			if (f == null)
 				fc.setCurrentDirectory(dir); // restore the saved directory
 			else
@@ -109,7 +128,11 @@ public class GpxSave implements ActionListener
 		int returnVal = fc.showSaveDialog(MainFrame.getMainGUI());
 		if (returnVal != JFileChooser.APPROVE_OPTION)
 			return null;
+<<<<<<< HEAD
 		OSMCDSettings.getInstance().setGpxFileChooserDir(fc.getCurrentDirectory().getAbsolutePath());
+=======
+		OSMCDSettings.getInstance().gpxFileChooserDir = fc.getCurrentDirectory().getAbsolutePath();
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 		return fc.getSelectedFile();
 	}
 }

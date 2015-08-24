@@ -29,8 +29,13 @@ import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
+<<<<<<< HEAD
 import osmb.mapsources.IfMapSource;
 import osmb.utilities.OSMBUtilities;
+=======
+import osmcb.program.interfaces.IfMapSource;
+import osmcb.utilities.OSMCBUtilities;
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 
 /**
  * Holds one iMap tile. Additionally the code for loading the tile image and painting it is also included in this class.
@@ -45,6 +50,7 @@ public class Tile
 	public static BufferedImage LOADING_IMAGE;
 	public static BufferedImage ERROR_IMAGE;
 
+<<<<<<< HEAD
 	static
 	{
 		try
@@ -54,6 +60,13 @@ public class Tile
 		}
 		catch (Exception e1)
 		{
+=======
+	static {
+		try {
+			LOADING_IMAGE = ImageIO.read(OSMCBUtilities.getResourceImageUrl("hourglass.png"));
+			ERROR_IMAGE = ImageIO.read(OSMCBUtilities.getResourceImageUrl("error.png"));
+		} catch (Exception e1) {
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 			LOADING_IMAGE = null;
 			ERROR_IMAGE = null;
 		}
@@ -80,8 +93,12 @@ public class Tile
 	 * @param ytile
 	 * @param zoom
 	 */
+<<<<<<< HEAD
 	public Tile(IfMapSource mapSource, int xtile, int ytile, int zoom)
 	{
+=======
+	public Tile(IfMapSource mapSource, int xtile, int ytile, int zoom) {
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 		super();
 		this.mapSource = mapSource;
 		this.xtile = xtile;
@@ -91,8 +108,12 @@ public class Tile
 		this.key = getTileKey(mapSource, xtile, ytile, zoom);
 	}
 
+<<<<<<< HEAD
 	public Tile(IfMapSource source, int xtile, int ytile, int zoom, BufferedImage image)
 	{
+=======
+	public Tile(IfMapSource source, int xtile, int ytile, int zoom, BufferedImage image) {
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 		this(source, xtile, ytile, zoom);
 		this.image = image;
 	}
@@ -162,8 +183,12 @@ public class Tile
 		}
 	}
 
+<<<<<<< HEAD
 	public IfMapSource getSource()
 	{
+=======
+	public IfMapSource getSource() {
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 		return mapSource;
 	}
 
@@ -293,8 +318,12 @@ public class Tile
 		return -1;
 	}
 
+<<<<<<< HEAD
 	public static String getTileKey(IfMapSource source, int xtile, int ytile, int zoom)
 	{
+=======
+	public static String getTileKey(IfMapSource source, int xtile, int ytile, int zoom) {
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 		return zoom + "/" + xtile + "/" + ytile + "@" + source.getName();
 	}
 }

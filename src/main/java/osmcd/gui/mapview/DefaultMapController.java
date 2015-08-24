@@ -24,17 +24,29 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+<<<<<<< HEAD:src/main/java/osmcd/gui/mapview/DefaultMapController.java
 
 import osmb.utilities.OSUtilities;
 
 /**
  * Default iMap controller which implements iMap moving by pressing the right mouse button and zooming by double click or by mouse wheel.
+=======
+import osmcb.utilities.OSUtilities;
+import osmcd.gui.mapview.PreviewMap;
+
+/**
+ * Default map controller which implements map moving by pressing the right mouse button and zooming by double click or by mouse wheel.
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/mapview/controller/DefaultMapController.java
  * 
  * @author Jan Peter Stotz
  * 
  */
 public class DefaultMapController extends JMapController implements MouseListener, MouseMotionListener, MouseWheelListener
 {
+<<<<<<< HEAD:src/main/java/osmcd/gui/mapview/DefaultMapController.java
+=======
+
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/mapview/controller/DefaultMapController.java
 	private static final int MOUSE_BUTTONS_MASK = MouseEvent.BUTTON3_DOWN_MASK | MouseEvent.BUTTON1_DOWN_MASK | MouseEvent.BUTTON2_DOWN_MASK;
 
 	private static final int MAC_MOUSE_BUTTON3_MASK = MouseEvent.CTRL_DOWN_MASK | MouseEvent.BUTTON1_DOWN_MASK;
@@ -59,8 +71,12 @@ public class DefaultMapController extends JMapController implements MouseListene
 	@Override
 	public void mouseDragged(MouseEvent e)
 	{
+<<<<<<< HEAD:src/main/java/osmcd/gui/mapview/DefaultMapController.java
 		if (!movementEnabled || !isMoving)
 			return;
+=======
+		if (!movementEnabled || !isMoving) return;
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/mapview/controller/DefaultMapController.java
 		// Is only the selected mouse button pressed?
 		if ((e.getModifiersEx() & MOUSE_BUTTONS_MASK) == movementMouseButtonMask)
 		{
@@ -78,8 +94,12 @@ public class DefaultMapController extends JMapController implements MouseListene
 	@Override
 	public void mouseClicked(MouseEvent e)
 	{
+<<<<<<< HEAD:src/main/java/osmcd/gui/mapview/DefaultMapController.java
 		if (doubleClickZoomEnabled && e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1)
 			map.zoomIn(e.getPoint());
+=======
+		if (doubleClickZoomEnabled && e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) map.zoomIn(e.getPoint());
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/mapview/controller/DefaultMapController.java
 	}
 
 	@Override
@@ -105,8 +125,12 @@ public class DefaultMapController extends JMapController implements MouseListene
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e)
 	{
+<<<<<<< HEAD:src/main/java/osmcd/gui/mapview/DefaultMapController.java
 		if (wheelZoomEnabled)
 			map.setZoom(map.getZoom() - e.getWheelRotation(), e.getPoint());
+=======
+		if (wheelZoomEnabled) map.setZoom(map.getZoom() - e.getWheelRotation(), e.getPoint());
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/mapview/controller/DefaultMapController.java
 	}
 
 	public boolean isMovementEnabled()
@@ -180,6 +204,7 @@ public class DefaultMapController extends JMapController implements MouseListene
 
 	@Override
 	public void mouseEntered(MouseEvent e)
+<<<<<<< HEAD:src/main/java/osmcd/gui/mapview/DefaultMapController.java
 	{
 	}
 
@@ -187,6 +212,13 @@ public class DefaultMapController extends JMapController implements MouseListene
 	public void mouseExited(MouseEvent e)
 	{
 	}
+=======
+	{}
+
+	@Override
+	public void mouseExited(MouseEvent e)
+	{}
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/mapview/controller/DefaultMapController.java
 
 	@Override
 	public void mouseMoved(MouseEvent e)
@@ -194,8 +226,7 @@ public class DefaultMapController extends JMapController implements MouseListene
 
 		// Mac OSX simulates with ctrl + mouse 1 the second mouse button hence
 		// no dragging events get fired.
-		if (!OSUtilities.isPlatformOsx() || !movementEnabled || !isMoving)
-			return;
+		if (!OSUtilities.isPlatformOsx() || !movementEnabled || !isMoving) return;
 		// Is only the selected mouse button pressed?
 		if (e.getModifiersEx() == MouseEvent.CTRL_DOWN_MASK)
 		{

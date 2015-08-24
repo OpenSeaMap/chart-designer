@@ -21,15 +21,26 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.AffineTransform;
 import java.util.List;
+<<<<<<< HEAD:src/main/java/osmcd/gui/mapview/PolygonSelectionLayer.java
 
 import osmb.program.map.IfMapSpace;
+=======
+import osmcb.program.interfaces.IfMapSpace;
+import osmcd.gui.mapview.JMapViewer;
+import osmcd.gui.mapview.PreviewMap;
+import osmcd.gui.mapview.controller.AbstractPolygonSelectionMapController;
+import osmcd.gui.mapview.interfaces.MapLayer;
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/mapview/layer/PolygonSelectionLayer.java
 
 /**
  * Displays a polygon on the iMap - only for testing purposes
  */
 public class PolygonSelectionLayer implements MapLayer
 {
+<<<<<<< HEAD:src/main/java/osmcd/gui/mapview/PolygonSelectionLayer.java
 
+=======
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/mapview/layer/PolygonSelectionLayer.java
 	private final AbstractPolygonSelectionMapController mapController;
 
 	public PolygonSelectionLayer(AbstractPolygonSelectionMapController mapController)
@@ -44,8 +55,7 @@ public class PolygonSelectionLayer implements MapLayer
 		g.setColor(Color.RED);
 		Point lastPoint = null;
 		List<Point> pointList = mapController.getPolygonPoints();
-		if (pointList.size() == 0)
-			return;
+		if (pointList.size() == 0) return;
 		AffineTransform at = g.getTransform();
 		try
 		{
@@ -69,5 +79,4 @@ public class PolygonSelectionLayer implements MapLayer
 			g.setTransform(at);
 		}
 	}
-
 }

@@ -33,11 +33,19 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+<<<<<<< HEAD
 import osmb.utilities.GBC;
 import osmcd.OSMCDSettings;
 import osmcd.OSMCDStrs;
 import osmcd.gui.MainFrame;
 import osmcd.program.Bookmark;
+=======
+import osmcb.utilities.GBC;
+import osmcd.OSMCDStrs;
+import osmcd.gui.MainGUI;
+import osmcd.program.model.Bookmark;
+import osmcd.program.model.OSMCDSettings;
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 
 public class ManageBookmarks extends JDialog implements ListSelectionListener, ActionListener
 {
@@ -51,7 +59,11 @@ public class ManageBookmarks extends JDialog implements ListSelectionListener, A
 
 	public ManageBookmarks(Window owner) throws HeadlessException {
 		super(owner, OSMCDStrs.RStr("dlg_mgn_bookmark_title"));
+<<<<<<< HEAD
 		setIconImages(MainFrame.OSMCD_ICONS);
+=======
+		setIconImages(MainGUI.OSMCD_ICONS);
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 		setLayout(new GridBagLayout());
 		applyButton = new JButton(OSMCDStrs.RStr("Close"));
 		applyButton.addActionListener(this);
@@ -61,7 +73,11 @@ public class ManageBookmarks extends JDialog implements ListSelectionListener, A
 		deleteButton.addActionListener(this);
 
 		bookmarksModel = new DefaultListModel<Bookmark>();
+<<<<<<< HEAD
 		for (Bookmark b: OSMCDSettings.getInstance().getPlaceBookmarks())
+=======
+		for (Bookmark b: OSMCDSettings.getInstance().placeBookmarks)
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 			bookmarksModel.addElement(b);
 		bookmarks = new JList<Bookmark>(bookmarksModel);
 		bookmarks.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
@@ -100,8 +116,13 @@ public class ManageBookmarks extends JDialog implements ListSelectionListener, A
 	{
 		ArrayList<Bookmark> bookmarksList = new ArrayList<Bookmark>(bookmarksModel.getSize());
 		for (int i = 0; i < bookmarksModel.getSize(); i++)
+<<<<<<< HEAD
 			bookmarksList.add(bookmarksModel.get(i));
 		OSMCDSettings.getInstance().setPlaceBookmarks(bookmarksList);
+=======
+			bookmarksList.add((Bookmark) bookmarksModel.get(i));
+		OSMCDSettings.getInstance().placeBookmarks = bookmarksList;
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 		setVisible(false);
 		dispose();
 	}

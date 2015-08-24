@@ -35,8 +35,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
+<<<<<<< HEAD
 import osmb.utilities.GBC;
 import osmb.utilities.OSMBUtilities;
+=======
+import osmcb.utilities.GBC;
+import osmcb.utilities.OSMCBUtilities;
+
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 
 /**
  * Bases upon "TitleContainer" from project "swivel"
@@ -58,6 +64,7 @@ public class JCollapsiblePanel extends JPanel
 	private static ImageIcon arrowClosed;
 	private static ImageIcon arrowOpen;
 
+<<<<<<< HEAD
 	static
 	{
 		try
@@ -67,6 +74,13 @@ public class JCollapsiblePanel extends JPanel
 		}
 		catch (Exception e)
 		{
+=======
+	static {
+		try {
+			arrowClosed = OSMCBUtilities.loadResourceImageIcon("arrow_closed.png");
+			arrowOpen = OSMCBUtilities.loadResourceImageIcon("arrow_open.png");
+		} catch (Exception e) {
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 			arrowClosed = new ImageIcon();
 			arrowOpen = new ImageIcon();
 		}

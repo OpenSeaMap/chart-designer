@@ -18,8 +18,8 @@ package osmcd.gui.actions;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JOptionPane;
+<<<<<<< HEAD
 
 import osmb.mapsources.ACMapSourcesManager;
 import osmb.mapsources.IfFileBasedMapSource;
@@ -29,11 +29,26 @@ import osmcd.gui.MainFrame;
 
 public class RefreshCustomMapsources implements ActionListener
 {
+=======
+import osmcb.mapsources.ACMapSourcesManager;
+import osmcb.program.interfaces.IfFileBasedMapSource;
+import osmcb.program.interfaces.IfMapSource;
+import osmcd.OSMCDStrs;
+import osmcd.gui.MainGUI;
+
+public class RefreshCustomMapsources implements ActionListener
+{
+
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		ACMapSourcesManager manager = ACMapSourcesManager.getInstance();
+<<<<<<< HEAD
 		MainFrame gui = MainFrame.getMainGUI();
+=======
+		MainGUI gui = MainGUI.getMainGUI();
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 		IfMapSource selectedMapSource = gui.getSelectedMapSource();
 		boolean updateGui = false;
 		int count = 0;
@@ -44,8 +59,7 @@ public class RefreshCustomMapsources implements ActionListener
 				IfFileBasedMapSource fbms = (IfFileBasedMapSource) mapSource;
 				fbms.reinitialize();
 				count++;
-				if (mapSource.equals(selectedMapSource))
-					updateGui = true;
+				if (mapSource.equals(selectedMapSource)) updateGui = true;
 			}
 		}
 		if (updateGui)

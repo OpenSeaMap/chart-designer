@@ -22,8 +22,7 @@
 //
 
 @javax.xml.bind.annotation.XmlSchema(namespace = "http://www.topografix.com/GPX/1/1", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
-@XmlJavaTypeAdapters(
-{ @XmlJavaTypeAdapter(value = BigDecimalAdapter.class, type = BigDecimal.class) })
+@XmlJavaTypeAdapters({ @XmlJavaTypeAdapter(value = BigDecimalAdapter.class, type = BigDecimal.class) })
 package osmcd.data.gpx.gpx11;
 
 import java.math.BigDecimal;
@@ -31,5 +30,9 @@ import java.math.BigDecimal;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapters;
 
+<<<<<<< HEAD
 import osmb.program.jaxb.BigDecimalAdapter;
+=======
+import osmcb.program.jaxb.BigDecimalAdapter;
+>>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 

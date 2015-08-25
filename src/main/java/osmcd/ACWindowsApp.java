@@ -16,7 +16,7 @@
  ******************************************************************************/
 package osmcd;
 
-import osmb.program.ACApp;
+import osmcb.program.abstracts.ACApp;
 import osmcd.program.interfaces.IfWinApp;
 
 /**
@@ -31,8 +31,7 @@ import osmcd.program.interfaces.IfWinApp;
  */
 public abstract class ACWindowsApp extends ACApp implements IfWinApp
 {
-	public ACWindowsApp()
-	{
+	public ACWindowsApp() {
 		super();
 		try
 		{

@@ -43,14 +43,12 @@
     </mainWindow>
     <mapOverlapTiles>1</mapOverlapTiles>
     <mapviewCenterCoordinate>
-        <lat>44.17826452922576</lat>
-        <lon>14.81231689453125</lon>
+        <lat>19.80805412808859</lat>
+        <lon>25.224609375</lon>
     </mapviewCenterCoordinate>
     <mapviewGridZoom>16</mapviewGridZoom>
     <mapviewMapSource>AH OpenSeaMap - Mapnik</mapviewMapSource>
-    <mapviewSelectionMax>392734720/586645504</mapviewSelectionMax>
-    <mapviewSelectionMin>392734720/586645504</mapviewSelectionMin>
-    <mapviewZoom>9</mapviewZoom>
+    <mapviewZoom>4</mapviewZoom>
     <maxMapSize>65536</maxMapSize>
     <selectedZoomLevels>
         <zoomLevel>7</zoomLevel>

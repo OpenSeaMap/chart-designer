@@ -21,24 +21,20 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.util.Timer;
 import java.util.TimerTask;
+
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.ComponentInputMap;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.KeyStroke;
-<<<<<<< HEAD:src/main/java/osmcd/gui/mapview/MapKeyboardController.java
 
-=======
-import osmcd.gui.mapview.PreviewMap;
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/mapview/controller/MapKeyboardController.java
 
 /**
  * Implements the GUI logic for the preview iMap panel that manages the iMap
  * movement by mouse and actions triggered by key strokes.
  */
-public class MapKeyboardController extends JMapController
-{
+public class MapKeyboardController extends JMapController {
 
 	/** A Timer for smoothly moving the iMap area */
 	private static final Timer timer = new Timer(true);
@@ -57,8 +53,7 @@ public class MapKeyboardController extends JMapController
 
 	private final InputMap inputMap;
 
-	public MapKeyboardController(PreviewMap map, boolean enabled)
-	{
+	public MapKeyboardController(PreviewMap map, boolean enabled) {
 		super(map);
 
 		inputMap = new ComponentInputMap(map);
@@ -76,14 +71,19 @@ public class MapKeyboardController extends JMapController
 
 		// zooming. To avoid confusion about which modifier key to use,
 		// we just add all keys left of the space bar
-		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, InputEvent.CTRL_DOWN_MASK, false), "ZOOM_IN");
-		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, InputEvent.META_DOWN_MASK, false), "ZOOM_IN");
-		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, InputEvent.ALT_DOWN_MASK, false), "ZOOM_IN");
-		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, InputEvent.CTRL_DOWN_MASK, false), "ZOOM_OUT");
-		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, InputEvent.META_DOWN_MASK, false), "ZOOM_OUT");
-		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, InputEvent.ALT_DOWN_MASK, false), "ZOOM_OUT");
+		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, InputEvent.CTRL_DOWN_MASK, false),
+				"ZOOM_IN");
+		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, InputEvent.META_DOWN_MASK, false),
+				"ZOOM_IN");
+		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, InputEvent.ALT_DOWN_MASK, false),
+				"ZOOM_IN");
+		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, InputEvent.CTRL_DOWN_MASK, false),
+				"ZOOM_OUT");
+		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, InputEvent.META_DOWN_MASK, false),
+				"ZOOM_OUT");
+		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, InputEvent.ALT_DOWN_MASK, false),
+				"ZOOM_OUT");
 
-<<<<<<< HEAD:src/main/java/osmcd/gui/mapview/MapKeyboardController.java
 		// iMap selection
 		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, InputEvent.CTRL_DOWN_MASK, false),
 				"PREVIOUS_MAP");
@@ -97,15 +97,6 @@ public class MapKeyboardController extends JMapController
 				"NEXT_MAP");
 		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, InputEvent.ALT_DOWN_MASK, false),
 				"NEXT_MAP");
-=======
-		// map selection
-		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, InputEvent.CTRL_DOWN_MASK, false), "PREVIOUS_MAP");
-		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, InputEvent.META_DOWN_MASK, false), "PREVIOUS_MAP");
-		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, InputEvent.ALT_DOWN_MASK, false), "PREVIOUS_MAP");
-		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, InputEvent.CTRL_DOWN_MASK, false), "NEXT_MAP");
-		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, InputEvent.META_DOWN_MASK, false), "NEXT_MAP");
-		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, InputEvent.ALT_DOWN_MASK, false), "NEXT_MAP");
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/mapview/controller/MapKeyboardController.java
 
 		inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0, true), "REFRESH");
 
@@ -121,95 +112,70 @@ public class MapKeyboardController extends JMapController
 		actionMap.put("NEXT_MAP", new NextMapAction());
 		actionMap.put("PREVIOUS_MAP", new PreviousMapAction());
 		actionMap.put("REFRESH", new RefreshAction());
-		if (enabled) enable();
+		if (enabled)
+			enable();
 	}
 
 	@Override
-	public void disable()
-	{
+	public void disable() {
 		map.setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, new ComponentInputMap(map));
 	}
 
 	@Override
-	public void enable()
-	{
+	public void enable() {
 		map.setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap);
 	}
 
-	private class MoveRightAction extends AbstractAction
-	{
+	private class MoveRightAction extends AbstractAction {
 		private static final long serialVersionUID = -6758721144600926744L;
 
-		@Override
-		public void actionPerformed(ActionEvent e)
-		{
+		public void actionPerformed(ActionEvent e) {
 			moveTask.setDirectionX(1);
 		}
 	}
 
-	private class MoveLeftAction extends AbstractAction
-	{
+	private class MoveLeftAction extends AbstractAction {
 		private static final long serialVersionUID = 2695221718338284951L;
 
-		@Override
-		public void actionPerformed(ActionEvent e)
-		{
+		public void actionPerformed(ActionEvent e) {
 			moveTask.setDirectionX(-1);
 		}
 	}
 
-	private class MoveUpAction extends AbstractAction
-	{
+	private class MoveUpAction extends AbstractAction {
 		private static final long serialVersionUID = -8414310977137213707L;
 
-		@Override
-		public void actionPerformed(ActionEvent e)
-		{
+		public void actionPerformed(ActionEvent e) {
 			moveTask.setDirectionY(-1);
 		}
 	}
 
-	private class MoveDownAction extends AbstractAction
-	{
+	private class MoveDownAction extends AbstractAction {
 		private static final long serialVersionUID = -5360890019457799681L;
 
-		@Override
-		public void actionPerformed(ActionEvent e)
-		{
+		public void actionPerformed(ActionEvent e) {
 			moveTask.setDirectionY(1);
 		}
 	}
 
-	private class StopMoveHorizontallyAction extends AbstractAction
-	{
+	private class StopMoveHorizontallyAction extends AbstractAction {
 		private static final long serialVersionUID = -5360890019457799681L;
 
-		@Override
-		public void actionPerformed(ActionEvent e)
-		{
+		public void actionPerformed(ActionEvent e) {
 			moveTask.setDirectionX(0);
 		}
 	}
 
-	private class StopMoveVerticallyAction extends AbstractAction
-	{
+	private class StopMoveVerticallyAction extends AbstractAction {
 		private static final long serialVersionUID = -5360890019457799681L;
 
-		@Override
-		public void actionPerformed(ActionEvent e)
-		{
+		public void actionPerformed(ActionEvent e) {
 			moveTask.setDirectionY(0);
 		}
 	}
 
-<<<<<<< HEAD:src/main/java/osmcd/gui/mapview/MapKeyboardController.java
 	/** Moves the iMap depending on which cursor keys are pressed (or not) */
 	private class MoveTask extends TimerTask {
-=======
-	/** Moves the map depending on which cursor keys are pressed (or not) */
-	private class MoveTask extends TimerTask
-	{
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/mapview/controller/MapKeyboardController.java
 		/** The current x speed (pixels per timer interval) */
 		private double speedX = 1;
 
@@ -228,29 +194,24 @@ public class MapKeyboardController extends JMapController
 		 */
 		protected boolean scheduled = false;
 
-		protected void setDirectionX(int directionX)
-		{
+		protected void setDirectionX(int directionX) {
 			this.directionX = directionX;
 			updateScheduleStatus();
 		}
 
-		protected void setDirectionY(int directionY)
-		{
+		protected void setDirectionY(int directionY) {
 			this.directionY = directionY;
 			updateScheduleStatus();
 		}
 
-		private void updateScheduleStatus()
-		{
+		private void updateScheduleStatus() {
 			boolean newMoveTaskState = !(directionX == 0 && directionY == 0);
 
-			if (newMoveTaskState != scheduled)
-			{
+			if (newMoveTaskState != scheduled) {
 				scheduled = newMoveTaskState;
 				if (newMoveTaskState)
 					timer.schedule(this, 0, timerInterval);
-				else
-				{
+				else {
 					// We have to create a new instance because rescheduling a
 					// once canceled TimerTask is not possible
 					moveTask = new MoveTask();
@@ -260,98 +221,91 @@ public class MapKeyboardController extends JMapController
 		}
 
 		@Override
-		public void run()
-		{
+		public void run() {
 			// update the x speed
 			switch (directionX) {
 			case -1:
-				if (speedX > -1) speedX = -1;
-				if (speedX > -1 * MAX_SPEED) speedX -= ACCELERATION;
+				if (speedX > -1)
+					speedX = -1;
+				if (speedX > -1 * MAX_SPEED)
+					speedX -= ACCELERATION;
 				break;
 			case 0:
 				speedX = 0;
 				break;
 			case 1:
-				if (speedX < 1) speedX = 1;
-				if (speedX < MAX_SPEED) speedX += ACCELERATION;
+				if (speedX < 1)
+					speedX = 1;
+				if (speedX < MAX_SPEED)
+					speedX += ACCELERATION;
 				break;
 			}
 
 			// update the y speed
 			switch (directionY) {
 			case -1:
-				if (speedY > -1) speedY = -1;
-				if (speedY > -1 * MAX_SPEED) speedY -= ACCELERATION;
+				if (speedY > -1)
+					speedY = -1;
+				if (speedY > -1 * MAX_SPEED)
+					speedY -= ACCELERATION;
 				break;
 			case 0:
 				speedY = 0;
 				break;
 			case 1:
-				if (speedY < 1) speedY = 1;
-				if (speedY < MAX_SPEED) speedY += ACCELERATION;
+				if (speedY < 1)
+					speedY = 1;
+				if (speedY < MAX_SPEED)
+					speedY += ACCELERATION;
 				break;
 			}
 
 			// move the iMap
 			int moveX = (int) Math.floor(speedX);
 			int moveY = (int) Math.floor(speedY);
-			if (moveX != 0 || moveY != 0) map.moveMap(moveX, moveY);
+			if (moveX != 0 || moveY != 0)
+				map.moveMap(moveX, moveY);
 		}
 	}
 
-	private class ZoomInAction extends AbstractAction
-	{
+	private class ZoomInAction extends AbstractAction {
 		private static final long serialVersionUID = 1471739991027644588L;
 
-		@Override
-		public void actionPerformed(ActionEvent e)
-		{
+		public void actionPerformed(ActionEvent e) {
 			map.zoomIn();
 		}
 	}
 
-	private class ZoomOutAction extends AbstractAction
-	{
+	private class ZoomOutAction extends AbstractAction {
 		private static final long serialVersionUID = 1471739991027644588L;
 
-		@Override
-		public void actionPerformed(ActionEvent e)
-		{
+		public void actionPerformed(ActionEvent e) {
 			map.zoomOut();
 		}
 	}
 
-	private class PreviousMapAction extends AbstractAction
-	{
+	private class PreviousMapAction extends AbstractAction {
 		private static final long serialVersionUID = -1492075614917423363L;
 
-		@Override
-		public void actionPerformed(ActionEvent e)
-		{
-			map.selectPreviousMap();
+		public void actionPerformed(ActionEvent e) {
+			((PreviewMap) map).selectPreviousMap();
 		}
 	}
 
-	private class NextMapAction extends AbstractAction
-	{
+	private class NextMapAction extends AbstractAction {
 		private static final long serialVersionUID = -1491235614917423363L;
 
-		@Override
-		public void actionPerformed(ActionEvent e)
-		{
-			map.selectNextMap();
+		public void actionPerformed(ActionEvent e) {
+			((PreviewMap) map).selectNextMap();
 		}
 	}
 
-	private class RefreshAction extends AbstractAction
-	{
+	private class RefreshAction extends AbstractAction {
 
 		private static final long serialVersionUID = -7235666079485033823L;
 
-		@Override
-		public void actionPerformed(ActionEvent e)
-		{
-			map.refreshMap();
+		public void actionPerformed(ActionEvent e) {
+			((PreviewMap) map).refreshMap();
 		}
 	}
 

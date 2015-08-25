@@ -19,18 +19,11 @@ package osmcd.gui.actions;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Iterator;
-<<<<<<< HEAD
 
 import osmcd.gui.MainFrame;
 import osmcd.gui.gpxtree.JGpxPanel;
 import osmcd.gui.mapview.GpxLayer;
 import osmcd.gui.mapview.MapLayer;
-=======
-import osmcd.gui.MainGUI;
-import osmcd.gui.mapview.interfaces.MapLayer;
-import osmcd.gui.mapview.layer.GpxLayer;
-import osmcd.gui.panels.JGpxPanel;
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 
 /**
  * Deletes all loaded {@link GpxLayer}s from the main iMap viewer.
@@ -41,19 +34,18 @@ public class GpxClear implements ActionListener
 
 	JGpxPanel panel;
 
-	public GpxClear(JGpxPanel panel)
-	{
+	public GpxClear(JGpxPanel panel) {
 		super();
 		this.panel = panel;
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		Iterator<MapLayer> mapLayers = MainFrame.getMainGUI().previewMap.mapLayers.iterator();
 		while (mapLayers.hasNext())
 		{
-			if (mapLayers.next() instanceof GpxLayer) mapLayers.remove();
+			if (mapLayers.next() instanceof GpxLayer)
+				mapLayers.remove();
 		}
 		panel.resetModel();
 		MainFrame.getMainGUI().previewMap.repaint();

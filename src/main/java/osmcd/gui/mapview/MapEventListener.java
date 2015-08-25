@@ -16,17 +16,8 @@
  ******************************************************************************/
 package osmcd.gui.mapview;
 
-<<<<<<< HEAD:src/main/java/osmcd/gui/mapview/MapEventListener.java
 import osmb.mapsources.IfMapSource;
 import osmb.utilities.image.MercatorPixelCoordinate;
-=======
-import osmcb.program.interfaces.IfMapSource;
-import osmcb.program.model.MercatorPixelCoordinate;
-import osmcd.gui.mapview.controller.JMapController;
-
-public interface MapEventListener
-{
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/mapview/interfaces/MapEventListener.java
 
 public interface MapEventListener
 {

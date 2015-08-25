@@ -18,21 +18,12 @@ package osmcd.gui.mapview;
 
 import java.awt.Graphics;
 
-<<<<<<< HEAD:src/main/java/osmcd/gui/mapview/MapTileLayer.java
 import osmb.mapsources.IfMapSource;
-=======
-import osmcb.program.interfaces.IfMapSource;
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/mapview/interfaces/MapTileLayer.java
 
 public interface MapTileLayer
 {
 	public void startPainting(IfMapSource mapSource);
 
-<<<<<<< HEAD:src/main/java/osmcd/gui/mapview/MapTileLayer.java
-=======
-	public void startPainting(IfMapSource mapSource);
-	
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/mapview/interfaces/MapTileLayer.java
 	/**
 	 * Paints the tile identified by <code>tilex</code>/<code>tiley</code>/ <code>zoom</code> onto the {@link Graphics} <code>g</code> with it's
 	 * upper left corner at <code>gx</code>/<code>gy</code>. The size of each

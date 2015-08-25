@@ -26,7 +26,6 @@ import javax.swing.event.TreeModelListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 
-<<<<<<< HEAD:src/main/java/osmcd/gui/mapview/MapAreaHighlightingLayer.java
 import osmb.program.catalog.IfCatalog;
 import osmb.program.catalog.IfCatalogObject;
 import osmb.program.map.IfLayer;
@@ -42,26 +41,6 @@ public class MapAreaHighlightingLayer implements MapLayer, TreeModelListener
 	private TreeSelectionListener treeListener;
 
 	private IfCatalogObject object;
-=======
-import osmcb.program.interfaces.IfBundle;
-import osmcb.program.interfaces.IfBundleObject;
-import osmcb.program.interfaces.IfLayer;
-import osmcb.program.interfaces.IfMap;
-import osmcb.program.model.MapPolygon;
-import osmcd.gui.MainGUI;
-import osmcd.gui.bundletree.JBundleTree;
-import osmcd.gui.mapview.JMapViewer;
-import osmcd.gui.mapview.PreviewMap;
-import osmcd.gui.mapview.interfaces.MapLayer;
-
-public class MapAreaHighlightingLayer implements MapLayer, TreeModelListener {
-
-	private final JBundleTree tree;
-
-	private TreeSelectionListener treeListener;
-
-	private IfBundleObject object;
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/mapview/layer/MapAreaHighlightingLayer.java
 
 	public static void removeHighlightingLayers()
 	{
@@ -79,18 +58,13 @@ public class MapAreaHighlightingLayer implements MapLayer, TreeModelListener {
 		}
 	}
 
-<<<<<<< HEAD:src/main/java/osmcd/gui/mapview/MapAreaHighlightingLayer.java
 	public MapAreaHighlightingLayer(IfCatalogObject catalogObj)
 	{
-=======
-	public MapAreaHighlightingLayer(IfBundleObject atlasObject) {
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/mapview/layer/MapAreaHighlightingLayer.java
 		tree = null;
 		treeListener = null;
 		this.object = catalogObj;
 	}
 
-<<<<<<< HEAD:src/main/java/osmcd/gui/mapview/MapAreaHighlightingLayer.java
 	public MapAreaHighlightingLayer(JCatalogTree tree)
 	{
 		this.tree = tree;
@@ -108,18 +82,6 @@ public class MapAreaHighlightingLayer implements MapLayer, TreeModelListener {
 				}
 				catch (Exception e)
 				{
-=======
-	public MapAreaHighlightingLayer(JBundleTree tree) {
-		this.tree = tree;
-		object = (IfBundleObject) tree.getSelectionPath().getLastPathComponent();
-		MainGUI.getMainGUI().previewMap.repaint();
-		treeListener = new TreeSelectionListener() {
-
-			public void valueChanged(TreeSelectionEvent event) {
-				try {
-					object = (IfBundleObject) event.getNewLeadSelectionPath().getLastPathComponent();
-				} catch (Exception e) {
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/mapview/layer/MapAreaHighlightingLayer.java
 					object = null;
 				}
 				MainFrame.getMainGUI().previewMap.repaint();
@@ -134,7 +96,6 @@ public class MapAreaHighlightingLayer implements MapLayer, TreeModelListener {
 	{
 		if (object == null)
 			return;
-<<<<<<< HEAD:src/main/java/osmcd/gui/mapview/MapAreaHighlightingLayer.java
 		if (object instanceof IfCatalog)
 		{
 			for (IfLayer layer : (IfCatalog) object)
@@ -154,41 +115,20 @@ public class MapAreaHighlightingLayer implements MapLayer, TreeModelListener {
 		}
 		else
 		{
-=======
-		if (object instanceof IfBundle) {
-			for (IfLayer layer : (IfBundle) object) {
-				for (IfMap map : layer) {
-					paintMap(map, g, zoom, minX, minY, maxX, maxY);
-				}
-			}
-		} else if (object instanceof IfLayer) {
-			for (IfMap map : (IfLayer) object) {
-				paintMap(map, g, zoom, minX, minY, maxX, maxY);
-			}
-		} else {
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/mapview/layer/MapAreaHighlightingLayer.java
 			paintMap((IfMap) object, g, zoom, minX, minY, maxX, maxY);
 		}
 	}
 
-<<<<<<< HEAD:src/main/java/osmcd/gui/mapview/MapAreaHighlightingLayer.java
 	protected void paintMap(IfMap map, Graphics2D g, int zoom, int minX, int minY, int maxX, int maxY)
 	{
-=======
-	protected void paintMap(IfMap map, Graphics2D g, int zoom, int minX, int minY, int maxX, int maxY) {
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/mapview/layer/MapAreaHighlightingLayer.java
 		if (map instanceof MapPolygon)
 			paintMapPolygon((MapPolygon) map, g, zoom, minX, minY, maxX, maxY);
 		else
 			paintMapRectangle(map, g, zoom, minX, minY, maxX, maxY);
 	}
 
-<<<<<<< HEAD:src/main/java/osmcd/gui/mapview/MapAreaHighlightingLayer.java
 	protected void paintMapRectangle(IfMap map, Graphics2D g, int zoom, int minX, int minY, int maxX, int maxY)
 	{
-=======
-	protected void paintMapRectangle(IfMap map, Graphics2D g, int zoom, int minX, int minY, int maxX, int maxY) {
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/mapview/layer/MapAreaHighlightingLayer.java
 		Point max = map.getMaxTileCoordinate();
 		Point min = map.getMinTileCoordinate();
 		int zoomDiff = map.getZoom() - zoom;
@@ -273,7 +213,6 @@ public class MapAreaHighlightingLayer implements MapLayer, TreeModelListener {
 		MainFrame.getMainGUI().previewMap.repaint();
 	}
 
-<<<<<<< HEAD:src/main/java/osmcd/gui/mapview/MapAreaHighlightingLayer.java
 	public IfCatalogObject getObject()
 	{
 		return object;
@@ -281,13 +220,6 @@ public class MapAreaHighlightingLayer implements MapLayer, TreeModelListener {
 
 	public void setObject(IfCatalogObject object)
 	{
-=======
-	public IfBundleObject getObject() {
-		return object;
-	}
-
-	public void setObject(IfBundleObject object) {
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/mapview/layer/MapAreaHighlightingLayer.java
 		this.object = object;
 	}
 }

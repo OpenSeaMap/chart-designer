@@ -20,15 +20,9 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 
-<<<<<<< HEAD:src/main/java/osmcd/program/Bookmark.java
 import osmb.mapsources.ACMapSourcesManager;
 import osmb.mapsources.IfMapSource;
 import osmb.utilities.geo.EastNorthCoordinate;
-=======
-import osmcb.mapsources.ACMapSourcesManager;
-import osmcb.program.interfaces.IfMapSource;
-import osmcb.program.model.EastNorthCoordinate;
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/program/model/Bookmark.java
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Bookmark extends EastNorthCoordinate
@@ -51,7 +45,6 @@ public class Bookmark extends EastNorthCoordinate
 
 	}
 
-<<<<<<< HEAD:src/main/java/osmcd/program/Bookmark.java
 	public Bookmark(IfMapSource mapSource, int zoom, int pixelCoordinateX, int pixelCoordinateY)
 	{
 		this(null, mapSource, zoom, pixelCoordinateX, pixelCoordinateY);
@@ -59,25 +52,14 @@ public class Bookmark extends EastNorthCoordinate
 
 	public Bookmark(String name, IfMapSource mapSource, int zoom, int pixelCoordinateX, int pixelCoordinateY)
 	{
-=======
-	public Bookmark(IfMapSource mapSource, int zoom, int pixelCoordinateX, int pixelCoordinateY) {
-		this(null, mapSource, zoom, pixelCoordinateX, pixelCoordinateY);
-	}
-
-	public Bookmark(String name, IfMapSource mapSource, int zoom, int pixelCoordinateX, int pixelCoordinateY) {
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/program/model/Bookmark.java
 		super(mapSource.getMapSpace(), zoom, pixelCoordinateX, pixelCoordinateY);
 		this.mapSource = mapSource.getName();
 		this.zoom = zoom;
 		this.name = name;
 	}
 
-<<<<<<< HEAD:src/main/java/osmcd/program/Bookmark.java
 	public IfMapSource getMapSource()
 	{
-=======
-	public IfMapSource getMapSource() {
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/program/model/Bookmark.java
 		return ACMapSourcesManager.getInstance().getSourceByName(mapSource);
 	}
 

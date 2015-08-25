@@ -17,12 +17,8 @@
 package osmcd;
 
 import javax.swing.JOptionPane;
-<<<<<<< HEAD
 
 import osmb.program.ACStarter;
-=======
-import osmcb.ACStarter;
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 
 /**
  * OSMCBApp class for starting OpenSeaMap ChartDefiner.

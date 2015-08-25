@@ -24,7 +24,6 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
-<<<<<<< HEAD
 import osmb.exceptions.InvalidNameException;
 import osmb.mapsources.IfMapSource;
 import osmb.program.catalog.IfCatalog;
@@ -38,21 +37,6 @@ import osmcd.gui.catalog.JCatalogTree;
 import osmcd.gui.mapview.AbstractPolygonSelectionMapController;
 import osmcd.gui.mapview.JMapViewer;
 import osmcd.program.SelectedZoomLevels;
-=======
-import osmcb.exceptions.InvalidNameException;
-import osmcb.program.interfaces.IfBundle;
-import osmcb.program.interfaces.IfMapSource;
-import osmcb.program.interfaces.IfMapSpace;
-import osmcb.program.model.Layer;
-import osmcb.program.model.MapPolygon;
-import osmcb.program.model.TileImageParameters;
-import osmcd.OSMCDStrs;
-import osmcd.gui.MainGUI;
-import osmcd.gui.bundletree.JBundleTree;
-import osmcd.gui.mapview.JMapViewer;
-import osmcd.gui.mapview.controller.AbstractPolygonSelectionMapController;
-import osmcd.program.model.SelectedZoomLevels;
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 
 /**
  * Handles the addition of maps to the catalog
@@ -72,17 +56,10 @@ public class AddPolygonMapLayer implements ActionListener
 
 		AbstractPolygonSelectionMapController msc = (AbstractPolygonSelectionMapController) mg.previewMap.getMapSelectionController();
 
-<<<<<<< HEAD
 		JCatalogTree catalogTree = mg.getCatalogTree();
 		// final String mapNameFmt = "%s %02d";
 		String mapNameFmt = "%s%02d";
 		IfCatalog catalog = catalogTree.getCatalog();
-=======
-		JBundleTree jAtlasTree = mg.jBundleTree;
-		final String mapNameFmt = "%s %02d";
-		IfBundle atlasInterface = jAtlasTree.getBundle();
-		String name = mg.getUserText();
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 		IfMapSource mapSource = mg.getSelectedMapSource();
 		IfMapSpace mapSpace = mapSource.getMapSpace();
 		SelectedZoomLevels sZL = mg.getSelectedZoomLevels();
@@ -110,23 +87,14 @@ public class AddPolygonMapLayer implements ActionListener
 				{
 					try
 					{
-<<<<<<< HEAD
 						layer = new Layer(catalog, layerName, zoom);
-=======
-						layer = new Layer(atlasInterface, layerName, zoom);
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 						success = true;
 					}
 					catch (InvalidNameException e)
 					{
 						layerName = name + "_" + Integer.toString(c++);
 					}
-<<<<<<< HEAD
 				} while (!success);
-=======
-				}
-				while (!success);
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 			}
 
 			int[] xpoints = new int[polygonPoints.size()];

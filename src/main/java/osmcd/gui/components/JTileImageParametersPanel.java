@@ -20,12 +20,7 @@ import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-<<<<<<< HEAD:src/main/java/osmcd/gui/components/JTileImageParametersPanel.java
 
-=======
-import java.util.Arrays;
-import java.util.TreeSet;
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/panels/JTileImageParametersPanel.java
 import javax.swing.AbstractListModel;
 import javax.swing.ComboBoxModel;
 import javax.swing.JCheckBox;
@@ -33,7 +28,6 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-<<<<<<< HEAD:src/main/java/osmcd/gui/components/JTileImageParametersPanel.java
 
 import osmb.program.tiledatawriter.TileImageJpegDataWriter;
 import osmb.program.tiles.TileImageFormat;
@@ -42,21 +36,6 @@ import osmb.utilities.GBC;
 import osmb.utilities.OSMBUtilities;
 import osmcd.OSMCDSettings;
 import osmcd.OSMCDStrs;
-=======
-import osmcb.program.annotations.SupportedTIParameters;
-import osmcb.program.bundlecreators.ACBundleCreator;
-import osmcb.program.model.BundleOutputFormat;
-import osmcb.program.model.TileImageFormat;
-import osmcb.program.model.TileImageParameters;
-import osmcb.program.model.TileImageParameters.Name;
-import osmcb.program.tiledatawriter.TileImageJpegDataWriter;
-import osmcb.utilities.GBC;
-import osmcb.utilities.OSMCBUtilities;
-import osmcd.OSMCDStrs;
-import osmcd.gui.components.JCollapsiblePanel;
-import osmcd.gui.components.JTileSizeCombo;
-import osmcd.program.model.OSMCDSettings;
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/panels/JTileImageParametersPanel.java
 
 public class JTileImageParametersPanel extends JCollapsiblePanel
 {
@@ -118,11 +97,7 @@ public class JTileImageParametersPanel extends JCollapsiblePanel
 	public void loadSettings()
 	{
 		OSMCDSettings settings = OSMCDSettings.getInstance();
-<<<<<<< HEAD:src/main/java/osmcd/gui/components/JTileImageParametersPanel.java
 		// enableCustomTileProcessingCheckButton.setSelected(settings.isCustomTileSize());
-=======
-		enableCustomTileProcessingCheckButton.setSelected(settings.isCustomTileSize());
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/panels/JTileImageParametersPanel.java
 		updateControlsState();
 		tileImageFormat.setSelectedItem(settings.getTileImageFormat());
 		tileSizeHeight.setValue(settings.getTileSize().height);
@@ -132,11 +107,7 @@ public class JTileImageParametersPanel extends JCollapsiblePanel
 	public void saveSettings()
 	{
 		OSMCDSettings settings = OSMCDSettings.getInstance();
-<<<<<<< HEAD:src/main/java/osmcd/gui/components/JTileImageParametersPanel.java
 		// settings.setCustomTileSize(enableCustomTileProcessingCheckButton.isSelected());
-=======
-		settings.setCustomTileSize(enableCustomTileProcessingCheckButton.isSelected());
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/panels/JTileImageParametersPanel.java
 		Dimension tileSize = new Dimension(tileSizeWidth.getValue(), tileSizeHeight.getValue());
 		settings.setTileSize(tileSize);
 		settings.setTileImageFormat((TileImageFormat) tileImageFormat.getSelectedItem());
@@ -156,7 +127,6 @@ public class JTileImageParametersPanel extends JCollapsiblePanel
 		return customTileParameters;
 	}
 
-<<<<<<< HEAD:src/main/java/osmcd/gui/components/JTileImageParametersPanel.java
 	// public void bundleFormatChanged(BundleOutputFormat newBundleOutputFormat)
 	// {
 	// Class<? extends ACBundleCreator> chartBundleClass = newBundleOutputFormat.getMapCreatorClass();
@@ -188,39 +158,6 @@ public class JTileImageParametersPanel extends JCollapsiblePanel
 	// }
 	// updateControlsState();
 	// }
-=======
-	public void bundleFormatChanged(BundleOutputFormat newBundleOutputFormat)
-	{
-		Class<? extends ACBundleCreator> chartBundleClass = newBundleOutputFormat.getMapCreatorClass();
-		SupportedTIParameters params = chartBundleClass.getAnnotation(SupportedTIParameters.class);
-		if (params != null)
-		{
-			TreeSet<TileImageParameters.Name> paramNames = new TreeSet<TileImageParameters.Name>(Arrays.asList(params.names()));
-			if (paramNames.contains(Name.format))
-			{
-				formatPngEnabled = true;
-				formatJpgEnabled = true;
-			}
-			else
-			{
-				formatPngEnabled = paramNames.contains(Name.format_png);
-				formatJpgEnabled = paramNames.contains(Name.format_jpg);
-			}
-			widthEnabled = paramNames.contains(Name.width);
-			heightEnabled = paramNames.contains(Name.height);
-			enableCustomTileProcessingCheckButton.setEnabled(true);
-		}
-		else
-		{
-			formatPngEnabled = false;
-			formatJpgEnabled = false;
-			widthEnabled = false;
-			heightEnabled = false;
-			enableCustomTileProcessingCheckButton.setEnabled(false);
-		}
-		updateControlsState();
-	}
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/panels/JTileImageParametersPanel.java
 
 	public void updateControlsState()
 	{
@@ -290,11 +227,7 @@ public class JTileImageParametersPanel extends JCollapsiblePanel
 			}
 			else if (tif == TileImageFormat.PNG4Bit || tif == TileImageFormat.PNG8Bit)
 			{
-<<<<<<< HEAD:src/main/java/osmcd/gui/components/JTileImageParametersPanel.java
 				if (OSMBUtilities.testJaiColorQuantizerAvailable())
-=======
-				if (OSMCBUtilities.testJaiColorQuantizerAvailable())
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/panels/JTileImageParametersPanel.java
 					return;
 				JOptionPane.showMessageDialog(null, "<html>This image format is requires additional libraries to be installed:<br>"
 						+ "<b>Java Advanced Image library</b> (jai_core.jar & jai_codec.jar)<br>" + "For more details please see the file <b>README.HTM</b> "

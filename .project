@@ -3,7 +3,6 @@
 	<name>OSeaMChartDesigner</name>
 	<comment></comment>
 	<projects>
-		<project>OSeaM ChartBundler</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

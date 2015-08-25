@@ -21,15 +21,8 @@ import java.util.Hashtable;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
 
-<<<<<<< HEAD
 import osmb.program.map.IfMapSpace;
 import osmb.utilities.UnitSystem;
-=======
-import osmcb.program.interfaces.IfMapSpace;
-import osmcb.program.model.UnitSystem;
-
-public class JDistanceSlider extends JSlider {
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 
 public class JDistanceSlider extends JSlider
 {
@@ -37,12 +30,8 @@ public class JDistanceSlider extends JSlider
 
 	private final Hashtable<Integer, JLabel> labelTable;
 
-<<<<<<< HEAD
 	public JDistanceSlider(IfMapSpace mapSpace, int zoom, int y, UnitSystem unit, int pixelMin, int pixelMax)
 	{
-=======
-	public JDistanceSlider(IfMapSpace mapSpace, int zoom, int y, UnitSystem unit, int pixelMin, int pixelMax) {
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 		super(pixelMin, pixelMax);
 		labelTable = new Hashtable<Integer, JLabel>();
 

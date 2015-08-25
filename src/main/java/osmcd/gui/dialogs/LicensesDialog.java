@@ -23,6 +23,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -33,36 +34,19 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-<<<<<<< HEAD
 
 import osmb.utilities.GBC;
 import osmb.utilities.OSMBUtilities;
 import osmcd.OSMCDStrs;
 import osmcd.gui.MainFrame;
-=======
-import osmcb.utilities.GBC;
-import osmcb.utilities.OSMCBUtilities;
-import osmcd.OSMCDStrs;
-import osmcd.gui.MainGUI;
-import osmcd.program.ProgramInfo;
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 
 public class LicensesDialog extends JFrame implements ChangeListener, ActionListener
 {
 	private LicenseInfo[] licenses = new LicenseInfo[]
-<<<<<<< HEAD
 	{ new LicenseInfo("<h2>OpenSeaMap ChartBundler</h2>", "gpl.txt"), new LicenseInfo("<h3>Library Apache Log4J</h3>", "apache-2.0.txt"),
 			new LicenseInfo("<h3>Library Apache Commons Codec</h3>", "apache-2.0.txt"), new LicenseInfo("<h3>Library Apache Commons IO</h3>", "apache-2.0.txt"),
 			new LicenseInfo("<h3>Library Berkely-DB JavaEdition</h3>", "license-dbd-je.txt"), new LicenseInfo("<h3>Library BeanShell</h3>", "lgpl-3.0.txt"),
 			new LicenseInfo("<h3>Library JavaPNG</h3>", "gpl.txt"), new LicenseInfo("<h3>Library iTextPDF</h3>", "agpl.txt") };
-=======
-	{
-			new LicenseInfo("<h2>OpenSeaMap ChartBundler</h2>", "gpl.txt"), new LicenseInfo("<h3>Library Apache Log4J</h3>", "apache-2.0.txt"),
-			new LicenseInfo("<h3>Library Apache Commons Codec</h3>", "apache-2.0.txt"), new LicenseInfo("<h3>Library Apache Commons IO</h3>", "apache-2.0.txt"),
-			new LicenseInfo("<h3>Library Berkely-DB JavaEdition</h3>", "license-dbd-je.txt"), new LicenseInfo("<h3>Library BeanShell</h3>", "lgpl-3.0.txt"),
-			new LicenseInfo("<h3>Library JavaPNG</h3>", "gpl.txt"), new LicenseInfo("<h3>Library iTextPDF</h3>", "agpl.txt")
-	};
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 
 	private final JTextArea textArea;
 	private final JTabbedPane tab;
@@ -112,11 +96,7 @@ public class LicensesDialog extends JFrame implements ChangeListener, ActionList
 			String nextLicense = licenses[tab.getSelectedIndex()].licenseResource;
 			if (nextLicense.equals(currentLicense))
 				return;
-<<<<<<< HEAD
 			license = OSMBUtilities.loadTextResource("text/" + nextLicense);
-=======
-			license = OSMCBUtilities.loadTextResource("text/" + nextLicense);
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 			currentLicense = nextLicense;
 		}
 		catch (IOException e)
@@ -125,6 +105,7 @@ public class LicensesDialog extends JFrame implements ChangeListener, ActionList
 		}
 		textArea.setText(license);
 		textArea.setCaretPosition(0);
+
 	}
 
 	@Override
@@ -144,23 +125,5 @@ public class LicensesDialog extends JFrame implements ChangeListener, ActionList
 			this.name = name;
 			this.licenseResource = licenseResource;
 		}
-<<<<<<< HEAD
-=======
-	}
-
-	public static void main(String[] args)
-	{
-		try
-		{
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			ProgramInfo.initialize(); // Load revision info
-			JFrame dlg = new LicensesDialog();
-			dlg.setVisible(true);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 	}
 }

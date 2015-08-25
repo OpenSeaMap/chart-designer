@@ -18,11 +18,7 @@ package osmcd.gui.gpxtree;
 
 import osmcd.OSMCDStrs;
 import osmcd.data.gpx.gpx11.TrksegType;
-<<<<<<< HEAD
 import osmcd.gui.mapview.GpxLayer;
-=======
-import osmcd.gui.mapview.layer.GpxLayer;
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 
 public class TrksegEntry extends GpxEntry {
 	private TrksegType trkseg;

@@ -23,7 +23,6 @@ import java.util.Iterator;
 
 import javax.swing.JOptionPane;
 
-<<<<<<< HEAD:src/main/java/osmcd/gui/mapview/TileStoreCoverageLayer.java
 import osmb.mapsources.IfMapSource;
 import osmb.program.map.IfMapSpace;
 import osmb.program.tilestore.ACSiTileStore;
@@ -32,19 +31,6 @@ import osmb.utilities.GUIExceptionHandler;
 import osmcd.OSMCDStrs;
 import osmcd.gui.MainFrame;
 import osmcd.gui.dialogs.WorkinprogressDialog;
-=======
-import osmcb.program.interfaces.IfMapSource;
-import osmcb.program.interfaces.IfMapSpace;
-import osmcb.program.tilestore.ACSiTileStore;
-import osmcb.program.tilestore.berkeleydb.DelayedInterruptThread;
-import osmcb.utilities.GUIExceptionHandler;
-import osmcd.OSMCDStrs;
-import osmcd.gui.MainGUI;
-import osmcd.gui.dialogs.WorkinprogressDialog;
-import osmcd.gui.mapview.JMapViewer;
-import osmcd.gui.mapview.PreviewMap;
-import osmcd.gui.mapview.interfaces.MapLayer;
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/mapview/layer/TileStoreCoverageLayer.java
 
 public class TileStoreCoverageLayer implements MapLayer
 {
@@ -77,12 +63,8 @@ public class TileStoreCoverageLayer implements MapLayer
 		}
 	}
 
-<<<<<<< HEAD:src/main/java/osmcd/gui/mapview/TileStoreCoverageLayer.java
 	public TileStoreCoverageLayer(PreviewMap mapViewer, IfMapSource mapSource, int zoom)
 	{
-=======
-	public TileStoreCoverageLayer(PreviewMap mapViewer, IfMapSource mapSource, int zoom) {
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/mapview/layer/TileStoreCoverageLayer.java
 		this.mapSource = mapSource;
 		this.zoom = zoom;
 
@@ -113,13 +95,8 @@ public class TileStoreCoverageLayer implements MapLayer
 				{
 					coverageImage = ACSiTileStore.getInstance().getCacheCoverage(mapSource, zoom, tileNumMin, tileNumMax);
 					if (coverageImage == null)
-<<<<<<< HEAD:src/main/java/osmcd/gui/mapview/TileStoreCoverageLayer.java
 						JOptionPane.showMessageDialog(MainFrame.getMainGUI(), OSMCDStrs.RStr("msg_tile_store_failed_retrieve_coverage"), OSMCDStrs.RStr("Error"),
 								JOptionPane.ERROR_MESSAGE);
-=======
-						JOptionPane.showMessageDialog(MainGUI.getMainGUI(), OSMCDStrs.RStr("msg_tile_store_failed_retrieve_coverage"),
-								OSMCDStrs.RStr("Error"), JOptionPane.ERROR_MESSAGE);
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/mapview/layer/TileStoreCoverageLayer.java
 				}
 				catch (InterruptedException e)
 				{

@@ -23,16 +23,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-<<<<<<< HEAD
 import osmcd.program.NumericDocument;
 import osmcd.utilities.OSMCDUtilities;
-=======
-import osmcb.program.model.NumericDocument;
-import osmcb.utilities.OSMCBUtilities;
-
-
-public class JIntField extends JTextField {
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 
 public class JIntField extends JTextField
 {
@@ -140,11 +132,7 @@ public class JIntField extends JTextField
 			{ min, max });
 			JIntField.this.setToolTipText(toolTip);
 			if (toolTip.length() > 0)
-<<<<<<< HEAD
 				OSMCDUtilities.showTooltipNow(JIntField.this);
-=======
-				OSMCBUtilities.showTooltipNow(JIntField.this);
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 		}
 
 		@Override

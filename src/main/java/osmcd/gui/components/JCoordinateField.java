@@ -23,34 +23,21 @@ import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
+
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import osmcb.utilities.OSMCBUtilities;
-import osmcb.utilities.geo.CoordinateDms2Format;
-import osmcd.OSMCDStrs;
 
-<<<<<<< HEAD
 import osmb.utilities.geo.CoordinateDms2Format;
 import osmcd.OSMCDStrs;
 import osmcd.utilities.OSMCDUtilities;
-=======
-public class JCoordinateField extends JTextField
-{
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 
 public class JCoordinateField extends JTextField
 {
 	private static final long serialVersionUID = 1L;
 
 	private static final Color ERROR_COLOR = new Color(255, 100, 100);
-<<<<<<< HEAD
 	private static final String INVALID_TEXT = OSMCDStrs.RStr("lp_coords_invalid_text");
-=======
-
-	private static final String INVALID_TEXT = OSMCDStrs.RStr("lp_coords_invalid_text");
-
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 	private JCoordinateListener coordinateListener;
 	private boolean inputIsValid = true;
 	private NumberFormat numberFormat;
@@ -95,12 +82,8 @@ public class JCoordinateField extends JTextField
 			{
 				super.setText(numberFormat.format(value));
 			}
-<<<<<<< HEAD
 			if (newValid != inputIsValid)
 				coordinateListener.changeValidMode(true);
-=======
-			if (newValid != inputIsValid) coordinateListener.changeValidMode(true);
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 		}
 		finally
 		{
@@ -113,7 +96,8 @@ public class JCoordinateField extends JTextField
 		ParsePosition pos = new ParsePosition(0);
 		String text = JCoordinateField.this.getText();
 		Number num = numberFormat.parse(text, pos);
-		if (num == null || pos.getErrorIndex() >= 0 || Double.isNaN(num.doubleValue())) throw new ParseException(text, pos.getErrorIndex());
+		if (num == null || pos.getErrorIndex() >= 0 || Double.isNaN(num.doubleValue()))
+			throw new ParseException(text, pos.getErrorIndex());
 		return num.doubleValue();
 	}
 
@@ -122,7 +106,8 @@ public class JCoordinateField extends JTextField
 		ParsePosition pos = new ParsePosition(0);
 		String text = JCoordinateField.this.getText();
 		Number num = numberFormat.parse(text, pos);
-		if (num == null || pos.getErrorIndex() >= 0) return Double.NaN;
+		if (num == null || pos.getErrorIndex() >= 0)
+			return Double.NaN;
 		return num.doubleValue();
 	}
 
@@ -159,12 +144,8 @@ public class JCoordinateField extends JTextField
 
 		private void checkCoordinate(DocumentEvent de)
 		{
-<<<<<<< HEAD
 			if (!enabled)
 				return;
-=======
-			if (!enabled) return;
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 			boolean valid = false;
 			try
 			{
@@ -183,7 +164,8 @@ public class JCoordinateField extends JTextField
 			{
 				valid = false;
 			}
-			if (valid != inputIsValid) changeValidMode(valid);
+			if (valid != inputIsValid)
+				changeValidMode(valid);
 		}
 
 		private void changeValidMode(boolean valid)
@@ -192,12 +174,8 @@ public class JCoordinateField extends JTextField
 			JCoordinateField.this.setBackground(newC);
 			String toolTip = valid ? "" : String.format(INVALID_TEXT, numberFormat.format(min), numberFormat.format(max));
 			JCoordinateField.this.setToolTipText(toolTip);
-<<<<<<< HEAD
 			if (toolTip.length() > 0)
 				OSMCDUtilities.showTooltipNow(JCoordinateField.this);
-=======
-			if (toolTip.length() > 0) OSMCBUtilities.showTooltipNow(JCoordinateField.this);
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 			inputIsValid = valid;
 		}
 

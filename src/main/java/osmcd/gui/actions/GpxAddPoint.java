@@ -22,20 +22,11 @@ import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 
 import osmcd.OSMCDStrs;
-<<<<<<< HEAD
 import osmcd.gui.MainFrame;
-=======
-import osmcd.gui.MainGUI;
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 import osmcd.gui.gpxtree.GpxEntry;
 import osmcd.gui.gpxtree.JGpxPanel;
 import osmcd.gui.mapview.GpxMapController;
 import osmcd.gui.mapview.PreviewMap;
-<<<<<<< HEAD
-=======
-import osmcd.gui.mapview.controller.GpxMapController;
-import osmcd.gui.panels.JGpxPanel;
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 
 public class GpxAddPoint implements ActionListener
 {

@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="/OSeaM ChartBundler"/>
-	<classpathentry kind="lib" path="C:/Projekte/AHDTAC-Java/OSeaM ChartBundler/OSMChartBundler.jar"/>
 	<classpathentry kind="src" path="src/main/resources"/>
 	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
-<<<<<<< HEAD
 	<classpathentry combineaccessrules="false" kind="src" path="/OSeaMChartBase"/>
 	<classpathentry kind="lib" path="/OSeaMChartBase/lib/bsh-2.0b4.jar"/>
 	<classpathentry kind="lib" path="/OSeaMChartBase/lib/commons-codec-1.4.jar"/>
@@ -19,19 +16,5 @@
 	<classpathentry kind="lib" path="/OSeaMChartBase/lib/je-3.3.93.jar"/>
 	<classpathentry kind="lib" path="/OSeaMChartBase/lib/log4j-1.2.15.jar"/>
 	<classpathentry kind="lib" path="/OSeaMChartBase/lib/Tidy.jar"/>
-=======
-	<classpathentry kind="lib" path="/OSeaM ChartBundler/lib/bsh-2.0b4.jar"/>
-	<classpathentry kind="lib" path="/OSeaM ChartBundler/lib/commons-codec-1.4.jar"/>
-	<classpathentry kind="lib" path="/OSeaM ChartBundler/lib/commons-io-2.0.jar"/>
-	<classpathentry kind="lib" path="/OSeaM ChartBundler/lib/commons-lang3-3.1.jar"/>
-	<classpathentry kind="lib" path="/OSeaM ChartBundler/lib/itextpdf-5.1.0.jar"/>
-	<classpathentry kind="lib" path="/OSeaM ChartBundler/lib/jai_codec.jar"/>
-	<classpathentry kind="lib" path="/OSeaM ChartBundler/lib/jai_core.jar"/>
-	<classpathentry kind="lib" path="/OSeaM ChartBundler/lib/javapng-2.0.jar"/>
-	<classpathentry kind="lib" path="/OSeaM ChartBundler/lib/je-3.3.93.jar"/>
-	<classpathentry kind="lib" path="/OSeaM ChartBundler/lib/log4j-1.2.15.jar"/>
-	<classpathentry kind="lib" path="/OSeaM ChartBundler/lib/Tidy.jar"/>
-	<classpathentry kind="lib" path="/OSeaM ChartBundler/lib/jai_imageio-1.1.jar"/>
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 	<classpathentry kind="output" path="bin"/>
 </classpath>

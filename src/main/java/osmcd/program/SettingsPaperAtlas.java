@@ -20,12 +20,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-<<<<<<< HEAD:src/main/java/osmcd/program/SettingsPaperAtlas.java
 import osmb.program.WgsGridSettings;
 import osmcd.program.PaperSize.Format;
-=======
-import osmcb.program.model.SettingsWgsGrid;
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/program/model/SettingsPaperAtlas.java
 import osmcd.program.jaxb.PaperSizeAdapter;
 
 @XmlRootElement
@@ -61,11 +57,7 @@ public class SettingsPaperAtlas implements Cloneable
 	@XmlJavaTypeAdapter(PaperSizeAdapter.class)
 	public PaperSize paperSize = PAPER_SIZE_DEFAULT;
 
-<<<<<<< HEAD:src/main/java/osmcd/program/SettingsPaperAtlas.java
 	public osmb.program.WgsGrid.WgsDensity wgsDensity = WgsGridSettings.DEFAULT_DENSITY;
-=======
-	public osmcb.program.WgsGrid.WgsDensity wgsDensity = SettingsWgsGrid.DEFAULT_DENSITY;
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/program/model/SettingsPaperAtlas.java
 
 	@Override
 	public SettingsPaperAtlas clone()
@@ -116,11 +108,7 @@ public class SettingsPaperAtlas implements Cloneable
 		}
 		if (wgsDensity == null)
 		{
-<<<<<<< HEAD:src/main/java/osmcd/program/SettingsPaperAtlas.java
 			wgsDensity = WgsGridSettings.DEFAULT_DENSITY;
-=======
-			wgsDensity = SettingsWgsGrid.DEFAULT_DENSITY;
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/program/model/SettingsPaperAtlas.java
 		}
 	}
 }

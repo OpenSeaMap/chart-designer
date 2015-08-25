@@ -18,16 +18,8 @@ package osmcd.gui.mapview;
 
 import java.awt.Graphics;
 
-<<<<<<< HEAD:src/main/java/osmcd/gui/mapview/DefaultMapTileLayer.java
 import osmb.mapsources.IfMapSource;
 import osmcd.gui.mapview.Tile.TileState;
-=======
-import osmcb.program.interfaces.IfMapSource;
-import osmcd.gui.mapview.JMapViewer;
-import osmcd.gui.mapview.Tile;
-import osmcd.gui.mapview.Tile.TileState;
-import osmcd.gui.mapview.interfaces.MapTileLayer;
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/mapview/layer/DefaultMapTileLayer.java
 
 public class DefaultMapTileLayer implements MapTileLayer
 {
@@ -38,23 +30,15 @@ public class DefaultMapTileLayer implements MapTileLayer
 
 	protected boolean usePlaceHolders;
 
-<<<<<<< HEAD:src/main/java/osmcd/gui/mapview/DefaultMapTileLayer.java
 	public DefaultMapTileLayer(JMapViewer mapViewer, IfMapSource mapSource)
 	{
-=======
-	public DefaultMapTileLayer(JMapViewer mapViewer, IfMapSource mapSource) {
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/mapview/layer/DefaultMapTileLayer.java
 		this.mapViewer = mapViewer;
 		this.mapSource = mapSource;
 	}
 
-<<<<<<< HEAD:src/main/java/osmcd/gui/mapview/DefaultMapTileLayer.java
 	@Override
 	public void startPainting(IfMapSource mapSource)
 	{
-=======
-	public void startPainting(IfMapSource mapSource) {
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/mapview/layer/DefaultMapTileLayer.java
 		usePlaceHolders = mapViewer.isUsePlaceHolderTiles();
 	}
 

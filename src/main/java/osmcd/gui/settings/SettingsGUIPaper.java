@@ -22,6 +22,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
+
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ButtonGroup;
@@ -41,7 +42,6 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-<<<<<<< HEAD
 
 import osmb.program.WgsGrid.WgsDensity;
 import osmb.utilities.GBCTable;
@@ -51,16 +51,6 @@ import osmcd.OSMCDStrs;
 import osmcd.program.PaperSize;
 import osmcd.program.PaperSize.Format;
 import osmcd.program.SettingsPaperAtlas;
-=======
-import osmcb.program.WgsGrid.WgsDensity;
-import osmcb.program.model.UnitSystem;
-import osmcb.utilities.GBCTable;
-import osmcd.OSMCDStrs;
-import osmcd.program.model.OSMCDSettings;
-import osmcd.program.model.PaperSize;
-import osmcd.program.model.PaperSize.Format;
-import osmcd.program.model.SettingsPaperAtlas;
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 
 public class SettingsGUIPaper extends JPanel
 {
@@ -146,8 +136,7 @@ public class SettingsGUIPaper extends JPanel
 
 	private UnitSystem unitSystem;
 
-	public SettingsGUIPaper()
-	{
+	public SettingsGUIPaper() {
 		super(new GridBagLayout());
 		jSpinnerCrop.setEditor(new JSpinner.NumberEditor(jSpinnerCrop, "#0'%'"));
 		setUnitSystem(UnitSystem.Metric);
@@ -491,13 +480,8 @@ public class SettingsGUIPaper extends JPanel
 
 	public void loadSettings(OSMCDSettings s)
 	{
-<<<<<<< HEAD
 		setUnitSystem(s.getUnitSystem());
 		loadSettings(s.getPaperAtlas());
-=======
-		setUnitSystem(s.unitSystem);
-		loadSettings(s.paperAtlas);
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 	}
 
 	public void loadSettings(SettingsPaperAtlas s)
@@ -520,11 +504,7 @@ public class SettingsGUIPaper extends JPanel
 
 	public void applySettings(OSMCDSettings s)
 	{
-<<<<<<< HEAD
 		applySettings(s.getPaperAtlas());
-=======
-		applySettings(s.paperAtlas);
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 	}
 
 	public void applySettings(SettingsPaperAtlas s)

@@ -20,13 +20,10 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.math.BigDecimal;
+
 import javax.swing.JOptionPane;
-<<<<<<< HEAD:src/main/java/osmcd/gui/mapview/GpxMapController.java
 
 import osmb.program.map.IfMapSpace;
-=======
-import osmcb.program.interfaces.IfMapSpace;
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/mapview/controller/GpxMapController.java
 import osmcd.OSMCDStrs;
 import osmcd.data.gpx.gpx11.Gpx;
 import osmcd.data.gpx.gpx11.WptType;
@@ -36,21 +33,12 @@ import osmcd.gui.gpxtree.GpxRootEntry;
 import osmcd.gui.gpxtree.JGpxPanel;
 import osmcd.gui.gpxtree.RteEntry;
 import osmcd.gui.gpxtree.TrksegEntry;
-<<<<<<< HEAD:src/main/java/osmcd/gui/mapview/GpxMapController.java
-=======
-import osmcd.gui.mapview.PreviewMap;
-import osmcd.gui.panels.JGpxPanel;
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/mapview/controller/GpxMapController.java
 
 /**
  * Allows to create new GPX way-points by clicking on the preview iMap
  */
 public class GpxMapController extends JMapController implements MouseListener
 {
-<<<<<<< HEAD:src/main/java/osmcd/gui/mapview/GpxMapController.java
-=======
-
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/mapview/controller/GpxMapController.java
 	private JGpxPanel panel;
 	private GpxEntry entry;
 
@@ -75,16 +63,13 @@ public class GpxMapController extends JMapController implements MouseListener
 			p.y += tl.y;
 			IfMapSpace mapSpace = map.getMapSource().getMapSpace();
 			int maxPixel = mapSpace.getMaxPixels(map.getZoom());
-			if (p.x < 0 || p.x > maxPixel || p.y < 0 || p.y > maxPixel) return; // outside of world region
+			if (p.x < 0 || p.x > maxPixel || p.y < 0 || p.y > maxPixel)
+				return; // outside of world region
 			double lon = mapSpace.cXToLon(p.x, map.getZoom());
 			double lat = mapSpace.cYToLat(p.y, map.getZoom());
 			String name = JOptionPane.showInputDialog(null, OSMCDStrs.RStr("dlg_gpx_inpu_point_name"));
-<<<<<<< HEAD:src/main/java/osmcd/gui/mapview/GpxMapController.java
 			if (name == null)
 				return;
-=======
-			if (name == null) return;
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/mapview/controller/GpxMapController.java
 			Gpx gpx11 = gpx;
 			WptType wpt = new WptType();
 			wpt.setName(name);

@@ -34,17 +34,10 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
 
-<<<<<<< HEAD
 import osmb.program.DirectoryManager;
 import osmb.utilities.GUIExceptionHandler;
 import osmb.utilities.OSMBUtilities;
 import osmb.utilities.file.FileExtFilter;
-=======
-import osmcb.program.DirectoryManager;
-import osmcb.utilities.GUIExceptionHandler;
-import osmcb.utilities.OSMCBUtilities;
-import osmcb.utilities.file.FileExtFilter;
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 
 public class ExternalToolsLoader
 {
@@ -65,11 +58,7 @@ public class ExternalToolsLoader
 				return false;
 			File[] files = dir.listFiles(new FileExtFilter(".xml"));
 			tools = new LinkedList<ExternalToolDef>();
-<<<<<<< HEAD
 			for (File f : files)
-=======
-			for (File f: files)
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 			{
 				tools.add(loadFile(f));
 			}
@@ -106,11 +95,7 @@ public class ExternalToolsLoader
 		}
 		finally
 		{
-<<<<<<< HEAD
 			OSMBUtilities.closeStream(is);
-=======
-			OSMCBUtilities.closeStream(is);
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 		}
 	}
 
@@ -131,11 +116,7 @@ public class ExternalToolsLoader
 		}
 		finally
 		{
-<<<<<<< HEAD
 			OSMBUtilities.closeStream(os);
-=======
-			OSMCBUtilities.closeStream(os);
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 		}
 	}
 

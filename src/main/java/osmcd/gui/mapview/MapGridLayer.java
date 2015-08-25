@@ -18,13 +18,7 @@ package osmcd.gui.mapview;
 
 import java.awt.Graphics;
 
-<<<<<<< HEAD:src/main/java/osmcd/gui/mapview/MapGridLayer.java
 import osmb.mapsources.IfMapSource;
-=======
-import osmcb.program.interfaces.IfMapSource;
-import osmcd.gui.mapview.interfaces.MapTileLayer;
-
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/mapview/layer/MapGridLayer.java
 
 /**
  * A simple layer that paints the tile borders.
@@ -33,13 +27,9 @@ public class MapGridLayer implements MapTileLayer
 {
 	protected int tileSize;
 
-<<<<<<< HEAD:src/main/java/osmcd/gui/mapview/MapGridLayer.java
 	@Override
 	public void startPainting(IfMapSource mapSource)
 	{
-=======
-	public void startPainting(IfMapSource mapSource) {
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/gui/mapview/layer/MapGridLayer.java
 		tileSize = mapSource.getMapSpace().getTileSize();
 	}
 

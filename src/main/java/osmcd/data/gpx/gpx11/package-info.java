@@ -30,9 +30,5 @@ import java.math.BigDecimal;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapters;
 
-<<<<<<< HEAD
 import osmb.program.jaxb.BigDecimalAdapter;
-=======
-import osmcb.program.jaxb.BigDecimalAdapter;
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 

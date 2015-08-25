@@ -31,7 +31,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
-<<<<<<< HEAD
 import osmb.mapsources.ACMapSourcesManager;
 import osmb.mapsources.IfMapSource;
 import osmb.mapsources.MapSourceLoaderInfo;
@@ -41,17 +40,6 @@ import osmcd.gui.MainFrame;
 public class DebugShowMapSourceNames implements ActionListener
 {
 	@Override
-=======
-import osmcb.mapsources.ACMapSourcesManager;
-import osmcb.program.interfaces.IfMapSource;
-import osmcb.program.model.MapSourceLoaderInfo;
-import osmcd.OSMCDStrs;
-import osmcd.gui.MainGUI;
-
-public class DebugShowMapSourceNames implements ActionListener
-{
-
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 	public void actionPerformed(ActionEvent e)
 	{
 		ArrayList<IfMapSource> mapSources = new ArrayList<IfMapSource>(ACMapSourcesManager.getInstance().getAllAvailableMapSources());
@@ -59,10 +47,7 @@ public class DebugShowMapSourceNames implements ActionListener
 		Collections.sort(mapSources, new Comparator<IfMapSource>()
 		{
 
-<<<<<<< HEAD
 			@Override
-=======
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 			public int compare(IfMapSource o1, IfMapSource o2)
 			{
 				return o1.getName().compareTo(o2.getName());
@@ -70,11 +55,7 @@ public class DebugShowMapSourceNames implements ActionListener
 
 		});
 		JFrame dialog = new JFrame(OSMCDStrs.RStr("dlg_show_source_title"));
-<<<<<<< HEAD
 		dialog.setLocationRelativeTo(MainFrame.getMainGUI());
-=======
-		dialog.setLocationRelativeTo(MainGUI.getMainGUI());
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 		dialog.setLocation(100, 40);
 		Dimension dScreen = Toolkit.getDefaultToolkit().getScreenSize();
 		dScreen.height -= 200;
@@ -94,29 +75,19 @@ public class DebugShowMapSourceNames implements ActionListener
 
 		List<IfMapSource> mapSources;
 
-<<<<<<< HEAD
 		public MapSourcesTableModel(List<IfMapSource> mapSources)
 		{
-=======
-		public MapSourcesTableModel(List<IfMapSource> mapSources) {
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 			super();
 			this.mapSources = mapSources;
 		}
 
-<<<<<<< HEAD
 		@Override
-=======
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 		public int getRowCount()
 		{
 			return mapSources.size();
 		}
 
-<<<<<<< HEAD
 		@Override
-=======
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 		public int getColumnCount()
 		{
 			return 4;
@@ -127,7 +98,6 @@ public class DebugShowMapSourceNames implements ActionListener
 		{
 			switch (column)
 			{
-<<<<<<< HEAD
 				case 0:
 					return OSMCDStrs.RStr("dlg_show_source_column_name");
 				case 1:
@@ -142,28 +112,12 @@ public class DebugShowMapSourceNames implements ActionListener
 		}
 
 		@Override
-=======
-			case 0:
-				return OSMCDStrs.RStr("dlg_show_source_column_name");
-			case 1:
-				return OSMCDStrs.RStr("dlg_show_source_column_display_text");
-			case 2:
-				return OSMCDStrs.RStr("dlg_show_source_column_rev");
-			case 3:
-				return OSMCDStrs.RStr("dlg_show_source_column_type");
-			default:
-				return null;
-			}
-		}
-
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 		public Object getValueAt(int rowIndex, int columnIndex)
 		{
 			IfMapSource ms = mapSources.get(rowIndex);
 			MapSourceLoaderInfo li;
 			switch (columnIndex)
 			{
-<<<<<<< HEAD
 				case 0:
 					return ms.getName();
 				case 1:
@@ -183,15 +137,6 @@ public class DebugShowMapSourceNames implements ActionListener
 						s += f.getName() + " / ";
 					return s + li.getLoaderType();
 				default:
-=======
-			case 0:
-				return ms.getName();
-			case 1:
-				return ms.toString();
-			case 2:
-				li = ms.getLoaderInfo();
-				if (li == null)
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 					return null;
 			}
 		}

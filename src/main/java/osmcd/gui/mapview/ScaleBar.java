@@ -26,17 +26,10 @@ import java.awt.Stroke;
 
 import javax.swing.JComponent;
 
-<<<<<<< HEAD
 import osmb.program.map.IfMapSpace;
 import osmb.utilities.MyMath;
 import osmb.utilities.UnitSystem;
 import osmcd.OSMCDSettings;
-=======
-import osmcb.program.interfaces.IfMapSpace;
-import osmcb.program.model.UnitSystem;
-import osmcb.utilities.MyMath;
-import osmcd.program.model.OSMCDSettings;
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 
 /**
  * Simple scale bar showing the iMap scale using the selected unit system.
@@ -58,12 +51,8 @@ public class ScaleBar
 
 	private static final int DESIRED_SCALE_BAR_WIDTH = 150;
 
-<<<<<<< HEAD
 	public static void paintScaleBar(JComponent c, Graphics2D g, IfMapSpace mapSpace, Point tlc, int zoom)
 	{
-=======
-	public static void paintScaleBar(JComponent c, Graphics2D g, IfMapSpace mapSpace, Point tlc, int zoom) {
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 		Rectangle r = c.getBounds();
 		int posX;
 		int posY = r.height - r.y;
@@ -75,11 +64,7 @@ public class ScaleBar
 
 		int w1 = DESIRED_SCALE_BAR_WIDTH;
 
-<<<<<<< HEAD
 		UnitSystem unitSystem = OSMCDSettings.getInstance().getUnitSystem();
-=======
-		UnitSystem unitSystem = OSMCDSettings.getInstance().unitSystem;
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 
 		// Calculate the angular distance of our desired scale bar
 		double ad = mapSpace.horizontalDistance(zoom, coordY, w1);

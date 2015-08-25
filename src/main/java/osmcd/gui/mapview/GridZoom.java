@@ -17,11 +17,6 @@
 package osmcd.gui.mapview;
 
 import osmcd.OSMCDStrs;
-<<<<<<< HEAD
-=======
-
-public class GridZoom {
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 
 public class GridZoom
 {
@@ -38,12 +33,8 @@ public class GridZoom
 	}
 
 	@Override
-<<<<<<< HEAD
 	public String toString()
 	{
-=======
-	public String toString() {
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 		return String.format(OSMCDStrs.RStr("map_ctrl_zoom_grid_prefix_fmt"), zoom);
 	}
 

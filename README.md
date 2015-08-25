@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 chart-designer
 ==============
 
@@ -11,3 +12,7 @@ Implemented formats (as of 2015-08):
 
 Planned formats:
 * OpenCPN KAP files
+=======
+# chart-designer
+Der Chart-Designer dient dazu, Kartenausschnitte in passenden Zoomleveln zu einem "Atlas" zusammenzustellen. 
+>>>>>>> 7dcd5a6ab0cd63e4beb72c71d292d81af1787787

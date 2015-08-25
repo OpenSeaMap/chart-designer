@@ -18,17 +18,8 @@ package osmcd.program;
 
 import org.apache.log4j.Logger;
 
-<<<<<<< HEAD
 public class Logging extends osmb.program.Logging
 {
 	protected static final String LOG_FILENAME = "OpenSeaMap ChartDesigner.log";
 	public static final Logger LOG = Logger.getLogger("OSMCD");
-=======
-public class Logging extends osmcb.program.Logging
-{
-	protected static final String LOG_FILENAME = "OpenSeaMap ChartDesigner.log";
-	public static final Logger LOG = Logger.getLogger("OSMCD");
-	// public static final Layout ADVANCED_LAYOUT = new PatternLayout("%d{ISO8601} %-5p [%t] %c{1}: %m%n");
-
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 }

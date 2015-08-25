@@ -38,7 +38,6 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.w3c.dom.Document;
 
-<<<<<<< HEAD
 import osmb.utilities.OSMBUtilities;
 import osmcd.data.gpx.gpx11.Gpx;
 
@@ -47,18 +46,6 @@ public class GPXUtils
 	public static boolean checkJAXBVersion()
 	{
 		boolean res = OSMBUtilities.checkJAXBVersion();
-=======
-import osmcb.utilities.OSMCBUtilities;
-import osmcd.data.gpx.gpx11.Gpx;
-import osmcd.program.Logging;
-
-public class GPXUtils
-{
-
-	public static boolean checkJAXBVersion()
-	{
-		boolean res = OSMCBUtilities.checkJAXBVersion();
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 		if (!res)
 			JOptionPane.showMessageDialog(null, "Outdated Java Runtime Environment and JAXB version", "Mobile Bundle Creator has detected that your used "
 					+ "Java Runtime Environment is too old.\n Please update " + "the Java Runtime Environment to at least \nversion "
@@ -88,11 +75,7 @@ public class GPXUtils
 			if ("http://www.topografix.com/GPX/1/0".equals(namespace))
 			{
 				Source xmlSource = new javax.xml.transform.dom.DOMSource(document);
-<<<<<<< HEAD
 				Source xsltSource = new StreamSource(OSMBUtilities.loadResourceAsStream("xsl/gpx10to11.xsl"));
-=======
-				Source xsltSource = new StreamSource(OSMCBUtilities.loadResourceAsStream("xsl/gpx10to11.xsl"));
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 				JAXBResult result = new JAXBResult(unmarshaller);
 				TransformerFactory transFact = TransformerFactory.newInstance();
 				Transformer trans = transFact.newTransformer(xsltSource);
@@ -111,11 +94,7 @@ public class GPXUtils
 		}
 		finally
 		{
-<<<<<<< HEAD
 			OSMBUtilities.closeStream(is);
-=======
-			OSMCBUtilities.closeStream(is);
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 		}
 	}
 
@@ -135,31 +114,10 @@ public class GPXUtils
 		catch (FileNotFoundException e)
 		{
 			throw new JAXBException(e);
-<<<<<<< HEAD
 		}
 		finally
 		{
 			OSMBUtilities.closeStream(os);
-=======
-		}
-		finally
-		{
-			OSMCBUtilities.closeStream(os);
-		}
-	}
-
-	public static void main(String[] args)
-	{
-		Logging.configureConsoleLogging();
-		try
-		{
-			loadGpxFile(new File("misc/samples/gpx/gpx11 wpt.gpx"));
-			loadGpxFile(new File("misc/samples/gpx/gpx10 wpt.gpx"));
-		}
-		catch (JAXBException e)
-		{
-			e.printStackTrace();
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 		}
 	}
 }

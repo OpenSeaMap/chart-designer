@@ -17,7 +17,8 @@
 /**
  * Package level definition of adapters for JAXB 
  */
-@XmlJavaTypeAdapters({ @XmlJavaTypeAdapter(value = PointAdapter.class, type = java.awt.Point.class),
+@XmlJavaTypeAdapters(
+{ @XmlJavaTypeAdapter(value = PointAdapter.class, type = java.awt.Point.class),
 		@XmlJavaTypeAdapter(value = DimensionAdapter.class, type = java.awt.Dimension.class),
 		@XmlJavaTypeAdapter(value = PolygonAdapter.class, type = java.awt.Polygon.class) })
 package osmcd.program;
@@ -25,13 +26,7 @@ package osmcd.program;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapters;
 
-<<<<<<< HEAD:src/main/java/osmcd/program/package-info.java
 import osmb.program.jaxb.DimensionAdapter;
 import osmb.program.jaxb.PointAdapter;
 import osmb.program.jaxb.PolygonAdapter;
-=======
-import osmcb.program.jaxb.DimensionAdapter;
-import osmcb.program.jaxb.PointAdapter;
-import osmcb.program.jaxb.PolygonAdapter;
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318:src/main/java/osmcd/program/model/package-info.java
 

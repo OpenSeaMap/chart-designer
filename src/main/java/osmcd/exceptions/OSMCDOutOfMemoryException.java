@@ -16,16 +16,10 @@
  ******************************************************************************/
 package osmcd.exceptions;
 
-<<<<<<< HEAD
 import osmb.utilities.OSMBUtilities;
-=======
-import osmcb.utilities.OSMCBUtilities;
-
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 
 public class OSMCDOutOfMemoryException extends RuntimeException
 {
-
 	long requiredMemory;
 	long heapAvailable;
 
@@ -38,15 +32,9 @@ public class OSMCDOutOfMemoryException extends RuntimeException
 	}
 
 	@Override
-<<<<<<< HEAD
 	public String getMessage()
 	{
 		return super.getMessage() + "\nRequired memory: " + getFormattedRequiredMemory() + "\nAvailable free memory: " + OSMBUtilities.formatBytes(heapAvailable);
-=======
-	public String getMessage() {
-		return super.getMessage() + "\nRequired memory: " + getFormattedRequiredMemory() + "\nAvailable free memory: "
-				+ OSMCBUtilities.formatBytes(heapAvailable);
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 	}
 
 	public long getRequiredMemory()
@@ -54,14 +42,8 @@ public class OSMCDOutOfMemoryException extends RuntimeException
 		return requiredMemory;
 	}
 
-<<<<<<< HEAD
 	public String getFormattedRequiredMemory()
 	{
 		return OSMBUtilities.formatBytes(requiredMemory);
-=======
-	public String getFormattedRequiredMemory() {
-		return OSMCBUtilities.formatBytes(requiredMemory);
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318
 	}
-
 }

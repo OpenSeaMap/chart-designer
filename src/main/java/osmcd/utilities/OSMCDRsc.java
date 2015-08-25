@@ -7,7 +7,7 @@ import java.util.ResourceBundle;
 
 //import osmcb.OSMCBApp;
 
-public class OSMCDRsc extends osmcb.utilities.OSMCBRsc
+public class OSMCDRsc extends osmb.utilities.OSMBRsc
 {
 	public static Locale currLocale;
 	public static String localeLanguage;

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package osmcd;
 
 import java.util.MissingResourceException;
@@ -33,31 +32,3 @@ public class OSMCDStrs
 		}
 	}
 }
-=======
-package osmcd;
-
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
-
-public class OSMCDStrs
-{
-	private static final String BUNDLE_NAME = "osmcd.resources.text.loc-nls";
-
-	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
-
-	private OSMCDStrs() {
-	}
-
-	public static String RStr(String key)
-	{
-		try
-		{
-			return RESOURCE_BUNDLE.getString(key);
-		}
-		catch (MissingResourceException e)
-		{
-			return '!' + key + '!';
-		}
-	}
-}
->>>>>>> f8aa735da6b335186129503e00a72e25e428f318

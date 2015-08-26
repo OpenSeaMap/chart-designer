@@ -45,8 +45,8 @@ public class PreviewMap extends JMapViewer
 	private static final long serialVersionUID = 1L;
 
 	public static final Color GRID_COLOR = new Color(200, 20, 20, 130);
-	public static final Color SEL_COLOR = new Color(0.9f, 0.7f, 0.7f, 0.6f);
-	public static final Color MAP_COLOR = new Color(1.0f, 0.84f, 0.0f, 0.4f);
+	public static final Color SEL_COLOR = new Color(0.9f, 0.7f, 0.7f, 0.3f); // the color to mark the selected area - NOT the yellow 'display selected areas'
+	public static final Color MAP_COLOR = new Color(1.0f, 0.84f, 0.0f, 0.1f); // this is the 'display selected areas' from the bundle content
 
 	public static final int MAP_CONTROLLER_RECTANGLE_SELECT = 0;
 	public static final int MAP_CONTROLLER_GPX = 1;
@@ -125,7 +125,8 @@ public class PreviewMap extends JMapViewer
 		IfMapSource mapSource = ACMapSourcesManager.getInstance().getSourceByName(settings.getMapviewMapSource());
 		if (mapSource != null)
 			setMapSource(mapSource);
-		else // /W
+		else
+			// /W
 			mapSource = ACMapSourcesManager.getInstance().getDefaultMapSource();
 		EastNorthCoordinate c = settings.getMapviewCenterCoordinate();
 		gridZoom = settings.getMapviewGridZoom();
@@ -415,9 +416,9 @@ public class PreviewMap extends JMapViewer
 		int zoomDiff = MAX_ZOOM - cZoom;
 
 		// /W pNewEnd.x <<= zoomDiff;
-		pNewEnd.x = ((pNewEnd.x + 1) << zoomDiff) -1;
+		pNewEnd.x = ((pNewEnd.x + 1) << zoomDiff) - 1;
 		// /W pNewEnd.y <<= zoomDiff;
-		pNewEnd.y = ((pNewEnd.y + 1) << zoomDiff) -1;
+		pNewEnd.y = ((pNewEnd.y + 1) << zoomDiff) - 1;
 		pNewStart.x <<= zoomDiff;
 		pNewStart.y <<= zoomDiff;
 

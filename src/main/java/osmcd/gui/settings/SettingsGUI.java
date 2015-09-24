@@ -61,7 +61,6 @@ import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
-import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -103,10 +102,12 @@ public class SettingsGUI extends JDialog
 		MBit15("15 MBit", MBIT1 * 15), //
 		MBit20("20 MBit", MBIT1 * 20);
 
+		@SuppressWarnings("unused") // /W #unused
 		public final long limit;
 		public final String description;
 
-		private Bandwidth(String description, long limit) {
+		private Bandwidth(String description, long limit)
+		{
 			this.description = description;
 			this.limit = limit;
 		}
@@ -125,7 +126,8 @@ public class SettingsGUI extends JDialog
 		private final Locale locale;
 		private final String displayName;
 
-		private SupportLocale(Locale locale, String displayName) {
+		private SupportLocale(Locale locale, String displayName)
+		{
 			this.locale = locale;
 			this.displayName = displayName;
 		}
@@ -167,12 +169,13 @@ public class SettingsGUI extends JDialog
 	private JCheckBox jCheckBoxMakeNewCatalog; // /W #boolNew
 	private JComboBox<Integer> threadCount; // /W <Integer>
 	private JComboBox<Bandwidth> bandwidth; // /W <Bandwidth>
-	private JComboBox proxyType; // /W ?proxyType wird nicht initialisiert?
-	private JTextField proxyHost;
-	private JTextField proxyPort;
-	private JTextField proxyUserName;
-	private JTextField proxyPassword;
-	private JCheckBox ignoreDlErrors; // /W ?ignoreDlErrors wird nicht initialisiert?
+	// /W #unused
+	//	private JComboBox proxyType; // /W ?proxyType wird nicht initialisiert?
+	//	private JTextField proxyHost;
+	//	private JTextField proxyPort;
+	//	private JTextField proxyUserName;
+	//	private JTextField proxyPassword;
+	//	private JCheckBox ignoreDlErrors; // /W ?ignoreDlErrors wird nicht initialisiert?
 	private JButton okButton;
 	private JButton cancelButton;
 	private JTabbedPane tabbedPane;
@@ -362,6 +365,7 @@ public class SettingsGUI extends JDialog
 		tab.add(Box.createVerticalGlue(), GBC.std().fill(GBC.VERTICAL));
 	}
 
+	@SuppressWarnings("unused") // /W #unused
 	private void addMapSourceSettingsPanel() throws URISyntaxException
 	{
 
@@ -505,7 +509,6 @@ public class SettingsGUI extends JDialog
 
 		enabledMapSourcesModel = new MapSourcesListModel(msManager.getEnabledOrderedMapSources());
 		enabledMapSources = new JList<IfMapSource>(enabledMapSourcesModel);
-		// /W HORIZONTAL_SCROLLBAR_NEVER sollte sicherstellen, dass Namen nicht zu lang sind
 		JScrollPane leftScrollPane = new JScrollPane(enabledMapSources, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		leftPanel.add(leftScrollPane, BorderLayout.CENTER);
 
@@ -592,7 +595,7 @@ public class SettingsGUI extends JDialog
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				log.trace("Map size: " + mapSize.getValue());// /W ???? beim Aufruf 32767 <-> in settings 65536
+				log.trace("Map size: " + mapSize.getValue());
 			}
 		});
 
@@ -670,7 +673,7 @@ public class SettingsGUI extends JDialog
 		jtfTileStoreDirectory.setText(settings.getTileStoreDirectory().toString());
 		jtfTileStoreDirectory.setEnabled(false);
 		jtfTileStoreDirectory.setDisabledTextColor(Color.BLACK);
-		// /W #??? ToolTipTextColor of jtfTileStoreDirectory.diabled? #??? BorderColor?
+		// /W #??? ToolTipTextColor of jtfTileStoreDirectory.diabled, BorderColor?
 		
 		JButton selectTileStoreDirectory = new JButton(OSMCDStrs.RStr("set_directory_output_select"));
 		selectTileStoreDirectory.addActionListener(new ActionListener()

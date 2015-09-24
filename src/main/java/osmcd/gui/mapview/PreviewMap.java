@@ -156,7 +156,6 @@ public class PreviewMap extends JMapViewer
 			for (MapEventListener listener : mapEventListeners)
 				listener.zoomChanged(zoom);
 		updateGridValues();
-		// log.trace("zoomChanged()"); // /W #???
 	}
 
 	public void setGridZoom(int gridZoom)

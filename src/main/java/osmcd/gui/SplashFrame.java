@@ -26,6 +26,7 @@ import javax.swing.JLabel;
 
 import osmb.utilities.OSMBUtilities;
 
+@SuppressWarnings("serial")
 public class SplashFrame extends JFrame
 {
 	private static SplashFrame startupFrame;
@@ -62,7 +63,7 @@ public class SplashFrame extends JFrame
 		startupFrame = null;
 	}
 
-	public static void main(String[] arg) ///W ? wozu main-Methode hier?
+	public static void main(String[] arg) // /W ? What's the use of it?
 	{
 		new SplashFrame();
 	}

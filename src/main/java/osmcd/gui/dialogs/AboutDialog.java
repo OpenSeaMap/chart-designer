@@ -36,10 +36,10 @@ import osmcd.OSMCDStrs;
 import osmcd.gui.MainFrame;
 import osmcd.program.ProgramInfo;
 
-//@SuppressWarnings("serial") ///W statt serialVersionUID = -123456789L, ungeklärt: klappt @SuppressWarnings("serial") in jeder IDE?
+//@SuppressWarnings("serial")
 public class AboutDialog extends JDialog implements MouseListener
 {
-	private static final long serialVersionUID = -123456789L; ///W statt? @SuppressWarnings("serial")
+	private static final long serialVersionUID = -123456789L; // /W or? @SuppressWarnings("serial")
 
 	public AboutDialog() throws HeadlessException
 	{

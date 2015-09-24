@@ -23,26 +23,30 @@ import javax.swing.filechooser.FileFilter;
 
 import osmcd.OSMCDStrs;
 
-public class JDirectoryChooser extends JFileChooser {
+public class JDirectoryChooser extends JFileChooser
+{
 
 	private static final long serialVersionUID = -1954689476383812988L;
 
-	public JDirectoryChooser() {
+	public JDirectoryChooser()
+	{
 		super();
 		setDialogType(CUSTOM_DIALOG);
 		setDialogTitle(OSMCDStrs.RStr("dlg_select_dir_title"));
 		//setApproveButtonText("Select Directory");
 		setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		setAcceptAllFileFilterUsed(false);
-		addChoosableFileFilter(new FileFilter() {
-
+		addChoosableFileFilter(new FileFilter()
+		{
 			@Override
-			public boolean accept(File f) {
+			public boolean accept(File f)
+			{
 				return f.isDirectory();
 			}
 
 			@Override
-			public String getDescription() {
+			public String getDescription()
+			{
 				return OSMCDStrs.RStr("dlg_select_dir_description");
 			}
 		});

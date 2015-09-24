@@ -99,8 +99,8 @@ public class SettingsGUIPaper extends JPanel
 	private final JPanel jPanelActions = createSection(titledBorderActions), jPanelAdditions = createSection(titledBorderAdditions),
 			jPanelAdvanced = createSection(titledBorderAdvanced), jPanelMargins = createSection(titledBorderMargins), jPanelSize = createSection(titledBorderSize);
 
-	private final JComboBox<Format> jComboBoxFormat = new JComboBox<Format>(Format.values()); ///W <Format>
-	private final JComboBox<WgsDensity> jComboBoxWgsDensity = new JComboBox<WgsDensity>(WgsDensity.values()); ///W <WgsDensity>
+	private final JComboBox<Format> jComboBoxFormat = new JComboBox<Format>(Format.values());
+	private final JComboBox<WgsDensity> jComboBoxWgsDensity = new JComboBox<WgsDensity>(WgsDensity.values());
 
 	private final JRadioButton jRadioButtonCustom = new JRadioButton("", true);
 	private final JRadioButton jRadioButtonDefault = new JRadioButton("", true);

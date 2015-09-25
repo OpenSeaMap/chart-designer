@@ -73,7 +73,7 @@ import osmb.mapsources.IfInitializableMapSource;
 import osmb.mapsources.IfMapSource;
 import osmb.program.WgsGrid.WgsDensity;
 import osmb.program.WgsGridSettings;
-import osmb.program.catalog.IfCatalog;
+import osmb.program.catalog.Catalog;
 import osmb.program.map.Layer;
 import osmb.program.tiles.TileImageParameters;
 import osmb.utilities.GBC;
@@ -85,8 +85,6 @@ import osmcd.OSMCDSettings;
 import osmcd.OSMCDStrs;
 import osmcd.externaltools.ExternalToolDef;
 import osmcd.externaltools.ExternalToolsLoader;
-import osmcd.gui.actions.AddGpxTrackAreaPolygonMap;
-import osmcd.gui.actions.AddGpxTrackPolygonMap;
 import osmcd.gui.actions.AddMapLayer;
 import osmcd.gui.actions.DebugSetLogLevel;
 import osmcd.gui.actions.DebugShowLogFile;
@@ -153,7 +151,7 @@ public class MainFrame extends JFrame implements MapEventListener
 
 	protected JMenuBar menuBar;
 	protected JMenu toolsMenu = null;
-	private JMenu bookmarkMenu = null;
+	// private JMenu bookmarkMenu = null; // /W #unused
 
 	public final PreviewMap previewMap = new PreviewMap();
 	// public final JCatalogTree jCatalogTree = new JCatalogTree(previewMap);
@@ -219,9 +217,9 @@ public class MainFrame extends JFrame implements MapEventListener
 	}
 
 	/**
-	 * Why runFirstStart(), this is called every time the program runs
+	 * Forces the program to start with Settings.Directories dialog if settings are uninitiated
 	 */
-	public static void runFirstStart() // /W #firstStart: at first start of the programms: open withSettingsDialog.Directories
+	public static void runFirstStart() // /W #firstStart // /W #??? compare to FIRST_START in EnvironmentSetup
 	{
 		if (OSMCDSettings.getInstance().getSettingsTabSelected() == -2) // /W -2: firstStart
 		{
@@ -319,11 +317,11 @@ public class MainFrame extends JFrame implements MapEventListener
 		setJMenuBar(menuBar);
 
 		// the left pane consists of XX panels
-		updateZoomLevelCheckBoxes(); // /W muss vor loadSettings() einmal aufgerufen werden! // /W? #???
+		updateZoomLevelCheckBoxes(); // /W has to be called once before loadSettings()
 		loadSettings();
 		mCatalogsPanel.initialize();
 		mapSourceChanged(previewMap.getMapSource());
-		// updateZoomLevelCheckBoxes(); // /W ungeklärt, ?weg oder nochmal?
+		// updateZoomLevelCheckBoxes(); // /W again?
 		updateGridSizeCombo();
 		mTileImageParametersPanel.updateControlsState(); // /W #---
 		zoomChanged(previewMap.getZoom());
@@ -486,10 +484,11 @@ public class MainFrame extends JFrame implements MapEventListener
 		addSelection.setMnemonic(KeyEvent.VK_A);
 		mapsMenu.add(addSelection);
 
-		JMenuItem addGpxTrackSelection = new JMenuItem2(OSMCDStrs.RStr("menu_maps_selection_add_around_gpx"), AddGpxTrackPolygonMap.class);
+		// /W #unused
+		// JMenuItem addGpxTrackSelection = new JMenuItem2(OSMCDStrs.RStr("menu_maps_selection_add_around_gpx"), AddGpxTrackPolygonMap.class);
 		// /W #--- mapsMenu.add(addGpxTrackSelection);
-
-		JMenuItem addGpxTrackAreaSelection = new JMenuItem2(OSMCDStrs.RStr("menu_maps_selection_add_by_gpx"), AddGpxTrackAreaPolygonMap.class);
+		// /W #unused
+		// JMenuItem addGpxTrackAreaSelection = new JMenuItem2(OSMCDStrs.RStr("menu_maps_selection_add_by_gpx"), AddGpxTrackAreaPolygonMap.class);
 		// /W #--- mapsMenu.add(addGpxTrackAreaSelection);
 
 		// // Bookmarks menu
@@ -778,8 +777,7 @@ public class MainFrame extends JFrame implements MapEventListener
 	 */
 	private void loadSettings()
 	{
-		// /W test wozu immer mit neuem catalog anfangen
-		// /new CatalogNew().actionPerformed(null);
+		// new CatalogNew().actionPerformed(null);
 
 		OSMCDSettings settings = OSMCDSettings.getInstance();
 
@@ -847,7 +845,7 @@ public class MainFrame extends JFrame implements MapEventListener
 		try
 		{
 			// jCatalogTree.save()
-			if (mCatalogsPanel.getCatalog().getLayerCount() > 0)
+			if (mCatalogsPanel.getCatalog().calculateTilesToDownload() > 0)
 				mCatalogsPanel.getCatalogTree().save();
 			// else: empty catalog -> do nothing
 
@@ -976,6 +974,7 @@ public class MainFrame extends JFrame implements MapEventListener
 		gridZoomCombo.setEnabled(true);
 	}
 
+	@SuppressWarnings("unused") // /W #unused
 	private class ApplySelectionButtonListener implements ActionListener
 	{
 		@Override
@@ -1316,7 +1315,7 @@ public class MainFrame extends JFrame implements MapEventListener
 		mCatalogsPanel.getCatalogTree().getTreeModel().notifyNodeInsert(layer); // /W +++ mCatalogContentPanel ersetzt durch mCatalogsPanel
 	}
 
-	public IfCatalog getCatalog()
+	public Catalog getCatalog()
 	{
 		return mCatalogsPanel.getCatalog(); // /W +++ mCatalogContentPanel ersetzt durch mCatalogsPanel
 	}

@@ -51,6 +51,7 @@ import osmb.program.map.IfMap;
 import osmb.program.tiles.TileImageParameters;
 import osmb.utilities.GUIExceptionHandler;
 import osmb.utilities.geo.EastNorthCoordinate;
+import osmcd.OSMCDApp;
 import osmcd.OSMCDSettings;
 import osmcd.OSMCDStrs;
 import osmcd.gui.MainFrame;
@@ -93,7 +94,7 @@ public class JCatalogTree extends JTree implements Autoscroll
 			throw new NullPointerException(OSMCDStrs.RStr("CatalogTree.MVParamNULL"));
 		this.mapView = mapView;
 		getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-		ddc = new DragDropController(this);
+		// ddc = new DragDropController(this);
 		treeModel = (CatalogTreeModel) getModel();
 		// setRootVisible(false);
 		setShowsRootHandles(true);
@@ -137,7 +138,7 @@ public class JCatalogTree extends JTree implements Autoscroll
 		// if (!SQLiteLoader.loadSQLiteOrShowError())
 		// return false;
 		// }
-		if ((catalog.getFile() != null) || (catalog.calculateTilesToDownload() > 0))
+		if ((catalog.getFile() != null) && (catalog.calculateTilesToDownload() > 0)) // /W && instead of ||, file member is now in normal case not null
 		{
 			bValid = true;
 		}
@@ -183,12 +184,16 @@ public class JCatalogTree extends JTree implements Autoscroll
 	// }
 	public void newCatalog(String name)
 	{
-		log.debug(OSMCDStrs.RStr("CatalogTree.CreateNewBundle"));
-		Catalog catalog = Catalog.newInstance();
-		catalog.setName(name);
-		treeModel.setCatalog(catalog);
-
-		mapView.repaint();
+		if (name == null || name.length() < 1)
+		{
+			JOptionPane.showMessageDialog(null, OSMCDStrs.RStr("Catalog.NameInvalid.Message"), OSMCDStrs.RStr("Catalog.NameInvalid.Title"), JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+		log.debug(String.format(OSMCDStrs.RStr("CatalogTree.CreateNewBundle"), name));
+		Catalog catalog = Catalog.newInstance(name);
+		OSMCDApp.getApp().setCatalog(catalog); // #gCatalog
+		treeModel.notifyStructureChanged();
+		mapView.repaint(); // /W #???
 	}
 
 	// /**
@@ -229,30 +234,36 @@ public class JCatalogTree extends JTree implements Autoscroll
 		}
 	}
 
-	public IfCatalog getCatalog()
+	public Catalog getCatalog()
 	{
-		return treeModel.getCatalog();
+		return OSMCDApp.getApp().getCatalog(); // #gCatalog
 	}
 
+	// /W #deprecated -> make check in LoadCatalogListener#actionPerformed(ActionEvent e)
 	public boolean load(IfCatalogProfile profile)
 	{
 		log.debug(OSMCDStrs.RStr("CatalogTree.LoadCatalog") + profile);
 		try
 		{
 			Catalog catalog = null;
-			treeModel.load(profile);
+			
+			// #gCatalog
+			// treeModel.load(profile);
+			OSMCDApp.getApp().setCatalog((Catalog) Catalog.load(profile.getFile()));
+			
+			treeModel.notifyStructureChanged();
+			
 			// Check if the file we got is really a catalog
-			if (treeModel.getCatalog() instanceof Catalog)
+			if (getCatalog() instanceof Catalog)
 			{
-				catalog = (Catalog) treeModel.getCatalog();
+				catalog = (Catalog) getCatalog();
 				if (catalog.getVersion() < Catalog.CURRENT_CATALOG_VERSION)
 				{
 					JOptionPane.showMessageDialog(null, MSG_CATALOG_VERSION_MISMATCH, OSMCDStrs.RStr("CatalogTree.OldVersion"), JOptionPane.WARNING_MESSAGE);
 					return true;
 				}
 			}
-			// /W Änderung in isInvalid() -> jetzt sind auch leere catalogs invalid
-			if (!(treeModel.getCatalog().check()))
+			if (!(getCatalog().check()))
 			{
 				JOptionPane.showMessageDialog(null, MSG_CATALOG_DATA_CHECK_FAILED, OSMCDStrs.RStr("CatalogTree.ProblemLoading"), JOptionPane.WARNING_MESSAGE);
 			}
@@ -270,7 +281,7 @@ public class JCatalogTree extends JTree implements Autoscroll
 	{
 		try
 		{
-			treeModel.save();
+			getCatalog().save(); // #gCatalog
 			// /W write name of saved catalog to settings
 			OSMCDSettings s = OSMCDSettings.getInstance();
 			s.setCatalogName(getCatalog().getName());
@@ -404,7 +415,7 @@ public class JCatalogTree extends JTree implements Autoscroll
 				});
 				pm.add(mi);
 			}
-			if (o instanceof IfCatalog) // /W #--- #??? IfCatalogObject) rename catalog
+			if (o instanceof IfCatalog) // /W #rename catalog
 			{
 				mi = new JMenuItem(OSMCDStrs.RStr("lp_bundle_pop_menu_rename"));
 				mi.addActionListener(new ActionListener()
@@ -412,13 +423,7 @@ public class JCatalogTree extends JTree implements Autoscroll
 					@Override
 					public void actionPerformed(ActionEvent e)
 					{
-						if (getCatalog().getLayerCount() > 0) // not empty
-						{
-							JCatalogTree.this.startEditingAtPath(selPath);
-							// save #???
-						}
-						// /W #??? rename -> + delete catalog_old?
-						// /W #??? -> als button?
+						JCatalogTree.this.startEditingAtPath(selPath);
 					}
 				});
 				pm.add(mi);
@@ -450,7 +455,7 @@ public class JCatalogTree extends JTree implements Autoscroll
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				newCatalog("NoName"); // /W #??? clear -> new?
+				newCatalog("NoName");
 			}
 		});
 		// /W #--- pm.add(mi);

@@ -107,7 +107,7 @@ public class OSMCDSettings extends ACSettings
 	// @XmlElement(nillable = false)
 	private String mapviewMapSource = null;
 	private String catalogName = null;
-	private boolean catalogNameMakeNew = true; // /W #boolNew
+	private boolean catalogNameMakeNew = false; // /W #boolNew
 
 	// Bookmark related
 	// /W #--- @XmlElementWrapper(name = "placeBookmarks")
@@ -134,7 +134,6 @@ public class OSMCDSettings extends ACSettings
 	 */
 	protected OSMCDSettings()
 	{
-		// /W #??? catalogName = "Layer";
 		Dimension dScreen = Toolkit.getDefaultToolkit().getScreenSize();
 		getMainWindow().size.width = (int) (0.5f * dScreen.width);
 		getMainWindow().size.height = (int) (0.5f * dScreen.height);
@@ -166,10 +165,11 @@ public class OSMCDSettings extends ACSettings
 					return true;
 				}
 			});
+			
 			// /W #firstStart apply settings.xml to filesystem
 			File sets = getFile();
 			if (sets.length() == 0)
-				save(); // /W #???catch
+				save();
 
 			s = (OSMCDSettings) um.unmarshal(getFile());
 			s.getWgsGrid().checkValues();
@@ -422,8 +422,8 @@ public class OSMCDSettings extends ACSettings
 	}
 
 	/**
-	 * @param option
-	 *          to start program with new catalog to set
+	 * @param makeNew
+	 *          option to start program with new catalog to set
 	 */
 	public void setCatalogNameMakeNew(boolean makeNew)
 	{
@@ -456,8 +456,7 @@ public class OSMCDSettings extends ACSettings
 		return paperAtlas;
 	}
 
-	@XmlTransient
-	// /W #---
+	@XmlTransient // /W #---
 	public String getGpxFileChooserDir()
 	{
 		return gpxFileChooserDir;

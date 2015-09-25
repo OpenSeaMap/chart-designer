@@ -32,11 +32,11 @@ import org.apache.log4j.Logger;
 
 import osmb.exceptions.InvalidNameException;
 import osmb.program.catalog.Catalog;
-import osmb.program.catalog.IfCatalog;
 import osmb.program.catalog.IfCatalogObject;
-import osmb.program.catalog.IfCatalogProfile;
 import osmb.program.map.IfLayer;
 import osmb.program.map.IfMap;
+import osmb.program.map.Map;
+import osmcd.OSMCDApp;
 
 public class CatalogTreeModel implements TreeModel
 {
@@ -44,13 +44,13 @@ public class CatalogTreeModel implements TreeModel
 	private static Logger log = Logger.getLogger(CatalogTreeModel.class);
 
 	// instance data
-	protected IfCatalog mCatalog;
+	// protected IfCatalog mCatalog; // #gCatalog
 	// protected IfCatalogProfile mCatalog;
 	protected Set<TreeModelListener> listeners = new HashSet<TreeModelListener>();
 
 	public CatalogTreeModel()
 	{
-		mCatalog = Catalog.newInstance();
+		// mCatalog = Catalog.newInstance(); // #gCatalog
 	}
 
 	@Override
@@ -67,13 +67,19 @@ public class CatalogTreeModel implements TreeModel
 
 	public void notifyStructureChanged()
 	{
-		notifyStructureChanged((TreeNode) mCatalog);
+		notifyStructureChanged((TreeNode) getCatalog()); // #gCatalog
 	}
 
 	public void notifyStructureChanged(TreeNode root)
 	{
 		notifyStructureChanged(new TreeModelEvent(this, new Object[]
 		{ root }));
+	}
+	
+	public void notifyStructureChanged(TreeNode catalog, TreeNode layer)
+	{
+		notifyStructureChanged(new TreeModelEvent(this, new Object[]
+		{ catalog, layer }));
 	}
 
 	/**
@@ -122,6 +128,12 @@ public class CatalogTreeModel implements TreeModel
 			l.treeNodesInserted(event);
 	}
 
+	public void notifyNodesChanged(TreeModelEvent event)
+	{
+		for (TreeModelListener l : listeners)
+			l.treeNodesChanged(event);
+	}
+	
 	public TreePath getNodePath(TreeNode node)
 	{
 		LinkedList<TreeNode> path = new LinkedList<TreeNode>();
@@ -155,7 +167,7 @@ public class CatalogTreeModel implements TreeModel
 	@Override
 	public Object getRoot()
 	{
-		return mCatalog;
+		return getCatalog(); // #gCatalog
 	}
 
 	@Override
@@ -175,8 +187,25 @@ public class CatalogTreeModel implements TreeModel
 			String newName = (String) newValue;
 			if (newName.length() == 0)
 				return;
-			sel.setName(newName);
-			success = true;
+			if (sel instanceof Catalog)
+			{
+				// #rename
+				CatalogRenameDialog renameDlg = new CatalogRenameDialog(null, newName, getCatalog().getFile().getPath(), null);
+				renameDlg.actionPerformed(null);
+				if (renameDlg.getChosenName() == null)
+					return;
+
+				sel.setName(newName);
+				notifyNodesChanged(new TreeModelEvent(newName, path)); // repaint (longer names)
+				success = true;
+			}
+			else if (sel instanceof Map)
+			{
+				sel.setName(newName);
+				notifyNodesChanged(new TreeModelEvent(newName, path)); // repaint (longer names)
+				success = true;
+			}
+			// else: sel instanceof Layer -> do nothing!
 		}
 		catch (ClassCastException e)
 		{
@@ -196,12 +225,13 @@ public class CatalogTreeModel implements TreeModel
 		}
 	}
 
+	// /W #deprecated
 	public void mergeLayers(IfLayer source, IfLayer target) throws InvalidNameException
 	{
 
 		boolean sourceFound = false;
 		boolean targetFound = false;
-		for (IfLayer l : mCatalog)
+		for (IfLayer l : getCatalog()) // #gCatalog
 		{
 			if (l.equals(source))
 				sourceFound = true;
@@ -220,7 +250,7 @@ public class CatalogTreeModel implements TreeModel
 			throw new InvalidNameException("Map naming conflict:\n" + "The layers to be merged contain maps of the same name.");
 
 		if (sourceFound)
-			mCatalog.deleteLayer(source);
+			getCatalog().deleteLayer(source); // #gCatalog
 		for (IfMap map : source)
 		{
 			target.addMap(map);
@@ -237,37 +267,40 @@ public class CatalogTreeModel implements TreeModel
 		notifyNodeInsert((TreeNode) map);
 	}
 
-	public IfCatalog getCatalog()
+	public Catalog getCatalog()
 	{
-		return mCatalog;
+		return OSMCDApp.getApp().getCatalog(); // #gCatalog
 	}
 
-	public void setCatalog(Catalog catalog)
-	{
-		this.mCatalog = catalog;
-		notifyStructureChanged();
-	}
+	// #gCatalog
+	// public void setCatalog(Catalog catalog)
+	// {
+	// this.mCatalog = catalog;
+	// notifyStructureChanged();
+	// }
 
-	/**
-	 * This simply delegates the command to the current catalog
-	 * 
-	 ** @throws Exception
-	 */
-	// public void save(IfCatalogProfile catalog) throws Exception
-	public void save() throws Exception
-	{
-		mCatalog.save();
-	}
+	// #gCatalog
+	// /**
+	// * This simply delegates the command to the current catalog
+	// * 
+	// ** @throws Exception
+	// */
+	// // public void save(IfCatalogProfile catalog) throws Exception
+	// public void save() throws Exception
+	// {
+	// mCatalog.save();
+	// }
 
-	/**
-	 * This simply delegates the command to the catalog
-	 * 
-	 * @param catalog
-	 * @throws Exception
-	 */
-	public void load(IfCatalogProfile catalog) throws Exception
-	{
-		mCatalog = Catalog.load(catalog.getFile());
-		notifyStructureChanged();
-	}
+	// #gCatalog
+	// /**
+	// * This simply delegates the command to the catalog
+	// * 
+	// * @param catalog
+	// * @throws Exception
+	// */
+	// public void load(IfCatalogProfile catalog) throws Exception
+	// {
+	// mCatalog = Catalog.load(catalog.getFile());
+	// notifyStructureChanged();
+	// }
 }

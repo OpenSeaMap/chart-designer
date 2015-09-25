@@ -46,15 +46,12 @@ public class CatalogModelListener implements TreeModelListener
 	 */
 	protected void changed()
 	{
-		// /W catalogsPanel.getSaveButton().setEnabled(catalogTree.getCatalog().getLayerCount() > 0);
-		
-		// catalogsPanel.setIsContentChanged(true);
-		// catalogsPanel.enableButtons();
 	}
 
 	@Override
 	public void treeNodesChanged(TreeModelEvent e)
 	{
+		catalogsPanel.setIsContentChanged(true);
 		changed();
 	}
 
@@ -68,7 +65,6 @@ public class CatalogModelListener implements TreeModelListener
 	public void treeNodesRemoved(TreeModelEvent e)
 	{
 		catalogsPanel.setIsContentChanged(true);
-		catalogsPanel.enableButtons();
 		changed();
 	}
 

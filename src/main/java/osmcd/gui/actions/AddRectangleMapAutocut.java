@@ -21,10 +21,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
+import javax.swing.tree.TreeNode;
 
 import osmb.exceptions.InvalidNameException;
 import osmb.mapsources.IfMapSource;
-import osmb.program.catalog.IfCatalog;
+import osmb.program.catalog.Catalog;
 import osmb.program.map.Layer;
 import osmb.program.tiles.TileImageParameters;
 import osmcd.OSMCDSettings;
@@ -58,8 +59,8 @@ public class AddRectangleMapAutocut implements ActionListener
 		MainFrame mg = MainFrame.getMainGUI();
 		JCatalogTree catalogTree = mg.getCatalogTree();
 		// final String mapNameFmt = "%s %03d";
-		final String mapNameFmt = "%s";
-		IfCatalog catalog = catalogTree.getCatalog();
+		// final String mapNameFmt = "%s";
+		Catalog catalog = catalogTree.getCatalog();
 		// String name = mg.getUserText();
 		IfMapSource mapSource = mg.getSelectedMapSource();
 		SelectedZoomLevels sZL = mg.getSelectedZoomLevels();
@@ -76,6 +77,7 @@ public class AddRectangleMapAutocut implements ActionListener
 		// return;
 		// }
 
+		boolean firstLayers = (catalog.getLayerCount() == 0);
 		int[] zoomLevels = sZL.getZoomLevels();
 		if (zoomLevels.length == 0)
 		{
@@ -137,9 +139,20 @@ public class AddRectangleMapAutocut implements ActionListener
 			if (bNewLayer)
 			{
 				catalog.addLayer(layer);
+				catalogTree.getTreeModel().notifyNodeInsert(layer);
+				if (firstLayers)
+					catalogTree.getTreeModel().notifyStructureChanged();
 			}
 			// Check for duplicate maps either here or in layer.addMapsAutocut()
-			catalogTree.getTreeModel().notifyNodeInsert(layer);
+			
+			// 'repaint' layer in content
+			catalogTree.getTreeModel().notifyStructureChanged((TreeNode)catalog, layer);
+			// scroll to new map in expanded layer (finally with minimum zoomlevel)
+			if (catalogTree.isExpanded(catalogTree.getTreeModel().getNodePath(layer)))
+			{
+				TreeNode lastMap = layer.getChildAt(layer.getChildCount() - 1);
+				catalogTree.scrollPathToVisible(catalogTree.getTreeModel().getNodePath(lastMap));
+			}
 		}
 	}
 }

@@ -32,20 +32,13 @@ import osmcd.program.ProgramInfo;
 
 public class OSMCDApp extends ACWindowsApp
 {
-	protected Catalog gCatalog = null;
-
 	static public OSMCDApp getApp()
 	{
 		return (OSMCDApp) gApp;
 	}
-
-	@Override
-	public OSMCDSettings getSettings()
-	{
-		if (pSets == null)
-			pSets = OSMCDSettings.getInstance();
-		return (OSMCDSettings) pSets;
-	}
+	
+	// #gCatalog
+	protected Catalog gCatalog = null;
 
 	public OSMCDApp()
 	{
@@ -58,6 +51,25 @@ public class OSMCDApp extends ACWindowsApp
 			System.exit(1);
 		}
 	}
+	
+	public Catalog getCatalog()
+	{
+		return gCatalog;
+	}
+
+	public void setCatalog(Catalog cat)
+	{
+		gCatalog = cat;
+	}
+	
+	@Override
+	public OSMCDSettings getSettings()
+	{
+		if (pSets == null)
+			pSets = OSMCDSettings.getInstance();
+		return (OSMCDSettings) pSets;
+	}
+
 
 	@Override
 	public int runWork()

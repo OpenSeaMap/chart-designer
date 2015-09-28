@@ -60,13 +60,16 @@ import osmcd.program.SettingsPaperAtlas;
 
 @XmlRootElement
 @XmlAccessorOrder(XmlAccessOrder.ALPHABETICAL)
-public class OSMCDSettings extends ACSettings {
+public class OSMCDSettings extends ACSettings
+{
 	// class data / statics
-	protected static Logger initLogger() {
+	protected static Logger initLogger()
+	{
 		return log = Logger.getLogger(OSMCDSettings.class);
 	}
 
-	public static class MainWindowSettings {
+	public static class MainWindowSettings
+	{
 		@XmlJavaTypeAdapter(DimensionAdapter.class)
 		public Dimension size = new Dimension();
 		@XmlJavaTypeAdapter(PointAdapter.class)
@@ -104,7 +107,7 @@ public class OSMCDSettings extends ACSettings {
 	// @XmlElement(nillable = false)
 	private String mapviewMapSource = null;
 	private String catalogName = null;
-	private boolean catalogNameMakeNew = true; // /W #boolNew
+	private boolean catalogNameMakeNew = false; // /W #boolNew
 
 	// Bookmark related
 	// /W #--- @XmlElementWrapper(name = "placeBookmarks")
@@ -130,7 +133,8 @@ public class OSMCDSettings extends ACSettings {
 	/**
 	 * constructor should provide default values for every element
 	 */
-	protected OSMCDSettings() {
+	protected OSMCDSettings()
+	{
 		// /W #??? catalogName = "Layer";
 		Dimension dScreen = Toolkit.getDefaultToolkit().getScreenSize();
 		getMainWindow().size.width = (int) (0.5f * dScreen.width);
@@ -140,35 +144,43 @@ public class OSMCDSettings extends ACSettings {
 		// /W #--- getMainWindow().collapsedPanels.add("Gpx");
 	}
 
-	public static OSMCDSettings getInstance() {
+	public static OSMCDSettings getInstance()
+	{
 		if (instance == null)
 			instance = new OSMCDSettings();
 		return (OSMCDSettings) instance;
 	}
 
-	public static ACSettings load() throws JAXBException {
+	public static ACSettings load() throws JAXBException
+	{
 		OSMCDSettings s = null;
-		try {
+		try
+		{
 			JAXBContext context = JAXBContext.newInstance(OSMCDSettings.class);
 			Unmarshaller um = context.createUnmarshaller();
-			um.setEventHandler(new ValidationEventHandler() {
+			um.setEventHandler(new ValidationEventHandler()
+			{
 				@Override
-				public boolean handleEvent(ValidationEvent event) {
+				public boolean handleEvent(ValidationEvent event)
+				{
 					log.warn("Problem on loading settings.xml: " + event.getMessage());
 					return true;
 				}
 			});
+
 			// /W #firstStart apply settings.xml to filesystem
 			File sets = getFile();
 			if (sets.length() == 0)
-				save(); // /W #???catch
+				save();
 
 			s = (OSMCDSettings) um.unmarshal(getFile());
 			s.getWgsGrid().checkValues();
 			s.paperAtlas.checkValues();
 			SETTINGS_LAST_MODIFIED = getFile().lastModified();
 			OSMBRsc.updateLocalizedStrings();
-		} finally {
+		}
+		finally
+		{
 			instance = s;
 		}
 		return instance;
@@ -179,27 +191,32 @@ public class OSMCDSettings extends ACSettings {
 	 * 
 	 * @return
 	 */
-	public static OSMCDSettings loadOrQuit() {
+	public static OSMCDSettings loadOrQuit()
+	{
 		OSMCDSettings s = null;
-		try {
+		try
+		{
 			s = (OSMCDSettings) OSMCDSettings.load();
-		} catch (JAXBException e) {
+		}
+		catch (JAXBException e)
+		{
 			log.error(e);
-			JOptionPane.showMessageDialog(null, OSMBStrs.RStr(OSMBStrs.RStr("msg_settings_file_can_not_parse")),
-					OSMBStrs.RStr("Error"), JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, OSMBStrs.RStr(OSMBStrs.RStr("msg_settings_file_can_not_parse")), OSMBStrs.RStr("Error"), JOptionPane.ERROR_MESSAGE);
 			System.exit(0);
 		}
 		return s;
 	}
 
-	public static void save() throws JAXBException {
+	public static void save() throws JAXBException
+	{
 		getInstance().cfgVersion = ProgramInfo.getVersion();
 		JAXBContext context = JAXBContext.newInstance(OSMCDSettings.class);
 		Marshaller m = context.createMarshaller();
 		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 		ByteArrayOutputStream bOS = null;
 		FileOutputStream fOS = null;
-		try {
+		try
+		{
 			// First we write to a buffer and only if that works we write the
 			// buffer to disk.
 			// Direct writing to file may result in a defect xml file
@@ -210,74 +227,87 @@ public class OSMCDSettings extends ACSettings {
 			fOS.write(bOS.toByteArray());
 			fOS.close();
 			SETTINGS_LAST_MODIFIED = getFile().lastModified();
-		} catch (IOException e) {
+		}
+		catch (IOException e)
+		{
 			throw new JAXBException(e);
-		} finally {
+		}
+		finally
+		{
 			OSMBUtilities.closeStream(fOS);
 		}
 	}
 
-	public MainWindowSettings getMainWindow() {
+	public MainWindowSettings getMainWindow()
+	{
 		return mainWindow;
 	}
 
 	/**
 	 * @return the maxMapSize
 	 */
-	public int getMaxMapSize() {
+	public int getMaxMapSize()
+	{
 		return maxMapSize;
 	}
 
 	/**
 	 * @param maxMapSize
-	 *            the maxMapSize to set
+	 *          the maxMapSize to set
 	 */
-	public void setMaxMapSize(int maxMapSize) {
+	public void setMaxMapSize(int maxMapSize)
+	{
 		this.maxMapSize = maxMapSize;
 	}
 
 	/**
 	 * @return the mapviewZoom
 	 */
-	public int getMapviewZoom() {
+	public int getMapviewZoom()
+	{
 		return mapviewZoom;
 	}
 
 	/**
 	 * @param mapviewZoom
-	 *            the mapviewZoom to set
+	 *          the mapviewZoom to set
 	 */
-	public void setMapviewZoom(int mapviewZoom) {
+	public void setMapviewZoom(int mapviewZoom)
+	{
 		this.mapviewZoom = mapviewZoom;
 	}
 
 	/**
 	 * @return the mapviewGridZoom
 	 */
-	public int getMapviewGridZoom() {
+	public int getMapviewGridZoom()
+	{
 		return mapviewGridZoom;
 	}
 
 	/**
 	 * @param mapviewGridZoom
-	 *            the mapviewGridZoom to set
+	 *          the mapviewGridZoom to set
 	 */
-	public void setMapviewGridZoom(int mapviewGridZoom) {
+	public void setMapviewGridZoom(int mapviewGridZoom)
+	{
 		this.mapviewGridZoom = mapviewGridZoom;
 	}
 
 	/**
 	 * @return the mapOverlapTiles
 	 */
-	public int getMapOverlapTiles() {
+	public int getMapOverlapTiles()
+	{
 		return mapOverlapTiles;
 	}
 
 	/**
 	 * @param mapOverlapTiles
-	 *            the mapOverlapTiles to set
+	 *          the mapOverlapTiles to set
 	 */
-	public void setMapOverlapTiles(int mapOverlapTiles) {
+	public void setMapOverlapTiles(int mapOverlapTiles)
+	{
 		this.mapOverlapTiles = mapOverlapTiles;
 	}
 
@@ -285,15 +315,17 @@ public class OSMCDSettings extends ACSettings {
 	 * @return the mapviewSelectionMax
 	 */
 	@XmlJavaTypeAdapter(PointAdapter.class)
-	public Point getMapviewSelectionMax() {
+	public Point getMapviewSelectionMax()
+	{
 		return mapviewSelectionMax;
 	}
 
 	/**
 	 * @param mapviewSelectionMax
-	 *            the mapviewSelectionMax to set
+	 *          the mapviewSelectionMax to set
 	 */
-	public void setMapviewSelectionMax(Point mapviewSelectionMax) {
+	public void setMapviewSelectionMax(Point mapviewSelectionMax)
+	{
 		this.mapviewSelectionMax = mapviewSelectionMax;
 	}
 
@@ -301,30 +333,34 @@ public class OSMCDSettings extends ACSettings {
 	 * @return the mapviewSelectionMin
 	 */
 	@XmlJavaTypeAdapter(PointAdapter.class)
-	public Point getMapviewSelectionMin() {
+	public Point getMapviewSelectionMin()
+	{
 		return mapviewSelectionMin;
 	}
 
 	/**
 	 * @param mapviewSelectionMin
-	 *            the mapviewSelectionMin to set
+	 *          the mapviewSelectionMin to set
 	 */
-	public void setMapviewSelectionMin(Point mapviewSelectionMin) {
+	public void setMapviewSelectionMin(Point mapviewSelectionMin)
+	{
 		this.mapviewSelectionMin = mapviewSelectionMin;
 	}
 
 	/**
 	 * @return the mapviewCenterCoordinate
 	 */
-	public EastNorthCoordinate getMapviewCenterCoordinate() {
+	public EastNorthCoordinate getMapviewCenterCoordinate()
+	{
 		return mapviewCenterCoordinate;
 	}
 
 	/**
 	 * @param mapviewCenterCoordinate
-	 *            the mapviewCenterCoordinate to set
+	 *          the mapviewCenterCoordinate to set
 	 */
-	public void setMapviewCenterCoordinate(EastNorthCoordinate mapviewCenterCoordinate) {
+	public void setMapviewCenterCoordinate(EastNorthCoordinate mapviewCenterCoordinate)
+	{
 		this.mapviewCenterCoordinate = mapviewCenterCoordinate;
 	}
 
@@ -332,60 +368,74 @@ public class OSMCDSettings extends ACSettings {
 	 * @return the selectedZoomLevels
 	 */
 	@XmlTransient
-	public List<Integer> getSelectedZoomLevels() {
+	public List<Integer> getSelectedZoomLevels()
+	{
 		return selectedZoomLevels;
 	}
 
 	/**
 	 * @param selectedZoomLevels
-	 *            the selectedZoomLevels to set
+	 *          the selectedZoomLevels to set
 	 */
-	public void setSelectedZoomLevels(List<Integer> selectedZoomLevels) {
+	public void setSelectedZoomLevels(List<Integer> selectedZoomLevels)
+	{
 		this.selectedZoomLevels = selectedZoomLevels;
 	}
 
 	/**
 	 * @return the mapviewMapSource
 	 */
-	public String getMapviewMapSource() {
+	public String getMapviewMapSource()
+	{
 		return mapviewMapSource;
 	}
 
 	/**
 	 * @param mapviewMapSource
-	 *            the mapviewMapSource to set
+	 *          the mapviewMapSource to set
 	 */
-	public void setMapviewMapSource(String mapviewMapSource) {
+	public void setMapviewMapSource(String mapviewMapSource)
+	{
 		this.mapviewMapSource = mapviewMapSource;
 	}
 
 	/**
 	 * @return the catalogName
 	 */
-	public String getCatalogName() {
+	public String getCatalogName()
+	{
 		return catalogName;
 	}
 
 	/**
 	 * @param catalogName
-	 *            the catalogName to set
+	 *          the catalogName to set
 	 */
-	public void setCatalogName(String catalogName) {
+	public void setCatalogName(String catalogName)
+	{
 		this.catalogName = catalogName;
 	}
 
 	/**
 	 * @return option to start program with new catalog
 	 */
-	public boolean getCatalogNameMakeNew() {
+	public boolean getCatalogNameMakeNew()
+	{
 		return catalogNameMakeNew;
 	}
 
 	/**
+	 * <<<<<<< HEAD
+	 * 
 	 * @param option
-	 *            to start program with new catalog to set
+	 *          to start program with new catalog to set
+	 *          =======
+	 * @param makeNew
+	 *          option to start program with new catalog to set
+	 *          >>>>>>> 53928d65b8f2e3ead0196c0c8edb9ec053492357
 	 */
-	public void setCatalogNameMakeNew(boolean makeNew) {
+	public void setCatalogNameMakeNew(boolean makeNew)
+	{
 		catalogNameMakeNew = makeNew;
 	}
 
@@ -393,41 +443,47 @@ public class OSMCDSettings extends ACSettings {
 	 * @return the placeBookmarks
 	 */
 	@XmlTransient
-	public List<Bookmark> getPlaceBookmarks() {
+	public List<Bookmark> getPlaceBookmarks()
+	{
 		return placeBookmarks;
 	}
 
 	/**
 	 * @param placeBookmarks
-	 *            the placeBookmarks to set
+	 *          the placeBookmarks to set
 	 */
-	public void setPlaceBookmarks(List<Bookmark> placeBookmarks) {
+	public void setPlaceBookmarks(List<Bookmark> placeBookmarks)
+	{
 		this.placeBookmarks = placeBookmarks;
 	}
 
 	/**
 	 * @return the paperAtlas
 	 */
-	public SettingsPaperAtlas getPaperAtlas() {
+	public SettingsPaperAtlas getPaperAtlas()
+	{
 		return paperAtlas;
 	}
 
 	@XmlTransient
-	// /W #---
-	public String getGpxFileChooserDir() {
+	public String getGpxFileChooserDir()
+	{
 		return gpxFileChooserDir;
 	}
 
-	public void setGpxFileChooserDir(String gpxFileChooserDir) {
+	public void setGpxFileChooserDir(String gpxFileChooserDir)
+	{
 		this.gpxFileChooserDir = gpxFileChooserDir;
 	}
 
 	// /W #tabSelection SettingsDialog
-	public int getSettingsTabSelected() {
+	public int getSettingsTabSelected()
+	{
 		return nSettingsTabSelected;
 	}
 
-	public void setSettingsTabSelected(int nTabSel) {
+	public void setSettingsTabSelected(int nTabSel)
+	{
 		nSettingsTabSelected = nTabSel;
 	}
 }

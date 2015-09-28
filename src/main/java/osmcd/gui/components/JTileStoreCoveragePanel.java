@@ -42,8 +42,8 @@ public class JTileStoreCoveragePanel extends JCollapsiblePanel implements MapEve
 
 	private JButton showCoverage;
 	private JButton hideCoverage;
-	private JComboBox<IfMapSource> layerSelector; ///W <IfMapSource>
-	private JComboBox<Integer> zoomCombo; ///W <Integer>
+	private JComboBox<IfMapSource> layerSelector;
+	private JComboBox<Integer> zoomCombo;
 	private PreviewMap mapViewer;
 
 	public JTileStoreCoveragePanel(PreviewMap mapViewer)

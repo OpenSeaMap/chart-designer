@@ -39,18 +39,20 @@
         <position>16/333</position>
         <maximized>true</maximized>
         <leftPanelVisible>true</leftPanelVisible>
-        <collapsedPanels/>
+        <collapsedPanels>
+            <collapsedPanel>Map Source</collapsedPanel>
+        </collapsedPanels>
     </mainWindow>
     <mapOverlapTiles>1</mapOverlapTiles>
     <mapviewCenterCoordinate>
-        <lat>35.05698043137265</lat>
-        <lon>24.609375</lon>
+        <lat>37.80544394934271</lat>
+        <lon>7.6025390625</lon>
     </mapviewCenterCoordinate>
     <mapviewGridZoom>16</mapviewGridZoom>
     <mapviewMapSource>AH OpenSeaMap - Mapnik</mapviewMapSource>
-    <mapviewSelectionMax>413197312/583741440</mapviewSelectionMax>
-    <mapviewSelectionMin>413194752/583740416</mapviewSelectionMin>
-    <mapviewZoom>7</mapviewZoom>
+    <mapviewSelectionMax>401707008/564550912</mapviewSelectionMax>
+    <mapviewSelectionMin>401706496/564550912</mapviewSelectionMin>
+    <mapviewZoom>6</mapviewZoom>
     <maxMapSize>65536</maxMapSize>
     <selectedZoomLevels>
         <zoomLevel>9</zoomLevel>

@@ -29,7 +29,8 @@ public class JCatalogFileChooser extends javax.swing.JFileChooser
 		setCurrentDirectory(catalogsDir);
 		
 		String settingsCatalogName = settings.getCatalogName();
-		if (settings.getCatalogNameMakeNew())
+		// /W otherwise #firstStart does not work correct (!Catalog.isCatalogsFileNamePart(settingsCatalogName)
+		if (settings.getCatalogNameMakeNew() || (!Catalog.isCatalogsFileNamePart(settingsCatalogName)))
 		{
 			String newName = Catalog.makeNewCatalogsName();
 			newName = Catalog.getCatalogFileName(newName);

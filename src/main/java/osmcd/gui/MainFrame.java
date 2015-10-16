@@ -1051,7 +1051,10 @@ public class MainFrame extends JFrame implements MapEventListener
 	private void updateZoomLevelCheckBoxes()
 	{
 		IfMapSource tileSource = previewMap.getMapSource();
-		int zoomLevels = tileSource.getMaxZoom() - tileSource.getMinZoom() + 1;
+		// int zoomLevels = tileSource.getMaxZoom() - tileSource.getMinZoom() + 1; // #zoom0-3
+		int minZoom = Math.max(Catalog.MIN_CATALOG_ZOOMLEVEL, tileSource.getMinZoom());
+		int zoomLevels = tileSource.getMaxZoom() - minZoom + 1;
+		
 		zoomLevels = Math.max(zoomLevels, 0);
 		JCheckBox[] oldZoomLevelCheckBoxes = cbZoom;
 		int oldMinZoom = 0;
@@ -1065,7 +1068,9 @@ public class MainFrame extends JFrame implements MapEventListener
 
 		for (int i = cbZoom.length - 1; i >= 0; i--)
 		{
-			int cbz = i + tileSource.getMinZoom();
+			// int cbz = i + tileSource.getMinZoom(); // #zoom0-3
+			int cbz = i + minZoom;
+
 			JZoomCheckBox cb = new JZoomCheckBox(cbz);
 			cb.setPreferredSize(new Dimension(22, 11));
 			cb.setMinimumSize(cb.getPreferredSize());

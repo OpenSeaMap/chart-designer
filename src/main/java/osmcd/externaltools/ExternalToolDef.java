@@ -28,6 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.apache.log4j.Logger;
 
 import osmb.utilities.GUIExceptionHandler;
+import osmb.utilities.OSMBStrs;
 import osmcd.OSMCDStrs;
 import osmcd.gui.MainFrame;
 import osmcd.program.MapSelection;
@@ -56,7 +57,7 @@ public class ExternalToolDef implements ActionListener
 	{
 		if (mapSel != null)
 			return false;
-		JOptionPane.showMessageDialog(MainFrame.getMainGUI(), OSMCDStrs.RStr("msg_tools_exec_error_selected_area"), OSMCDStrs.RStr("Error"),
+		JOptionPane.showMessageDialog(MainFrame.getMainGUI(), OSMCDStrs.RStr("msg_tools_exec_error_selected_area"), OSMBStrs.RStr("Error"),
 				JOptionPane.ERROR_MESSAGE);
 		return true;
 
@@ -99,7 +100,7 @@ public class ExternalToolDef implements ActionListener
 					case MAX_ZOOM:
 						if (zooms.length == 0)
 						{
-							JOptionPane.showMessageDialog(mainFrame, OSMCDStrs.RStr("msg_no_zoom_level_selected"), OSMCDStrs.RStr("Error"), JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(mainFrame, OSMCDStrs.RStr("msg_no_zoom_level_selected"), OSMBStrs.RStr("Error"), JOptionPane.ERROR_MESSAGE);
 							return;
 						}
 						add = Integer.toString(zooms[zooms.length - 1]);
@@ -107,7 +108,7 @@ public class ExternalToolDef implements ActionListener
 					case MIN_ZOOM:
 						if (zooms.length == 0)
 						{
-							JOptionPane.showMessageDialog(mainFrame, OSMCDStrs.RStr("msg_no_zoom_level_selected"), OSMCDStrs.RStr("Error"), JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(mainFrame, OSMCDStrs.RStr("msg_no_zoom_level_selected"), OSMBStrs.RStr("Error"), JOptionPane.ERROR_MESSAGE);
 							return;
 						}
 						add = Integer.toString(zooms[0]);

@@ -34,6 +34,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import osmb.utilities.GBC;
+import osmb.utilities.OSMBStrs;
 import osmcd.OSMCDSettings;
 import osmcd.OSMCDStrs;
 import osmcd.gui.MainFrame;
@@ -53,7 +54,7 @@ public class ManageBookmarks extends JDialog implements ListSelectionListener, A
 		super(owner, OSMCDStrs.RStr("dlg_mgn_bookmark_title"));
 		setIconImages(MainFrame.OSMCD_ICONS);
 		setLayout(new GridBagLayout());
-		applyButton = new JButton(OSMCDStrs.RStr("Close"));
+		applyButton = new JButton(OSMBStrs.RStr("Close"));
 		applyButton.addActionListener(this);
 		applyButton.setDefaultCapable(true);
 

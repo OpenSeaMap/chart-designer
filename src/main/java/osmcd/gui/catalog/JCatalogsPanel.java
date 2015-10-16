@@ -35,6 +35,7 @@ import org.apache.log4j.Logger;
 import osmb.program.catalog.Catalog;
 import osmb.utilities.GBC;
 import osmb.utilities.GUIExceptionHandler;
+import osmb.utilities.OSMBStrs;
 import osmcd.OSMCDApp;
 import osmcd.OSMCDSettings;
 import osmcd.OSMCDStrs;
@@ -175,7 +176,7 @@ public class JCatalogsPanel extends JCollapsiblePanel
 			if (catalog.getName() == null || catalog.getName().length() == 0)
 			{
 				log.info("not a catalog name given");
-				JOptionPane.showMessageDialog(null, OSMCDStrs.RStr("Catalog.EnterName"), OSMCDStrs.RStr("Error"), JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, OSMCDStrs.RStr("Catalog.EnterName"), OSMBStrs.RStr("Error"), JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 			

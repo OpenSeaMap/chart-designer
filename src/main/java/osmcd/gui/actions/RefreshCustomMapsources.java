@@ -25,7 +25,6 @@ import osmb.mapsources.ACMapSourcesManager;
 import osmb.mapsources.IfFileBasedMapSource;
 import osmb.mapsources.IfMapSource;
 import osmb.utilities.OSMBStrs;
-import osmcd.OSMCDStrs;
 import osmcd.gui.MainFrame;
 
 public class RefreshCustomMapsources implements ActionListener

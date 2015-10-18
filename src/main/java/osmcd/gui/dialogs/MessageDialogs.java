@@ -23,7 +23,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import osmb.utilities.OSMBStrs;
-import osmcd.OSMCDStrs;
 
 public class MessageDialogs
 {

@@ -166,7 +166,7 @@ public class JCatalogsPanel extends JCollapsiblePanel
 		{
 			Catalog catalog = OSMCDApp.getApp().getCatalog();
 			// test for empty catalog (possible after deleting last map: see CatalogTreeModel#notifyNodeDelete(TreeNode node))
-			if (catalog.calculateTilesToDownload() < 1)
+			if (catalog.isEmpty())
 			{
 				JOptionPane.showMessageDialog(null, OSMCDStrs.RStr(OSMCDStrs.RStr("Catalog.Empty")),
 						OSMCDStrs.RStr("CatalogTree.ERRBundleEmpty"), JOptionPane.ERROR_MESSAGE);
@@ -265,7 +265,7 @@ public class JCatalogsPanel extends JCollapsiblePanel
 					JOptionPane.showMessageDialog(null, OSMCDStrs.RStr("Catalog.VersionMismatch"), OSMCDStrs.RStr("CatalogTree.OldVersion"), JOptionPane.WARNING_MESSAGE);
 					return;
 				}
-				// empty: getLayerCount() || calculateTilesToDownload() < 1 // only in SaveCatalogListener
+				// isEmpty() // only in SaveCatalogListener
 				// Check for duplicate layer names || duplicate layer zoomlevels // #???
 
 				String catalogsName = null;

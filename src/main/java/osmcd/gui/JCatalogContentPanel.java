@@ -23,7 +23,7 @@ import osmcd.gui.catalog.JCatalogsPanel;
 import osmcd.gui.components.JCollapsiblePanel;
 import osmcd.gui.mapview.PreviewMap;
 
-// /W #deprecated
+@Deprecated // /W #deprecated
 @SuppressWarnings("serial")
 public class JCatalogContentPanel extends JCollapsiblePanel
 {

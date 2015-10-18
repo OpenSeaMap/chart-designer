@@ -118,8 +118,7 @@ public class OSMCDSettings extends ACSettings
 
 	// GPX-tracks
 	/**
-	 * Saves the last used directory of the GPX file chooser dialog. Used in
-	 * {@link GpxLoad}.
+	 * Saves the last used directory of the GPX file chooser dialog. Used in {@link GpxLoad}.
 	 */
 	private String gpxFileChooserDir = "";
 
@@ -135,7 +134,6 @@ public class OSMCDSettings extends ACSettings
 	 */
 	protected OSMCDSettings()
 	{
-		// /W #??? catalogName = "Layer";
 		Dimension dScreen = Toolkit.getDefaultToolkit().getScreenSize();
 		getMainWindow().size.width = (int) (0.5f * dScreen.width);
 		getMainWindow().size.height = (int) (0.5f * dScreen.height);
@@ -425,14 +423,8 @@ public class OSMCDSettings extends ACSettings
 	}
 
 	/**
-	 * <<<<<<< HEAD
-	 * 
-	 * @param option
-	 *          to start program with new catalog to set
-	 *          =======
 	 * @param makeNew
 	 *          option to start program with new catalog to set
-	 *          >>>>>>> 53928d65b8f2e3ead0196c0c8edb9ec053492357
 	 */
 	public void setCatalogNameMakeNew(boolean makeNew)
 	{

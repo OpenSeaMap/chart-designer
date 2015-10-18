@@ -846,7 +846,7 @@ public class MainFrame extends JFrame implements MapEventListener
 		try
 		{
 			// jCatalogTree.save()
-			if (mCatalogsPanel.getCatalog().calculateTilesToDownload() > 0)
+			if (!mCatalogsPanel.getCatalog().isEmpty())
 				mCatalogsPanel.getCatalogTree().save();
 			// else: empty catalog -> do nothing
 

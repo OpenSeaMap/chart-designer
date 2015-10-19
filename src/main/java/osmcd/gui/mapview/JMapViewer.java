@@ -81,6 +81,10 @@ public class JMapViewer extends JPanel implements TileLoaderListener
 
 	/**
 	 * x- and y-position of the center of this map-panel on the world map denoted in screen pixel regarding the current zoom level.
+	 * 
+	 * ---- setting center to (width / 2 , height / 2)
+	 *      -> width (height) % 2 == 0 :   center is right (bottom) pixel of (2 pixel)-center
+	 *      -> width (height) % 2 == 1 :   center is (1 pixel)-center
 	 */
 	protected Point center = new Point();
 
@@ -258,7 +262,8 @@ public class JMapViewer extends JPanel implements TileLoaderListener
 		int newZoom = MAX_ZOOM;
 		int x = Math.abs(x1 - x2);
 		int y = Math.abs(y1 - y2);
-		while (x > width || y > height || newZoom > mapZoomMax)
+		//while (x > width || y > height || newZoom > mapZoomMax) // /W  >=
+		while (x >= width || y >= height || newZoom > mapZoomMax)
 		{
 			newZoom--;
 			x >>= 1;
@@ -274,7 +279,8 @@ public class JMapViewer extends JPanel implements TileLoaderListener
 		int z = 1 << (MAX_ZOOM - newZoom);
 		x /= z;
 		y /= z;
-		setDisplayPosition(x, y, newZoom);
+		// setDisplayPosition(x, y, newZoom); // /W +1, +1
+		setDisplayPosition(x + 1, y + 1, newZoom); // set center: see protected Point center = new Point();
 	}
 
 	public Point2D.Double getPosition()
@@ -330,7 +336,7 @@ public class JMapViewer extends JPanel implements TileLoaderListener
 
 		int tileSize = mapSource.getMapSpace().getTileSize();
 
-		int tilex = center.x / tileSize;
+		int tilex = center.x / tileSize; // /W #??? center BR <-> UL 256
 		int tiley = center.y / tileSize;
 		int off_x = (center.x % tileSize);
 		int off_y = (center.y % tileSize);
@@ -365,10 +371,10 @@ public class JMapViewer extends JPanel implements TileLoaderListener
 			else
 				iMove = 0;
 		} // calculate the visibility borders
-		int x_min = -tileSize;
-		int y_min = -tileSize;
-		int x_max = getWidth();
-		int y_max = getHeight();
+		int x_min = -tileSize + 1; // /W + 1 inserted
+		int y_min = -tileSize + 1; // /W + 1 inserted
+		int x_max = getWidth() - 1; // /W - 1 inserted
+		int y_max = getHeight() - 1; // /W - 1 inserted
 
 		// paint the tiles in a spiral, starting from center of the iMap
 		boolean painted = (mapTileLayers.size() > 0);
@@ -393,6 +399,7 @@ public class JMapViewer extends JPanel implements TileLoaderListener
 						for (MapTileLayer l : mapTileLayers)
 						{
 							l.paintTile(g, posx, posy, tilex, tiley, zoom);
+//							System.out.println(zoom + " xxxx " + tilex + " yyyy " + tiley);
 						}
 					}
 					Point p = move[iMove];

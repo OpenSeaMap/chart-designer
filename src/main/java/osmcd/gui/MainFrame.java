@@ -113,6 +113,7 @@ import osmcd.gui.components.JTileStoreCoveragePanel;
 import osmcd.gui.components.JZoomCheckBox;
 import osmcd.gui.gpxtree.GpxEntry;
 import osmcd.gui.gpxtree.JGpxPanel;
+import osmcd.gui.mapview.CatalogOverviewMap;
 import osmcd.gui.mapview.GridZoom;
 import osmcd.gui.mapview.JMapController;
 import osmcd.gui.mapview.JMapViewer;
@@ -165,6 +166,10 @@ public class MainFrame extends JFrame implements MapEventListener
 	private JSlider zoomSlider;
 	// private JComboBox mapSourceCombo;
 	private JButton settingsButton;
+	
+	// /W #CatOverviev
+	private JButton saveCatalogOverviewButton;
+	
 	// public JCatalogNameField catalogNameTextField;
 	// private JButton createAtlasButton;
 	private JZoomCheckBox[] cbZoom = new JZoomCheckBox[0];
@@ -412,7 +417,21 @@ public class MainFrame extends JFrame implements MapEventListener
 		settingsButton = new JButton(OSMCDStrs.RStr("Settings.Button"));
 		settingsButton.addActionListener(new SettingsButtonListener());
 		settingsButton.setToolTipText(OSMCDStrs.RStr("Settings.ButtonTips"));
-
+		
+		// /W #CatOverviev
+		saveCatalogOverviewButton = new JButton(OSMCDStrs.RStr("SaveCatalogOverview.Button"));
+		saveCatalogOverviewButton.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				CatalogOverviewMap overview = new CatalogOverviewMap();
+				
+				overview.callPaintComponent_TWICE();
+			}
+		});
+		//saveCatalogOverviewButton.setToolTipText(OSMCDStrs.RStr("SaveCatalogOverview.ButtonTips"));
+		
 		// // catalog name text field
 		// catalogNameTextField = new JCatalogNameField();
 		// catalogNameTextField.setColumns(12);
@@ -686,6 +705,9 @@ public class MainFrame extends JFrame implements MapEventListener
 		// leftPanelContent.add(createAtlasButton, gbc_eol);
 		leftPanelContent.add(settingsButton, gbc_eol);
 		leftPanelContent.add(Box.createVerticalGlue(), GBC.eol().fill(GBC.VERTICAL));
+		
+		// /W #CatOverviev
+		leftPanelContent.add(saveCatalogOverviewButton, gbc_eol);
 
 		JScrollPane scrollPane = new JScrollPane(leftPanelContent);
 		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);

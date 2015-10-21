@@ -20,8 +20,8 @@ import java.awt.Component;
 
 import javax.swing.JLayeredPane;
 
-public class FilledLayeredPane extends JLayeredPane {
-
+public class FilledLayeredPane extends JLayeredPane
+{
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -30,14 +30,17 @@ public class FilledLayeredPane extends JLayeredPane {
 	 * getHeight())
 	 */
 	@Override
-	public void doLayout() {
+	public void doLayout()
+	{
 		// Synchronizing on getTreeLock, because I see other layouts doing
 		// that.
 		// see BorderLayout::layoutContainer(Container)
-		synchronized (getTreeLock()) {
+		synchronized (getTreeLock())
+		{
 			int w = getWidth();
 			int h = getHeight();
-			for (Component c : getComponents()) {
+			for (Component c : getComponents())
+			{
 				c.setBounds(0, 0, w, h);
 			}
 		}

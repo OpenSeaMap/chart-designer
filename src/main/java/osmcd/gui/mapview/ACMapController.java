@@ -32,22 +32,25 @@ import java.awt.event.MouseWheelListener;
  * <li>{@link MouseWheelListener}</li>
  * </ul>
  */
-public abstract class JMapController {
-
+public abstract class ACMapController
+{
 	protected final PreviewMap map;
 	protected boolean enabled = false;
 
-	public JMapController(PreviewMap map) {
+	public ACMapController(PreviewMap map)
+	{
 		this.map = map;
 	}
 
-	public JMapController(PreviewMap map, boolean enabled) {
+	public ACMapController(PreviewMap map, boolean enabled)
+	{
 		this(map);
 		if (enabled)
 			enable();
 	}
 
-	public void enable() {
+	public void enable()
+	{
 		if (enabled)
 			return;
 		if (this instanceof MouseListener)
@@ -59,7 +62,8 @@ public abstract class JMapController {
 		this.enabled = true;
 	}
 
-	public void disable() {
+	public void disable()
+	{
 		if (!enabled)
 			return;
 		if (this instanceof MouseListener)
@@ -71,7 +75,8 @@ public abstract class JMapController {
 		this.enabled = false;
 	}
 
-	protected Point convertToAbsolutePoint(Point p) {
+	protected Point convertToAbsolutePoint(Point p)
+	{
 		Point mapPoint = map.getTopLeftCoordinate();
 		mapPoint.x += p.getX();
 		mapPoint.y += p.getY();

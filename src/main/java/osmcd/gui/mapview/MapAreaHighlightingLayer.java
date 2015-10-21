@@ -34,7 +34,7 @@ import osmb.program.map.MapPolygon;
 import osmcd.gui.MainFrame;
 import osmcd.gui.catalog.JCatalogTree;
 
-public class MapAreaHighlightingLayer implements MapLayer, TreeModelListener
+public class MapAreaHighlightingLayer implements IfMapLayer, TreeModelListener
 {
 	private final JCatalogTree tree;
 
@@ -45,8 +45,8 @@ public class MapAreaHighlightingLayer implements MapLayer, TreeModelListener
 	public static void removeHighlightingLayers()
 	{
 		PreviewMap previewMap = MainFrame.getMainGUI().previewMap;
-		Iterator<MapLayer> mapLayers = previewMap.mapLayers.iterator();
-		MapLayer ml;
+		Iterator<IfMapLayer> mapLayers = previewMap.mapLayers.iterator();
+		IfMapLayer ml;
 		while (mapLayers.hasNext())
 		{
 			ml = mapLayers.next();

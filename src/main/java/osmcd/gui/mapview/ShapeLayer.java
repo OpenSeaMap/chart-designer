@@ -24,7 +24,7 @@ import java.awt.geom.AffineTransform;
 /**
  * Displays a polygon on the iMap - only for testing purposes
  */
-public class ShapeLayer implements MapLayer {
+public class ShapeLayer implements IfMapLayer {
 
 	private Color color = new Color(0f, 1f, 0f, 0.5f);
 

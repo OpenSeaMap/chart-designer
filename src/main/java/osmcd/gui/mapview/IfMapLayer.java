@@ -16,27 +16,27 @@
  ******************************************************************************/
 package osmcd.gui.mapview;
 
-import osmb.mapsources.IfMapSource;
-import osmb.utilities.image.MercatorPixelCoordinate;
+import java.awt.Graphics2D;
 
-public interface MapEventListener
+/**
+ * General purpose map layer
+ */
+public interface IfMapLayer
 {
-	/** the selection changed */
-	public void selectionChanged(MercatorPixelCoordinate max, MercatorPixelCoordinate min);
-
-	/** the zoom changed */
-	public void zoomChanged(int newZoomLevel);
-
-	/** the grid zoom changed */
-	public void gridZoomChanged(int newGridZoomLevel);
-
-	/** select the next iMap source from the iMap list */
-	public void selectNextMapSource();
-
-	/** select the previous iMap source from the iMap list */
-	public void selectPreviousMapSource();
-
-	public void mapSourceChanged(IfMapSource newMapSource);
-
-	public void mapSelectionControllerChanged(JMapController newMapController);
+	/**
+	 * 
+	 * @param iMap
+	 * @param g
+	 * @param zoom
+	 *          current zoom level
+	 * @param minX
+	 *          top left x coordinate of the visible map region
+	 * @param minYtop
+	 *          left y coordinate of the visible map region
+	 * @param maxX
+	 *          bottom right x coordinate of the visible map region
+	 * @param maxY
+	 *          bottom right y coordinate of the visible map region
+	 */
+	public void paint(JMapViewer map, Graphics2D g, int zoom, int minX, int minY, int maxX, int maxY);
 }

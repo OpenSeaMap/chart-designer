@@ -32,6 +32,7 @@ import javax.xml.bind.JAXBException;
 
 import org.apache.log4j.Logger;
 
+import osmb.utilities.OSMBStrs;
 import osmb.utilities.file.GpxFileFilter;
 import osmcd.OSMCDSettings;
 import osmcd.OSMCDStrs;
@@ -87,7 +88,7 @@ public class GpxLoad implements ActionListener
 		}
 		if (duplicates)
 		{
-			int answer = JOptionPane.showConfirmDialog(mainGUI, OSMCDStrs.RStr("rp_gpx_msg_confirm_reopen_file"), OSMCDStrs.RStr("Warning"),
+			int answer = JOptionPane.showConfirmDialog(mainGUI, OSMCDStrs.RStr("rp_gpx_msg_confirm_reopen_file"), OSMBStrs.RStr("Warning"),
 					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if (answer != JOptionPane.YES_OPTION)
 				return;

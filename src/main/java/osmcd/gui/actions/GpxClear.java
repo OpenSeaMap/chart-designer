@@ -23,7 +23,7 @@ import java.util.Iterator;
 import osmcd.gui.MainFrame;
 import osmcd.gui.gpxtree.JGpxPanel;
 import osmcd.gui.mapview.GpxLayer;
-import osmcd.gui.mapview.MapLayer;
+import osmcd.gui.mapview.IfMapLayer;
 
 /**
  * Deletes all loaded {@link GpxLayer}s from the main iMap viewer.
@@ -41,7 +41,7 @@ public class GpxClear implements ActionListener
 
 	public void actionPerformed(ActionEvent e)
 	{
-		Iterator<MapLayer> mapLayers = MainFrame.getMainGUI().previewMap.mapLayers.iterator();
+		Iterator<IfMapLayer> mapLayers = MainFrame.getMainGUI().previewMap.mapLayers.iterator();
 		while (mapLayers.hasNext())
 		{
 			if (mapLayers.next() instanceof GpxLayer)

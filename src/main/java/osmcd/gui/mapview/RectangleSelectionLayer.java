@@ -26,9 +26,8 @@ import osmb.program.map.IfMapSpace;
 /**
  * Displays a polygon on the iMap - only for testing purposes
  */
-public class RectangleSelectionLayer implements MapLayer
+public class RectangleSelectionLayer implements IfMapLayer
 {
-
 	private final RectangleSelectionMapController mapController;
 
 	public RectangleSelectionLayer(RectangleSelectionMapController rectangleSelectionMapController)
@@ -36,6 +35,7 @@ public class RectangleSelectionLayer implements MapLayer
 		this.mapController = rectangleSelectionMapController;
 	}
 
+	@Override
 	public void paint(JMapViewer map, Graphics2D g, int zoom, int minX, int minY, int maxX, int maxY)
 	{
 		IfMapSpace mapSpace = map.getMapSource().getMapSpace();

@@ -24,7 +24,7 @@ import javax.swing.JOptionPane;
 import osmb.mapsources.ACMapSourcesManager;
 import osmb.mapsources.IfFileBasedMapSource;
 import osmb.mapsources.IfMapSource;
-import osmcd.OSMCDStrs;
+import osmb.utilities.OSMBStrs;
 import osmcd.gui.MainFrame;
 
 public class RefreshCustomMapsources implements ActionListener
@@ -55,6 +55,6 @@ public class RefreshCustomMapsources implements ActionListener
 			 */
 			gui.mapSourceChanged(selectedMapSource);
 		}
-		JOptionPane.showMessageDialog(gui, String.format(OSMCDStrs.RStr("msg_refresh_all_map_source_done"), count));
+		JOptionPane.showMessageDialog(gui, String.format(OSMBStrs.RStr("msg_refresh_all_map_source_done"), count));
 	}
 }

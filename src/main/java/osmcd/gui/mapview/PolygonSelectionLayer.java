@@ -27,7 +27,7 @@ import osmb.program.map.IfMapSpace;
 /**
  * Displays a polygon on the iMap - only for testing purposes
  */
-public class PolygonSelectionLayer implements MapLayer
+public class PolygonSelectionLayer implements IfMapLayer
 {
 
 	private final AbstractPolygonSelectionMapController mapController;

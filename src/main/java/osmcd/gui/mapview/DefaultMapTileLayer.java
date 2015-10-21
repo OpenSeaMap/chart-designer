@@ -19,9 +19,10 @@ package osmcd.gui.mapview;
 import java.awt.Graphics;
 
 import osmb.mapsources.IfMapSource;
-import osmcd.gui.mapview.Tile.TileState;
+import osmb.program.tiles.Tile;
+import osmb.program.tiles.Tile.TileState;
 
-public class DefaultMapTileLayer implements MapTileLayer
+public class DefaultMapTileLayer implements IfMapTileLayer
 {
 
 	protected JMapViewer mapViewer;
@@ -52,8 +53,8 @@ public class DefaultMapTileLayer implements MapTileLayer
 	}
 
 	/**
-	 * retrieves a tile from the cache. If the tile is not present in the cache a load job is added to the working queue
-	 * of {@link JobThread}.
+	 * retrieves a tile from the cache.
+	 * If the tile is not present in the cache a load job is added to the working queue of {@link JobThread}.
 	 * 
 	 * @param tilex
 	 * @param tiley

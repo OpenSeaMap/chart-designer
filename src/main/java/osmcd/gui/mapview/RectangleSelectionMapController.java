@@ -22,11 +22,9 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 /**
- * Implements the GUI logic for the preview iMap panel that manages the iMap selection and actions triggered by key
- * strokes.
- * 
+ * Implements the GUI logic for the preview map panel that manages the map selection and actions triggered by key strokes.
  */
-public class RectangleSelectionMapController extends JMapController implements MouseMotionListener, MouseListener
+public class RectangleSelectionMapController extends ACMapController implements MouseMotionListener, MouseListener
 {
 	/**
 	 * start point of selection rectangle in absolute tile coordinated regarding {@link JMapViewer#MAX_ZOOM}
@@ -50,7 +48,6 @@ public class RectangleSelectionMapController extends JMapController implements M
 	public void enable()
 	{
 		super.enable();
-		// iMap.mapLayers.add(mapLayer);
 	}
 
 	@Override
@@ -89,8 +86,8 @@ public class RectangleSelectionMapController extends JMapController implements M
 	}
 
 	/**
-	 * When dragging the iMap change the cursor back to it's pre-move cursor. If a double-click occurs center and zoom
-	 * the iMap on the clicked location.
+	 * When dragging the map change the cursor back to it's pre-move cursor.
+	 * If a double-click occurs center and zoom the map on the clicked location.
 	 */
 	@Override
 	public void mouseReleased(MouseEvent e)

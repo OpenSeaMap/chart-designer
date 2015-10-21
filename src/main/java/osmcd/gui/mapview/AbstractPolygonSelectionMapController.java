@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 /**
  */
-public abstract class AbstractPolygonSelectionMapController extends JMapController {
+public abstract class AbstractPolygonSelectionMapController extends ACMapController {
 
 	protected boolean finished = false;
 	protected ArrayList<Point> polygonPoints = new ArrayList<Point>();

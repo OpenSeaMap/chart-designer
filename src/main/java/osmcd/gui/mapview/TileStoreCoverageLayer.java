@@ -28,11 +28,12 @@ import osmb.program.map.IfMapSpace;
 import osmb.program.tilestore.ACSiTileStore;
 import osmb.program.tilestore.berkeleydb.DelayedInterruptThread;
 import osmb.utilities.GUIExceptionHandler;
+import osmb.utilities.OSMBStrs;
 import osmcd.OSMCDStrs;
 import osmcd.gui.MainFrame;
 import osmcd.gui.dialogs.WorkinprogressDialog;
 
-public class TileStoreCoverageLayer implements MapLayer
+public class TileStoreCoverageLayer implements IfMapLayer
 {
 	private final IfMapSource mapSource;
 	private final int zoom;
@@ -47,8 +48,8 @@ public class TileStoreCoverageLayer implements MapLayer
 		try
 		{
 			PreviewMap previewMap = MainFrame.getMainGUI().previewMap;
-			Iterator<MapLayer> mapLayers = previewMap.mapLayers.iterator();
-			MapLayer ml;
+			Iterator<IfMapLayer> mapLayers = previewMap.mapLayers.iterator();
+			IfMapLayer ml;
 			while (mapLayers.hasNext())
 			{
 				ml = mapLayers.next();
@@ -95,8 +96,8 @@ public class TileStoreCoverageLayer implements MapLayer
 				{
 					coverageImage = ACSiTileStore.getInstance().getCacheCoverage(mapSource, zoom, tileNumMin, tileNumMax);
 					if (coverageImage == null)
-						JOptionPane.showMessageDialog(MainFrame.getMainGUI(), OSMCDStrs.RStr("msg_tile_store_failed_retrieve_coverage"), OSMCDStrs.RStr("Error"),
-								JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(MainFrame.getMainGUI(), OSMCDStrs.RStr("msg_tile_store_failed_retrieve_coverage"), OSMBStrs.RStr("Error"),
+		            JOptionPane.ERROR_MESSAGE);
 				}
 				catch (InterruptedException e)
 				{

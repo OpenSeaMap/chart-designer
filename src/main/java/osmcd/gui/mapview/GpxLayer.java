@@ -31,9 +31,9 @@ import osmcd.data.gpx.gpx11.WptType;
 import osmcd.gui.gpxtree.JGpxPanel;
 
 /**
- * A {@link MapLayer} displaying the content of a loaded GPX file in a {@link JMapViewer} instance.
+ * A {@link IfMapLayer} displaying the content of a loaded GPX file in a {@link JMapViewer} instance.
  */
-public class GpxLayer implements MapLayer
+public class GpxLayer implements IfMapLayer
 {
 
 	private static int POINT_RADIUS = 4;

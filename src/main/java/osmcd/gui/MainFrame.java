@@ -112,10 +112,10 @@ import osmcd.gui.components.JTileStoreCoveragePanel;
 import osmcd.gui.components.JZoomCheckBox;
 import osmcd.gui.gpxtree.GpxEntry;
 import osmcd.gui.gpxtree.JGpxPanel;
+import osmcd.gui.mapview.ACMapController;
 import osmcd.gui.mapview.GridZoom;
-import osmcd.gui.mapview.JMapController;
+import osmcd.gui.mapview.IfMapEventListener;
 import osmcd.gui.mapview.JMapViewer;
-import osmcd.gui.mapview.MapEventListener;
 import osmcd.gui.mapview.PolygonCircleSelectionMapController;
 import osmcd.gui.mapview.PolygonSelectionMapController;
 import osmcd.gui.mapview.PreviewMap;
@@ -125,10 +125,11 @@ import osmcd.program.MapSelection;
 import osmcd.program.ProgramInfo;
 import osmcd.program.SelectedZoomLevels;
 
-public class MainFrame extends JFrame implements MapEventListener
+public class MainFrame extends JFrame implements IfMapEventListener
 {
 	private static final long serialVersionUID = 1L;
 	private static Logger log = Logger.getLogger(MainFrame.class);
+
 	private static Color labelBackgroundColor = new Color(0, 0, 0, 127);
 	private static Color checkboxBackgroundColor = new Color(0, 0, 0, 40);
 	private static Color labelForegroundColor = Color.WHITE;
@@ -412,6 +413,20 @@ public class MainFrame extends JFrame implements MapEventListener
 		settingsButton.addActionListener(new SettingsButtonListener());
 		settingsButton.setToolTipText(OSMCDStrs.RStr("Settings.ButtonTips"));
 
+		// /W #CatOverviev
+		saveCatalogOverviewButton = new JButton(OSMCDStrs.RStr("SaveCatalogOverview.Button"));
+		saveCatalogOverviewButton.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				CatalogOverviewMap overview = new CatalogOverviewMap();
+				
+				overview.callPaintComponent_TWICE();
+			}
+		});
+		//saveCatalogOverviewButton.setToolTipText(OSMCDStrs.RStr("SaveCatalogOverview.ButtonTips"));
+		
 		// // catalog name text field
 		// catalogNameTextField = new JCatalogNameField();
 		// catalogNameTextField.setColumns(12);
@@ -685,6 +700,10 @@ public class MainFrame extends JFrame implements MapEventListener
 		// leftPanelContent.add(createAtlasButton, gbc_eol);
 		leftPanelContent.add(settingsButton, gbc_eol);
 		leftPanelContent.add(Box.createVerticalGlue(), GBC.eol().fill(GBC.VERTICAL));
+		
+		// /W #CatOverviev
+		leftPanelContent.add(saveCatalogOverviewButton, gbc_eol);
+
 
 		JScrollPane scrollPane = new JScrollPane(leftPanelContent);
 		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -845,7 +864,7 @@ public class MainFrame extends JFrame implements MapEventListener
 		try
 		{
 			// jCatalogTree.save()
-			if (mCatalogsPanel.getCatalog().calculateTilesToDownload() > 0)
+			if (!mCatalogsPanel.getCatalog().isEmpty())
 				mCatalogsPanel.getCatalogTree().save();
 			// else: empty catalog -> do nothing
 
@@ -990,8 +1009,8 @@ public class MainFrame extends JFrame implements MapEventListener
 		IfMapSource mapSource = mMapSourcePanel.getSelectedMapSource();
 		// IfMapSource mapSource = (IfMapSource) mapSourceCombo.getSelectedItem();
 		if (mapSource instanceof IfInitializableMapSource)
-			// initialize the map source e.g. detect available zoom levels
-			((IfInitializableMapSource) mapSource).initialize();
+		  // initialize the map source e.g. detect available zoom levels
+		  ((IfInitializableMapSource) mapSource).initialize();
 
 		previewMap.setMapSource(mapSource);
 		zoomSlider.setMinimum(mapSource.getMinZoom());
@@ -1050,7 +1069,10 @@ public class MainFrame extends JFrame implements MapEventListener
 	private void updateZoomLevelCheckBoxes()
 	{
 		IfMapSource tileSource = previewMap.getMapSource();
-		int zoomLevels = tileSource.getMaxZoom() - tileSource.getMinZoom() + 1;
+		// int zoomLevels = tileSource.getMaxZoom() - tileSource.getMinZoom() + 1; // #zoom0-3
+		int minZoom = Math.max(Catalog.MIN_CATALOG_ZOOMLEVEL, tileSource.getMinZoom());
+		int zoomLevels = tileSource.getMaxZoom() - minZoom + 1;
+		
 		zoomLevels = Math.max(zoomLevels, 0);
 		JCheckBox[] oldZoomLevelCheckBoxes = cbZoom;
 		int oldMinZoom = 0;
@@ -1137,7 +1159,7 @@ public class MainFrame extends JFrame implements MapEventListener
 	}
 
 	@Override
-	public void mapSelectionControllerChanged(JMapController newMapController)
+	public void mapSelectionControllerChanged(ACMapController newMapController)
 	{
 		smPolygon.setSelected(false);
 		smCircle.setSelected(false);
@@ -1211,11 +1233,6 @@ public class MainFrame extends JFrame implements MapEventListener
 			}
 		}
 	}
-
-	// public IfCatalog getCatalog()
-	// {
-	// return jCatalogTree.getCatalog();
-	// }
 
 	private class WindowDestroyer extends WindowAdapter
 	{

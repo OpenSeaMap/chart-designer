@@ -1,11 +1,19 @@
-/*Copyright(c)OSMCB developers**This program is free software:you can redistribute it and/or modify
- * *it under the terms of the GNU General Public License as published by*the Free Software Foundation,either version 2 of the License,or
- * *(at your option)any later version.**This program is distributed in the hope that it will be useful,
- * *but WITHOUT ANY WARRANTY;without even the implied warranty of*MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the*GNU General Public License for more details.
- * *
- * *You should have received a copy of the GNU General Public License
- * *along with this program.If not,see<http://www.gnu.org/licenses/>.
-******************************************************************************/
+/*******************************************************************************
+ * Copyright (c) OSMCB developers
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
 package osmcd.gui.mapview;
 
 import java.awt.Color;
@@ -36,9 +44,9 @@ public class PreviewMap extends JMapViewer
 {
 	private static final long serialVersionUID = 1L;
 
-	public static final Color GRID_COLOR = new Color(200, 20, 20, 130);
+	public static final Color GRID_COLOR = new Color(200, 20, 20, 10);
 	public static final Color SEL_COLOR = new Color(0.9f, 0.7f, 0.7f, 0.6f);
-	public static final Color MAP_COLOR = new Color(1.0f, 0.84f, 0.0f, 0.4f);
+	public static final Color MAP_COLOR = new Color(1.0f, 0.84f, 0.0f, 0.1f);
 
 	public static final int MAP_CONTROLLER_RECTANGLE_SELECT = 0;
 	public static final int MAP_CONTROLLER_GPX = 1;
@@ -68,10 +76,10 @@ public class PreviewMap extends JMapViewer
 	private int gridZoom = -1;
 	private int gridSize;
 
-	protected LinkedList<MapEventListener> mapEventListeners = new LinkedList<MapEventListener>();
+	protected LinkedList<IfMapEventListener> mapEventListeners = new LinkedList<IfMapEventListener>();
 
-	protected JMapController mapKeyboardController;
-	protected JMapController mapSelectionController;
+	protected ACMapController mapKeyboardController;
+	protected ACMapController mapSelectionController;
 	protected DefaultMapController defaultMapController;
 
 	private final WgsGrid wgsGrid = new WgsGrid(OSMCDSettings.getInstance().getWgsGrid(), this);
@@ -145,7 +153,7 @@ public class PreviewMap extends JMapViewer
 	{
 		log.trace("Preview map zoom changed from " + oldZoom + " to " + zoom);
 		if (mapEventListeners != null)
-			for (MapEventListener listener : mapEventListeners)
+			for (IfMapEventListener listener : mapEventListeners)
 				listener.zoomChanged(zoom);
 		updateGridValues();
 	}
@@ -455,7 +463,7 @@ public class PreviewMap extends JMapViewer
 	}
 
 	/**
-	 * Notifies all registered {@link MapEventListener} of a {@link MapEventListener#selectionChanged(MercatorPixelCoordinate, MercatorPixelCoordinate)} event.
+	 * Notifies all registered {@link IfMapEventListener} of a {@link IfMapEventListener#selectionChanged(MercatorPixelCoordinate, MercatorPixelCoordinate)} event.
 	 */
 	public void updateMapSelection()
 	{
@@ -483,18 +491,18 @@ public class PreviewMap extends JMapViewer
 		MercatorPixelCoordinate max = new MercatorPixelCoordinate(mapSource.getMapSpace(), x_max, y_max, MAX_ZOOM);
 		log.debug("sel min: [" + min + "]"); // /W //
 		log.debug("sel max: [" + max + "]"); // /W //
-		for (MapEventListener listener : mapEventListeners)
+		for (IfMapEventListener listener : mapEventListeners)
 			listener.selectionChanged(max, min);
 	}
 
-	public void addMapEventListener(MapEventListener l)
+	public void addMapEventListener(IfMapEventListener l)
 	{
 		mapEventListeners.add(l);
 	}
 
 	public void selectPreviousMap()
 	{
-		for (MapEventListener listener : mapEventListeners)
+		for (IfMapEventListener listener : mapEventListeners)
 		{
 			listener.selectPreviousMapSource();
 		}
@@ -502,7 +510,7 @@ public class PreviewMap extends JMapViewer
 
 	public void selectNextMap()
 	{
-		for (MapEventListener listener : mapEventListeners)
+		for (IfMapEventListener listener : mapEventListeners)
 		{
 			listener.selectNextMapSource();
 		}
@@ -518,7 +526,7 @@ public class PreviewMap extends JMapViewer
 		repaint();
 	}
 
-	public JMapController getMapKeyboardController()
+	public ACMapController getMapKeyboardController()
 	{
 		return mapKeyboardController;
 	}
@@ -526,7 +534,7 @@ public class PreviewMap extends JMapViewer
 	/**
 	 * @return Currently active <code>mapSelectionController</code>
 	 */
-	public JMapController getMapSelectionController()
+	public ACMapController getMapSelectionController()
 	{
 		return mapSelectionController;
 	}
@@ -536,13 +544,13 @@ public class PreviewMap extends JMapViewer
 	 * 
 	 * @param mapSelectionController
 	 */
-	public void setMapSelectionController(JMapController mapSelectionController)
+	public void setMapSelectionController(ACMapController mapSelectionController)
 	{
 		if (this.mapSelectionController != null)
 			this.mapSelectionController.disable();
 		this.mapSelectionController = mapSelectionController;
 		mapSelectionController.enable();
-		for (MapEventListener listener : mapEventListeners)
+		for (IfMapEventListener listener : mapEventListeners)
 		{
 			listener.mapSelectionControllerChanged(mapSelectionController);
 		}

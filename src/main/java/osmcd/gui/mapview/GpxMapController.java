@@ -37,7 +37,7 @@ import osmcd.gui.gpxtree.TrksegEntry;
 /**
  * Allows to create new GPX way-points by clicking on the preview iMap
  */
-public class GpxMapController extends JMapController implements MouseListener
+public class GpxMapController extends ACMapController implements MouseListener
 {
 	private JGpxPanel panel;
 	private GpxEntry entry;

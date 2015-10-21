@@ -23,7 +23,7 @@ import osmb.mapsources.IfMapSource;
 /**
  * A simple layer that paints the tile borders.
  */
-public class MapGridLayer implements MapTileLayer
+public class MapGridLayer implements IfMapTileLayer
 {
 	protected int tileSize;
 

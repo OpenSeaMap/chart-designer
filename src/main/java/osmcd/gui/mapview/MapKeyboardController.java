@@ -34,7 +34,7 @@ import javax.swing.KeyStroke;
  * Implements the GUI logic for the preview iMap panel that manages the iMap
  * movement by mouse and actions triggered by key strokes.
  */
-public class MapKeyboardController extends JMapController {
+public class MapKeyboardController extends ACMapController {
 
 	/** A Timer for smoothly moving the iMap area */
 	private static final Timer timer = new Timer(true);

@@ -16,18 +16,24 @@
  ******************************************************************************/
 package osmcd.gui.mapview;
 
+import java.awt.Graphics;
 
-//License: GPL. Copyright 2008 by Jan Peter Stotz
+import osmb.mapsources.IfMapSource;
 
-public interface TileLoaderListener {
+public interface IfMapTileLayer
+{
+	public void startPainting(IfMapSource mapSource);
 
 	/**
-	 * Will be called if a new {@link Tile} has been loaded successfully. 
-	 * Loaded can mean downloaded or loaded from file cache. 
+	 * Paints the tile identified by <code>tilex</code>/<code>tiley</code>/ <code>zoom</code> onto the {@link Graphics} <code>g</code> with it's
+	 * upper left corner at <code>gx</code>/<code>gy</code>. The size of each
+	 * tile has to be 256 pixel x 256 pixel.
 	 * 
-	 * @param tile
+	 * @param g
+	 * @param gx
+	 * @param gy
+	 * @param tilex
+	 * @param tiley
 	 */
-	public void tileLoadingFinished(Tile tile, boolean success);
-
-	public MemoryTileCache getTileImageCache();
+	public void paintTile(Graphics g, int gx, int gy, int tilex, int tiley, int zoom);
 }

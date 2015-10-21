@@ -30,12 +30,12 @@ import osmb.mapsources.IfMapSource;
 import osmb.utilities.GBC;
 import osmb.utilities.image.MercatorPixelCoordinate;
 import osmcd.OSMCDStrs;
-import osmcd.gui.mapview.JMapController;
-import osmcd.gui.mapview.MapEventListener;
+import osmcd.gui.mapview.ACMapController;
+import osmcd.gui.mapview.IfMapEventListener;
 import osmcd.gui.mapview.PreviewMap;
 import osmcd.gui.mapview.TileStoreCoverageLayer;
 
-public class JTileStoreCoveragePanel extends JCollapsiblePanel implements MapEventListener, ActionListener
+public class JTileStoreCoveragePanel extends JCollapsiblePanel implements IfMapEventListener, ActionListener
 {
 	private static final long serialVersionUID = 1L;
 	public static final String NAME = OSMCDStrs.RStr("lp_tile_store_title"); // /W to collapse panel at #firstStart
@@ -157,7 +157,7 @@ public class JTileStoreCoveragePanel extends JCollapsiblePanel implements MapEve
 	}
 
 	@Override
-	public void mapSelectionControllerChanged(JMapController newMapController)
+	public void mapSelectionControllerChanged(ACMapController newMapController)
 	{
 	}
 

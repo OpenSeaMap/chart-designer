@@ -22,6 +22,7 @@ import java.awt.event.MouseListener;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
+import osmb.utilities.OSMBStrs;
 import osmcd.OSMCDStrs;
 import osmcd.data.gpx.gpx11.WptType;
 import osmcd.gui.MainFrame;
@@ -147,7 +148,7 @@ public class GpxElementListener implements MouseListener
 	{
 		if (gpxEntry.getClass().equals(TrksegEntry.class))
 		{
-			JOptionPane.showMessageDialog(null, OSMCDStrs.RStr("rp_gpx_msg_can_not_rename_track"), OSMCDStrs.RStr("Error"), JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, OSMCDStrs.RStr("rp_gpx_msg_can_not_rename_track"), OSMBStrs.RStr("Error"), JOptionPane.INFORMATION_MESSAGE);
 			return;
 		}
 		else

@@ -34,6 +34,7 @@ import javax.swing.JLabel;
 import osmb.utilities.Charsets;
 import osmb.utilities.GBC;
 import osmb.utilities.OSMBRsc;
+import osmb.utilities.OSMBStrs;
 import osmcd.OSMCDStrs;
 import osmcd.gui.MainFrame;
 
@@ -54,7 +55,7 @@ public class Help extends JFrame implements WindowListener
 		setIconImages(MainFrame.OSMCD_ICONS);
 		setLayout(new GridBagLayout());
 		JLabel text = new JLabel();
-		JButton closeButton = new JButton(OSMCDStrs.RStr("Close"));
+		JButton closeButton = new JButton(OSMBStrs.RStr("Close"));
 		closeButton.setDefaultCapable(true);
 		closeButton.addActionListener(new ActionListener()
 		{

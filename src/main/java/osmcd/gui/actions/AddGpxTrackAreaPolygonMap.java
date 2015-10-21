@@ -31,6 +31,7 @@ import osmb.program.map.IfMapSpace;
 import osmb.program.map.Layer;
 import osmb.program.map.MapPolygon;
 import osmb.program.tiles.TileImageParameters;
+import osmb.utilities.OSMBStrs;
 import osmb.utilities.geo.EastNorthCoordinate;
 import osmcd.OSMCDSettings;
 import osmcd.OSMCDStrs;
@@ -89,7 +90,7 @@ public class AddGpxTrackAreaPolygonMap implements ActionListener
 		}
 		if (trk == null)
 		{
-			JOptionPane.showMessageDialog(mg, OSMCDStrs.RStr("msg_add_gpx_polygon_no_select"), OSMCDStrs.RStr("Error"), JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(mg, OSMCDStrs.RStr("msg_add_gpx_polygon_no_select"), OSMBStrs.RStr("Error"), JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 

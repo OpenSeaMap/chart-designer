@@ -19,9 +19,10 @@ package osmcd.gui.mapview;
 import java.awt.Graphics;
 
 import osmb.mapsources.IfMapSource;
-import osmcd.gui.mapview.Tile.TileState;
+import osmb.program.tiles.Tile;
+import osmb.program.tiles.Tile.TileState;
 
-public class OverlayMapTileLayer implements MapTileLayer
+public class OverlayMapTileLayer implements IfMapTileLayer
 {
 	protected JMapViewer mapViewer;
 	protected IfMapSource mapSource;

@@ -132,13 +132,13 @@ public class JCatalogTree extends JTree implements Autoscroll
 	public boolean testCatalogContentValid()
 	{
 		boolean bValid = false;
-		Catalog catalog = getCatalog(); // /W ? IfCatalog
+		IfCatalog catalog = getCatalog();
 		// if (IfRequiresSQLite.class.isAssignableFrom(catalog.getOutputFormat().getMapCreatorClass()))
 		// {
 		// if (!SQLiteLoader.loadSQLiteOrShowError())
 		// return false;
 		// }
-		if ((catalog.getFile() != null) && (!catalog.isEmpty())) // /W && instead of ||, file member is now in normal case not null
+		if ((catalog.getFile() != null) && (catalog.calculateTilesToDownload() > 0)) // /W && instead of ||, file member is now in normal case not null
 		{
 			bValid = true;
 		}

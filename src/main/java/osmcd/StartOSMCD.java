@@ -21,6 +21,8 @@ import javax.swing.JOptionPane;
 import osmb.program.ACStarter;
 import osmb.utilities.OSMBStrs;
 
+import osmb.utilities.OSMBStrs;
+
 /**
  * OSMCBApp class for starting OpenSeaMap ChartDefiner.
  * 

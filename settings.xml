@@ -6,7 +6,7 @@
         <catalogsDirectory>C:\Users\Public\Documents\OSMCB Catalogs</catalogsDirectory>
     </directories>
     <wgsGrid>
-        <color>#0000ff</color>
+        <color>#0000ff7f</color>
         <compressLabels>false</compressLabels>
         <density>SECOND_1</density>
         <enabled>true</enabled>
@@ -22,8 +22,8 @@
     <downloadThreadCount>2</downloadThreadCount>
     <httpConnectionTimeout>10</httpConnectionTimeout>
     <httpReadTimeout>10</httpReadTimeout>
-    <localeCountry></localeCountry>
-    <localeLanguage>en</localeLanguage>
+    <localeCountry>DE</localeCountry>
+    <localeLanguage>de</localeLanguage>
     <tileImageFormat>PNG</tileImageFormat>
     <tileMaxExpirationTime>33810225583</tileMaxExpirationTime>
     <tileMinExpirationTime>610478978</tileMinExpirationTime>
@@ -32,7 +32,7 @@
     <unitSystem>Metric</unitSystem>
     <userAgent>OSMCB/0.0.10</userAgent>
     <version>0.1.12</version>
-    <catalogName>Medi-002</catalogName>
+    <catalogName>Channel</catalogName>
     <catalogNameMakeNew>false</catalogNameMakeNew>
     <mainWindow>
         <size>1235/928</size>
@@ -45,14 +45,14 @@
     </mainWindow>
     <mapOverlapTiles>1</mapOverlapTiles>
     <mapviewCenterCoordinate>
-        <lat>37.80544394934271</lat>
-        <lon>7.6025390625</lon>
+        <lat>41.236511201246216</lat>
+        <lon>31.904296875</lon>
     </mapviewCenterCoordinate>
     <mapviewGridZoom>16</mapviewGridZoom>
     <mapviewMapSource>AH OpenSeaMap - Mapnik</mapviewMapSource>
-    <mapviewSelectionMax>401707008/564550912</mapviewSelectionMax>
-    <mapviewSelectionMin>401706496/564550912</mapviewSelectionMin>
-    <mapviewZoom>6</mapviewZoom>
+    <mapviewSelectionMax>377880576/559284224</mapviewSelectionMax>
+    <mapviewSelectionMin>359792640/530579456</mapviewSelectionMin>
+    <mapviewZoom>8</mapviewZoom>
     <maxMapSize>65536</maxMapSize>
     <selectedZoomLevels>
         <zoomLevel>9</zoomLevel>
@@ -64,5 +64,5 @@
         <zoomLevel>15</zoomLevel>
         <zoomLevel>16</zoomLevel>
     </selectedZoomLevels>
-    <settingsTabSelected>6</settingsTabSelected>
+    <settingsTabSelected>0</settingsTabSelected>
 </osmcdSettings>

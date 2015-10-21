@@ -35,6 +35,7 @@ import org.apache.log4j.Logger;
 import osmb.program.catalog.Catalog;
 import osmb.utilities.GBC;
 import osmb.utilities.GUIExceptionHandler;
+import osmb.utilities.OSMBStrs;
 import osmcd.OSMCDApp;
 import osmcd.OSMCDSettings;
 import osmcd.OSMCDStrs;
@@ -165,7 +166,7 @@ public class JCatalogsPanel extends JCollapsiblePanel
 		{
 			Catalog catalog = OSMCDApp.getApp().getCatalog();
 			// test for empty catalog (possible after deleting last map: see CatalogTreeModel#notifyNodeDelete(TreeNode node))
-			if (catalog.calculateTilesToDownload() < 1)
+			if (catalog.isEmpty())
 			{
 				JOptionPane.showMessageDialog(null, OSMCDStrs.RStr(OSMCDStrs.RStr("Catalog.Empty")),
 						OSMCDStrs.RStr("CatalogTree.ERRBundleEmpty"), JOptionPane.ERROR_MESSAGE);
@@ -175,7 +176,7 @@ public class JCatalogsPanel extends JCollapsiblePanel
 			if (catalog.getName() == null || catalog.getName().length() == 0)
 			{
 				log.info("not a catalog name given");
-				JOptionPane.showMessageDialog(null, OSMCDStrs.RStr("Catalog.EnterName"), OSMCDStrs.RStr("Error"), JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, OSMCDStrs.RStr("Catalog.EnterName"), OSMBStrs.RStr("Error"), JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 			
@@ -264,7 +265,7 @@ public class JCatalogsPanel extends JCollapsiblePanel
 					JOptionPane.showMessageDialog(null, OSMCDStrs.RStr("Catalog.VersionMismatch"), OSMCDStrs.RStr("CatalogTree.OldVersion"), JOptionPane.WARNING_MESSAGE);
 					return;
 				}
-				// empty: getLayerCount() || calculateTilesToDownload() < 1 // only in SaveCatalogListener
+				// isEmpty() // only in SaveCatalogListener
 				// Check for duplicate layer names || duplicate layer zoomlevels // #???
 
 				String catalogsName = null;

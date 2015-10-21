@@ -414,19 +414,19 @@ public class MainFrame extends JFrame implements IfMapEventListener
 		settingsButton.setToolTipText(OSMCDStrs.RStr("Settings.ButtonTips"));
 
 		// /W #CatOverviev
-		saveCatalogOverviewButton = new JButton(OSMCDStrs.RStr("SaveCatalogOverview.Button"));
-		saveCatalogOverviewButton.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				CatalogOverviewMap overview = new CatalogOverviewMap();
-				
-				overview.callPaintComponent_TWICE();
-			}
-		});
-		//saveCatalogOverviewButton.setToolTipText(OSMCDStrs.RStr("SaveCatalogOverview.ButtonTips"));
-		
+		// saveCatalogOverviewButton = new JButton(OSMCDStrs.RStr("SaveCatalogOverview.Button"));
+		// saveCatalogOverviewButton.addActionListener(new ActionListener()
+		// {
+		// @Override
+		// public void actionPerformed(ActionEvent e)
+		// {
+		// CatalogOverviewMap overview = new CatalogOverviewMap();
+		//
+		// overview.callPaintComponent_TWICE();
+		// }
+		// });
+		// saveCatalogOverviewButton.setToolTipText(OSMCDStrs.RStr("SaveCatalogOverview.ButtonTips"));
+
 		// // catalog name text field
 		// catalogNameTextField = new JCatalogNameField();
 		// catalogNameTextField.setColumns(12);
@@ -700,10 +700,9 @@ public class MainFrame extends JFrame implements IfMapEventListener
 		// leftPanelContent.add(createAtlasButton, gbc_eol);
 		leftPanelContent.add(settingsButton, gbc_eol);
 		leftPanelContent.add(Box.createVerticalGlue(), GBC.eol().fill(GBC.VERTICAL));
-		
+
 		// /W #CatOverviev
 		leftPanelContent.add(saveCatalogOverviewButton, gbc_eol);
-
 
 		JScrollPane scrollPane = new JScrollPane(leftPanelContent);
 		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -1072,7 +1071,7 @@ public class MainFrame extends JFrame implements IfMapEventListener
 		// int zoomLevels = tileSource.getMaxZoom() - tileSource.getMinZoom() + 1; // #zoom0-3
 		int minZoom = Math.max(Catalog.MIN_CATALOG_ZOOMLEVEL, tileSource.getMinZoom());
 		int zoomLevels = tileSource.getMaxZoom() - minZoom + 1;
-		
+
 		zoomLevels = Math.max(zoomLevels, 0);
 		JCheckBox[] oldZoomLevelCheckBoxes = cbZoom;
 		int oldMinZoom = 0;

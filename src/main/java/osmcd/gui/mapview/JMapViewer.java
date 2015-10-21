@@ -43,7 +43,6 @@ import javax.swing.event.ChangeListener;
 import org.apache.log4j.Logger;
 
 import osmb.mapsources.IfMapSource;
-import osmb.program.SiJobDispatcher;
 import osmb.program.map.IfMapSpace;
 import osmb.program.tiles.IfTileLoaderListener;
 import osmb.program.tiles.MemoryTileCache;
@@ -52,7 +51,8 @@ import osmb.program.tiles.TileLoader;
 import osmb.utilities.OSMBUtilities;
 
 /**
- * * Provides a simple panel that displays rendered map tiles loaded from the Online map source.
+ * 
+ * Provides a simple panel that displays pre-rendered iMap tiles loaded from the OpenStreetMap project.
  * 
  * @author Jan Peter Stotz
  * 
@@ -60,6 +60,7 @@ import osmb.utilities.OSMBUtilities;
 public class JMapViewer extends JPanel implements IfTileLoaderListener
 {
 	private static final long serialVersionUID = 1L;
+
 	private static Logger log = Logger.getLogger(JMapViewer.class);
 
 	/**
@@ -86,8 +87,8 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener
 	 * x- and y-position of the center of this map-panel on the world map denoted in screen pixel regarding the current zoom level.
 	 * 
 	 * ---- setting center to (width / 2 , height / 2)
-	 *      -> width (height) % 2 == 0 :   center is right (bottom) pixel of (2 pixel)-center
-	 *      -> width (height) % 2 == 1 :   center is (1 pixel)-center
+	 * -> width (height) % 2 == 0 : center is right (bottom) pixel of (2 pixel)-center
+	 * -> width (height) % 2 == 1 : center is (1 pixel)-center
 	 */
 	protected Point center = new Point();
 
@@ -100,7 +101,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener
 	protected JButton zoomInButton;
 	protected JButton zoomOutButton;
 
-	protected SiJobDispatcher jobDispatcher;
+	protected IfJobDispatcher jobDispatcher;
 
 	public JMapViewer(IfMapSource defaultMapSource, int downloadThreadCount)
 	{
@@ -109,7 +110,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener
 		mapLayers = new LinkedList<IfMapLayer>();
 		tileLoader = new TileLoader(this);
 		tileCache = new MemoryTileCache();
-		jobDispatcher = SiJobDispatcher.getInstance();
+		jobDispatcher = JobDispatcher.getInstance();
 		mapMarkersVisible = true;
 		setLayout(null);
 		setMapSource(defaultMapSource);
@@ -181,7 +182,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener
 	}
 
 	/**
-	 * Changes the map pane so that it is centered on the specified coordinate at the given zoom level.
+	 * Changes the iMap pane so that it is centered on the specified coordinate at the given zoom level.
 	 * 
 	 * @param lat
 	 *          latitude of the specified coordinate
@@ -196,10 +197,10 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener
 	}
 
 	/**
-	 * Changes the map pane so that the specified coordinate at the given zoom level is displayed on the map at the screen coordinate <code>mapPoint</code>.
+	 * Changes the iMap pane so that the specified coordinate at the given zoom level is displayed on the iMap at the screen coordinate <code>mapPoint</code>.
 	 * 
 	 * @param mapPoint
-	 *          point on the map denoted in pixels where the coordinate should be set
+	 *          point on the iMap denoted in pixels where the coordinate should be set
 	 * @param lat
 	 *          latitude of the specified coordinate
 	 * @param lon
@@ -249,17 +250,13 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener
 	}
 
 	/**
-	 * Sets the displayed map pane and zoom level so that the two points (x1/y1) and (x2/y2) visible. Please note that the coordinates have to be specified
+	 * Sets the displayed iMap pane and zoom level so that the two points (x1/y1) and (x2/y2) visible. Please note that the coordinates have to be specified
 	 * regarding {@link #MAX_ZOOM}.
 	 * 
 	 * @param x1
-	 *          Left
 	 * @param y1
-	 *          Top
 	 * @param x2
-	 *          Right
 	 * @param y2
-	 *          Bottom
 	 */
 	public void setDisplayToFitPixelCoordinates(int x1, int y1, int x2, int y2)
 	{
@@ -269,7 +266,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener
 		int newZoom = MAX_ZOOM;
 		int x = Math.abs(x1 - x2);
 		int y = Math.abs(y1 - y2);
-		//while (x > width || y > height || newZoom > mapZoomMax) // /W  >=
+		// while (x > width || y > height || newZoom > mapZoomMax) // /W >=
 		while (x >= width || y >= height || newZoom > mapZoomMax)
 		{
 			newZoom--;
@@ -277,7 +274,8 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener
 			y >>= 1;
 		}
 
-		// Do not select a zoom level that is not supported by the current map source
+		// Do not select a zoom level that is unsupported by the current iMap
+		// source
 		newZoom = Math.max(mapSource.getMinZoom(), Math.min(mapSource.getMaxZoom(), newZoom));
 
 		x = Math.min(x2, x1) + Math.abs(x1 - x2) / 2;
@@ -308,11 +306,11 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener
 	}
 
 	/**
-	 * Calculates the position on the map of a given coordinate
+	 * Calculates the position on the iMap of a given coordinate
 	 * 
 	 * @param lat
 	 * @param lon
-	 * @return point on the map or <code>null</code> if the point is not visible
+	 * @return point on the iMap or <code>null</code> if the point is not visible
 	 */
 	public Point getMapPosition(double lat, double lon)
 	{
@@ -326,9 +324,6 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener
 		return new Point(x, y);
 	}
 
-	/**
-	 * This actually paints the tiles into the preview map.
-	 */
 	@Override
 	protected void paintComponent(Graphics graphics)
 	{
@@ -385,9 +380,9 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener
 		int x_max = getWidth() - 1; // /W - 1 inserted
 		int y_max = getHeight() - 1; // /W - 1 inserted
 
-		// paint the tiles in a spiral, starting from center of the map
+		// paint the tiles in a spiral, starting from center of the iMap
 		boolean painted = (mapTileLayers.size() > 0);
-		for (IfMapTileLayer l : mapTileLayers)
+		for (MapTileLayer l : mapTileLayers)
 		{
 			l.startPainting(mapSource);
 		}
@@ -405,10 +400,10 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener
 					{
 						// tile is visible
 						painted = true;
-						for (IfMapTileLayer l : mapTileLayers)
+						for (MapTileLayer l : mapTileLayers)
 						{
 							l.paintTile(g, posx, posy, tilex, tiley, zoom);
-//							System.out.println(zoom + " xxxx " + tilex + " yyyy " + tiley);
+							// System.out.println(zoom + " xxxx " + tilex + " yyyy " + tiley);
 						}
 					}
 					Point p = move[iMove];
@@ -425,14 +420,15 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener
 		int bottomRightY = topLeftY + getHeight();
 		try
 		{
-			for (IfMapLayer l : mapLayers)
+			for (MapLayer l : mapLayers)
 			{
 				l.paint(this, g, zoom, topLeftX, topLeftY, bottomRightX, bottomRightY);
 			}
 		}
 		catch (ConcurrentModificationException e)
 		{
-			// This may happen when multiple GPX files are loaded at once and in the mean time the map view is repainted.
+			// This may happen when multiple GPX files are loaded at once and in the mean time the iMap view is
+			// repainted.
 			SwingUtilities.invokeLater(new Runnable()
 			{
 				@Override
@@ -443,7 +439,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener
 			});
 		}
 
-		// outer border of the map
+		// outer border of the iMap
 		int mapSize = tileSize << zoom;
 		g.setColor(Color.BLACK);
 		g.drawRect(w2 - center.x, h2 - center.y, mapSize, mapSize);
@@ -613,7 +609,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener
 		repaint();
 	}
 
-	public SiJobDispatcher getJobDispatcher()
+	public JobDispatcher getJobDispatcher()
 	{
 		return jobDispatcher;
 	}
@@ -629,12 +625,12 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener
 		repaint();
 	}
 
-	public void addMapTileLayers(IfMapTileLayer mapTileLayer)
+	public void addMapTileLayers(MapTileLayer mapTileLayer)
 	{
 		mapTileLayers.add(mapTileLayer);
 	}
 
-	public void removeMapTileLayers(IfMapTileLayer mapTileLayer)
+	public void removeMapTileLayers(MapTileLayer mapTileLayer)
 	{
 		mapTileLayers.remove(mapTileLayer);
 	}

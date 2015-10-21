@@ -138,5 +138,4 @@ public class TileStoreCoverageLayer implements IfMapLayer
 		int h = mapH;
 		g.drawImage(coverageImage, x, y, w, h, null);
 	}
-
 }

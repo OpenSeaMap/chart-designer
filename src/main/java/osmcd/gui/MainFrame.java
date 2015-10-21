@@ -702,7 +702,7 @@ public class MainFrame extends JFrame implements IfMapEventListener
 		leftPanelContent.add(Box.createVerticalGlue(), GBC.eol().fill(GBC.VERTICAL));
 
 		// /W #CatOverviev
-		leftPanelContent.add(saveCatalogOverviewButton, gbc_eol);
+		// leftPanelContent.add(saveCatalogOverviewButton, gbc_eol);
 
 		JScrollPane scrollPane = new JScrollPane(leftPanelContent);
 		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);

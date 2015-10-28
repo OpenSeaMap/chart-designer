@@ -252,7 +252,6 @@ public class SettingsGUITileStore extends JPanel
 
 	private class ClearTileCacheAction implements ActionListener
 	{
-
 		String storeName;
 
 		public ClearTileCacheAction(String storeName)

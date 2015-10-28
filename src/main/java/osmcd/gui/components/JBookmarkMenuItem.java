@@ -24,17 +24,21 @@ import javax.swing.JMenuItem;
 import osmcd.gui.MainFrame;
 import osmcd.program.Bookmark;
 
-public class JBookmarkMenuItem extends JMenuItem implements ActionListener {
+public class JBookmarkMenuItem extends JMenuItem implements ActionListener
+{
 
 	private final Bookmark bookmark;
 
-	public JBookmarkMenuItem(Bookmark bookmark) {
+	public JBookmarkMenuItem(Bookmark bookmark)
+	{
 		super(bookmark.toString());
 		this.bookmark = bookmark;
 		addActionListener(this);
 	}
 
-	public void actionPerformed(ActionEvent paramActionEvent) {
+	@Override
+	public void actionPerformed(ActionEvent paramActionEvent)
+	{
 		MainFrame.getMainGUI().previewMap.gotoPositionBookmark(bookmark);
 
 	}

@@ -35,7 +35,6 @@ import osmcd.gui.gpxtree.JGpxPanel;
  */
 public class GpxLayer implements IfMapLayer
 {
-
 	private static int POINT_RADIUS = 4;
 	private static int POINT_DIAMETER = 2 * POINT_RADIUS;
 
@@ -185,5 +184,4 @@ public class GpxLayer implements IfMapLayer
 	{
 		return file;
 	}
-
 }

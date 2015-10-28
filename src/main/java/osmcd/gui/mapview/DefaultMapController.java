@@ -207,7 +207,5 @@ public class DefaultMapController extends ACMapController implements MouseListen
 			}
 			lastDragPoint = p;
 		}
-
 	}
-
 }

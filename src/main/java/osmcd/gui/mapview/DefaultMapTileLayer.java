@@ -24,11 +24,8 @@ import osmb.program.tiles.Tile.TileState;
 
 public class DefaultMapTileLayer implements IfMapTileLayer
 {
-
 	protected JMapViewer mapViewer;
-
 	protected IfMapSource mapSource;
-
 	protected boolean usePlaceHolders;
 
 	public DefaultMapTileLayer(JMapViewer mapViewer, IfMapSource mapSource)
@@ -79,7 +76,5 @@ public class DefaultMapTileLayer implements IfMapTileLayer
 			mapViewer.getJobDispatcher().addJob(mapViewer.getTileLoader().createTileLoaderJob(mapSource, tilex, tiley, zoom));
 		}
 		return tile;
-
 	}
-
 }

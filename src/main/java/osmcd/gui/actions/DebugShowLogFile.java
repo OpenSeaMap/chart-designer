@@ -27,7 +27,6 @@ import javax.swing.JOptionPane;
 import org.apache.log4j.Logger;
 
 import osmb.utilities.GUIExceptionHandler;
-import osmb.utilities.OSMBStrs;
 import osmcd.OSMCDStrs;
 import osmcd.gui.MainFrame;
 import osmcd.program.Logging;
@@ -42,14 +41,14 @@ public class DebugShowLogFile implements ActionListener
 		if (logFile == null)
 		{
 			log.error("No file logger configured");
-			JOptionPane.showMessageDialog(MainFrame.getMainGUI(), OSMCDStrs.RStr("msg_no_log_file_config"), OSMBStrs.RStr("Error"), JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(MainFrame.getMainGUI(), OSMCDStrs.RStr("msg_no_log_file_config"), OSMCDStrs.RStr("Error"), JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		File f = new File(logFile);
 		if (!f.isFile())
 		{
 			log.error("Log file does not exists: " + f.getAbsolutePath());
-			JOptionPane.showMessageDialog(MainFrame.getMainGUI(), String.format(OSMCDStrs.RStr("msg_no_log_file"), f.getAbsolutePath()), OSMBStrs.RStr("Error"),
+			JOptionPane.showMessageDialog(MainFrame.getMainGUI(), String.format(OSMCDStrs.RStr("msg_no_log_file"), f.getAbsolutePath()), OSMCDStrs.RStr("Error"),
 					JOptionPane.ERROR_MESSAGE);
 			return;
 		}

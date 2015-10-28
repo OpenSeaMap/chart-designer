@@ -24,18 +24,21 @@ import java.awt.geom.AffineTransform;
 /**
  * Displays a polygon on the iMap - only for testing purposes
  */
-public class ShapeLayer implements IfMapLayer {
-
+public class ShapeLayer implements IfMapLayer
+{
 	private Color color = new Color(0f, 1f, 0f, 0.5f);
 
 	private int calculationZoom;
 	private Shape shape;;
 
-	public ShapeLayer(Shape shape, int zoom) {
+	public ShapeLayer(Shape shape, int zoom)
+	{
 		this.shape = shape;
 	}
 
-	public void paint(JMapViewer map, Graphics2D g, int zoom, int minX, int minY, int maxX, int maxY) {
+	@Override
+	public void paint(JMapViewer map, Graphics2D g, int zoom, int minX, int minY, int maxX, int maxY)
+	{
 		AffineTransform af = g.getTransform();
 		g.translate(-minX, -minY);
 		double scale;
@@ -48,5 +51,4 @@ public class ShapeLayer implements IfMapLayer {
 		g.fill(shape);
 		g.setTransform(af);
 	}
-
 }

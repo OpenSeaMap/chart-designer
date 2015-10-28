@@ -217,10 +217,10 @@ public class MapSelection
 		int zoomDiff = this.zoom - aZoomlevel;
 		int x = maxTileCoordinate_x;
 		int y = maxTileCoordinate_y;
-		if (zoomDiff < 0) // /W FORTUNATELY never occurs
+		if (zoomDiff < 0)
 		{
 			zoomDiff = -zoomDiff;
-			x <<= zoomDiff; // /W #??? 3->6->12->24->48->96 (96 instead of 127)
+			x <<= zoomDiff;
 			y <<= zoomDiff;
 		}
 		else

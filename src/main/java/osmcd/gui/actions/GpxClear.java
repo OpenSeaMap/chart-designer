@@ -31,14 +31,15 @@ import osmcd.gui.mapview.IfMapLayer;
  */
 public class GpxClear implements ActionListener
 {
-
 	JGpxPanel panel;
 
-	public GpxClear(JGpxPanel panel) {
+	public GpxClear(JGpxPanel panel)
+	{
 		super();
 		this.panel = panel;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		Iterator<IfMapLayer> mapLayers = MainFrame.getMainGUI().previewMap.mapLayers.iterator();
@@ -50,5 +51,4 @@ public class GpxClear implements ActionListener
 		panel.resetModel();
 		MainFrame.getMainGUI().previewMap.repaint();
 	}
-
 }

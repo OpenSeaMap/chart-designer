@@ -75,7 +75,6 @@ public class WorkinprogressDialog extends JDialog implements WindowListener
 	{
 		workerThread = threadFactory.newThread(new Runnable()
 		{
-
 			@Override
 			public void run()
 			{
@@ -165,4 +164,5 @@ public class WorkinprogressDialog extends JDialog implements WindowListener
 	public void windowIconified(WindowEvent event)
 	{
 	}
+
 }

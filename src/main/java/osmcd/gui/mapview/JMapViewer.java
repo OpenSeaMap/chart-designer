@@ -110,7 +110,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener
 		mapLayers = new LinkedList<IfMapLayer>();
 		tileLoader = new TileLoader(this);
 		tileCache = new MemoryTileCache();
-		jobDispatcher = JobDispatcher.getInstance();
+		jobDispatcher = IfJobDispatcher.getInstance();
 		mapMarkersVisible = true;
 		setLayout(null);
 		setMapSource(defaultMapSource);
@@ -382,7 +382,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener
 
 		// paint the tiles in a spiral, starting from center of the iMap
 		boolean painted = (mapTileLayers.size() > 0);
-		for (MapTileLayer l : mapTileLayers)
+		for (IfMapTileLayer l : mapTileLayers)
 		{
 			l.startPainting(mapSource);
 		}
@@ -400,7 +400,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener
 					{
 						// tile is visible
 						painted = true;
-						for (MapTileLayer l : mapTileLayers)
+						for (IfMapTileLayer l : mapTileLayers)
 						{
 							l.paintTile(g, posx, posy, tilex, tiley, zoom);
 							// System.out.println(zoom + " xxxx " + tilex + " yyyy " + tiley);
@@ -420,7 +420,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener
 		int bottomRightY = topLeftY + getHeight();
 		try
 		{
-			for (MapLayer l : mapLayers)
+			for (IfMapLayer l : mapLayers)
 			{
 				l.paint(this, g, zoom, topLeftX, topLeftY, bottomRightX, bottomRightY);
 			}
@@ -609,7 +609,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener
 		repaint();
 	}
 
-	public JobDispatcher getJobDispatcher()
+	public IfJobDispatcher getJobDispatcher()
 	{
 		return jobDispatcher;
 	}
@@ -625,12 +625,12 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener
 		repaint();
 	}
 
-	public void addMapTileLayers(MapTileLayer mapTileLayer)
+	public void addMapTileLayers(IfMapTileLayer mapTileLayer)
 	{
 		mapTileLayers.add(mapTileLayer);
 	}
 
-	public void removeMapTileLayers(MapTileLayer mapTileLayer)
+	public void removeMapTileLayers(IfMapTileLayer mapTileLayer)
 	{
 		mapTileLayers.remove(mapTileLayer);
 	}

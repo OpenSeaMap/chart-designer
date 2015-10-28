@@ -29,7 +29,6 @@ import osmb.program.map.IfMapSpace;
  */
 public class PolygonSelectionLayer implements IfMapLayer
 {
-
 	private final AbstractPolygonSelectionMapController mapController;
 
 	public PolygonSelectionLayer(AbstractPolygonSelectionMapController mapController)
@@ -69,5 +68,4 @@ public class PolygonSelectionLayer implements IfMapLayer
 			g.setTransform(at);
 		}
 	}
-
 }

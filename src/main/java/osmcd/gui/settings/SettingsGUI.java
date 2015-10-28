@@ -73,7 +73,6 @@ import osmb.mapsources.MapSourcesListModel;
 import osmb.utilities.GBC;
 import osmb.utilities.GUIExceptionHandler;
 import osmb.utilities.OSMBRsc;
-import osmb.utilities.OSMBStrs;
 import osmb.utilities.OSMBUtilities;
 import osmb.utilities.UnitSystem;
 import osmcd.OSMCDSettings;
@@ -837,8 +836,8 @@ public class SettingsGUI extends JDialog
 	public void createJButtons()
 	{
 		JPanel buttonPanel = new JPanel(new GridBagLayout());
-		okButton = new JButton(OSMBStrs.RStr("OK"));
-		cancelButton = new JButton(OSMBStrs.RStr("Cancel"));
+		okButton = new JButton(OSMCDStrs.RStr("OK"));
+		cancelButton = new JButton(OSMCDStrs.RStr("Cancel"));
 
 		GBC gbc = GBC.std().insets(5, 5, 5, 5);
 		buttonPanel.add(okButton, gbc);

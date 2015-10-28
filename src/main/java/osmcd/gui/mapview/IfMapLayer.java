@@ -19,7 +19,7 @@ package osmcd.gui.mapview;
 import java.awt.Graphics2D;
 
 /**
- * General purpose map layer
+ * General purpose iMap layer
  */
 public interface IfMapLayer
 {
@@ -30,13 +30,13 @@ public interface IfMapLayer
 	 * @param zoom
 	 *          current zoom level
 	 * @param minX
-	 *          top left x coordinate of the visible map region
+	 *          top left x coordinate of the visible iMap region
 	 * @param minYtop
-	 *          left y coordinate of the visible map region
+	 *          left y coordinate of the visible iMap region
 	 * @param maxX
-	 *          bottom right x coordinate of the visible map region
+	 *          bottom right x coordinate of the visible iMap region
 	 * @param maxY
-	 *          bottom right y coordinate of the visible map region
+	 *          bottom right y coordinate of the visible iMap region
 	 */
 	public void paint(JMapViewer map, Graphics2D g, int zoom, int minX, int minY, int maxX, int maxY);
 }

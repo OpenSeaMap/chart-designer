@@ -74,6 +74,7 @@ import osmb.mapsources.IfMapSource;
 import osmb.program.WgsGrid.WgsDensity;
 import osmb.program.WgsGridSettings;
 import osmb.program.catalog.Catalog;
+import osmb.program.map.IfMapSpace;
 import osmb.program.map.Layer;
 import osmb.program.tiles.TileImageParameters;
 import osmb.utilities.GBC;
@@ -136,13 +137,6 @@ public class MainFrame extends JFrame implements IfMapEventListener
 	private static MainFrame mainGUI = null;
 	public static final ArrayList<Image> OSMCD_ICONS = new ArrayList<Image>(3);
 
-	// static
-	// {
-	// OSMCD_ICONS.add(OSMBUtilities.loadResourceImageIcon("osmb_48.png").getImage());
-	// OSMCD_ICONS.add(OSMBUtilities.loadResourceImageIcon("osmb_32.png").getImage());
-	// OSMCD_ICONS.add(OSMBUtilities.loadResourceImageIcon("osmb_16.png").getImage());
-	// }
-	//
 	static
 	{
 		OSMCD_ICONS.add(OSMBUtilities.loadResourceImageIcon("osmcd48.png").getImage());
@@ -414,19 +408,19 @@ public class MainFrame extends JFrame implements IfMapEventListener
 		settingsButton.setToolTipText(OSMCDStrs.RStr("Settings.ButtonTips"));
 
 		// /W #CatOverviev
-		saveCatalogOverviewButton = new JButton(OSMCDStrs.RStr("SaveCatalogOverview.Button"));
-		saveCatalogOverviewButton.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				CatalogOverviewMap overview = new CatalogOverviewMap();
-				
-				overview.callPaintComponent_TWICE();
-			}
-		});
-		//saveCatalogOverviewButton.setToolTipText(OSMCDStrs.RStr("SaveCatalogOverview.ButtonTips"));
-		
+		// saveCatalogOverviewButton = new JButton(OSMCDStrs.RStr("SaveCatalogOverview.Button"));
+		// saveCatalogOverviewButton.addActionListener(new ActionListener()
+		// {
+		// @Override
+		// public void actionPerformed(ActionEvent e)
+		// {
+		// CatalogOverviewMap overview = new CatalogOverviewMap();
+		//
+		// overview.callPaintComponent_TWICE();
+		// }
+		// });
+		// saveCatalogOverviewButton.setToolTipText(OSMCDStrs.RStr("SaveCatalogOverview.ButtonTips"));
+
 		// // catalog name text field
 		// catalogNameTextField = new JCatalogNameField();
 		// catalogNameTextField.setColumns(12);
@@ -700,10 +694,9 @@ public class MainFrame extends JFrame implements IfMapEventListener
 		// leftPanelContent.add(createAtlasButton, gbc_eol);
 		leftPanelContent.add(settingsButton, gbc_eol);
 		leftPanelContent.add(Box.createVerticalGlue(), GBC.eol().fill(GBC.VERTICAL));
-		
+
 		// /W #CatOverviev
 		// leftPanelContent.add(saveCatalogOverviewButton, gbc_eol);
-
 
 		JScrollPane scrollPane = new JScrollPane(leftPanelContent);
 		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -1070,10 +1063,11 @@ public class MainFrame extends JFrame implements IfMapEventListener
 	{
 		IfMapSource tileSource = previewMap.getMapSource();
 		// int zoomLevels = tileSource.getMaxZoom() - tileSource.getMinZoom() + 1; // #zoom0-3
-		int minZoom = Math.max(Catalog.MIN_CATALOG_ZOOMLEVEL, tileSource.getMinZoom());
-		int zoomLevels = tileSource.getMaxZoom() - minZoom + 1;
-		
-		zoomLevels = Math.max(zoomLevels, 0);
+		int minZoom = Math.max(IfMapSpace.MIN_TECH_ZOOM, tileSource.getMinZoom());
+		int maxZoom = Math.min(IfMapSpace.MAX_TECH_ZOOM, tileSource.getMaxZoom());
+		int zoomLevels = maxZoom - minZoom + 1;
+
+		// zoomLevels = Math.max(zoomLevels, 0);
 		JCheckBox[] oldZoomLevelCheckBoxes = cbZoom;
 		int oldMinZoom = 0;
 		if (cbZoom.length > 0)

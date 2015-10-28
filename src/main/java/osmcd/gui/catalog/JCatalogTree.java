@@ -145,7 +145,7 @@ public class JCatalogTree extends JTree implements Autoscroll
 		else
 		{
 			JOptionPane.showMessageDialog(null, OSMCDStrs.RStr("Gen.HTMLElem") + MSG_CATALOG_EMPTY + OSMCDStrs.RStr("Gen.HTMLElemEND"),
-					OSMCDStrs.RStr("CatalogTree.ERRBundleEmpty"), JOptionPane.ERROR_MESSAGE);
+			    OSMCDStrs.RStr("CatalogTree.ERRBundleEmpty"), JOptionPane.ERROR_MESSAGE);
 		}
 		return bValid;
 	}
@@ -186,7 +186,8 @@ public class JCatalogTree extends JTree implements Autoscroll
 	{
 		if (name == null || name.length() < 1)
 		{
-			JOptionPane.showMessageDialog(null, OSMCDStrs.RStr("Catalog.NameInvalid.Message"), OSMCDStrs.RStr("Catalog.NameInvalid.Title"), JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(null, OSMCDStrs.RStr("Catalog.NameInvalid.Message"), OSMCDStrs.RStr("Catalog.NameInvalid.Title"),
+			    JOptionPane.WARNING_MESSAGE);
 			return;
 		}
 		log.debug(String.format(OSMCDStrs.RStr("CatalogTree.CreateNewBundle"), name));
@@ -246,17 +247,17 @@ public class JCatalogTree extends JTree implements Autoscroll
 		try
 		{
 			Catalog catalog = null;
-			
+
 			// #gCatalog
 			// treeModel.load(profile);
 			OSMCDApp.getApp().setCatalog((Catalog) Catalog.load(profile.getFile()));
-			
+
 			treeModel.notifyStructureChanged();
-			
+
 			// Check if the file we got is really a catalog
 			if (getCatalog() instanceof Catalog)
 			{
-				catalog = (Catalog) getCatalog();
+				catalog = getCatalog();
 				if (catalog.getVersion() < Catalog.CURRENT_CATALOG_VERSION)
 				{
 					JOptionPane.showMessageDialog(null, MSG_CATALOG_VERSION_MISMATCH, OSMCDStrs.RStr("CatalogTree.OldVersion"), JOptionPane.WARNING_MESSAGE);
@@ -374,7 +375,7 @@ public class JCatalogTree extends JTree implements Autoscroll
 					}
 				});
 				pm.add(mi);
-				
+
 				// /W rename map
 				mi = new JMenuItem(OSMCDStrs.RStr("lp_bundle_pop_menu_rename"));
 				mi.addActionListener(new ActionListener()
@@ -386,7 +387,7 @@ public class JCatalogTree extends JTree implements Autoscroll
 					}
 				});
 				pm.add(mi);
-				
+
 			}
 			if (o instanceof IfLayer)
 			{
@@ -502,8 +503,8 @@ public class JCatalogTree extends JTree implements Autoscroll
 	{
 		Rectangle outer = getBounds();
 		Rectangle inner = getParent().getBounds();
-		return new Insets(inner.y - outer.y + margin, inner.x - outer.x + margin, outer.height - inner.height - inner.y + outer.y + margin, outer.width
-				- inner.width - inner.x + outer.x + margin);
+		return new Insets(inner.y - outer.y + margin, inner.x - outer.x + margin, outer.height - inner.height - inner.y + outer.y + margin,
+		    outer.width - inner.width - inner.x + outer.x + margin);
 	}
 
 }

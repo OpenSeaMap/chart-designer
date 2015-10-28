@@ -28,7 +28,7 @@ import java.awt.event.MouseWheelListener;
 import osmb.utilities.OSUtilities;
 
 /**
- * Default iMap controller which implements iMap moving by pressing the right mouse button and zooming by double click or by mouse wheel.
+ * Default map controller which implements map moving by pressing the right mouse button and zooming by double click or by mouse wheel.
  * 
  * @author Jan Peter Stotz
  * 
@@ -36,7 +36,6 @@ import osmb.utilities.OSUtilities;
 public class DefaultMapController extends ACMapController implements MouseListener, MouseMotionListener, MouseWheelListener
 {
 	private static final int MOUSE_BUTTONS_MASK = MouseEvent.BUTTON3_DOWN_MASK | MouseEvent.BUTTON1_DOWN_MASK | MouseEvent.BUTTON2_DOWN_MASK;
-
 	private static final int MAC_MOUSE_BUTTON3_MASK = MouseEvent.CTRL_DOWN_MASK | MouseEvent.BUTTON1_DOWN_MASK;
 
 	public DefaultMapController(PreviewMap map)

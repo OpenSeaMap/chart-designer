@@ -53,8 +53,8 @@ public class DefaultMapTileLayer implements IfMapTileLayer
 	}
 
 	/**
-	 * retrieves a tile from the cache.
-	 * If the tile is not present in the cache a load job is added to the working queue of {@link JobThread}.
+	 * retrieves a tile from the cache. If the tile is not present in the cache a load job is added to the working queue
+	 * of {@link JobThread}.
 	 * 
 	 * @param tilex
 	 * @param tiley

@@ -24,9 +24,9 @@ import java.util.Iterator;
 import javax.swing.JOptionPane;
 
 import osmb.mapsources.IfMapSource;
+import osmb.program.DelayedInterruptThread;
 import osmb.program.map.IfMapSpace;
 import osmb.program.tilestore.ACSiTileStore;
-import osmb.program.tilestore.berkeleydb.DelayedInterruptThread;
 import osmb.utilities.GUIExceptionHandler;
 import osmb.utilities.OSMBStrs;
 import osmcd.OSMCDStrs;

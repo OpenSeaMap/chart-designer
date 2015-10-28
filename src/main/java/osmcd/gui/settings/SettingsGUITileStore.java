@@ -39,9 +39,9 @@ import javax.swing.border.BevelBorder;
 
 import osmb.mapsources.ACMapSourcesManager;
 import osmb.mapsources.IfMapSource;
+import osmb.program.DelayedInterruptThread;
 import osmb.program.tilestore.ACSiTileStore;
 import osmb.program.tilestore.TileStoreInfo;
-import osmb.program.tilestore.berkeleydb.DelayedInterruptThread;
 import osmb.utilities.OSMBUtilities;
 import osmcd.OSMCDStrs;
 

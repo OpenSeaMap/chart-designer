@@ -21,7 +21,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
-import osmb.utilities.OSMBStrs;
 import osmcd.OSMCDStrs;
 import osmcd.gui.MainFrame;
 import osmcd.gui.gpxtree.GpxEntry;
@@ -31,23 +30,24 @@ import osmcd.gui.mapview.PreviewMap;
 
 public class GpxAddPoint implements ActionListener
 {
-
 	JGpxPanel panel;
 
 	private GpxMapController mapController = null;
 
-	public GpxAddPoint(JGpxPanel panel) {
+	public GpxAddPoint(JGpxPanel panel)
+	{
 		super();
 		this.panel = panel;
 	}
 
+	@Override
 	public synchronized void actionPerformed(ActionEvent event)
 	{
 		GpxEntry entry = panel.getSelectedEntry();
 		if (entry == null)
 		{
 			int answer = JOptionPane.showConfirmDialog(null, OSMCDStrs.RStr("rp_gpx_msg_ask_create_new"), OSMCDStrs.RStr("rp_gpx_msg_ask_create_new_title"),
-					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+			    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if (answer != JOptionPane.YES_OPTION)
 				return;
 			entry = new GpxNew(panel).newGpx();
@@ -55,7 +55,7 @@ public class GpxAddPoint implements ActionListener
 
 		if (!entry.isWaypointParent())
 		{
-			JOptionPane.showMessageDialog(null, OSMCDStrs.RStr("rp_gpx_msg_add_point_failed"), OSMBStrs.RStr("Error"), JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, OSMCDStrs.RStr("rp_gpx_msg_add_point_failed"), OSMCDStrs.RStr("Error"), JOptionPane.INFORMATION_MESSAGE);
 			return;
 		}
 

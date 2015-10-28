@@ -225,7 +225,7 @@ public class CatalogTreeModel implements TreeModel
 		}
 	}
 
-	@Deprecated // /W #deprecated
+	// /W #deprecated
 	public void mergeLayers(IfLayer source, IfLayer target) throws InvalidNameException
 	{
 

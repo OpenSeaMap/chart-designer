@@ -26,7 +26,6 @@ import javax.swing.JOptionPane;
 
 import osmb.program.DirectoryManager;
 import osmb.utilities.GUIExceptionHandler;
-import osmb.utilities.OSMBStrs;
 import osmcd.OSMCDStrs;
 import osmcd.gui.MainFrame;
 
@@ -38,7 +37,7 @@ public class ShowReadme implements ActionListener
 		File readme = new File(DirectoryManager.programDir, "README.HTM");
 		if (!readme.isFile())
 		{
-			JOptionPane.showMessageDialog(MainFrame.getMainGUI(), OSMCDStrs.RStr("msg_no_found_readme_file"), OSMBStrs.RStr("Error"), JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(MainFrame.getMainGUI(), OSMCDStrs.RStr("msg_no_found_readme_file"), OSMCDStrs.RStr("Error"), JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		try

@@ -31,7 +31,7 @@ import osmcd.data.gpx.gpx11.WptType;
 import osmcd.gui.gpxtree.JGpxPanel;
 
 /**
- * A {@link IfMapLayer} displaying the content of a loaded GPX file in a {@link JMapViewer} instance.
+ * A {@link MapLayer} displaying the content of a loaded GPX file in a {@link JMapViewer} instance.
  */
 public class GpxLayer implements IfMapLayer
 {
@@ -111,7 +111,7 @@ public class GpxLayer implements IfMapLayer
 	}
 
 	private boolean paintPoint(final WptType point, Color color, final Graphics2D g, boolean paintPointName, IfMapSpace mapSpace, int zoom, int minX, int minY,
-			int maxX, int maxY)
+	    int maxX, int maxY)
 	{
 		int x = mapSpace.cLonToX(point.getLon().doubleValue(), zoom);
 		if (x < minX || x > maxX)

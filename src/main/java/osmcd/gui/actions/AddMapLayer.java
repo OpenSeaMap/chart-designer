@@ -20,19 +20,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import osmcd.gui.MainFrame;
-import osmcd.gui.mapview.AbstractPolygonSelectionMapController;
 import osmcd.gui.mapview.ACMapController;
+import osmcd.gui.mapview.AbstractPolygonSelectionMapController;
 import osmcd.gui.mapview.RectangleSelectionMapController;
 
 public class AddMapLayer implements ActionListener
 {
-
 	public static final AddMapLayer INSTANCE = new AddMapLayer();
 
 	/**
 	 * This is the place when the user clicked 'Add Selection' button
 	 * 
 	 */
+	@Override
 	public void actionPerformed(ActionEvent event)
 	{
 		ACMapController msc = MainFrame.getMainGUI().previewMap.getMapSelectionController();

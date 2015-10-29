@@ -43,8 +43,9 @@ import osmcd.program.MapSelection;
 public class PreviewMap extends JMapViewer
 {
 	private static final long serialVersionUID = 1L;
+	private static Logger log = Logger.getLogger(PreviewMap.class);
 
-	public static final Color GRID_COLOR = new Color(200, 20, 20, 10);
+	public static final Color GRID_COLOR = new Color(0.7f, 0.1f, 0.1f, 0.4f);
 	public static final Color SEL_COLOR = new Color(0.9f, 0.7f, 0.7f, 0.6f);
 	public static final Color MAP_COLOR = new Color(1.0f, 0.84f, 0.0f, 0.1f);
 
@@ -52,9 +53,6 @@ public class PreviewMap extends JMapViewer
 	public static final int MAP_CONTROLLER_GPX = 1;
 
 	protected static final Font LOADING_FONT = new Font("Sans Serif", Font.BOLD, 30);
-
-	private static Logger log = Logger.getLogger(PreviewMap.class);
-
 	/**
 	 * Interactive map selection max/min pixel coordinates regarding zoom level <code>MAX_ZOOM</code>
 	 */
@@ -71,10 +69,7 @@ public class PreviewMap extends JMapViewer
 	 * Pre-painted transparent tile with grid lines on it. This makes painting the grid a lot faster in difference to painting each line or rectangle if the grid
 	 * zoom is much higher that the current zoom level.
 	 */
-	private BufferedImage gridTile = new BufferedImage(256, 256, BufferedImage.TYPE_INT_ARGB);
-
-	private int gridZoom = -1;
-	private int gridSize;
+	private BufferedImage gridTile = new BufferedImage(IfMapSpace.TECH_TILESIZE, IfMapSpace.TECH_TILESIZE, BufferedImage.TYPE_INT_ARGB);
 
 	protected LinkedList<IfMapEventListener> mapEventListeners = new LinkedList<IfMapEventListener>();
 
@@ -83,6 +78,8 @@ public class PreviewMap extends JMapViewer
 	protected DefaultMapController defaultMapController;
 
 	private final WgsGrid wgsGrid = new WgsGrid(OSMCDSettings.getInstance().getWgsGrid(), this);
+	private int gridZoom = -1;
+	private int gridSize;
 
 	public PreviewMap()
 	{
@@ -111,7 +108,7 @@ public class PreviewMap extends JMapViewer
 		settings.setMapviewZoom(getZoom());
 		settings.setMapviewCenterCoordinate(getCenterCoordinate());
 		settings.setMapviewGridZoom(gridZoom);
-		settings.setMapviewMapSource(mapSource.getName());
+		settings.setMapviewMapSource(mMapSource.getName());
 		settings.setMapviewSelectionMin(iSelectionMin);
 		settings.setMapviewSelectionMax(iSelectionMax);
 	}
@@ -137,9 +134,9 @@ public class PreviewMap extends JMapViewer
 	@Override
 	public void setMapSource(IfMapSource newMapSource)
 	{
-		if (newMapSource.equals(mapSource))
+		if (newMapSource.equals(mMapSource))
 			return;
-		log.trace("Preview map source changed from " + mapSource + " to " + newMapSource);
+		log.trace("Preview map source changed from '" + mMapSource + "' to '" + newMapSource + "'");
 		super.setMapSource(newMapSource);
 		if (mapEventListeners == null)
 			return;
@@ -151,10 +148,10 @@ public class PreviewMap extends JMapViewer
 	@Override
 	protected void zoomChanged(int oldZoom)
 	{
-		log.trace("Preview map zoom changed from " + oldZoom + " to " + zoom);
+		log.trace("Preview map zoom changed from " + oldZoom + " to " + mZoom);
 		if (mapEventListeners != null)
 			for (IfMapEventListener listener : mapEventListeners)
-				listener.zoomChanged(zoom);
+				listener.zoomChanged(mZoom);
 		updateGridValues();
 	}
 
@@ -175,14 +172,15 @@ public class PreviewMap extends JMapViewer
 	}
 
 	/**
-	 * Updates the <code>gridSize</code> and the <code>gridTile</code>. This method has to called if <code>mapSource</code> or <code>zoom</code> as been changed.
+	 * Updates the <code>gridSize</code> and the <code>gridTile</code>. This method has to be called if <code>mapSource</code> or <code>zoom</code> has been
+	 * changed.
 	 */
 	protected void updateGridValues()
 	{
 		if (gridZoom < 0)
 			return;
-		int zoomToGridZoom = zoom - gridZoom;
-		int tileSize = mapSource.getMapSpace().getTileSize();
+		int zoomToGridZoom = mZoom - gridZoom;
+		int tileSize = mMapSource.getMapSpace().getTileSize();
 		if (zoomToGridZoom > 0)
 		{
 			gridSize = tileSize << zoomToGridZoom;
@@ -196,14 +194,15 @@ public class PreviewMap extends JMapViewer
 			{
 				newGridTile = new BufferedImage(tileSize, tileSize, BufferedImage.TYPE_INT_ARGB);
 				Graphics2D g = newGridTile.createGraphics();
-				int alpha = 5 + (6 + zoomToGridZoom) * 16;
+				float alpha = 5 + (6 + zoomToGridZoom) * 16;
 				alpha = Math.max(0, alpha);
 				alpha = Math.min(130, alpha);
-				g.setColor(new Color(200, 20, 20, alpha));
+				// g.setColor(new Color(200, 20, 20, alpha));
+				g.setColor(new Color(0.7f, 0.1f, 0.1f, alpha / 256.0f));
 				for (int x = 0; x < tileSize; x += gridSize)
-					g.drawLine(x, 0, x, 255);
+					g.drawLine(x, 0, x, tileSize - 1);
 				for (int y = 0; y < tileSize; y += gridSize)
-					g.drawLine(0, y, 255, y);
+					g.drawLine(0, y, tileSize - 1, y);
 			}
 			gridTile = newGridTile;
 		}
@@ -218,7 +217,7 @@ public class PreviewMap extends JMapViewer
 			graphics.drawString(OSMCDStrs.RStr("map_loading_wait"), 100, 100);
 			return;
 		}
-		if (mapSource == null)
+		if (mMapSource == null)
 			return;
 		Graphics2D g = (Graphics2D) graphics;
 		super.paintComponent(g);
@@ -227,14 +226,14 @@ public class PreviewMap extends JMapViewer
 		if (gridZoom >= 0)
 		{
 			// Only paint grid if it is enabled (gridZoom not -1)
-			int max = (256 << zoom);
+			int max = (256 << mZoom);
 			int w = Math.min(getWidth(), max - tlc.x);
 			int h = Math.min(getHeight(), max - tlc.y);
 			g.setColor(GRID_COLOR);
 			// g.setStroke(new BasicStroke(4.0f));
 			if (gridSize > 1)
 			{
-				int tilesize = mapSource.getMapSpace().getTileSize();
+				int tilesize = mMapSource.getMapSpace().getTileSize();
 				if (gridSize >= tilesize)
 				{
 					int off_x = tlc.x < 0 ? -tlc.x : -(tlc.x % gridSize);
@@ -265,7 +264,7 @@ public class PreviewMap extends JMapViewer
 		if (gridSelectionStart != null && gridSelectionEnd != null)
 		{
 			// Draw the selection rectangle widened by the current grid
-			int zoomDiff = MAX_ZOOM - zoom;
+			int zoomDiff = getMaxZoom() - mZoom;
 			int x_min = (gridSelectionStart.x >> zoomDiff) - tlc.x;
 			int y_min = (gridSelectionStart.y >> zoomDiff) - tlc.y;
 			int x_max = (gridSelectionEnd.x >> zoomDiff) - tlc.x;
@@ -279,7 +278,7 @@ public class PreviewMap extends JMapViewer
 		if (iSelectionMin != null && iSelectionMax != null)
 		{
 			// Draw the selection rectangle exactly as it has been specified by the user
-			int zoomDiff = MAX_ZOOM - zoom;
+			int zoomDiff = getMaxZoom() - mZoom;
 			int x_min = (iSelectionMin.x >> zoomDiff) - tlc.x;
 			int y_min = (iSelectionMin.y >> zoomDiff) - tlc.y;
 			int x_max = (iSelectionMax.x >> zoomDiff) - tlc.x;
@@ -290,9 +289,9 @@ public class PreviewMap extends JMapViewer
 			g.setColor(GRID_COLOR);
 			g.drawRect(x_min, y_min, w, h);
 		}
-		if (mapSource instanceof IfMapSourceTextAttribution)
+		if (mMapSource instanceof IfMapSourceTextAttribution)
 		{
-			IfMapSourceTextAttribution ta = (IfMapSourceTextAttribution) mapSource;
+			IfMapSourceTextAttribution ta = (IfMapSourceTextAttribution) mMapSource;
 			String attributionText = ta.getAttributionText();
 			if (attributionText != null)
 			{
@@ -307,14 +306,14 @@ public class PreviewMap extends JMapViewer
 		}
 		if (OSMCDSettings.getInstance().getWgsGrid().enabled)
 		{
-			wgsGrid.paintWgsGrid(g, mapSource.getMapSpace(), tlc, zoom);
+			wgsGrid.paintWgsGrid(g, mMapSource.getMapSpace(), tlc, mZoom);
 		}
-		ScaleBar.paintScaleBar(this, g, mapSource.getMapSpace(), tlc, zoom);
+		ScaleBar.paintScaleBar(this, g, mMapSource.getMapSpace(), tlc, mZoom);
 	}
 
 	public Bookmark getPositionBookmark()
 	{
-		return new Bookmark(mapSource, zoom, center.x, center.y);
+		return new Bookmark(mMapSource, mZoom, center.x, center.y);
 	}
 
 	public void gotoPositionBookmark(Bookmark bookmark)
@@ -325,18 +324,18 @@ public class PreviewMap extends JMapViewer
 	}
 
 	/**
-	 * @return Coordinate of the point in the center of the currently displayed iMap region
+	 * @return Coordinate of the point in the center of the currently displayed map region
 	 */
 	public EastNorthCoordinate getCenterCoordinate()
 	{
-		IfMapSpace mapSpace = mapSource.getMapSpace();
-		double lon = mapSpace.cXToLon(center.x, zoom);
-		double lat = mapSpace.cYToLat(center.y, zoom);
+		IfMapSpace mapSpace = mMapSource.getMapSpace();
+		double lon = mapSpace.cXToLon(center.x, mZoom);
+		double lat = mapSpace.cYToLat(center.y, mZoom);
 		return new EastNorthCoordinate(lat, lon);
 	}
 
 	/**
-	 * @return Coordinate of the top left corner visible regarding the current iMap source (pixel)
+	 * @return Coordinate of the top left corner visible regarding the current map source (pixel)
 	 */
 	public Point getTopLeftCoordinate()
 	{
@@ -348,8 +347,8 @@ public class PreviewMap extends JMapViewer
 		if (!ms.isAreaSelected())
 			return;
 		log.trace("Setting selection to: " + ms);
-		Point max = ms.getBottomRightPixelCoordinate(MAX_ZOOM);
-		Point min = ms.getTopLeftPixelCoordinate(MAX_ZOOM);
+		Point max = ms.getBottomRightPixelCoordinate(getMaxZoom());
+		Point min = ms.getTopLeftPixelCoordinate(getMaxZoom());
 		setDisplayToFitPixelCoordinates(max.x, max.y, min.x, min.y);
 	}
 
@@ -362,11 +361,11 @@ public class PreviewMap extends JMapViewer
 	public void setSelectionAndZoomTo(MapSelection ms, boolean notifyListeners)
 	{
 		log.trace("Setting selection to: " + ms);
-		Point max = ms.getBottomRightPixelCoordinate(MAX_ZOOM);
-		Point min = ms.getTopLeftPixelCoordinate(MAX_ZOOM);
+		Point max = ms.getBottomRightPixelCoordinate(getMaxZoom());
+		Point min = ms.getTopLeftPixelCoordinate(getMaxZoom());
 		setDisplayToFitPixelCoordinates(max.x, max.y, min.x, min.y);
-		Point pStart = ms.getTopLeftPixelCoordinate(zoom);
-		Point pEnd = ms.getBottomRightPixelCoordinate(zoom);
+		Point pStart = ms.getTopLeftPixelCoordinate(mZoom);
+		Point pEnd = ms.getBottomRightPixelCoordinate(mZoom);
 		setSelectionByTileCoordinate(pStart, pEnd, notifyListeners);
 	}
 
@@ -380,7 +379,7 @@ public class PreviewMap extends JMapViewer
 	 */
 	public void setSelectionByTileCoordinate(Point pStart, Point pEnd, boolean notifyListeners)
 	{
-		setSelectionByTileCoordinate(zoom, pStart, pEnd, notifyListeners);
+		setSelectionByTileCoordinate(mZoom, pStart, pEnd, notifyListeners);
 	}
 
 	/**
@@ -404,14 +403,14 @@ public class PreviewMap extends JMapViewer
 
 		Point pNewStart = new Point();
 		Point pNewEnd = new Point();
-		int mapMaxCoordinate = mapSource.getMapSpace().getMaxPixels(cZoom) - 1;
+		int mapMaxCoordinate = mMapSource.getMapSpace().getMaxPixels(cZoom) - 1;
 		// Sort x/y coordinate of points so that pNewStart < pnewEnd and limit selection to iMap size
 		pNewStart.x = Math.max(0, Math.min(mapMaxCoordinate, Math.min(pStart.x, pEnd.x)));
 		pNewStart.y = Math.max(0, Math.min(mapMaxCoordinate, Math.min(pStart.y, pEnd.y)));
 		pNewEnd.x = Math.max(0, Math.min(mapMaxCoordinate, Math.max(pStart.x, pEnd.x)));
 		pNewEnd.y = Math.max(0, Math.min(mapMaxCoordinate, Math.max(pStart.y, pEnd.y)));
 
-		int zoomDiff = MAX_ZOOM - cZoom;
+		int zoomDiff = getMaxZoom() - cZoom;
 
 		// /W pNewEnd.x <<= zoomDiff;
 		pNewEnd.x = ((pNewEnd.x + 1) << zoomDiff) - 1;
@@ -445,8 +444,8 @@ public class PreviewMap extends JMapViewer
 		if (iSelectionMin == null || iSelectionMax == null)
 			return;
 
-		int gridZoomDiff = MAX_ZOOM - gridZoom;
-		int gridFactor = mapSource.getMapSpace().getTileSize() << gridZoomDiff;
+		int gridZoomDiff = getMaxZoom() - gridZoom;
+		int gridFactor = mMapSource.getMapSpace().getTileSize() << gridZoomDiff;
 
 		Point pNewStart = new Point(iSelectionMin);
 		Point pNewEnd = new Point(iSelectionMax);
@@ -488,8 +487,8 @@ public class PreviewMap extends JMapViewer
 			x_max = iSelectionMax.x;
 			y_max = iSelectionMax.y;
 		}
-		MercatorPixelCoordinate min = new MercatorPixelCoordinate(mapSource.getMapSpace(), x_min, y_min, MAX_ZOOM);
-		MercatorPixelCoordinate max = new MercatorPixelCoordinate(mapSource.getMapSpace(), x_max, y_max, MAX_ZOOM);
+		MercatorPixelCoordinate min = new MercatorPixelCoordinate(mMapSource.getMapSpace(), x_min, y_min, getMaxZoom());
+		MercatorPixelCoordinate max = new MercatorPixelCoordinate(mMapSource.getMapSpace(), x_max, y_max, getMaxZoom());
 		log.debug("sel min: [" + min + "]"); // /W //
 		log.debug("sel max: [" + max + "]"); // /W //
 		for (IfMapEventListener listener : mapEventListeners)

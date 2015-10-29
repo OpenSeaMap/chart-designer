@@ -56,8 +56,8 @@ public class RectangleSelectionMapController extends ACMapController implements 
 	@Override
 	public void disable()
 	{
-		map.mapLayers.remove(mapLayer);
-		map.setSelectionByTileCoordinate(null, null, true);
+		mMap.mapLayers.remove(mapLayer);
+		mMap.setSelectionByTileCoordinate(null, null, true);
 		super.disable();
 	}
 
@@ -72,7 +72,7 @@ public class RectangleSelectionMapController extends ACMapController implements 
 			iStartSelectionPoint = convertToAbsolutePoint(e.getPoint());
 			iEndSelectionPoint = convertToAbsolutePoint(e.getPoint());
 		}
-		map.grabFocus();
+		mMap.grabFocus();
 	}
 
 	@Override
@@ -83,7 +83,7 @@ public class RectangleSelectionMapController extends ACMapController implements 
 			if (iStartSelectionPoint != null)
 			{
 				iEndSelectionPoint = convertToAbsolutePoint(e.getPoint());
-				map.setSelectionByTileCoordinate(PreviewMap.MAX_ZOOM, iStartSelectionPoint, iEndSelectionPoint, true);
+				mMap.setSelectionByTileCoordinate(mMap.getMaxZoom(), iStartSelectionPoint, iEndSelectionPoint, true);
 			}
 		}
 	}
@@ -99,10 +99,10 @@ public class RectangleSelectionMapController extends ACMapController implements 
 		{
 			if (e.getClickCount() == 1)
 			{
-				map.setSelectionByTileCoordinate(PreviewMap.MAX_ZOOM, iStartSelectionPoint, convertToAbsolutePoint(e.getPoint()), true);
+				mMap.setSelectionByTileCoordinate(mMap.getMaxZoom(), iStartSelectionPoint, convertToAbsolutePoint(e.getPoint()), true);
 			}
 		}
-		map.grabFocus();
+		mMap.grabFocus();
 	}
 
 	@Override
@@ -113,7 +113,7 @@ public class RectangleSelectionMapController extends ACMapController implements 
 	@Override
 	public void mouseClicked(MouseEvent e)
 	{
-		map.grabFocus();
+		mMap.grabFocus();
 	}
 
 	@Override
@@ -143,6 +143,6 @@ public class RectangleSelectionMapController extends ACMapController implements 
 
 	public PreviewMap getMap()
 	{
-		return map;
+		return mMap;
 	}
 }

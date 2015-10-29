@@ -58,15 +58,15 @@ public class GpxMapController extends ACMapController implements MouseListener
 			entry = panel.getSelectedEntry();
 			Gpx gpx = entry.getLayer().getGpx();
 			Point p = e.getPoint();
-			Point tl = map.getTopLeftCoordinate();
+			Point tl = mMap.getTopLeftCoordinate();
 			p.x += tl.x;
 			p.y += tl.y;
-			IfMapSpace mapSpace = map.getMapSource().getMapSpace();
-			int maxPixel = mapSpace.getMaxPixels(map.getZoom());
+			IfMapSpace mapSpace = mMap.getMapSource().getMapSpace();
+			int maxPixel = mapSpace.getMaxPixels(mMap.getZoom());
 			if (p.x < 0 || p.x > maxPixel || p.y < 0 || p.y > maxPixel)
 				return; // outside of world region
-			double lon = mapSpace.cXToLon(p.x, map.getZoom());
-			double lat = mapSpace.cYToLat(p.y, map.getZoom());
+			double lon = mapSpace.cXToLon(p.x, mMap.getZoom());
+			double lat = mapSpace.cYToLat(p.y, mMap.getZoom());
 			String name = JOptionPane.showInputDialog(null, OSMCDStrs.RStr("dlg_gpx_inpu_point_name"));
 			if (name == null)
 				return;
@@ -90,12 +90,12 @@ public class GpxMapController extends ACMapController implements MouseListener
 			}
 			panel.addWaypoint(wpt, entry);
 		}
-		map.repaint();
+		mMap.repaint();
 	}
 
 	public void repaint()
 	{
-		map.repaint();
+		mMap.repaint();
 	}
 
 	@Override
@@ -126,6 +126,6 @@ public class GpxMapController extends ACMapController implements MouseListener
 	public void disable()
 	{
 		super.disable();
-		map.getMapSelectionController().enable();
+		mMap.getMapSelectionController().enable();
 	}
 }

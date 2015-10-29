@@ -43,13 +43,13 @@ public abstract class AbstractPolygonSelectionMapController extends ACMapControl
 
 	@Override
 	public void enable() {
-		map.mapLayers.add(mapLayer);
+		mMap.mapLayers.add(mapLayer);
 		super.enable();
 	}
 
 	@Override
 	public void disable() {
-		map.mapLayers.remove(mapLayer);
+		mMap.mapLayers.remove(mapLayer);
 		super.disable();
 	}
 

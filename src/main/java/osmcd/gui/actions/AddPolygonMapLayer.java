@@ -35,7 +35,6 @@ import osmcd.OSMCDStrs;
 import osmcd.gui.MainFrame;
 import osmcd.gui.catalog.JCatalogTree;
 import osmcd.gui.mapview.AbstractPolygonSelectionMapController;
-import osmcd.gui.mapview.JMapViewer;
 import osmcd.program.SelectedZoomLevels;
 
 /**
@@ -101,7 +100,7 @@ public class AddPolygonMapLayer implements ActionListener
 			int[] ypoints = new int[polygonPoints.size()];
 			for (int i = 0; i < xpoints.length; i++)
 			{
-				Point p = mapSpace.changeZoom(polygonPoints.get(i), JMapViewer.MAX_ZOOM, zoom);
+				Point p = mapSpace.changeZoom(polygonPoints.get(i), mg.previewMap.getMaxZoom(), zoom);
 				xpoints[i] = p.x;
 				ypoints[i] = p.y;
 			}

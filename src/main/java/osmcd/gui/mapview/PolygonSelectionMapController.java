@@ -25,37 +25,48 @@ import java.awt.event.MouseListener;
  * strokes.
  * 
  */
-public class PolygonSelectionMapController extends AbstractPolygonSelectionMapController implements MouseListener {
-
-	public PolygonSelectionMapController(PreviewMap map) {
+public class PolygonSelectionMapController extends AbstractPolygonSelectionMapController implements MouseListener
+{
+	public PolygonSelectionMapController(PreviewMap map)
+	{
 		super(map);
 	}
 
-	public void mouseClicked(MouseEvent e) {
+	@Override
+	public void mouseClicked(MouseEvent e)
+	{
 	}
 
-	public void mousePressed(MouseEvent e) {
-
+	@Override
+	public void mousePressed(MouseEvent e)
+	{
 	}
 
-	public void mouseReleased(MouseEvent e) {
-		if (e.getButton() == MouseEvent.BUTTON1) {
+	@Override
+	public void mouseReleased(MouseEvent e)
+	{
+		if (e.getButton() == MouseEvent.BUTTON1)
+		{
 			if (finished)
 				reset();
-			Point mapPoint = map.getTopLeftCoordinate();
+			Point mapPoint = mMap.getTopLeftCoordinate();
 			mapPoint.x += e.getX();
 			mapPoint.y += e.getY();
-			mapPoint = map.getMapSource().getMapSpace().changeZoom(mapPoint, map.getZoom(), PreviewMap.MAX_ZOOM);
+			mapPoint = mMap.getMapSource().getMapSpace().changeZoom(mapPoint, mMap.getZoom(), mMap.getMaxZoom());
 			polygonPoints.add(mapPoint);
 		}
-		map.grabFocus();
-		map.repaint();
+		mMap.grabFocus();
+		mMap.repaint();
 	}
 
-	public void mouseEntered(MouseEvent e) {
+	@Override
+	public void mouseEntered(MouseEvent e)
+	{
 	}
 
-	public void mouseExited(MouseEvent e) {
+	@Override
+	public void mouseExited(MouseEvent e)
+	{
 	}
 
 }

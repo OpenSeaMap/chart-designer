@@ -25,7 +25,7 @@ import java.util.List;
 import osmb.program.map.IfMapSpace;
 
 /**
- * Displays a polygon on the iMap - only for testing purposes
+ * Displays a polygon on the map - only for testing purposes
  */
 public class PolygonSelectionLayer implements IfMapLayer
 {
@@ -51,7 +51,7 @@ public class PolygonSelectionLayer implements IfMapLayer
 			g.translate(-minX, -minY);
 			for (Point p : pointList)
 			{
-				Point p1 = mapSpace.changeZoom(p, PreviewMap.MAX_ZOOM, zoom);
+				Point p1 = mapSpace.changeZoom(p, map.getMaxZoom(), zoom);
 				g.fillOval(p1.x - 3, p1.y - 3, 6, 6);
 				if (lastPoint != null)
 				{
@@ -60,7 +60,7 @@ public class PolygonSelectionLayer implements IfMapLayer
 				lastPoint = p1;
 			}
 			// Draw line back to the starting point
-			Point p1 = mapSpace.changeZoom(pointList.get(0), PreviewMap.MAX_ZOOM, zoom);
+			Point p1 = mapSpace.changeZoom(pointList.get(0), map.getMaxZoom(), zoom);
 			g.drawLine(p1.x, p1.y, lastPoint.x, lastPoint.y);
 		}
 		finally

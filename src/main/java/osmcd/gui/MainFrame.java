@@ -116,7 +116,6 @@ import osmcd.gui.gpxtree.JGpxPanel;
 import osmcd.gui.mapview.ACMapController;
 import osmcd.gui.mapview.GridZoom;
 import osmcd.gui.mapview.IfMapEventListener;
-import osmcd.gui.mapview.JMapViewer;
 import osmcd.gui.mapview.PolygonCircleSelectionMapController;
 import osmcd.gui.mapview.PolygonSelectionMapController;
 import osmcd.gui.mapview.PreviewMap;
@@ -332,7 +331,7 @@ public class MainFrame extends JFrame implements IfMapEventListener
 	{
 		// general controls
 		// zoom slider
-		zoomSlider = new JSlider(JMapViewer.MIN_ZOOM, previewMap.getMapSource().getMaxZoom());
+		zoomSlider = new JSlider(previewMap.getMinZoom(), previewMap.getMapSource().getMaxZoom());
 		zoomSlider.setOrientation(JSlider.HORIZONTAL);
 		zoomSlider.setMinimumSize(new Dimension(50, 10));
 		zoomSlider.setSize(50, zoomSlider.getPreferredSize().height);
@@ -950,7 +949,7 @@ public class MainFrame extends JFrame implements IfMapEventListener
 
 			// /W #selCoord
 			if (g.getZoom() < 0)
-				CoordinateTileFormat.setActZoom(JMapViewer.MAX_ZOOM);
+				CoordinateTileFormat.setActZoom(previewMap.getMaxZoom());
 			else
 				CoordinateTileFormat.setActZoom(g.getZoom());
 

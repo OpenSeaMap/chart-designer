@@ -44,8 +44,8 @@ public class RectangleSelectionLayer implements IfMapLayer
 		Point p2 = mapController.getiEndSelectionPoint();
 		if (p1 == null || p2 == null)
 			return;
-		p1 = mapSpace.changeZoom(p1, PreviewMap.MAX_ZOOM, zoom);
-		p2 = mapSpace.changeZoom(p2, PreviewMap.MAX_ZOOM, zoom);
+		p1 = mapSpace.changeZoom(p1, map.getMaxZoom(), zoom);
+		p2 = mapSpace.changeZoom(p2, map.getMaxZoom(), zoom);
 
 		int x = Math.min(p1.x, p2.x);
 		int y = Math.min(p1.y, p2.y);

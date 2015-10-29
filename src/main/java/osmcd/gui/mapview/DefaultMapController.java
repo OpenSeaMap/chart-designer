@@ -68,7 +68,7 @@ public class DefaultMapController extends ACMapController implements MouseListen
 			{
 				int diffx = lastDragPoint.x - p.x;
 				int diffy = lastDragPoint.y - p.y;
-				map.moveMap(diffx, diffy);
+				mMap.moveMap(diffx, diffy);
 			}
 			lastDragPoint = p;
 		}
@@ -78,7 +78,7 @@ public class DefaultMapController extends ACMapController implements MouseListen
 	public void mouseClicked(MouseEvent e)
 	{
 		if (doubleClickZoomEnabled && e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1)
-			map.zoomIn(e.getPoint());
+			mMap.zoomIn(e.getPoint());
 	}
 
 	@Override
@@ -105,7 +105,7 @@ public class DefaultMapController extends ACMapController implements MouseListen
 	public void mouseWheelMoved(MouseWheelEvent e)
 	{
 		if (wheelZoomEnabled)
-			map.setZoom(map.getZoom() - e.getWheelRotation(), e.getPoint());
+			mMap.setZoom(mMap.getZoom() - e.getWheelRotation(), e.getPoint());
 	}
 
 	public boolean isMovementEnabled()
@@ -203,7 +203,7 @@ public class DefaultMapController extends ACMapController implements MouseListen
 			{
 				int diffx = lastDragPoint.x - p.x;
 				int diffy = lastDragPoint.y - p.y;
-				map.moveMap(diffx, diffy);
+				mMap.moveMap(diffx, diffy);
 			}
 			lastDragPoint = p;
 		}

@@ -60,8 +60,8 @@ public class PolygonCircleSelectionMapController extends AbstractPolygonSelectio
 					int x = (int) Math.round(Math.cos(angle) * radius);
 					polygonPoints.add(new Point(center.x + x, center.y + y));
 				}
-				map.grabFocus();
-				map.repaint();
+				mMap.grabFocus();
+				mMap.repaint();
 			}
 		}
 	}

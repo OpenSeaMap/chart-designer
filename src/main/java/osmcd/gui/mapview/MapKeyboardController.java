@@ -118,12 +118,12 @@ public class MapKeyboardController extends ACMapController {
 
 	@Override
 	public void disable() {
-		map.setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, new ComponentInputMap(map));
+		mMap.setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, new ComponentInputMap(mMap));
 	}
 
 	@Override
 	public void enable() {
-		map.setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap);
+		mMap.setInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW, inputMap);
 	}
 
 	private class MoveRightAction extends AbstractAction {
@@ -264,7 +264,7 @@ public class MapKeyboardController extends ACMapController {
 			int moveX = (int) Math.floor(speedX);
 			int moveY = (int) Math.floor(speedY);
 			if (moveX != 0 || moveY != 0)
-				map.moveMap(moveX, moveY);
+				mMap.moveMap(moveX, moveY);
 		}
 	}
 
@@ -272,7 +272,7 @@ public class MapKeyboardController extends ACMapController {
 		private static final long serialVersionUID = 1471739991027644588L;
 
 		public void actionPerformed(ActionEvent e) {
-			map.zoomIn();
+			mMap.zoomIn();
 		}
 	}
 
@@ -280,7 +280,7 @@ public class MapKeyboardController extends ACMapController {
 		private static final long serialVersionUID = 1471739991027644588L;
 
 		public void actionPerformed(ActionEvent e) {
-			map.zoomOut();
+			mMap.zoomOut();
 		}
 	}
 
@@ -288,7 +288,7 @@ public class MapKeyboardController extends ACMapController {
 		private static final long serialVersionUID = -1492075614917423363L;
 
 		public void actionPerformed(ActionEvent e) {
-			((PreviewMap) map).selectPreviousMap();
+			((PreviewMap) mMap).selectPreviousMap();
 		}
 	}
 
@@ -296,7 +296,7 @@ public class MapKeyboardController extends ACMapController {
 		private static final long serialVersionUID = -1491235614917423363L;
 
 		public void actionPerformed(ActionEvent e) {
-			((PreviewMap) map).selectNextMap();
+			((PreviewMap) mMap).selectNextMap();
 		}
 	}
 
@@ -305,7 +305,7 @@ public class MapKeyboardController extends ACMapController {
 		private static final long serialVersionUID = -7235666079485033823L;
 
 		public void actionPerformed(ActionEvent e) {
-			((PreviewMap) map).refreshMap();
+			((PreviewMap) mMap).refreshMap();
 		}
 	}
 

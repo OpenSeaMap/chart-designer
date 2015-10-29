@@ -25,11 +25,11 @@ import osmb.program.map.IfMap;
 import osmb.program.map.IfMapSpace;
 import osmb.utilities.geo.EastNorthCoordinate;
 import osmb.utilities.image.MercatorPixelCoordinate;
-import osmcd.gui.mapview.JMapViewer;
 
 public class MapSelection
 {
-	// /W #selCoord Only used in public JCoordinatesPanel(): new JCoordinateField(MapSelection.LAT_MIN, MapSelection.LAT_MAX) [JCoordinateField(double min, double max)]
+	// /W #selCoord Only used in public JCoordinatesPanel(): new JCoordinateField(MapSelection.LAT_MIN, MapSelection.LAT_MAX) [JCoordinateField(double min, double
+	// max)]
 	// /W prevents correct use of possible input to JCoordinateField
 	// public static final int LAT_MAX = 85;
 	// public static final int LAT_MIN = -85;
@@ -39,7 +39,6 @@ public class MapSelection
 	public static final double LAT_MIN = MercatorPower2MapSpace.MIN_LAT;
 	public static final double LON_MAX = 180.0;
 	public static final double LON_MIN = -180.0;
-	
 
 	private final IfMapSource mapSource;
 	private final IfMapSpace mapSpace;
@@ -56,7 +55,7 @@ public class MapSelection
 		this.mapSource = mapSource;
 		this.mapSpace = mapSource.getMapSpace();
 		mapSourceTileSize = this.mapSpace.getTileSize();
-		zoom = JMapViewer.MAX_ZOOM;
+		zoom = IfMapSpace.MAX_TECH_ZOOM;
 		int x1 = mapSpace.cLonToX(min.lon, zoom);
 		int x2 = mapSpace.cLonToX(max.lon, zoom);
 		int y1 = mapSpace.cLatToY(min.lat, zoom);
@@ -277,5 +276,4 @@ public class MapSelection
 		return String.format("lat/lon: max(%6f/%6f) min(%6f/%6f)", new Object[]
 		{ max.lat, max.lon, min.lat, min.lon });
 	}
-
 }

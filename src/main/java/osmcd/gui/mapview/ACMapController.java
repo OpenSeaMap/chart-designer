@@ -34,12 +34,12 @@ import java.awt.event.MouseWheelListener;
  */
 public abstract class ACMapController
 {
-	protected final PreviewMap map;
+	protected final PreviewMap mMap;
 	protected boolean enabled = false;
 
 	public ACMapController(PreviewMap map)
 	{
-		this.map = map;
+		this.mMap = map;
 	}
 
 	public ACMapController(PreviewMap map, boolean enabled)
@@ -54,11 +54,11 @@ public abstract class ACMapController
 		if (enabled)
 			return;
 		if (this instanceof MouseListener)
-			map.addMouseListener((MouseListener) this);
+			mMap.addMouseListener((MouseListener) this);
 		if (this instanceof MouseWheelListener)
-			map.addMouseWheelListener((MouseWheelListener) this);
+			mMap.addMouseWheelListener((MouseWheelListener) this);
 		if (this instanceof MouseMotionListener)
-			map.addMouseMotionListener((MouseMotionListener) this);
+			mMap.addMouseMotionListener((MouseMotionListener) this);
 		this.enabled = true;
 	}
 
@@ -67,20 +67,20 @@ public abstract class ACMapController
 		if (!enabled)
 			return;
 		if (this instanceof MouseListener)
-			map.removeMouseListener((MouseListener) this);
+			mMap.removeMouseListener((MouseListener) this);
 		if (this instanceof MouseWheelListener)
-			map.removeMouseWheelListener((MouseWheelListener) this);
+			mMap.removeMouseWheelListener((MouseWheelListener) this);
 		if (this instanceof MouseMotionListener)
-			map.removeMouseMotionListener((MouseMotionListener) this);
+			mMap.removeMouseMotionListener((MouseMotionListener) this);
 		this.enabled = false;
 	}
 
 	protected Point convertToAbsolutePoint(Point p)
 	{
-		Point mapPoint = map.getTopLeftCoordinate();
+		Point mapPoint = mMap.getTopLeftCoordinate();
 		mapPoint.x += p.getX();
 		mapPoint.y += p.getY();
-		mapPoint = map.getMapSource().getMapSpace().changeZoom(mapPoint, map.getZoom(), PreviewMap.MAX_ZOOM);
+		mapPoint = mMap.getMapSource().getMapSpace().changeZoom(mapPoint, mMap.getZoom(), mMap.getMaxZoom());
 		return mapPoint;
 	}
 }

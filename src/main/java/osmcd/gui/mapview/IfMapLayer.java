@@ -31,8 +31,8 @@ public interface IfMapLayer
 	 *          current zoom level
 	 * @param minX
 	 *          top left x coordinate of the visible iMap region
-	 * @param minYtop
-	 *          left y coordinate of the visible iMap region
+	 * @param minY
+	 *          top left y coordinate of the visible iMap region
 	 * @param maxX
 	 *          bottom right x coordinate of the visible iMap region
 	 * @param maxY

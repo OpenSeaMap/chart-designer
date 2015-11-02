@@ -45,6 +45,7 @@ import org.apache.log4j.Logger;
 import osmb.mapsources.IfMapSource;
 import osmb.program.JobDispatcher;
 import osmb.program.map.IfMapSpace;
+import osmb.program.tiles.IfMemoryTileCacheHolder;
 import osmb.program.tiles.IfTileLoaderListener;
 import osmb.program.tiles.MemoryTileCache;
 import osmb.program.tiles.Tile;
@@ -58,7 +59,7 @@ import osmb.utilities.OSMBUtilities;
  * @author Jan Peter Stotz
  * 
  */
-public class JMapViewer extends JPanel implements IfTileLoaderListener
+public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemoryTileCacheHolder
 {
 	private static final long serialVersionUID = 1L;
 	private static Logger log = Logger.getLogger(JMapViewer.class);
@@ -222,7 +223,6 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener
 	 */
 	public void setDisplayPositionByLatLon(Point mapPoint, double lat, double lon, int zoom)
 	{
-		zoom = Math.max(Math.min(zoom, mMapSource.getMaxZoom()), mMapSource.getMinZoom());
 		IfMapSpace mapSpace = mMapSource.getMapSpace();
 		int x = mapSpace.cLonToX(lon, zoom);
 		int y = mapSpace.cLatToY(lat, zoom);
@@ -236,9 +236,6 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener
 
 	public void setDisplayPosition(Point mapPoint, int x, int y, int zoom)
 	{
-		if (zoom > mMapSource.getMaxZoom() || zoom < IfMapSpace.MAX_TECH_ZOOM)
-			return;
-
 		// Get the plain tile number
 		Point p = new Point();
 		p.x = x - mapPoint.x + getWidth() / 2;
@@ -514,13 +511,21 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener
 		setZoom(mZoom - 1, mapPoint);
 	}
 
+	/**
+	 * This is the method which is called before every zoom change. So here we limit the allowed zoom levels.
+	 * 
+	 * @param zoom
+	 * @param mapPoint
+	 */
 	public void setZoom(int zoom, Point mapPoint)
 	{
-		if (zoom > mMapSource.getMaxZoom() || zoom < mMapSource.getMinZoom() || zoom == this.mZoom)
+		if (zoom == this.mZoom)
 			return;
+		zoom = Math.max(zoom, Math.max(IfMapSpace.MIN_TECH_ZOOM, mMapSource.getMinZoom()));
+		zoom = Math.min(zoom, Math.min(IfMapSpace.MAX_TECH_ZOOM, mMapSource.getMaxZoom()));
+		// mZoom = zoom;
 		Point2D.Double zoomPos = getPosition(mapPoint);
-		mJobDispatcher.cancelOutstandingJobs(); // Clearing outstanding load
-		// requests
+		mJobDispatcher.cancelOutstandingJobs(); // Clearing outstanding load requests
 		setDisplayPositionByLatLon(mapPoint, zoomPos.x, zoomPos.y, zoom);
 	}
 
@@ -531,11 +536,14 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener
 	}
 
 	/**
+	 * not called at all ?? 20151102 AH
+	 * 
 	 * Every time the zoom level changes this method is called. Override it in derived implementations for adapting zoom dependent values. The new zoom level can
 	 * be obtained via {@link #getZoom()}.
 	 * 
 	 * @param oldZoom
 	 *          the previous zoom level
+	 * 
 	 */
 	protected void zoomChanged(int oldZoom)
 	{

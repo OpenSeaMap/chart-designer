@@ -19,9 +19,13 @@ package osmcd.gui.mapview;
 import java.awt.Graphics;
 
 import osmb.mapsources.IfMapSource;
+import osmb.program.JobDispatcher;
 import osmb.program.tiles.Tile;
 import osmb.program.tiles.Tile.TileState;
 
+/**
+ * This is a layer to be displayed in a {@link JMapViewer}. It allows painting of a tile via {@link #paintTile}()
+ */
 public class DefaultMapTileLayer implements IfMapTileLayer
 {
 	protected JMapViewer mapViewer;
@@ -40,6 +44,9 @@ public class DefaultMapTileLayer implements IfMapTileLayer
 		usePlaceHolders = mapViewer.isUsePlaceHolderTiles();
 	}
 
+	/**
+	 * This retrieves the tile image from the memory cache and paints it onto the specified Graphics at position (gx|gy).
+	 */
 	@Override
 	public void paintTile(Graphics g, int gx, int gy, int tilex, int tiley, int zoom)
 	{
@@ -51,7 +58,8 @@ public class DefaultMapTileLayer implements IfMapTileLayer
 
 	/**
 	 * retrieves a tile from the cache. If the tile is not present in the cache a load job is added to the working queue
-	 * of {@link JobThread}.
+	 * of {@link JobDispatcher}. The loader job will notify the mapViewer via {@link JMapViewer#tileLoadingFinished}() when it has done so.
+	 * In the time between it places a placeholder in the cache instead of the tile to be loaded.
 	 * 
 	 * @param tilex
 	 * @param tiley

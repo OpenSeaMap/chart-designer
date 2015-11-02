@@ -53,7 +53,7 @@ import osmb.utilities.OSMBUtilities;
 
 /**
  * 
- * Provides a simple panel that displays pre-rendered iMap tiles loaded from the OpenStreetMap project.
+ * Provides a simple panel that displays rendered map tiles loaded from a specified map source.
  * 
  * @author Jan Peter Stotz
  * 
@@ -70,6 +70,9 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener
 	{ new Point(1, 0), new Point(0, 1), new Point(-1, 0), new Point(0, -1) };
 
 	protected TileLoader tileLoader;
+	/**
+	 * The mapTileLayers use this to actually paint the tiles on the graphics context
+	 */
 	protected MemoryTileCache tileCache;
 	protected IfMapSource mMapSource;
 	protected boolean usePlaceHolderTiles = true;
@@ -91,11 +94,13 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener
 
 	/**
 	 * The minimum zoom level available for the currently displayed map. This will be modified when the map source is changed.
+	 * It is the bigger of {@link IfMapSpace.MIN_TECH_ZOOM} and {@link IfMapSource.getMinZoom()}
 	 */
 	protected int mMinZoom = IfMapSpace.MIN_TECH_ZOOM;
 
 	/**
 	 * The maximum zoom level available for the currently displayed map. This will be modified when the map source is changed.
+	 * It is the smaller of {@link IfMapSpace.MAX_TECH_ZOOM} and {@link IfMapSource.getMaxZoom()}
 	 */
 	protected int mMaxZoom = IfMapSpace.MAX_TECH_ZOOM;
 	/**
@@ -109,7 +114,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener
 	/**
 	 * The JobDispatcher is a 'normal' class, not a singleton any longer. {@link JobDispatcher}.
 	 */
-	protected JobDispatcher mJobDispatcher = new JobDispatcher();
+	protected JobDispatcher mJobDispatcher = null;
 
 	public JMapViewer(IfMapSource defaultMapSource, int downloadThreadCount)
 	{
@@ -118,14 +123,14 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener
 		mapLayers = new LinkedList<IfMapLayer>();
 		tileLoader = new TileLoader(this);
 		tileCache = new MemoryTileCache();
-		// jobDispatcher = JobDispatcher.getInstance();
 		mapMarkersVisible = true;
 		setLayout(null);
 		setMapSource(defaultMapSource);
 		initializeZoomSlider();
 		setMinimumSize(new Dimension(IfMapSpace.TECH_TILESIZE, IfMapSpace.TECH_TILESIZE));
-		setPreferredSize(new Dimension(400, 400));
+		setPreferredSize(new Dimension(5 * IfMapSpace.TECH_TILESIZE, 3 * IfMapSpace.TECH_TILESIZE));
 		setDisplayPositionByLatLon(52.0, 7.0, 8);
+		mJobDispatcher = new JobDispatcher(downloadThreadCount);
 	}
 
 	protected void initializeZoomSlider()
@@ -196,7 +201,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener
 	 * @param lon
 	 *          longitude of the specified coordinate
 	 * @param zoom
-	 *          {@link #MIN_ZOOM} <= zoom level <= {@link #MAX_ZOOM}
+	 *          {@link #mMinZoom} <= zoom level <= {@link #mMaxZoom}
 	 */
 	public void setDisplayPositionByLatLon(double lat, double lon, int zoom)
 	{
@@ -213,7 +218,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener
 	 * @param lon
 	 *          longitude of the specified coordinate
 	 * @param zoom
-	 *          {@link #MIN_ZOOM} <= zoom level <= {@link IfMapSource#getMaxZoom()}
+	 *          {@link #mMinZoom} <= zoom level <= {@link #mMaxZoom}
 	 */
 	public void setDisplayPositionByLatLon(Point mapPoint, double lat, double lon, int zoom)
 	{
@@ -387,7 +392,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener
 		int x_max = getWidth() - 1; // /W - 1 inserted
 		int y_max = getHeight() - 1; // /W - 1 inserted
 
-		// paint the tiles in a spiral, starting from center of the iMap
+		// paint the tiles in a spiral, starting from center of the map
 		boolean painted = (mapTileLayers.size() > 0);
 		for (IfMapTileLayer l : mapTileLayers)
 		{
@@ -603,7 +608,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener
 		zoomSlider.setMinimum(mMinZoom);
 		mMaxZoom = Math.min(mapSource.getMaxZoom(), IfMapSpace.MAX_TECH_ZOOM);
 		zoomSlider.setMaximum(mMaxZoom);
-		mJobDispatcher.cancelOutstandingJobs();
+		// mJobDispatcher.cancelOutstandingJobs();
 		if (mZoom > mMaxZoom)
 			setZoom(mMaxZoom);
 		if (mZoom < mMinZoom)
@@ -626,9 +631,15 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener
 		return usePlaceHolderTiles;
 	}
 
+	/**
+	 * The loader has finished to retrieve the tile. Place it in the tile cache.
+	 * 
+	 */
 	@Override
 	public void tileLoadingFinished(Tile tile, boolean success)
 	{
+		if (success)
+			tileCache.addTile(tile);
 		repaint();
 	}
 

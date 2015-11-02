@@ -107,6 +107,7 @@ import osmcd.gui.catalog.JCatalogsPanel;
 import osmcd.gui.components.FilledLayeredPane;
 import osmcd.gui.components.JCollapsiblePanel;
 import osmcd.gui.components.JCoordinatesPanel;
+import osmcd.gui.components.JMapSourcePanel;
 import osmcd.gui.components.JMenuItem2;
 import osmcd.gui.components.JTileImageParametersPanel;
 import osmcd.gui.components.JTileStoreCoveragePanel;

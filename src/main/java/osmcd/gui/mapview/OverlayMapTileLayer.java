@@ -69,7 +69,8 @@ public class OverlayMapTileLayer implements IfMapTileLayer
 		}
 		if (tile.getTileState() == TileState.TS_NEW)
 		{
-			mapViewer.getJobDispatcher().addJob(mapViewer.getTileLoader().createTileLoaderJob(mapSource, tilex, tiley, zoom));
+			// mapViewer.getJobDispatcher().addJob(mapViewer.getTileLoader().createTileLoaderJob(mapSource, tilex, tiley, zoom));
+			mapViewer.getJobDispatcher().execute(mapViewer.getTileLoader().createTileLoaderJob(mapSource, tilex, tiley, zoom));
 		}
 		return tile;
 	}

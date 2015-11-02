@@ -225,7 +225,7 @@ public class PreviewMap extends JMapViewer
 		Point tlc = getTopLeftCoordinate();
 		if (gridZoom >= 0)
 		{
-			// Only paint grid if it is enabled (gridZoom not -1)
+			// Paint grid only if it is enabled (gridZoom not -1)
 			int max = (256 << mZoom);
 			int w = Math.min(getWidth(), max - tlc.x);
 			int h = Math.min(getHeight(), max - tlc.y);
@@ -263,7 +263,7 @@ public class PreviewMap extends JMapViewer
 		}
 		if (gridSelectionStart != null && gridSelectionEnd != null)
 		{
-			// Draw the selection rectangle widened by the current grid
+			// Mark the selected area aligned with the current grid (reddish marker)
 			int zoomDiff = getMaxZoom() - mZoom;
 			int x_min = (gridSelectionStart.x >> zoomDiff) - tlc.x;
 			int y_min = (gridSelectionStart.y >> zoomDiff) - tlc.y;
@@ -277,7 +277,7 @@ public class PreviewMap extends JMapViewer
 		}
 		if (iSelectionMin != null && iSelectionMax != null)
 		{
-			// Draw the selection rectangle exactly as it has been specified by the user
+			// Draw the selection border exactly as it has been specified by the user
 			int zoomDiff = getMaxZoom() - mZoom;
 			int x_min = (iSelectionMin.x >> zoomDiff) - tlc.x;
 			int y_min = (iSelectionMin.y >> zoomDiff) - tlc.y;

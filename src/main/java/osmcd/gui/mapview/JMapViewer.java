@@ -74,7 +74,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 	/**
 	 * The mapTileLayers use this to actually paint the tiles on the graphics context
 	 */
-	protected MemoryTileCache tileCache;
+	protected MemoryTileCache mTileCache;
 	protected IfMapSource mMapSource;
 	protected boolean usePlaceHolderTiles = true;
 
@@ -123,7 +123,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 		mapTileLayers = new LinkedList<IfMapTileLayer>();
 		mapLayers = new LinkedList<IfMapLayer>();
 		tileLoader = new TileLoader(this);
-		tileCache = new MemoryTileCache();
+		mTileCache = new MemoryTileCache();
 		mapMarkersVisible = true;
 		setLayout(null);
 		setMapSource(defaultMapSource);
@@ -259,8 +259,8 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 	}
 
 	/**
-	 * Sets the displayed iMap pane and zoom level so that the two points (x1/y1) and (x2/y2) visible. Please note that the coordinates have to be specified
-	 * regarding {@link #MAX_ZOOM}.
+	 * Sets the displayed map pane and zoom level so that the two points (x1/y1) and (x2/y2) visible. Please note that the coordinates have to be specified
+	 * regarding {@link IfMapSpace#MAX_TECH_ZOOM}.
 	 * 
 	 * @param x1
 	 * @param y1
@@ -283,8 +283,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 			y >>= 1;
 		}
 
-		// Do not select a zoom level that is unsupported by the current iMap
-		// source
+		// Do not select a zoom level that is unsupported by the current map source
 		newZoom = Math.max(mMapSource.getMinZoom(), Math.min(mMapSource.getMaxZoom(), newZoom));
 
 		x = Math.min(x2, x1) + Math.abs(x1 - x2) / 2;
@@ -315,7 +314,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 	}
 
 	/**
-	 * Calculates the position on the iMap of a given coordinate
+	 * Calculates the position on the map of a given coordinate
 	 * 
 	 * @param lat
 	 * @param lon
@@ -412,7 +411,6 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 						for (IfMapTileLayer l : mapTileLayers)
 						{
 							l.paintTile(g, posx, posy, tilex, tiley, mZoom);
-							// System.out.println(zoom + " xxxx " + tilex + " yyyy " + tiley);
 						}
 					}
 					Point p = move[iMove];
@@ -457,7 +455,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 	}
 
 	/**
-	 * Moves the visible iMap pane.
+	 * Moves the visible map pane.
 	 * 
 	 * @param x
 	 *          horizontal movement in pixel.
@@ -472,7 +470,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 	}
 
 	/**
-	 * @return the current zoom level
+	 * @return The current zoom level.
 	 */
 	public int getZoom()
 	{
@@ -480,7 +478,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 	}
 
 	/**
-	 * Increases the current zoom level by one
+	 * Increases the current zoom level by one.
 	 */
 	public void zoomIn()
 	{
@@ -488,7 +486,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 	}
 
 	/**
-	 * Increases the current zoom level by one
+	 * Increases the current zoom level by one.
 	 */
 	public void zoomIn(Point mapPoint)
 	{
@@ -496,7 +494,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 	}
 
 	/**
-	 * Decreases the current zoom level by one
+	 * Decreases the current zoom level by one.
 	 */
 	public void zoomOut()
 	{
@@ -504,7 +502,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 	}
 
 	/**
-	 * Decreases the current zoom level by one
+	 * Decreases the current zoom level by one.
 	 */
 	public void zoomOut(Point mapPoint)
 	{
@@ -521,11 +519,11 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 	{
 		if (zoom == this.mZoom)
 			return;
+		mJobDispatcher.cancelOutstandingJobs(); // Clearing outstanding load requests
 		zoom = Math.max(zoom, Math.max(IfMapSpace.MIN_TECH_ZOOM, mMapSource.getMinZoom()));
 		zoom = Math.min(zoom, Math.min(IfMapSpace.MAX_TECH_ZOOM, mMapSource.getMaxZoom()));
-		// mZoom = zoom;
+		// mZoom = zoom; // This is later done by setDisplayPositionByLatLon()
 		Point2D.Double zoomPos = getPosition(mapPoint);
-		mJobDispatcher.cancelOutstandingJobs(); // Clearing outstanding load requests
 		setDisplayPositionByLatLon(mapPoint, zoomPos.x, zoomPos.y, zoom);
 	}
 
@@ -596,7 +594,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 	@Override
 	public MemoryTileCache getTileImageCache()
 	{
-		return tileCache;
+		return mTileCache;
 	}
 
 	public TileLoader getTileLoader()
@@ -647,7 +645,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 	public void tileLoadingFinished(Tile tile, boolean success)
 	{
 		if (success)
-			tileCache.addTile(tile);
+			mTileCache.addTile(tile);
 		repaint();
 	}
 

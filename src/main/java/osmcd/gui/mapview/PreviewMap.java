@@ -522,7 +522,7 @@ public class PreviewMap extends JMapViewer
 	 */
 	public void refreshMap()
 	{
-		tileCache.clear();
+		mTileCache.clear();
 		repaint();
 	}
 

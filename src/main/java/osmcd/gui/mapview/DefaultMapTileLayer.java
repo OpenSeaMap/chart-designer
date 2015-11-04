@@ -18,6 +18,8 @@ package osmcd.gui.mapview;
 
 import java.awt.Graphics;
 
+import org.apache.log4j.Logger;
+
 import osmb.mapsources.IfMapSource;
 import osmb.program.JobDispatcher;
 import osmb.program.tiles.Tile;
@@ -28,6 +30,8 @@ import osmb.program.tiles.Tile.TileState;
  */
 public class DefaultMapTileLayer implements IfMapTileLayer
 {
+	private static Logger log = Logger.getLogger(DefaultMapTileLayer.class);
+
 	protected JMapViewer mapViewer;
 	protected IfMapSource mapSource;
 	protected boolean usePlaceHolders;
@@ -81,6 +85,7 @@ public class DefaultMapTileLayer implements IfMapTileLayer
 		}
 		if (tile.getTileState() == TileState.TS_NEW)
 		{
+			log.debug("start load job tile=" + tile);
 			mapViewer.getJobDispatcher().execute(mapViewer.getTileLoader().createTileLoaderJob(mapSource, tilex, tiley, zoom));
 		}
 		return tile;

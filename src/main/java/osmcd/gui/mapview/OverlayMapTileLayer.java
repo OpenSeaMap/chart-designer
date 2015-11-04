@@ -22,6 +22,11 @@ import osmb.mapsources.IfMapSource;
 import osmb.program.tiles.Tile;
 import osmb.program.tiles.Tile.TileState;
 
+/**
+ * This paints tiles having a transparent background over another layer of base tiles.
+ * 
+ * @author humbach
+ */
 public class OverlayMapTileLayer implements IfMapTileLayer
 {
 	protected JMapViewer mapViewer;
@@ -38,6 +43,9 @@ public class OverlayMapTileLayer implements IfMapTileLayer
 	{
 	}
 
+	/**
+	 * This retrieves the tile image from the memory cache and paints it onto the specified Graphics at position (gx|gy).
+	 */
 	@Override
 	public void paintTile(Graphics g, int gx, int gy, int tilex, int tiley, int zoom)
 	{
@@ -74,5 +82,4 @@ public class OverlayMapTileLayer implements IfMapTileLayer
 		}
 		return tile;
 	}
-
 }

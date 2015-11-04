@@ -177,6 +177,7 @@ public class PreviewMap extends JMapViewer
 	 */
 	protected void updateGridValues()
 	{
+		log.trace("called");
 		if (gridZoom < 0)
 			return;
 		int zoomToGridZoom = mZoom - gridZoom;
@@ -208,6 +209,11 @@ public class PreviewMap extends JMapViewer
 		}
 	}
 
+	/**
+	 * This paints the grids. The actual map is painted in the {@link IfMapTileLayer} implementations. Usually these are {@link DefaultMapTileLayer} or
+	 * {@link OverlayMapTileLayer}.
+	 * 
+	 */
 	@Override
 	protected void paintComponent(Graphics graphics)
 	{

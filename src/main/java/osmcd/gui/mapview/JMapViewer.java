@@ -519,7 +519,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 	{
 		if (zoom == this.mZoom)
 			return;
-		mJobDispatcher.cancelOutstandingJobs(); // Clearing outstanding load requests
+		// mJobDispatcher.cancelOutstandingJobs(); // Clearing outstanding load requests
 		zoom = Math.max(zoom, Math.max(IfMapSpace.MIN_TECH_ZOOM, mMapSource.getMinZoom()));
 		zoom = Math.min(zoom, Math.min(IfMapSpace.MAX_TECH_ZOOM, mMapSource.getMaxZoom()));
 		// mZoom = zoom; // This is later done by setDisplayPositionByLatLon()
@@ -639,7 +639,6 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 
 	/**
 	 * The loader has finished to retrieve the tile. Place it in the tile cache.
-	 * 
 	 */
 	@Override
 	public void tileLoadingFinished(Tile tile, boolean success)
@@ -649,6 +648,12 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 		repaint();
 	}
 
+	/**
+	 * Adds one layer to the current list of tile layers for this map viewer
+	 * 
+	 * @param mapTileLayer
+	 *          The layer to be added to the current list of tile layers
+	 */
 	public void addMapTileLayers(IfMapTileLayer mapTileLayer)
 	{
 		mapTileLayers.add(mapTileLayer);

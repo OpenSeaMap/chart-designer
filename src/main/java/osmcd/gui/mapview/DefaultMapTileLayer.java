@@ -89,6 +89,7 @@ public class DefaultMapTileLayer implements IfMapTileLayer
 		{
 			log.debug("start load job tile=" + tile);
 			mapViewer.getJobDispatcher().execute(mapViewer.getTileLoader().createTileLoaderJob(mapSource, tilex, tiley, zoom));
+			tile.setTileState(TileState.TS_LOADING);
 		}
 		else
 			log.debug("use found tile=" + tile);

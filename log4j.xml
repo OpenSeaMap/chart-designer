@@ -20,14 +20,15 @@
   <logger name="SysInfo">
   	<level value="INFO" />
   </logger>
-      
-  <root>
-    <!-- 
+  <logger name="ACHttpMapSource"><level value="TRACE"></level></logger>
+  
+
+  <logger name="ACMultiLayerMapSource"><level value="TRACE"></level></logger><root><!-- 
     For maximum verboseness please use the following line
     <priority value="TRACE" /> 
     -->
-    <!-- By default we use log level/priority "DEBUG" -->
-    <priority value="TRACE" />
+    <!-- By default we use log level/priority "DEBUG" --><!--This is used for everthing not specified above-->
+    <priority value="DEBUG" />
     <appender-ref ref="console" />
     <appender-ref ref="file" />
   </root>

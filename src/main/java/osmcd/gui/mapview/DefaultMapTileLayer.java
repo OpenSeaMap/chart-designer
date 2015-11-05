@@ -54,6 +54,7 @@ public class DefaultMapTileLayer implements IfMapTileLayer
 	@Override
 	public void paintTile(Graphics g, int gx, int gy, int tilex, int tiley, int zoom)
 	{
+		log.debug("start paint tile (" + zoom + "|" + tilex + "|" + tiley + ")");
 		Tile tile = getTile(tilex, tiley, zoom);
 		if (tile == null)
 			return;
@@ -72,6 +73,7 @@ public class DefaultMapTileLayer implements IfMapTileLayer
 	 */
 	protected Tile getTile(int tilex, int tiley, int zoom)
 	{
+		log.debug("start get tile from mtc (" + zoom + "|" + tilex + "|" + tiley + ")");
 		int max = (1 << zoom);
 		if (tilex < 0 || tilex >= max || tiley < 0 || tiley >= max)
 			return null;
@@ -88,6 +90,8 @@ public class DefaultMapTileLayer implements IfMapTileLayer
 			log.debug("start load job tile=" + tile);
 			mapViewer.getJobDispatcher().execute(mapViewer.getTileLoader().createTileLoaderJob(mapSource, tilex, tiley, zoom));
 		}
+		else
+			log.debug("use found tile=" + tile);
 		return tile;
 	}
 }

@@ -123,8 +123,9 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 		mapTileLayers = new LinkedList<IfMapTileLayer>();
 		mapLayers = new LinkedList<IfMapLayer>();
 		tileLoader = new TileLoader(this);
-		mTileCache = new MemoryTileCache();
+		mTileCache = new MemoryTileCache(500); // reasonable cache size for interactive map display
 		mapMarkersVisible = true;
+
 		setLayout(null);
 		setMapSource(defaultMapSource);
 		initializeZoomSlider();
@@ -335,6 +336,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 	@Override
 	protected void paintComponent(Graphics graphics)
 	{
+		int nTiles = 0;
 		Graphics2D g = (Graphics2D) graphics;
 		// if (mapIsMoving) {
 		// mapIsMoving = false;
@@ -352,14 +354,17 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 		int tiley = center.y / tileSize;
 		int off_x = (center.x % tileSize);
 		int off_y = (center.y % tileSize);
+		log.debug("tX=" + tilex + ", tY=" + tiley + ", oX=" + off_x + ", oY=" + off_y);
 
 		int w2 = getWidth() / 2;
 		int h2 = getHeight() / 2;
 		int topLeftX = center.x - w2;
 		int topLeftY = center.y - h2;
+		log.debug("w2=" + w2 + ", h2=" + h2 + ", tlX=" + topLeftX + ", tlY=" + topLeftY);
 
 		int posx = w2 - off_x;
 		int posy = h2 - off_y;
+		log.debug("pX=" + posx + ", pY=" + posy);
 
 		int diff_left = off_x;
 		int diff_right = tileSize - off_x;
@@ -387,6 +392,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 		int y_min = -tileSize + 1; // /W + 1 inserted
 		int x_max = getWidth() - 1; // /W - 1 inserted
 		int y_max = getHeight() - 1; // /W - 1 inserted
+		log.debug("xMin=" + x_min + ", yMin=" + y_min + ", xMax=" + x_max + ", yMax=" + y_max);
 
 		// paint the tiles in a spiral, starting from center of the map
 		boolean painted = (mapTileLayers.size() > 0);
@@ -404,13 +410,19 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 					x++;
 				for (int j = 0; j < x; j++)
 				{
-					if (x_min <= posx && posx <= x_max && y_min <= posy && posy <= y_max)
+					if ((x_min <= posx) && (posx <= x_max) && (y_min <= posy) && (posy <= y_max))
 					{
 						// tile is visible
-						painted = true;
-						for (IfMapTileLayer l : mapTileLayers)
+						if ((tilex >= 0) && (tilex < (1 << mZoom)) && (tiley >= 0) && (tiley < (1 << mZoom)))
 						{
-							l.paintTile(g, posx, posy, tilex, tiley, mZoom);
+							// tile exists in the world
+							painted = true;
+							for (IfMapTileLayer l : mapTileLayers)
+							{
+								log.debug("paint tile=(" + mZoom + "|" + tilex + "|" + tiley + ")");
+								l.paintTile(g, posx, posy, tilex, tiley, mZoom);
+								++nTiles;
+							}
 						}
 					}
 					Point p = move[iMove];
@@ -446,12 +458,13 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 			});
 		}
 
-		// outer border of the iMap
+		// outer border of the map
 		int mapSize = tileSize << mZoom;
 		g.setColor(Color.BLACK);
 		g.drawRect(w2 - center.x, h2 - center.y, mapSize, mapSize);
 
 		// g.drawString("Tiles in cache: " + tileCache.getTileCount(), 50, 20);
+		log.debug("painted tiles=" + nTiles);
 	}
 
 	/**
@@ -519,6 +532,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 	{
 		if (zoom == this.mZoom)
 			return;
+		log.debug("new zoom=" + zoom);
 		// mJobDispatcher.cancelOutstandingJobs(); // Clearing outstanding load requests
 		zoom = Math.max(zoom, Math.max(IfMapSpace.MIN_TECH_ZOOM, mMapSource.getMinZoom()));
 		zoom = Math.min(zoom, Math.min(IfMapSpace.MAX_TECH_ZOOM, mMapSource.getMaxZoom()));
@@ -638,7 +652,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 	}
 
 	/**
-	 * The loader has finished to retrieve the tile. Place it in the tile cache.
+	 * The loader has finished to retrieve the tile. Place it in the memory tile cache.
 	 */
 	@Override
 	public void tileLoadingFinished(Tile tile, boolean success)

@@ -136,8 +136,8 @@ public class AddGpxTrackPolygonMap implements ActionListener
 
 		final int maxZoom = zoomLevels[zoomLevels.length - 1];
 		final IfMapSpace mapSpace = mapSource.getMapSpace();
-		Point p1 = maxCoordinate.toTileCoordinate(mapSpace, maxZoom);
-		Point p2 = minCoordinate.toTileCoordinate(mapSpace, maxZoom);
+		Point p1 = maxCoordinate.toPixelCoordinate(mapSpace, maxZoom);
+		Point p2 = minCoordinate.toPixelCoordinate(mapSpace, maxZoom);
 
 		final int centerY = p1.y + ((p1.y - p2.y) / 2);
 

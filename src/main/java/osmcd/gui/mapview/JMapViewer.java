@@ -533,7 +533,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 		if (zoom == this.mZoom)
 			return;
 		log.debug("new zoom=" + zoom);
-		// mJobDispatcher.cancelOutstandingJobs(); // Clearing outstanding load requests
+		mJobDispatcher.cancelOutstandingJobs(); // Clearing outstanding load requests
 		zoom = Math.max(zoom, Math.max(IfMapSpace.MIN_TECH_ZOOM, mMapSource.getMinZoom()));
 		zoom = Math.min(zoom, Math.min(IfMapSpace.MAX_TECH_ZOOM, mMapSource.getMaxZoom()));
 		// mZoom = zoom; // This is later done by setDisplayPositionByLatLon()

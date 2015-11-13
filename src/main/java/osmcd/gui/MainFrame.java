@@ -79,6 +79,7 @@ import osmb.program.map.Layer;
 import osmb.program.tiles.TileImageParameters;
 import osmb.utilities.GBC;
 import osmb.utilities.GUIExceptionHandler;
+import osmb.utilities.OSMBStrs;
 import osmb.utilities.OSMBUtilities;
 import osmb.utilities.geo.CoordinateTileFormat;
 import osmb.utilities.image.MercatorPixelCoordinate;
@@ -894,7 +895,7 @@ public class MainFrame extends JFrame implements IfMapEventListener
 		catch (Exception e)
 		{
 			GUIExceptionHandler.showExceptionDialog(e);
-			JOptionPane.showMessageDialog(null, OSMCDStrs.RStr("msg_settings_write_error"), OSMCDStrs.RStr("Error"), JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, OSMBStrs.RStr("msg_settings_write_error"), OSMCDStrs.RStr("Error"), JOptionPane.ERROR_MESSAGE);
 		}
 	}
 

@@ -136,8 +136,8 @@ public class AddGpxTrackAreaPolygonMap implements ActionListener
 		Polygon p = new Polygon(xPoints, yPoints, xPoints.length);
 		MapPolygon maxZoomMap = new MapPolygon(null, "Dummy", mapSource, maxZoom, p, customTileParameters);
 
-		int width = maxZoomMap.getMaxTileCoordinate().x - maxZoomMap.getMinTileCoordinate().x;
-		int height = maxZoomMap.getMaxTileCoordinate().y - maxZoomMap.getMinTileCoordinate().y;
+		int width = maxZoomMap.getMaxPixelCoordinate().x - maxZoomMap.getMinPixelCoordinate().x;
+		int height = maxZoomMap.getMaxPixelCoordinate().y - maxZoomMap.getMinPixelCoordinate().y;
 		if (Math.max(width, height) > OSMCDSettings.getInstance().getMaxMapSize())
 		{
 			String msg = OSMCDStrs.RStr("msg_add_gpx_polygon_maxsize");

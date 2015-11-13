@@ -129,8 +129,8 @@ public class MapAreaHighlightingLayer implements IfMapLayer, TreeModelListener
 
 	protected void paintMapRectangle(IfMap map, Graphics2D g, int zoom, int minX, int minY, int maxX, int maxY)
 	{
-		Point max = map.getMaxTileCoordinate();
-		Point min = map.getMinTileCoordinate();
+		Point max = map.getMaxPixelCoordinate();
+		Point min = map.getMinPixelCoordinate();
 		int zoomDiff = map.getZoom() - zoom;
 		int mapX = applyZoomDiff(min.x, zoomDiff);
 		int mapY = applyZoomDiff(min.y, zoomDiff);

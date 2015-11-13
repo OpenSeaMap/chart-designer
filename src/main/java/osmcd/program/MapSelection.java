@@ -65,7 +65,7 @@ public class MapSelection
 
 	public MapSelection(IfMap map)
 	{
-		this(map.getMapSource(), map.getMaxTileCoordinate(), map.getMinTileCoordinate(), map.getZoom());
+		this(map.getMapSource(), map.getMaxPixelCoordinate(), map.getMinPixelCoordinate(), map.getZoom());
 	}
 
 	/**

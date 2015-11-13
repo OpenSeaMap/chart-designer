@@ -357,7 +357,7 @@ public class JCatalogTree extends JTree implements Autoscroll
 					{
 						IfMap map = (IfMap) o;
 						mapView.setMapSource(map.getMapSource());
-						mapView.setSelectionByTileCoordinate(map.getZoom(), map.getMinTileCoordinate(), map.getMaxTileCoordinate(), true);
+						mapView.setSelectionByTileCoordinate(map.getZoom(), map.getMinPixelCoordinate(), map.getMaxPixelCoordinate(), true);
 					}
 				});
 				pm.add(mi);
@@ -371,7 +371,7 @@ public class JCatalogTree extends JTree implements Autoscroll
 						MapSelection ms = new MapSelection(map);
 						mapView.setMapSource(map.getMapSource());
 						mapView.setSelectionAndZoomTo(ms, true);
-						mapView.setSelectionByTileCoordinate(map.getZoom(), map.getMinTileCoordinate(), map.getMaxTileCoordinate(), true);
+						mapView.setSelectionByTileCoordinate(map.getZoom(), map.getMinPixelCoordinate(), map.getMaxPixelCoordinate(), true);
 					}
 				});
 				pm.add(mi);
@@ -485,7 +485,7 @@ public class JCatalogTree extends JTree implements Autoscroll
 		{
 			IfMap map = (IfMap) o;
 			mapView.setMapSource(map.getMapSource());
-			mapView.setSelectionByTileCoordinate(map.getZoom(), map.getMinTileCoordinate(), map.getMaxTileCoordinate(), true);
+			mapView.setSelectionByTileCoordinate(map.getZoom(), map.getMinPixelCoordinate(), map.getMaxPixelCoordinate(), true);
 		}
 	}
 

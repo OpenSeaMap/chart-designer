@@ -895,7 +895,7 @@ public class MainFrame extends JFrame implements IfMapEventListener
 		catch (Exception e)
 		{
 			GUIExceptionHandler.showExceptionDialog(e);
-			JOptionPane.showMessageDialog(null, OSMBStrs.RStr("msg_settings_write_error"), OSMCDStrs.RStr("Error"), JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, OSMBStrs.RStr("msg_settings_write_error"), OSMBStrs.RStr("Error"), JOptionPane.ERROR_MESSAGE);
 		}
 	}
 

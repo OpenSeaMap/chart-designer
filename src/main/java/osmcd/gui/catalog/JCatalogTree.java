@@ -138,7 +138,7 @@ public class JCatalogTree extends JTree implements Autoscroll
 		// if (!SQLiteLoader.loadSQLiteOrShowError())
 		// return false;
 		// }
-		if ((catalog.getFile() != null) && (catalog.calculateTilesToDownload() > 0)) // /W && instead of ||, file member is now in normal case not null
+		if ((catalog.getFile() != null) && (catalog.calculateTilesToLoad() > 0)) // /W && instead of ||, file member is now in normal case not null
 		{
 			bValid = true;
 		}
@@ -506,5 +506,4 @@ public class JCatalogTree extends JTree implements Autoscroll
 		return new Insets(inner.y - outer.y + margin, inner.x - outer.x + margin, outer.height - inner.height - inner.y + outer.y + margin,
 		    outer.width - inner.width - inner.x + outer.x + margin);
 	}
-
 }

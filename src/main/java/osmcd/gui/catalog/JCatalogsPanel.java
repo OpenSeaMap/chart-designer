@@ -165,7 +165,7 @@ public class JCatalogsPanel extends JCollapsiblePanel
 		{
 			Catalog catalog = OSMCDApp.getApp().getCatalog();
 			// test for empty catalog (possible after deleting last map: see CatalogTreeModel#notifyNodeDelete(TreeNode node))
-			if (catalog.calculateTilesToDownload() < 1)
+			if (catalog.calculateTilesToLoad() < 1)
 			{
 				JOptionPane.showMessageDialog(null, OSMCDStrs.RStr(OSMCDStrs.RStr("Catalog.Empty")),
 						OSMCDStrs.RStr("CatalogTree.ERRBundleEmpty"), JOptionPane.ERROR_MESSAGE);

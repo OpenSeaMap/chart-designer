@@ -41,17 +41,18 @@ public class CatalogModelListener implements TreeModelListener
 	}
 
 	/**
-	 * Allows 'save' when the catalog contains any layer.
-	 * It directly enables the button, which should be under control of the catalogsPanel itself
+	 * This sets button states in JCatalogsPanel depending on whether there are unsaved changes.<br>
+	 * 
+	 * @see osmcd.gui.catalog.JCatalogsPanel#setIsContentChanged(boolean)
 	 */
 	protected void changed()
 	{
+		catalogsPanel.setIsContentChanged();
 	}
 
 	@Override
 	public void treeNodesChanged(TreeModelEvent e)
 	{
-		catalogsPanel.setIsContentChanged(true);
 		changed();
 	}
 
@@ -64,7 +65,6 @@ public class CatalogModelListener implements TreeModelListener
 	@Override
 	public void treeNodesRemoved(TreeModelEvent e)
 	{
-		catalogsPanel.setIsContentChanged(true);
 		changed();
 	}
 

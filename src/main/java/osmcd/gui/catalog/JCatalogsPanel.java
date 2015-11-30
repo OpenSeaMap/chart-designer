@@ -38,6 +38,7 @@ import osmb.utilities.GUIExceptionHandler;
 import osmcd.OSMCDApp;
 import osmcd.OSMCDSettings;
 import osmcd.OSMCDStrs;
+import osmcd.gui.actions.AddMapLayer;
 import osmcd.gui.actions.AddRectangleMapAutocut;
 import osmcd.gui.components.JCatalogFileChooser;
 import osmcd.gui.components.JCollapsiblePanel;
@@ -86,8 +87,7 @@ public class JCatalogsPanel extends JCollapsiblePanel
 		
 		addToLayersButton = new JButton(OSMCDStrs.RStr("CatalogTree.AddSelected"));
 		addToLayersButton.setToolTipText(OSMCDStrs.RStr("CatalogTree.AddSelectedTips"));
-		//addToLayersButton.addActionListener(AddMapLayer.INSTANCE);// -> NullpointerException
-		addToLayersButton.addActionListener(new AddMapLayerListener());//.INSTANCE);
+		addToLayersButton.addActionListener(AddMapLayer.INSTANCE);
 		
 		GBC gbc = GBC.eol().fill().insets(5, 5, 5, 5);
 		GBC gbc_eol = GBC.eol().insets(2, 1, 2, 1);
@@ -135,27 +135,19 @@ public class JCatalogsPanel extends JCollapsiblePanel
 		return jCatalogTree;
 	}
 
-
-	// control button states
-	public void setIsContentChanged(boolean bIsContentChanged)
+	/**
+	 * This controls button states of the panel.<br>
+	 * 
+	 * It allows 'save' or 'discard' when the catalog contains any map and the content is changed after loading the catalog,
+	 * otherwise 'load' is enabled.<br>
+	 * Every action changing the catalogs content has to call getCatalogTree()#setHasUnsavedChanges(true)!
+	 */
+	public void setIsContentChanged()
 	{
-		saveButton.setEnabled(jCatalogTree.getCatalog().getLayerCount() > 0 && bIsContentChanged);
+		boolean bIsContentChanged = jCatalogTree.getHasUnsavedChanges();
+		saveButton.setEnabled(!jCatalogTree.getCatalog().isEmpty() && bIsContentChanged);
 		loadButton.setEnabled(!bIsContentChanged);
 		discardChangesButton.setEnabled(bIsContentChanged);
-	}
-
-	private class AddMapLayerListener implements ActionListener
-	{
-		// /W #???
-		// /W public static final AddMapLayer INSTANCE = new AddMapLayer();
-		//public static final AddMapLayerListener INSTANCE = new AddMapLayerListener();
-
-		@Override
-		public void actionPerformed(ActionEvent e)
-		{
-			new AddRectangleMapAutocut().actionPerformed(e);
-			setIsContentChanged(true);
-		}
 	}
 
 	private class SaveCatalogListener implements ActionListener
@@ -165,7 +157,7 @@ public class JCatalogsPanel extends JCollapsiblePanel
 		{
 			Catalog catalog = OSMCDApp.getApp().getCatalog();
 			// test for empty catalog (possible after deleting last map: see CatalogTreeModel#notifyNodeDelete(TreeNode node))
-			if (catalog.calculateTilesToLoad() < 1)
+			if (catalog.isEmpty())
 			{
 				JOptionPane.showMessageDialog(null, OSMCDStrs.RStr(OSMCDStrs.RStr("Catalog.Empty")),
 						OSMCDStrs.RStr("CatalogTree.ERRBundleEmpty"), JOptionPane.ERROR_MESSAGE);
@@ -178,9 +170,12 @@ public class JCatalogsPanel extends JCollapsiblePanel
 				JOptionPane.showMessageDialog(null, OSMCDStrs.RStr("Catalog.EnterName"), OSMCDStrs.RStr("Error"), JOptionPane.ERROR_MESSAGE);
 				return;
 			}
-			
 			if (jCatalogTree.save())
-				setIsContentChanged(false);
+			{
+				jCatalogTree.setHasUnsavedChanges(false);
+				setIsContentChanged();				
+			}
+
 		}
 	}
 			
@@ -242,7 +237,7 @@ public class JCatalogsPanel extends JCollapsiblePanel
 	    		return;
 	    	// else: go on
 	    	getCatalogTree().newCatalog(newCatalogsName);
-	    	setIsContentChanged(false);
+	    	jCatalogTree.setHasUnsavedChanges(false);
 	    }
 	    else // existing file selected
 	    {
@@ -276,7 +271,7 @@ public class JCatalogsPanel extends JCollapsiblePanel
 	    			return;
 	    		// else:
 	    		catalogsName = renameDlg.getChosenName();
-	    		setIsContentChanged(true);
+	    		jCatalogTree.setHasUnsavedChanges(true); // setIsContentChanged(true);
 				}
 				else
 				{
@@ -291,10 +286,10 @@ public class JCatalogsPanel extends JCollapsiblePanel
 			    		if (renameDlg.getChosenName() == null)
 			    			return;
 			    		// else: catalogsName is unused or user wants to overwrite
-			    		setIsContentChanged(true);
+			    		jCatalogTree.setHasUnsavedChanges(true); // setIsContentChanged(true);
 						}
 						// else: existing correctly named catalog in catalogsDir -> continue with loading testCatalog
-						setIsContentChanged(false);
+						jCatalogTree.setHasUnsavedChanges(false);
 		    	}
 			    else // catName does not match // #rename
 			    {
@@ -304,7 +299,7 @@ public class JCatalogsPanel extends JCollapsiblePanel
 		    			return;
 		    		// else: go one
 		    		catalogsName = renameDlg.getChosenName();
-		    		setIsContentChanged(true);
+		    		jCatalogTree.setHasUnsavedChanges(true); // setIsContentChanged(true);
 			    }
 	    	}
 				testCatalog.setName(catalogsName);

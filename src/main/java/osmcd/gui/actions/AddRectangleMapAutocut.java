@@ -131,6 +131,8 @@ public class AddRectangleMapAutocut implements ActionListener
 				// { layerName, layer.getMapCount() });
 				String mapName = layerName;
 				layer.addMapsAutocut(mapName, mapSource, tl, br, zoom, customTileParameters, settings.getMaxMapSize(), settings.getMapOverlapTiles());
+				// #??? maybe a map is added in addMapsAutocut
+				mg.getCatalogTree().setHasUnsavedChanges(true);
 			}
 			catch (InvalidNameException e)
 			{
@@ -139,7 +141,7 @@ public class AddRectangleMapAutocut implements ActionListener
 			if (bNewLayer)
 			{
 				catalog.addLayer(layer);
-				catalogTree.getTreeModel().notifyNodeInsert(layer);
+				catalogTree.getTreeModel().notifyNodeInsert(layer); // == mg.notifyLayerInsert(Layer layer)
 				if (firstLayers)
 					catalogTree.getTreeModel().notifyStructureChanged();
 			}

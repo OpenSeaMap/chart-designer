@@ -86,6 +86,7 @@ public class JCatalogTree extends JTree implements Autoscroll
 	protected KeyStroke deleteNodeKS;
 	protected DragDropController ddc;
 	protected boolean displaySelectedMapArea = false;
+	protected boolean bHasUnsavedChanges = true;
 
 	public JCatalogTree(PreviewMap mapView)
 	{
@@ -118,6 +119,7 @@ public class JCatalogTree extends JTree implements Autoscroll
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
+				JCatalogTree.this.setHasUnsavedChanges(true);
 				deleteSelectedNode();
 				JCatalogTree.this.mapView.repaint();
 			}
@@ -132,13 +134,13 @@ public class JCatalogTree extends JTree implements Autoscroll
 	public boolean testCatalogContentValid()
 	{
 		boolean bValid = false;
-		IfCatalog catalog = getCatalog();
+		Catalog catalog = getCatalog(); // IfCatalog
 		// if (IfRequiresSQLite.class.isAssignableFrom(catalog.getOutputFormat().getMapCreatorClass()))
 		// {
 		// if (!SQLiteLoader.loadSQLiteOrShowError())
 		// return false;
 		// }
-		if ((catalog.getFile() != null) && (catalog.calculateTilesToLoad() > 0)) // /W && instead of ||, file member is now in normal case not null
+		if ((catalog.getFile() != null) && !catalog.isEmpty()) // /W && instead of ||, file member is now in normal case not null
 		{
 			bValid = true;
 		}
@@ -171,6 +173,16 @@ public class JCatalogTree extends JTree implements Autoscroll
 	public CatalogTreeModel getTreeModel()
 	{
 		return treeModel;
+	}
+	
+	public boolean getHasUnsavedChanges()
+	{
+		return bHasUnsavedChanges;
+	}
+	
+	public void setHasUnsavedChanges(boolean unsaved)
+	{
+		bHasUnsavedChanges = unsaved;
 	}
 
 	// public void newCatalog(String name, BundleOutputFormat format)
@@ -383,6 +395,7 @@ public class JCatalogTree extends JTree implements Autoscroll
 					@Override
 					public void actionPerformed(ActionEvent e)
 					{
+						JCatalogTree.this.setHasUnsavedChanges(true);
 						JCatalogTree.this.startEditingAtPath(selPath);
 					}
 				});
@@ -424,6 +437,7 @@ public class JCatalogTree extends JTree implements Autoscroll
 					@Override
 					public void actionPerformed(ActionEvent e)
 					{
+						JCatalogTree.this.setHasUnsavedChanges(true);
 						JCatalogTree.this.startEditingAtPath(selPath);
 					}
 				});

@@ -205,7 +205,7 @@ public class CatalogTreeModel implements TreeModel
 				notifyNodesChanged(new TreeModelEvent(newName, path)); // repaint (longer names)
 				success = true;
 			}
-			// else: sel instanceof Layer -> do nothing!
+			// else: sel instance of Layer -> do nothing!
 		}
 		catch (ClassCastException e)
 		{

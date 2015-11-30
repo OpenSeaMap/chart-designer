@@ -86,9 +86,9 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 
 	/**
 	 * x- and y-position of the center of this map-panel on the world map denoted in screen pixel regarding the current zoom level.
-	 * 
-	 * ---- setting center to (width / 2 , height / 2)
-	 * -> width (height) % 2 == 0 : center is right (bottom) pixel of (2 pixel)-center
+	 * <p>
+	 * setting center to (width / 2 , height / 2)<br>
+	 * -> width (height) % 2 == 0 : center is right (bottom) pixel of (2 pixel)-center<br>
 	 * -> width (height) % 2 == 1 : center is (1 pixel)-center
 	 */
 	protected Point center = new Point();
@@ -104,6 +104,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 	 * It is the smaller of {@link IfMapSpace.MAX_TECH_ZOOM} and {@link IfMapSource.getMaxZoom()}
 	 */
 	protected int mMaxZoom = IfMapSpace.MAX_TECH_ZOOM;
+	
 	/**
 	 * Current zoom level
 	 */
@@ -112,6 +113,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 	protected JSlider zoomSlider = new JSlider(0, 0);
 	protected JButton zoomInButton;
 	protected JButton zoomOutButton;
+	
 	/**
 	 * The JobDispatcher is a 'normal' class, not a singleton any longer. {@link JobDispatcher}.
 	 */

@@ -76,6 +76,7 @@ import osmb.program.WgsGridSettings;
 import osmb.program.catalog.Catalog;
 import osmb.program.map.IfMapSpace;
 import osmb.program.map.Layer;
+import osmb.program.map.Map;
 import osmb.program.tiles.TileImageParameters;
 import osmb.utilities.GBC;
 import osmb.utilities.GUIExceptionHandler;
@@ -83,11 +84,13 @@ import osmb.utilities.OSMBStrs;
 import osmb.utilities.OSMBUtilities;
 import osmb.utilities.geo.CoordinateTileFormat;
 import osmb.utilities.image.MercatorPixelCoordinate;
+import osmcd.OSMCDApp;
 import osmcd.OSMCDSettings;
 import osmcd.OSMCDStrs;
 import osmcd.externaltools.ExternalToolDef;
 import osmcd.externaltools.ExternalToolsLoader;
 import osmcd.gui.actions.AddMapLayer;
+import osmcd.gui.actions.CutOverlappingTiles;
 import osmcd.gui.actions.DebugSetLogLevel;
 import osmcd.gui.actions.DebugShowLogFile;
 import osmcd.gui.actions.DebugShowMapSourceNames;
@@ -102,6 +105,7 @@ import osmcd.gui.actions.SelectionModeRectangle;
 import osmcd.gui.actions.ShowAboutDialog;
 import osmcd.gui.actions.ShowHelpAction;
 import osmcd.gui.actions.ShowReadme;
+import osmcd.gui.actions.SortAllLayers;
 import osmcd.gui.catalog.CatalogNew;
 import osmcd.gui.catalog.JCatalogTree;
 import osmcd.gui.catalog.JCatalogsPanel;
@@ -494,6 +498,21 @@ public class MainFrame extends JFrame implements IfMapEventListener
 		addSelection.setMnemonic(KeyEvent.VK_A);
 		mapsMenu.add(addSelection);
 
+		JMenuItem sortMaps_YXMinYXMax = new JMenuItem("Sort maps in all layers (YXMinYXMax)"); // xxx OSMCDStrs.RStr("menu_maps_selection_add"));
+		sortMaps_YXMinYXMax.addActionListener(new SortAllLayers(Map.YXMinYXMaxASC));
+		sortMaps_YXMinYXMax.setMnemonic(KeyEvent.VK_O);
+		mapsMenu.add(sortMaps_YXMinYXMax);
+		
+		JMenuItem sortMaps_NameNumber = new JMenuItem("Sort maps in all layers (NameNumber)"); // xxx OSMCDStrs.RStr("menu_maps_selection_add"));
+		sortMaps_NameNumber.addActionListener(new SortAllLayers(Map.NameNumberASC));
+		sortMaps_NameNumber.setMnemonic(KeyEvent.VK_N);
+		mapsMenu.add(sortMaps_NameNumber);
+		
+		JMenuItem cutOverlap = new JMenuItem("Cut overlapping tiles in all layers"); // xxx OSMCDStrs.RStr("menu_maps_selection_add"));
+		cutOverlap.addActionListener(new CutOverlappingTiles());
+		cutOverlap.setMnemonic(KeyEvent.VK_C);
+		mapsMenu.add(cutOverlap);
+
 		// /W #unused
 		// JMenuItem addGpxTrackSelection = new JMenuItem2(OSMCDStrs.RStr("menu_maps_selection_add_around_gpx"), AddGpxTrackPolygonMap.class);
 		// /W #--- mapsMenu.add(addGpxTrackSelection);
@@ -857,9 +876,8 @@ public class MainFrame extends JFrame implements IfMapEventListener
 	{
 		try
 		{
-			// jCatalogTree.save()
-			if (!mCatalogsPanel.getCatalog().isEmpty())
-				mCatalogsPanel.getCatalogTree().save();
+			if (!getCatalog().isEmpty())
+				getCatalogTree().save();
 			// else: empty catalog -> do nothing
 
 			OSMCDSettings s = OSMCDSettings.getInstance();
@@ -1304,12 +1322,12 @@ public class MainFrame extends JFrame implements IfMapEventListener
 	 */
 	public JCatalogTree getCatalogTree()
 	{
-		return mCatalogsPanel.getCatalogTree(); // /W +++ mCatalogContentPanel ersetzt durch mCatalogsPanel
+		return mCatalogsPanel.getCatalogTree();
 	}
 
 	public String getCatalogName()
 	{
-		return mCatalogsPanel.getCatalog().getName(); // /W +++ mCatalogContentPanel ersetzt durch mCatalogsPanel
+		return getCatalog().getName();
 	}
 
 	public GpxEntry getSelectedGpx()
@@ -1324,17 +1342,17 @@ public class MainFrame extends JFrame implements IfMapEventListener
 	 */
 	public void notifyLayerInsert(Layer layer)
 	{
-		mCatalogsPanel.getCatalogTree().getTreeModel().notifyNodeInsert(layer); // /W +++ mCatalogContentPanel ersetzt durch mCatalogsPanel
+		getCatalogTree().getTreeModel().notifyNodeInsert(layer);
 	}
 
 	public Catalog getCatalog()
 	{
-		return mCatalogsPanel.getCatalog(); // /W +++ mCatalogContentPanel ersetzt durch mCatalogsPanel
+		return OSMCDApp.getApp().getCatalog();
 	}
 
 	// /W #--- +++ Menü-Eintrag?
 	public void newCatalog(String newName)
 	{
-		mCatalogsPanel.getCatalogTree().newCatalog(newName); // /W +++ mCatalogContentPanel ersetzt durch mCatalogsPanel
+		getCatalogTree().newCatalog(newName);
 	}
 }

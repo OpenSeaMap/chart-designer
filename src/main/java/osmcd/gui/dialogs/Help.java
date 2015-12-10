@@ -33,7 +33,7 @@ import javax.swing.JLabel;
 
 import osmb.utilities.Charsets;
 import osmb.utilities.GBC;
-import osmb.utilities.OSMBRsc;
+import osmcd.OSMCDApp;
 import osmcd.OSMCDStrs;
 import osmcd.gui.MainFrame;
 
@@ -67,7 +67,7 @@ public class Help extends JFrame implements WindowListener
 			}
 		});
 
-		DataInputStream in = new DataInputStream(OSMBRsc.getResourceAsStream("resources/text/help_dialog", "html"));
+		DataInputStream in = new DataInputStream(OSMCDApp.class.getResourceAsStream("resources/text/help_dialog.html"));
 		byte[] buf;
 		try
 		{

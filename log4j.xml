@@ -23,7 +23,9 @@
   <logger name="ACHttpMapSource"><level value="TRACE"></level></logger>
   
 
-  <logger name="ACMultiLayerMapSource"><level value="TRACE"></level></logger><root><!-- 
+  <logger name="ACMultiLayerMapSource"><level value="TRACE"></level></logger>
+  
+  <root><!-- 
     For maximum verboseness please use the following line
     <priority value="TRACE" /> 
     -->

@@ -20,6 +20,8 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import osmb.mapsources.MP2MapSpace;
+
 /**
  * Implements the GUI logic for the preview iMap panel that manages the iMap selection and actions triggered by key
  * strokes.
@@ -52,7 +54,7 @@ public class PolygonSelectionMapController extends AbstractPolygonSelectionMapCo
 			Point mapPoint = mMap.getTopLeftCoordinate();
 			mapPoint.x += e.getX();
 			mapPoint.y += e.getY();
-			mapPoint = mMap.getMapSource().getMapSpace().changeZoom(mapPoint, mMap.getZoom(), mMap.getMaxZoom());
+			mapPoint = MP2MapSpace.changeZoom(mapPoint, mMap.getZoom(), mMap.getMaxZoom()); // W #mapSpace mMap.getMapSource().getMapSpace().
 			polygonPoints.add(mapPoint);
 		}
 		mMap.grabFocus();

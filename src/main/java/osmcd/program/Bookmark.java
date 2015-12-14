@@ -22,10 +22,12 @@ import javax.xml.bind.annotation.XmlAttribute;
 
 import osmb.mapsources.ACMapSourcesManager;
 import osmb.mapsources.IfMapSource;
-import osmb.utilities.geo.EastNorthCoordinate;
-
+import osmb.mapsources.MP2Corner;
+import osmb.utilities.geo.GeoCoordinate;
+//W #mapSpaceimport osmb.utilities.geo.EastNorthCoordinate;
+//W #mapSpace EastNorthCoordinate <-> GeoCoordinate MP2Corner <-> MercatorPixelCoordinate
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Bookmark extends EastNorthCoordinate
+public class Bookmark extends GeoCoordinate// #mapSpace ??? EastNorthCoordinate
 {
 	@XmlAttribute
 	protected int zoom;
@@ -52,7 +54,9 @@ public class Bookmark extends EastNorthCoordinate
 
 	public Bookmark(String name, IfMapSource mapSource, int zoom, int pixelCoordinateX, int pixelCoordinateY)
 	{
-		super(mapSource.getMapSpace(), zoom, pixelCoordinateX, pixelCoordinateY);
+	//W #mapSpace EastNorthCoordinate <-> GeoCoordinate MP2Corner <-> MercatorPixelCoordinate 
+//		super(mapSource.getMapSpace(), zoom, pixelCoordinateX, pixelCoordinateY);
+		super(new MP2Corner(pixelCoordinateX, pixelCoordinateY, zoom));
 		this.mapSource = mapSource.getName();
 		this.zoom = zoom;
 		this.name = name;

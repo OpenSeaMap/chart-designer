@@ -30,11 +30,14 @@ import org.apache.log4j.Logger;
 import osmb.mapsources.ACMapSourcesManager;
 import osmb.mapsources.IfMapSource;
 import osmb.mapsources.IfMapSourceTextAttribution;
+import osmb.mapsources.MP2Corner;
+import osmb.mapsources.MP2MapSpace;
 import osmb.program.WgsGrid;
-import osmb.program.map.IfMapSpace;
+// W #mapSpace import osmb.program.map.IfMapSpace;
 import osmb.utilities.MyMath;
-import osmb.utilities.geo.EastNorthCoordinate;
-import osmb.utilities.image.MercatorPixelCoordinate;
+//W #mapSpace import osmb.utilities.geo.EastNorthCoordinate;
+import osmb.utilities.geo.GeoCoordinate;
+//W #mapSpace import osmb.utilities.image.MercatorPixelCoordinate;
 import osmcd.OSMCDSettings;
 import osmcd.OSMCDStrs;
 import osmcd.program.Bookmark;
@@ -69,7 +72,7 @@ public class PreviewMap extends JMapViewer
 	 * Pre-painted transparent tile with grid lines on it. This makes painting the grid a lot faster in difference to painting each line or rectangle if the grid
 	 * zoom is much higher that the current zoom level.
 	 */
-	private BufferedImage gridTile = new BufferedImage(IfMapSpace.TECH_TILESIZE, IfMapSpace.TECH_TILESIZE, BufferedImage.TYPE_INT_ARGB);
+	private BufferedImage gridTile = new BufferedImage(MP2MapSpace.TECH_TILESIZE, MP2MapSpace.TECH_TILESIZE, BufferedImage.TYPE_INT_ARGB);//  W #mapSpace (IfMapSpace.TECH_TILESIZE, IfMapSpace.TECH_TILESIZE, BufferedImage.TYPE_INT_ARGB);
 
 	protected LinkedList<IfMapEventListener> mapEventListeners = new LinkedList<IfMapEventListener>();
 
@@ -94,7 +97,8 @@ public class PreviewMap extends JMapViewer
 		log.trace("PreviewMap() constructed");
 	}
 
-	public void setDisplayPositionByLatLon(EastNorthCoordinate c, int zoom)
+//W #mapSpace EastNorthCoordinate <-> GeoCoordinate MP2Corner <-> MercatorPixelCoordinate
+	public void setDisplayPositionByLatLon(GeoCoordinate c, int zoom)
 	{
 		setDisplayPositionByLatLon(new Point(getWidth() / 2, getHeight() / 2), c.lat, c.lon, zoom);
 	}
@@ -122,9 +126,10 @@ public class PreviewMap extends JMapViewer
 		IfMapSource mapSource = ACMapSourcesManager.getInstance().getSourceByName(settings.getMapviewMapSource());
 		if (mapSource != null)
 			setMapSource(mapSource);
-		else // /W
+		else // W
 			mapSource = ACMapSourcesManager.getInstance().getDefaultMapSource();
-		EastNorthCoordinate c = settings.getMapviewCenterCoordinate();
+	//W #mapSpace EastNorthCoordinate <-> GeoCoordinate MP2Corner <-> MercatorPixelCoordinate
+		GeoCoordinate c = settings.getMapviewCenterCoordinate();
 		gridZoom = settings.getMapviewGridZoom();
 		setDisplayPositionByLatLon(c, settings.getMapviewZoom());
 		// setSelectionByTileCoordinate(MAX_ZOOM, settings.mapviewSelectionMin, settings.mapviewSelectionMax, true);
@@ -148,7 +153,7 @@ public class PreviewMap extends JMapViewer
 	@Override
 	protected void zoomChanged(int oldZoom)
 	{
-		log.trace("Preview map zoom changed from " + oldZoom + " to " + mZoom);
+		log.info("Preview map zoom changed from " + oldZoom + " to " + mZoom);
 		if (mapEventListeners != null)
 			for (IfMapEventListener listener : mapEventListeners)
 				listener.zoomChanged(mZoom);
@@ -181,7 +186,7 @@ public class PreviewMap extends JMapViewer
 		if (gridZoom < 0)
 			return;
 		int zoomToGridZoom = mZoom - gridZoom;
-		int tileSize = mMapSource.getMapSpace().getTileSize();
+		int tileSize = MP2MapSpace.getTileSize(); // #mapSpace  mMapSource.getMapSpace().getTileSize();
 		if (zoomToGridZoom > 0)
 		{
 			gridSize = tileSize << zoomToGridZoom;
@@ -239,7 +244,7 @@ public class PreviewMap extends JMapViewer
 			// g.setStroke(new BasicStroke(4.0f));
 			if (gridSize > 1)
 			{
-				int tilesize = mMapSource.getMapSpace().getTileSize();
+				int tilesize = MP2MapSpace.getTileSize(); // #mapSpace  mMapSource.getMapSpace().getTileSize();
 				if (gridSize >= tilesize)
 				{
 					int off_x = tlc.x < 0 ? -tlc.x : -(tlc.x % gridSize);
@@ -312,9 +317,9 @@ public class PreviewMap extends JMapViewer
 		}
 		if (OSMCDSettings.getInstance().getWgsGrid().enabled)
 		{
-			wgsGrid.paintWgsGrid(g, mMapSource.getMapSpace(), tlc, mZoom);
+			wgsGrid.paintWgsGrid(g, tlc, mZoom); // W #mapSpace (g, mMapSource.getMapSpace(), tlc, mZoom);
 		}
-		ScaleBar.paintScaleBar(this, g, mMapSource.getMapSpace(), tlc, mZoom);
+		ScaleBar.paintScaleBar(this, g, tlc, mZoom); // W #mapSpace (this, g, mMapSource.getMapSpace(), tlc, mZoom);
 	}
 
 	public Bookmark getPositionBookmark()
@@ -329,15 +334,16 @@ public class PreviewMap extends JMapViewer
 		setZoom(bookmark.getZoom());
 	}
 
+//W #mapSpace EastNorthCoordinate <-> GeoCoordinate MP2Corner <-> MercatorPixelCoordinate
 	/**
 	 * @return Coordinate of the point in the center of the currently displayed map region
 	 */
-	public EastNorthCoordinate getCenterCoordinate()
+	public GeoCoordinate getCenterCoordinate()
 	{
-		IfMapSpace mapSpace = mMapSource.getMapSpace();
-		double lon = mapSpace.cXToLon(center.x, mZoom);
-		double lat = mapSpace.cYToLat(center.y, mZoom);
-		return new EastNorthCoordinate(lat, lon);
+		// W #mapSpace IfMapSpace mapSpace = mMapSource.getMapSpace();
+		double lon = MP2MapSpace.cXToLon_Borders(center.x, mZoom); // W #mapSpace mapSpace.cXToLon(center.x, mZoom);
+		double lat = MP2MapSpace.cYToLat_Borders(center.y, mZoom); // W #mapSpace mapSpace.cYToLat(center.y, mZoom);
+		return new GeoCoordinate(lat, lon);
 	}
 
 	/**
@@ -409,7 +415,7 @@ public class PreviewMap extends JMapViewer
 
 		Point pNewStart = new Point();
 		Point pNewEnd = new Point();
-		int mapMaxCoordinate = mMapSource.getMapSpace().getMaxPixels(cZoom) - 1;
+		int mapMaxCoordinate = MP2MapSpace.getSizeInPixel(cZoom) - 1; // W #mapSpace mMapSource.getMapSpace().getMaxPixels(cZoom) - 1;
 		// Sort x/y coordinate of points so that pNewStart < pnewEnd and limit selection to iMap size
 		pNewStart.x = Math.max(0, Math.min(mapMaxCoordinate, Math.min(pStart.x, pEnd.x)));
 		pNewStart.y = Math.max(0, Math.min(mapMaxCoordinate, Math.min(pStart.y, pEnd.y)));
@@ -451,7 +457,7 @@ public class PreviewMap extends JMapViewer
 			return;
 
 		int gridZoomDiff = getMaxZoom() - gridZoom;
-		int gridFactor = mMapSource.getMapSpace().getTileSize() << gridZoomDiff;
+		int gridFactor = MP2MapSpace.getTileSize() << gridZoomDiff; // W #mapSpace mapSource.getMapSpace().getTileSize();mMapSource.getMapSpace().getTileSize() << gridZoomDiff;
 
 		Point pNewStart = new Point(iSelectionMin);
 		Point pNewEnd = new Point(iSelectionMax);
@@ -493,8 +499,9 @@ public class PreviewMap extends JMapViewer
 			x_max = iSelectionMax.x;
 			y_max = iSelectionMax.y;
 		}
-		MercatorPixelCoordinate min = new MercatorPixelCoordinate(mMapSource.getMapSpace(), x_min, y_min, getMaxZoom());
-		MercatorPixelCoordinate max = new MercatorPixelCoordinate(mMapSource.getMapSpace(), x_max, y_max, getMaxZoom());
+	//W #mapSpace EastNorthCoordinate <-> GeoCoordinate MP2Corner <-> MercatorPixelCoordinate
+		MP2Corner min = new MP2Corner(x_min, y_min, getMaxZoom());
+		MP2Corner max = new MP2Corner( x_max, y_max, getMaxZoom());
 		log.debug("sel min: [" + min + "]"); // /W //
 		log.debug("sel max: [" + max + "]"); // /W //
 		for (IfMapEventListener listener : mapEventListeners)

@@ -50,7 +50,8 @@ import osmb.program.map.IfLayer;
 import osmb.program.map.IfMap;
 import osmb.program.tiles.TileImageParameters;
 import osmb.utilities.GUIExceptionHandler;
-import osmb.utilities.geo.EastNorthCoordinate;
+import osmb.utilities.geo.GeoCoordinate;
+//W #mapSpace import osmb.utilities.geo.EastNorthCoordinate;
 import osmcd.OSMCDApp;
 import osmcd.OSMCDSettings;
 import osmcd.OSMCDStrs;
@@ -407,17 +408,18 @@ public class JCatalogTree extends JTree implements Autoscroll
 				mi = new JMenuItem(OSMCDStrs.RStr("lp_bundle_pop_menu_zoom_to"));
 				mi.addActionListener(new ActionListener()
 				{
+				//W #mapSpace EastNorthCoordinate <-> GeoCoordinate MP2Corner <-> MercatorPixelCoordinate
 					@Override
 					public void actionPerformed(ActionEvent e)
 					{
 						IfLayer layer = (IfLayer) o;
-						EastNorthCoordinate max = new EastNorthCoordinate(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
-						EastNorthCoordinate min = new EastNorthCoordinate(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+						GeoCoordinate max = new GeoCoordinate(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
+						GeoCoordinate min = new GeoCoordinate(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
 						for (IfMap map : layer)
 						{
 							MapSelection ms = new MapSelection(map);
-							EastNorthCoordinate mapMax = ms.getMax();
-							EastNorthCoordinate mapMin = ms.getMin();
+							GeoCoordinate mapMax = ms.getMax();
+							GeoCoordinate mapMin = ms.getMin();
 							max.lat = Math.max(max.lat, mapMax.lat);
 							max.lon = Math.max(max.lon, mapMax.lon);
 							min.lat = Math.min(min.lat, mapMin.lat);

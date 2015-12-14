@@ -25,13 +25,15 @@ import javax.swing.JOptionPane;
 
 import osmb.exceptions.InvalidNameException;
 import osmb.mapsources.IfMapSource;
+import osmb.mapsources.MP2MapSpace;
 import osmb.program.catalog.IfCatalog;
 import osmb.program.map.IfMap;
-import osmb.program.map.IfMapSpace;
+// W #mapSpace import osmb.program.map.IfMapSpace;
 import osmb.program.map.Layer;
 import osmb.program.map.MapPolygon;
 import osmb.program.tiles.TileImageParameters;
-import osmb.utilities.geo.EastNorthCoordinate;
+import osmb.utilities.geo.GeoCoordinate;
+//W #mapSpace import osmb.utilities.geo.EastNorthCoordinate;
 import osmcd.OSMCDSettings;
 import osmcd.OSMCDStrs;
 import osmcd.data.gpx.gpx11.TrkType;
@@ -105,13 +107,16 @@ public class AddGpxTrackAreaPolygonMap implements ActionListener
 			return;
 		}
 		List<? extends GpxPoint> points = trk.getTrkpt();
-		EastNorthCoordinate[] trackPoints = new EastNorthCoordinate[points.size()];
-		EastNorthCoordinate minCoordinate = new EastNorthCoordinate(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
-		EastNorthCoordinate maxCoordinate = new EastNorthCoordinate(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
+		
+	//W #mapSpace EastNorthCoordinate -> GeoCoordinate
+		
+		GeoCoordinate[] trackPoints = new GeoCoordinate[points.size()];
+		GeoCoordinate minCoordinate = new GeoCoordinate(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+		GeoCoordinate maxCoordinate = new GeoCoordinate(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
 		for (int i = 0; i < trackPoints.length; i++)
 		{
 			GpxPoint gpxPoint = points.get(i);
-			EastNorthCoordinate c = new EastNorthCoordinate(gpxPoint.getLat().doubleValue(), gpxPoint.getLon().doubleValue());
+			GeoCoordinate c = new GeoCoordinate(gpxPoint.getLat().doubleValue(), gpxPoint.getLon().doubleValue());
 			minCoordinate.lat = Math.min(minCoordinate.lat, c.lat);
 			minCoordinate.lon = Math.min(minCoordinate.lon, c.lon);
 			maxCoordinate.lat = Math.max(maxCoordinate.lat, c.lat);
@@ -120,7 +125,7 @@ public class AddGpxTrackAreaPolygonMap implements ActionListener
 		}
 
 		final int maxZoom = zoomLevels[zoomLevels.length - 1];
-		final IfMapSpace mapSpace = mapSource.getMapSpace();
+		 // W #mapSpace final IfMapSpace mapSpace = mapSource.getMapSpace();
 
 		TileImageParameters customTileParameters = mg.getSelectedTileImageParameters();
 
@@ -128,9 +133,9 @@ public class AddGpxTrackAreaPolygonMap implements ActionListener
 		int[] yPoints = new int[trackPoints.length];
 		for (int i = 0; i < trackPoints.length; i++)
 		{
-			EastNorthCoordinate coord = trackPoints[i];
-			xPoints[i] = mapSpace.cLonToX(coord.lon, maxZoom);
-			yPoints[i] = mapSpace.cLatToY(coord.lat, maxZoom);
+			GeoCoordinate coord = trackPoints[i];
+			xPoints[i] = MP2MapSpace.cLonToX(coord.lon, maxZoom); // W #mapSpace
+			yPoints[i] = MP2MapSpace.cLatToY(coord.lat, maxZoom); // W #mapSpace
 		}
 
 		Polygon p = new Polygon(xPoints, yPoints, xPoints.length);

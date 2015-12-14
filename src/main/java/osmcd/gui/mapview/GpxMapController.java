@@ -23,7 +23,8 @@ import java.math.BigDecimal;
 
 import javax.swing.JOptionPane;
 
-import osmb.program.map.IfMapSpace;
+import osmb.mapsources.MP2MapSpace;
+//W #mapSpace import osmb.program.map.IfMapSpace;
 import osmcd.OSMCDStrs;
 import osmcd.data.gpx.gpx11.Gpx;
 import osmcd.data.gpx.gpx11.WptType;
@@ -61,12 +62,12 @@ public class GpxMapController extends ACMapController implements MouseListener
 			Point tl = mMap.getTopLeftCoordinate();
 			p.x += tl.x;
 			p.y += tl.y;
-			IfMapSpace mapSpace = mMap.getMapSource().getMapSpace();
-			int maxPixel = mapSpace.getMaxPixels(mMap.getZoom());
+			// W #mapSpace IfMapSpace mapSpace = mMap.getMapSource().getMapSpace();
+			int maxPixel = MP2MapSpace.getSizeInPixel(mMap.getZoom()); // W #mapSpace mapSpace.getMaxPixels(mMap.getZoom());
 			if (p.x < 0 || p.x > maxPixel || p.y < 0 || p.y > maxPixel)
 				return; // outside of world region
-			double lon = mapSpace.cXToLon(p.x, mMap.getZoom());
-			double lat = mapSpace.cYToLat(p.y, mMap.getZoom());
+			double lon = MP2MapSpace.cXToLon(p.x, mMap.getZoom()); // W #mapSpace mapSpace.cXToLon(p.x, mMap.getZoom());
+			double lat = MP2MapSpace.cYToLat(p.y, mMap.getZoom()); // W #mapSpace mapSpace.cYToLat(p.y, mMap.getZoom());
 			String name = JOptionPane.showInputDialog(null, OSMCDStrs.RStr("dlg_gpx_inpu_point_name"));
 			if (name == null)
 				return;

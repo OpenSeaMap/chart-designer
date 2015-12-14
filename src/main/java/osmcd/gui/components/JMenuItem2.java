@@ -21,30 +21,37 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JMenuItem;
 
-public class JMenuItem2 extends JMenuItem implements ActionListener {
+public class JMenuItem2 extends JMenuItem implements ActionListener
+{
+	private static final long serialVersionUID = 1L;
 
 	private Class<? extends ActionListener> actionClass;
 
-	public JMenuItem2(String text, int mnemonic, Class<? extends ActionListener> actionClass) {
+	public JMenuItem2(String text, int mnemonic, Class<? extends ActionListener> actionClass)
+	{
 		super(text, mnemonic);
 		this.actionClass = actionClass;
 		addActionListener(this);
 	}
 
-	public JMenuItem2(String text, Class<? extends ActionListener> actionClass) {
+	public JMenuItem2(String text, Class<? extends ActionListener> actionClass)
+	{
 		super(text);
 		this.actionClass = actionClass;
 		addActionListener(this);
 	}
 
-	public void actionPerformed(ActionEvent event) {
+	public void actionPerformed(ActionEvent event)
+	{
 		ActionListener al;
 		try {
 			al = actionClass.newInstance();
 			al.actionPerformed(event);
-		} catch (InstantiationException e) {
+		} catch (InstantiationException e)
+		{
 			throw new RuntimeException(e);
-		} catch (IllegalAccessException e) {
+		} catch (IllegalAccessException e)
+		{
 			throw new RuntimeException(e);
 		}
 	}

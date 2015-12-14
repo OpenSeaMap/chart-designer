@@ -19,6 +19,7 @@ package osmcd.gui.mapview;
 import java.awt.Graphics;
 
 import osmb.mapsources.IfMapSource;
+import osmb.mapsources.MP2MapSpace;
 
 /**
  * A simple layer that paints the tile borders.
@@ -30,7 +31,7 @@ public class MapGridLayer implements IfMapTileLayer
 	@Override
 	public void startPainting(IfMapSource mapSource)
 	{
-		tileSize = mapSource.getMapSpace().getTileSize();
+		tileSize = MP2MapSpace.getTileSize(); // #mapSpace  mapSource.getMapSpace().getTileSize();
 	}
 
 	@Override

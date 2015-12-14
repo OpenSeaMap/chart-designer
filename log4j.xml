@@ -25,11 +25,11 @@
 
   <logger name="ACMultiLayerMapSource"><level value="TRACE"></level></logger>
   
-  <root><!-- 
-    For maximum verboseness please use the following line
+  <root>
+    <!--For maximum verboseness please use the following line
     <priority value="TRACE" /> 
     -->
-    <!-- By default we use log level/priority "DEBUG" --><!--This is used for everthing not specified above-->
+    <!-- By default we use log level/priority "DEBUG" --><!--This is used for everything not specified above-->
     <priority value="DEBUG" />
     <appender-ref ref="console" />
     <appender-ref ref="file" />

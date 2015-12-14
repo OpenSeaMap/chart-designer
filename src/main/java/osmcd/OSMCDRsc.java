@@ -12,6 +12,7 @@ public class OSMCDRsc extends osmb.utilities.OSMBRsc
 	public static Locale currLocale;
 	public static String localeLanguage;
 	public static String localeCountry;
+	@SuppressWarnings("unused") // W #unused
 	private static ResourceBundle STRING_RESOURCE = null;
 
 	public static void initializeRSTRs()

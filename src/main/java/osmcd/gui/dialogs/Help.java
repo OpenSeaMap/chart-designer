@@ -39,6 +39,8 @@ import osmcd.gui.MainFrame;
 
 public class Help extends JFrame implements WindowListener
 {
+	private static final long serialVersionUID = 1L;
+
 	private static Help INSTANCE = null;
 
 	public static synchronized void showHelp()

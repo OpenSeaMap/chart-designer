@@ -42,6 +42,8 @@ import osmcd.gui.MainFrame;
 
 public class LicensesDialog extends JFrame implements ChangeListener, ActionListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	private LicenseInfo[] licenses = new LicenseInfo[]
 	{ new LicenseInfo("<h2>OpenSeaMap ChartBundler</h2>", "gpl.txt"), new LicenseInfo("<h3>Library Apache Log4J</h3>", "apache-2.0.txt"),
 			new LicenseInfo("<h3>Library Apache Commons Codec</h3>", "apache-2.0.txt"), new LicenseInfo("<h3>Library Apache Commons IO</h3>", "apache-2.0.txt"),

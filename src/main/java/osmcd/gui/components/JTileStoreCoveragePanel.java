@@ -27,8 +27,9 @@ import javax.swing.JLabel;
 
 import osmb.mapsources.ACMultiLayerMapSource;
 import osmb.mapsources.IfMapSource;
+import osmb.mapsources.MP2Corner;
 import osmb.utilities.GBC;
-import osmb.utilities.image.MercatorPixelCoordinate;
+//W #mapSpace import osmb.utilities.image.MercatorPixelCoordinate;
 import osmcd.OSMCDStrs;
 import osmcd.gui.mapview.ACMapController;
 import osmcd.gui.mapview.IfMapEventListener;
@@ -146,8 +147,9 @@ public class JTileStoreCoveragePanel extends JCollapsiblePanel implements IfMapE
 	{
 	}
 
+//W #mapSpace EastNorthCoordinate <-> GeoCoordinate MP2Corner <-> MercatorPixelCoordinate
 	@Override
-	public void selectionChanged(MercatorPixelCoordinate max, MercatorPixelCoordinate min)
+	public void selectionChanged(MP2Corner max, MP2Corner min)
 	{
 	}
 

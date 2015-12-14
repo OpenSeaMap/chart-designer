@@ -36,10 +36,9 @@ import osmcd.OSMCDStrs;
 import osmcd.gui.MainFrame;
 import osmcd.program.ProgramInfo;
 
-//@SuppressWarnings("serial")
 public class AboutDialog extends JDialog implements MouseListener
 {
-	private static final long serialVersionUID = -123456789L; // /W or? @SuppressWarnings("serial")
+	private static final long serialVersionUID = 1L;
 
 	public AboutDialog() throws HeadlessException
 	{

@@ -41,6 +41,8 @@ import osmcd.program.Bookmark;
 
 public class ManageBookmarks extends JDialog implements ListSelectionListener, ActionListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	private JButton deleteButton;
 
 	private JButton applyButton;

@@ -21,7 +21,8 @@ import java.util.Hashtable;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
 
-import osmb.program.map.IfMapSpace;
+import osmb.mapsources.MP2MapSpace;
+//W #mapSpace import osmb.program.map.IfMapSpace;
 import osmb.utilities.UnitSystem;
 
 public class JDistanceSlider extends JSlider
@@ -30,7 +31,7 @@ public class JDistanceSlider extends JSlider
 
 	private final Hashtable<Integer, JLabel> labelTable;
 
-	public JDistanceSlider(IfMapSpace mapSpace, int zoom, int y, UnitSystem unit, int pixelMin, int pixelMax)
+	public JDistanceSlider(int zoom, int y, UnitSystem unit, int pixelMin, int pixelMax) // W #mapSpace (IfMapSpace mapSpace, int zoom, int y, UnitSystem unit, int pixelMin, int pixelMax)
 	{
 		super(pixelMin, pixelMax);
 		labelTable = new Hashtable<Integer, JLabel>();
@@ -41,7 +42,7 @@ public class JDistanceSlider extends JSlider
 
 		for (int i : labelvalues)
 		{
-			double distance = mapSpace.horizontalDistance(zoom, y, i) * unit.earthRadius * unit.unitFactor;
+			double distance = MP2MapSpace.horizontalDistance(zoom, y, i) * unit.earthRadius * unit.unitFactor; // W #mapSpace ??? TODO test method! horizontalDistance changed!!!
 			String label;
 			if (distance > unit.unitFactor)
 			{

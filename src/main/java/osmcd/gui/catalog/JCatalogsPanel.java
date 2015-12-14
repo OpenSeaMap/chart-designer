@@ -39,7 +39,7 @@ import osmcd.OSMCDApp;
 import osmcd.OSMCDSettings;
 import osmcd.OSMCDStrs;
 import osmcd.gui.actions.AddMapLayer;
-import osmcd.gui.actions.AddRectangleMapAutocut;
+// #unused import osmcd.gui.actions.AddRectangleMapAutocut;
 import osmcd.gui.components.JCatalogFileChooser;
 import osmcd.gui.components.JCollapsiblePanel;
 import osmcd.gui.mapview.PreviewMap;

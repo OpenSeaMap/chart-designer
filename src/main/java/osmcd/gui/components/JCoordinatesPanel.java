@@ -30,10 +30,12 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import osmb.mapsources.IfMapSource;
+import osmb.mapsources.MP2Corner;
 import osmb.utilities.GBC;
 import osmb.utilities.geo.CoordinateStringFormat;
-import osmb.utilities.geo.EastNorthCoordinate;
-import osmb.utilities.image.MercatorPixelCoordinate;
+//W #mapSpace import osmb.utilities.geo.EastNorthCoordinate;
+import osmb.utilities.geo.GeoCoordinate;
+//W #mapSpace import osmb.utilities.image.MercatorPixelCoordinate;
 import osmcd.OSMCDStrs;
 import osmcd.program.MapSelection;
 
@@ -126,7 +128,8 @@ public class JCoordinatesPanel extends JCollapsiblePanel
 		return csf;
 	}
 
-	public void setCoordinates(EastNorthCoordinate max, EastNorthCoordinate min)
+//W #mapSpace EastNorthCoordinate <-> GeoCoordinate MP2Corner <-> MercatorPixelCoordinate
+	public void setCoordinates(GeoCoordinate max, GeoCoordinate min)
 	{
 		latMaxTextField.setCoordinate(max.lat);
 		lonMaxTextField.setCoordinate(max.lon);
@@ -136,17 +139,22 @@ public class JCoordinatesPanel extends JCollapsiblePanel
 
 	public void setCoordinates(MapSelection ms)
 	{
-		MercatorPixelCoordinate max = ms.getBottomRightPixelCoordinate();
-		MercatorPixelCoordinate min = ms.getTopLeftPixelCoordinate();
+// W #mapSpace 
+//		MercatorPixelCoordinate max = ms.getBottomRightPixelCoordinate();
+//		MercatorPixelCoordinate min = ms.getTopLeftPixelCoordinate();
+//		setSelection(max, min);
+		MP2Corner max = ms.getBottomRightPixelCoordinate();
+		MP2Corner min = ms.getTopLeftPixelCoordinate();
 		setSelection(max, min);
 	}
 
-	public void setSelection(MercatorPixelCoordinate max, MercatorPixelCoordinate min)
+//W #mapSpace EastNorthCoordinate <-> GeoCoordinate MP2Corner <-> MercatorPixelCoordinate
+	public void setSelection(MP2Corner max, MP2Corner min)
 	{
-		EastNorthCoordinate c1 = min.getEastNorthCoordinate();
+		GeoCoordinate c1 = min.toGeoCoordinate(); //W #mapSpace getEastNorthCoordinate();
 		latMaxTextField.setCoordinate(c1.lat);
 		lonMinTextField.setCoordinate(c1.lon);
-		EastNorthCoordinate c2 = max.getEastNorthCoordinate();
+		GeoCoordinate c2 = max.toGeoCoordinate(); //W #mapSpace getEastNorthCoordinate();
 		latMinTextField.setCoordinate(c2.lat);
 		lonMaxTextField.setCoordinate(c2.lon);
 	}
@@ -189,21 +197,24 @@ public class JCoordinatesPanel extends JCollapsiblePanel
 		}
 	}
 
+// W #mapSpace EastNorthCoordinate <-> GeoCoordinate MP2Corner <-> MercatorPixelCoordinate
 	public MapSelection getMapSelection(IfMapSource mapSource)
 	{
-		EastNorthCoordinate max = getMaxCoordinate();
-		EastNorthCoordinate min = getMinCoordinate();
+		GeoCoordinate max = getMaxCoordinate();
+		GeoCoordinate min = getMinCoordinate();
 		return new MapSelection(mapSource, max, min);
 	}
 
-	public EastNorthCoordinate getMaxCoordinate()
+// W #mapSpace
+	public GeoCoordinate getMaxCoordinate()
 	{
-		return new EastNorthCoordinate(latMaxTextField.getCoordinateOrNaN(), lonMaxTextField.getCoordinateOrNaN());
+		return new GeoCoordinate(latMaxTextField.getCoordinateOrNaN(), lonMaxTextField.getCoordinateOrNaN());
 	}
 
-	public EastNorthCoordinate getMinCoordinate()
+// W #mapSpace
+	public GeoCoordinate getMinCoordinate()
 	{
-		return new EastNorthCoordinate(latMinTextField.getCoordinateOrNaN(), lonMinTextField.getCoordinateOrNaN());
+		return new GeoCoordinate(latMinTextField.getCoordinateOrNaN(), lonMinTextField.getCoordinateOrNaN());
 	}
 
 	public void addButtonActionListener(ActionListener l)

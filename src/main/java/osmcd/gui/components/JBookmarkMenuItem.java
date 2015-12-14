@@ -26,6 +26,7 @@ import osmcd.program.Bookmark;
 
 public class JBookmarkMenuItem extends JMenuItem implements ActionListener
 {
+	private static final long serialVersionUID = 1L;
 
 	private final Bookmark bookmark;
 
@@ -42,5 +43,4 @@ public class JBookmarkMenuItem extends JMenuItem implements ActionListener
 		MainFrame.getMainGUI().previewMap.gotoPositionBookmark(bookmark);
 
 	}
-
 }

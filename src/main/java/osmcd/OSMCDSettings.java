@@ -50,7 +50,8 @@ import osmb.program.jaxb.PointAdapter;
 import osmb.utilities.OSMBRsc;
 import osmb.utilities.OSMBStrs;
 import osmb.utilities.OSMBUtilities;
-import osmb.utilities.geo.EastNorthCoordinate;
+//W #mapSpace import osmb.utilities.geo.EastNorthCoordinate;
+import osmb.utilities.geo.GeoCoordinate;
 import osmcd.gui.actions.GpxLoad;
 import osmcd.gui.components.JCoordinatesPanel;
 import osmcd.gui.components.JTileStoreCoveragePanel;
@@ -99,7 +100,8 @@ public class OSMCDSettings extends ACSettings
 	private int mapOverlapTiles = 0;
 	private Point mapviewSelectionMax = null;
 	private Point mapviewSelectionMin = null;
-	private EastNorthCoordinate mapviewCenterCoordinate = new EastNorthCoordinate(50, 9);
+//W #mapSpace EastNorthCoordinate <-> GeoCoordinate MP2Corner <-> MercatorPixelCoordinate
+	private GeoCoordinate mapviewCenterCoordinate = new GeoCoordinate(50, 9);
 	@XmlElementWrapper(name = "selectedZoomLevels")
 	@XmlElement(name = "zoomLevel")
 	private List<Integer> selectedZoomLevels = null;
@@ -344,19 +346,21 @@ public class OSMCDSettings extends ACSettings
 		this.mapviewSelectionMin = mapviewSelectionMin;
 	}
 
+//W #mapSpace EastNorthCoordinate <-> GeoCoordinate MP2Corner <-> MercatorPixelCoordinate
 	/**
 	 * @return the mapviewCenterCoordinate
 	 */
-	public EastNorthCoordinate getMapviewCenterCoordinate()
+	public GeoCoordinate getMapviewCenterCoordinate()
 	{
 		return mapviewCenterCoordinate;
 	}
 
+//W #mapSpace EastNorthCoordinate <-> GeoCoordinate MP2Corner <-> MercatorPixelCoordinate
 	/**
 	 * @param mapviewCenterCoordinate
 	 *          the mapviewCenterCoordinate to set
 	 */
-	public void setMapviewCenterCoordinate(EastNorthCoordinate mapviewCenterCoordinate)
+	public void setMapviewCenterCoordinate(GeoCoordinate mapviewCenterCoordinate)
 	{
 		this.mapviewCenterCoordinate = mapviewCenterCoordinate;
 	}

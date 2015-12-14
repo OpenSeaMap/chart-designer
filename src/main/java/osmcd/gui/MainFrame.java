@@ -71,10 +71,12 @@ import org.apache.log4j.Logger;
 
 import osmb.mapsources.IfInitializableMapSource;
 import osmb.mapsources.IfMapSource;
+import osmb.mapsources.MP2Corner;
+import osmb.mapsources.MP2MapSpace;
 import osmb.program.WgsGrid.WgsDensity;
 import osmb.program.WgsGridSettings;
 import osmb.program.catalog.Catalog;
-import osmb.program.map.IfMapSpace;
+//W #mapSpace import osmb.program.map.IfMapSpace;
 import osmb.program.map.Layer;
 import osmb.program.map.Map;
 import osmb.program.tiles.TileImageParameters;
@@ -83,7 +85,7 @@ import osmb.utilities.GUIExceptionHandler;
 import osmb.utilities.OSMBStrs;
 import osmb.utilities.OSMBUtilities;
 import osmb.utilities.geo.CoordinateTileFormat;
-import osmb.utilities.image.MercatorPixelCoordinate;
+//W #mapSpaceimport osmb.utilities.image.MercatorPixelCoordinate;
 import osmcd.OSMCDApp;
 import osmcd.OSMCDSettings;
 import osmcd.OSMCDStrs;
@@ -203,8 +205,9 @@ public class MainFrame extends JFrame implements IfMapEventListener
 	private JMenuItem smPolygon;
 	private JMenuItem smCircle;
 
-	private MercatorPixelCoordinate mapSelectionMax = null;
-	private MercatorPixelCoordinate mapSelectionMin = null;
+//W #mapSpace EastNorthCoordinate <-> GeoCoordinate MP2Corner <-> MercatorPixelCoordinate
+	private MP2Corner mapSelectionMax = null;
+	private MP2Corner mapSelectionMin = null;
 
 	public static void createMainGui()
 	{
@@ -1082,8 +1085,8 @@ public class MainFrame extends JFrame implements IfMapEventListener
 	{
 		IfMapSource tileSource = previewMap.getMapSource();
 		// int zoomLevels = tileSource.getMaxZoom() - tileSource.getMinZoom() + 1; // #zoom0-3
-		int minZoom = Math.max(IfMapSpace.MIN_TECH_ZOOM, tileSource.getMinZoom());
-		int maxZoom = Math.min(IfMapSpace.MAX_TECH_ZOOM, tileSource.getMaxZoom());
+		int minZoom = Math.max(MP2MapSpace.MIN_TECH_ZOOM, tileSource.getMinZoom()); //W #mapSpace (IfMapSpace.MIN_TECH_ZOOM, tileSource.getMinZoom());
+		int maxZoom = Math.min(MP2MapSpace.MAX_TECH_ZOOM, tileSource.getMaxZoom()); //W #mapSpace (IfMapSpace.MAX_TECH_ZOOM, tileSource.getMaxZoom());
 		int zoomLevels = maxZoom - minZoom + 1;
 
 		// zoomLevels = Math.max(zoomLevels, 0);
@@ -1131,7 +1134,8 @@ public class MainFrame extends JFrame implements IfMapEventListener
 	}
 
 	@Override
-	public void selectionChanged(MercatorPixelCoordinate max, MercatorPixelCoordinate min)
+//W #mapSpace EastNorthCoordinate <-> GeoCoordinate MP2Corner <-> MercatorPixelCoordinate
+	public void selectionChanged(MP2Corner max, MP2Corner min)
 	{
 		mapSelectionMax = max;
 		mapSelectionMin = min;

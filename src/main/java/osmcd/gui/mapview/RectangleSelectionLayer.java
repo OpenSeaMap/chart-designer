@@ -21,9 +21,10 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.AffineTransform;
 
-import osmb.program.map.IfMapSpace;
+import osmb.mapsources.MP2MapSpace;
+//W #mapSpace import osmb.program.map.IfMapSpace;
 
-/**
+/** xxx ??? polgon?
  * Displays a polygon on the iMap - only for testing purposes
  */
 public class RectangleSelectionLayer implements IfMapLayer
@@ -38,14 +39,14 @@ public class RectangleSelectionLayer implements IfMapLayer
 	@Override
 	public void paint(JMapViewer map, Graphics2D g, int zoom, int minX, int minY, int maxX, int maxY)
 	{
-		IfMapSpace mapSpace = map.getMapSource().getMapSpace();
+		// W #mapSpace IfMapSpace mapSpace = map.getMapSource().getMapSpace();
 		g.setColor(Color.BLUE);
 		Point p1 = mapController.getiStartSelectionPoint();
 		Point p2 = mapController.getiEndSelectionPoint();
 		if (p1 == null || p2 == null)
 			return;
-		p1 = mapSpace.changeZoom(p1, map.getMaxZoom(), zoom);
-		p2 = mapSpace.changeZoom(p2, map.getMaxZoom(), zoom);
+		p1 = MP2MapSpace.changeZoom(p1, map.getMaxZoom(), zoom); // W #mapSpace
+		p2 = MP2MapSpace.changeZoom(p2, map.getMaxZoom(), zoom); // W #mapSpace
 
 		int x = Math.min(p1.x, p2.x);
 		int y = Math.min(p1.y, p2.y);

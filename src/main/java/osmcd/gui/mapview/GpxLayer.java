@@ -22,7 +22,8 @@ import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.io.File;
 
-import osmb.program.map.IfMapSpace;
+import osmb.mapsources.MP2MapSpace;
+//W #mapSpace import osmb.program.map.IfMapSpace;
 import osmcd.data.gpx.gpx11.Gpx;
 import osmcd.data.gpx.gpx11.RteType;
 import osmcd.data.gpx.gpx11.TrkType;
@@ -72,12 +73,12 @@ public class GpxLayer implements IfMapLayer
 	public void paint(JMapViewer map, Graphics2D g, int zoom, int minX, int minY, int maxX, int maxY)
 	{
 		g.setColor(wptPointColor);
-		final IfMapSpace mapSpace = map.getMapSource().getMapSpace();
+	// W #mapSpace 		final IfMapSpace mapSpace = map.getMapSource().getMapSpace();
 		if (showWaypoints)
 		{
 			for (WptType pt : gpx.getWpt())
 			{
-				paintPoint(pt, wptPointColor, g, showWaypointName, mapSpace, zoom, minX, minY, maxX, maxY);
+				paintPoint(pt, wptPointColor, g, showWaypointName, zoom, minX, minY, maxX, maxY); // W #mapSpace (pt, wptPointColor, g, showWaypointName, mapSpace, zoom, minX, minY, maxX, maxY);
 			}
 		}
 		if (showTracks)
@@ -90,7 +91,7 @@ public class GpxLayer implements IfMapLayer
 					lastTrackPointY = Integer.MIN_VALUE;
 					for (WptType pt : seg.getTrkpt())
 					{
-						paintTrack(pt, trkPointColor, g, mapSpace, zoom, minX, minY, maxX, maxY);
+						paintTrack(pt, trkPointColor, g, zoom, minX, minY, maxX, maxY); // W #mapSpace (pt, trkPointColor, g, mapSpace, zoom, minX, minY, maxX, maxY);
 					}
 				}
 			}
@@ -103,19 +104,23 @@ public class GpxLayer implements IfMapLayer
 				lastTrackPointY = Integer.MIN_VALUE;
 				for (WptType pt : rte.getRtept())
 				{
-					paintTrack(pt, rtePointColor, g, mapSpace, zoom, minX, minY, maxX, maxY);
+					paintTrack(pt, rtePointColor, g, zoom, minX, minY, maxX, maxY);// W #mapSpace (pt, rtePointColor, g, mapSpace, zoom, minX, minY, maxX, maxY);
 				}
 			}
 		}
 	}
 
-	private boolean paintPoint(final WptType point, Color color, final Graphics2D g, boolean paintPointName, IfMapSpace mapSpace, int zoom, int minX, int minY,
+// W #mapSpace 
+//private boolean paintPoint(final WptType point, Color color, final Graphics2D g, boolean paintPointName, IfMapSpace mapSpace, int zoom, int minX, int minY,
+//	    int maxX, int maxY)
+	private boolean paintPoint(final WptType point, Color color, final Graphics2D g, boolean paintPointName, int zoom, int minX, int minY,
 	    int maxX, int maxY)
 	{
-		int x = mapSpace.cLonToX(point.getLon().doubleValue(), zoom);
+	// W #mapSpace MP2MapSpace
+		int x = MP2MapSpace.cLonToX(point.getLon().doubleValue(), zoom);
 		if (x < minX || x > maxX)
 			return false; // Point outside of visible region
-		int y = mapSpace.cLatToY(point.getLat().doubleValue(), zoom);
+		int y = MP2MapSpace.cLatToY(point.getLat().doubleValue(), zoom);
 		if (y < minY || y > maxY)
 			return false; // Point outside of visible region
 		x -= minX;
@@ -131,11 +136,13 @@ public class GpxLayer implements IfMapLayer
 		return true;
 	}
 
-	private boolean paintTrack(final WptType point, Color color, final Graphics2D g, IfMapSpace mapSpace, int zoom, int minX, int minY, int maxX, int maxY)
+// W #mapSpace private boolean paintTrack(final WptType point, Color color, final Graphics2D g, IfMapSpace mapSpace, int zoom, int minX, int minY, int maxX, int maxY)
+	private boolean paintTrack(final WptType point, Color color, final Graphics2D g, int zoom, int minX, int minY, int maxX, int maxY)
 	{
 		// Absolute iMap space coordinates
-		int xAbs = mapSpace.cLonToX(point.getLon().doubleValue(), zoom);
-		int yAbs = mapSpace.cLatToY(point.getLat().doubleValue(), zoom);
+		// W #mapSpace MP2MapSpace
+		int xAbs = MP2MapSpace.cLonToX(point.getLon().doubleValue(), zoom);
+		int yAbs = MP2MapSpace.cLatToY(point.getLat().doubleValue(), zoom);
 		// Relative coordinates regarding the top left point on iMap
 		int x = xAbs - minX;
 		int y = yAbs - minY;

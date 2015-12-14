@@ -47,6 +47,7 @@ import osmcd.OSMCDStrs;
 
 public class SettingsGUITileStore extends JPanel
 {
+	private static final long serialVersionUID = 1L;
 
 	public final JCheckBox tileStoreEnabled;
 	private final JPanel tileStoreInfoPanel;

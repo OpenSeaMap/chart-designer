@@ -26,7 +26,8 @@ import java.awt.Stroke;
 
 import javax.swing.JComponent;
 
-import osmb.program.map.IfMapSpace;
+import osmb.mapsources.MP2MapSpace;
+//W #mapSpace import osmb.program.map.IfMapSpace;
 import osmb.utilities.MyMath;
 import osmb.utilities.UnitSystem;
 import osmcd.OSMCDSettings;
@@ -51,7 +52,7 @@ public class ScaleBar
 
 	private static final int DESIRED_SCALE_BAR_WIDTH = 150;
 
-	public static void paintScaleBar(JComponent c, Graphics2D g, IfMapSpace mapSpace, Point tlc, int zoom)
+	public static void paintScaleBar(JComponent c, Graphics2D g, Point tlc, int zoom) // W #mapSpace (JComponent c, Graphics2D g, IfMapSpace mapSpace, Point tlc, int zoom)
 	{
 		Rectangle r = c.getBounds();
 		int posX;
@@ -67,7 +68,7 @@ public class ScaleBar
 		UnitSystem unitSystem = OSMCDSettings.getInstance().getUnitSystem();
 
 		// Calculate the angular distance of our desired scale bar
-		double ad = mapSpace.horizontalDistance(zoom, coordY, w1);
+		double ad = MP2MapSpace.horizontalDistance(zoom, coordY, w1); // W #mapSpace mapSpace.horizontalDistance(zoom, coordY, w1);
 
 		String unit = unitSystem.unitLarge;
 		// convert angular into the selected unit system

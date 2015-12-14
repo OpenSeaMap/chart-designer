@@ -43,14 +43,17 @@ import javax.swing.event.ChangeListener;
 import org.apache.log4j.Logger;
 
 import osmb.mapsources.IfMapSource;
+import osmb.mapsources.MP2Corner;
+import osmb.mapsources.MP2MapSpace;
 import osmb.program.JobDispatcher;
-import osmb.program.map.IfMapSpace;
+//W #mapSpace	import osmb.program.map.IfMapSpace;
 import osmb.program.tiles.IfMemoryTileCacheHolder;
 import osmb.program.tiles.IfTileLoaderListener;
 import osmb.program.tiles.MemoryTileCache;
 import osmb.program.tiles.Tile;
 import osmb.program.tiles.TileLoader;
 import osmb.utilities.OSMBUtilities;
+//W #mapSpace import osmb.utilities.image.MercatorPixelCoordinate;
 
 /**
  * 
@@ -97,13 +100,13 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 	 * The minimum zoom level available for the currently displayed map. This will be modified when the map source is changed.
 	 * It is the bigger of {@link IfMapSpace.MIN_TECH_ZOOM} and {@link IfMapSource.getMinZoom()}
 	 */
-	protected int mMinZoom = IfMapSpace.MIN_TECH_ZOOM;
+	protected int mMinZoom = MP2MapSpace.MIN_TECH_ZOOM; //W #mapSpace	IfMapSpace.MIN_TECH_ZOOM;
 
 	/**
 	 * The maximum zoom level available for the currently displayed map. This will be modified when the map source is changed.
 	 * It is the smaller of {@link IfMapSpace.MAX_TECH_ZOOM} and {@link IfMapSource.getMaxZoom()}
 	 */
-	protected int mMaxZoom = IfMapSpace.MAX_TECH_ZOOM;
+	protected int mMaxZoom = MP2MapSpace.MAX_TECH_ZOOM; //W #mapSpace	IfMapSpace.MAX_TECH_ZOOM;
 	
 	/**
 	 * Current zoom level
@@ -131,8 +134,8 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 		setLayout(null);
 		setMapSource(defaultMapSource);
 		initializeZoomSlider();
-		setMinimumSize(new Dimension(IfMapSpace.TECH_TILESIZE, IfMapSpace.TECH_TILESIZE));
-		setPreferredSize(new Dimension(5 * IfMapSpace.TECH_TILESIZE, 3 * IfMapSpace.TECH_TILESIZE));
+		setMinimumSize(new Dimension(MP2MapSpace.TECH_TILESIZE, MP2MapSpace.TECH_TILESIZE)); //W #mapSpace	(IfMapSpace.TECH_TILESIZE, IfMapSpace.TECH_TILESIZE));
+		setPreferredSize(new Dimension(5 * MP2MapSpace.TECH_TILESIZE, 3 * MP2MapSpace.TECH_TILESIZE)); //W #mapSpace	(5 * IfMapSpace.TECH_TILESIZE, 3 * IfMapSpace.TECH_TILESIZE));
 		setDisplayPositionByLatLon(52.0, 7.0, 8);
 		mJobDispatcher = new JobDispatcher(downloadThreadCount);
 	}
@@ -226,9 +229,11 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 	 */
 	public void setDisplayPositionByLatLon(Point mapPoint, double lat, double lon, int zoom)
 	{
-		IfMapSpace mapSpace = mMapSource.getMapSpace();
-		int x = mapSpace.cLonToX(lon, zoom);
-		int y = mapSpace.cLatToY(lat, zoom);
+		// W #mapSpace IfMapSpace mapSpace = mMapSource.getMapSpace();
+		// limitation to east by cLonToX and to south and north by cLatToY
+		// limitations to E;W;S;N by ..._Borders
+		int x = MP2MapSpace.cLonToX_Borders(lon, zoom); // W #mapSpace mapSpace.cLonToX(lon, zoom);
+		int y = MP2MapSpace.cLatToY_Borders(lat, zoom); // W #mapSpace mapSpace.cLatToY(lat, zoom);
 		setDisplayPosition(mapPoint, x, y, zoom);
 	}
 
@@ -244,13 +249,14 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 		p.x = x - mapPoint.x + getWidth() / 2;
 		p.y = y - mapPoint.y + getHeight() / 2;
 		center = p;
+		// log.info("center.x = " + p.x + ", center.y = " + p.y);
 		setIgnoreRepaint(true);
 		try
 		{
 			int oldZoom = this.mZoom;
 			this.mZoom = zoom;
 			if (oldZoom != zoom)
-				zoomChanged(oldZoom);
+				zoomChanged(oldZoom); // !!! if instance of PreviewMap, this notifies mapEventListeners
 			if (zoomSlider.getValue() != zoom)
 				zoomSlider.setValue(zoom);
 		}
@@ -275,7 +281,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 		int mapZoomMax = mMapSource.getMaxZoom();
 		int height = Math.max(0, getHeight());
 		int width = Math.max(0, getWidth());
-		int newZoom = IfMapSpace.MAX_TECH_ZOOM;
+		int newZoom = MP2MapSpace.MAX_TECH_ZOOM; //W #mapSpace	IfMapSpace.MAX_TECH_ZOOM;
 		int x = Math.abs(x1 - x2);
 		int y = Math.abs(y1 - y2);
 		// while (x > width || y > height || newZoom > mapZoomMax) // /W >=
@@ -291,7 +297,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 
 		x = Math.min(x2, x1) + Math.abs(x1 - x2) / 2;
 		y = Math.min(y2, y1) + Math.abs(y1 - y2) / 2;
-		int z = 1 << (IfMapSpace.MAX_TECH_ZOOM - newZoom);
+		int z = 1 << (MP2MapSpace.MAX_TECH_ZOOM - newZoom);//W #mapSpace	(IfMapSpace.MAX_TECH_ZOOM - newZoom);
 		x /= z;
 		y /= z;
 		// setDisplayPosition(x, y, newZoom); // /W +1, +1
@@ -300,19 +306,27 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 
 	public Point2D.Double getPosition()
 	{
-		IfMapSpace mapSpace = mMapSource.getMapSpace();
-		double lon = mapSpace.cXToLon(center.x, mZoom);
-		double lat = mapSpace.cYToLat(center.y, mZoom);
+	// W #mapSpace IfMapSpace mapSpace = mMapSource.getMapSpace();
+		double lon = MP2MapSpace.cXToLon_Borders(center.x, mZoom); // W #mapSpace mapSpace.cXToLon(center.x, mZoom);
+		double lat = MP2MapSpace.cYToLat_Borders(center.y, mZoom); // W #mapSpace mapSpace.cYToLat(center.y, mZoom);
 		return new Point2D.Double(lat, lon);
 	}
 
+	/**
+	 * This calculates the position of the mouse pointer in (lat | lon) 'geo' coordinates
+	 * 
+	 * @param mapPoint position of mouse pointer in screen coordinates
+	 * @return map pixel in (double lat| double lon) geo coordinates
+	 */
 	public Point2D.Double getPosition(Point mapPoint)
 	{
-		IfMapSpace mapSpace = mMapSource.getMapSpace();
+		// W #mapSpace IfMapSpace mapSpace = mMapSource.getMapSpace();
 		int x = center.x + mapPoint.x - getWidth() / 2;
 		int y = center.y + mapPoint.y - getHeight() / 2;
-		double lon = mapSpace.cXToLon(x, mZoom);
-		double lat = mapSpace.cYToLat(y, mZoom);
+		// log.info("center.x = " + center.x + ", mapPoint.x = " + mapPoint.x + ", getWidth() / 2 = " + getWidth() / 2 + ", center.y = " + center.y + ", mapPoint.y = " + mapPoint.y + ", getHeight() / 2 = " + getHeight() / 2);
+		double lon = MP2MapSpace.cXToLon_Borders(x, mZoom); // W #mapSpace mapSpace.cXToLon(x, mZoom);
+		double lat = MP2MapSpace.cYToLat_Borders(y, mZoom); // W #mapSpace mapSpace.cYToLat(y, mZoom);
+		log.info("lon.x = " + lon + ", lat.y = " + lat);
 		return new Point2D.Double(lat, lon);
 	}
 
@@ -325,9 +339,9 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 	 */
 	public Point getMapPosition(double lat, double lon)
 	{
-		IfMapSpace mapSpace = mMapSource.getMapSpace();
-		int x = mapSpace.cLonToX(lon, mZoom);
-		int y = mapSpace.cLatToY(lat, mZoom);
+		// W #mapSpace IfMapSpace mapSpace = mMapSource.getMapSpace();
+		int x = MP2MapSpace.cLonToX_Borders(lon, mZoom); // W #mapSpace mapSpace.cLonToX(lon, mZoom);
+		int y = MP2MapSpace.cLatToY_Borders(lat, mZoom); // W #mapSpace mapSpace.cLatToY(lat, mZoom);
 		x -= center.x - getWidth() / 2;
 		y -= center.y - getHeight() / 2;
 		if (x < 0 || y < 0 || x > getWidth() || y > getHeight())
@@ -350,7 +364,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 
 		int iMove = 0;
 
-		int tileSize = mMapSource.getMapSpace().getTileSize();
+		int tileSize = MP2MapSpace.getTileSize(); // #mapSpace  mMapSource.getMapSpace().getTileSize();
 
 		int tilex = center.x / tileSize; // /W #??? center BR <-> UL 256
 		int tiley = center.y / tileSize;
@@ -534,10 +548,10 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 	{
 		if (zoom == this.mZoom)
 			return;
-		log.debug("new zoom=" + zoom);
+		log.info("new zoom=" + zoom);
 		mJobDispatcher.cancelOutstandingJobs(); // Clearing outstanding load requests
-		zoom = Math.max(zoom, Math.max(IfMapSpace.MIN_TECH_ZOOM, mMapSource.getMinZoom()));
-		zoom = Math.min(zoom, Math.min(IfMapSpace.MAX_TECH_ZOOM, mMapSource.getMaxZoom()));
+		zoom = Math.max(zoom, Math.max(MP2MapSpace.MIN_TECH_ZOOM, mMapSource.getMinZoom())); //W #mapSpace	(IfMapSpace.MIN_TECH_ZOOM, mMapSource.getMinZoom()));
+		zoom = Math.min(zoom, Math.min(MP2MapSpace.MAX_TECH_ZOOM, mMapSource.getMaxZoom())); //W #mapSpace	(IfMapSpace.MAX_TECH_ZOOM, mMapSource.getMaxZoom()));
 		// mZoom = zoom; // This is later done by setDisplayPositionByLatLon()
 		Point2D.Double zoomPos = getPosition(mapPoint);
 		setDisplayPositionByLatLon(mapPoint, zoomPos.x, zoomPos.y, zoom);
@@ -626,9 +640,9 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 	public void setMapSource(IfMapSource mapSource)
 	{
 		this.mMapSource = mapSource;
-		mMinZoom = Math.max(mapSource.getMinZoom(), IfMapSpace.MIN_TECH_ZOOM);
+		mMinZoom = Math.max(mapSource.getMinZoom(), MP2MapSpace.MIN_TECH_ZOOM); //W #mapSpace	(mapSource.getMinZoom(), IfMapSpace.MIN_TECH_ZOOM);
 		zoomSlider.setMinimum(mMinZoom);
-		mMaxZoom = Math.min(mapSource.getMaxZoom(), IfMapSpace.MAX_TECH_ZOOM);
+		mMaxZoom = Math.min(mapSource.getMaxZoom(), MP2MapSpace.MAX_TECH_ZOOM); //W #mapSpace	(mapSource.getMaxZoom(), IfMapSpace.MAX_TECH_ZOOM);
 		zoomSlider.setMaximum(mMaxZoom);
 		// mJobDispatcher.cancelOutstandingJobs();
 		if (mZoom > mMaxZoom)
@@ -713,5 +727,4 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 	{
 		mMinZoom = minZoom;
 	}
-
 }

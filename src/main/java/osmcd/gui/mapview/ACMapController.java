@@ -23,6 +23,8 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelListener;
 
+import osmb.mapsources.MP2MapSpace;
+
 /**
  * Abstract base class for all mouse controller implementations. For implementing your own controller create a class
  * that derives from this one and implements one or more of the following interfaces:
@@ -80,7 +82,7 @@ public abstract class ACMapController
 		Point mapPoint = mMap.getTopLeftCoordinate();
 		mapPoint.x += p.getX();
 		mapPoint.y += p.getY();
-		mapPoint = mMap.getMapSource().getMapSpace().changeZoom(mapPoint, mMap.getZoom(), mMap.getMaxZoom());
+		mapPoint = MP2MapSpace.changeZoom(mapPoint, mMap.getZoom(), mMap.getMaxZoom()); // W #mapSpace mMap.getMapSource().getMapSpace().changeZoom(mapPoint, mMap.getZoom(), mMap.getMaxZoom());
 		return mapPoint;
 	}
 }

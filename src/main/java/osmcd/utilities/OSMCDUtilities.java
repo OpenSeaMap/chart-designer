@@ -46,6 +46,7 @@ import javax.swing.JComponent;
 import org.apache.log4j.Logger;
 
 import osmb.mapsources.IfMapSource;
+import osmb.mapsources.MP2MapSpace;
 import osmb.utilities.Charsets;
 import osmb.utilities.OSMBUtilities;
 import osmcd.OSMCDApp;
@@ -90,7 +91,7 @@ public class OSMCDUtilities extends OSMBUtilities
 
 	public static BufferedImage createEmptyTileImage(IfMapSource mapSource)
 	{
-		int tileSize = mapSource.getMapSpace().getTileSize();
+		int tileSize = MP2MapSpace.getTileSize(); // #mapSpace  mapSource.getMapSpace().getTileSize();
 		Color color = mapSource.getBackgroundColor();
 
 		int imageType;
@@ -175,11 +176,15 @@ public class OSMCDUtilities extends OSMBUtilities
 		return emptyTileData;
 	}
 
+	@SuppressWarnings("unused") // W #unused
 	private static final byte[] PNG = new byte[]
 	{ (byte) 0x89, 'P', 'N', 'G', 0x0D, 0x0A, 0x1A, 0x0A };
+	@SuppressWarnings("unused") // W #unused
 	private static final byte[] JPG = new byte[]
 	{ (byte) 0xFF, (byte) 0xD8, (byte) 0xFF, (byte) 0xE0, (byte) 0x00, 0x10, 'J', 'F', 'I', 'F' };
+	@SuppressWarnings("unused") // W #unused
 	private static final byte[] GIF_1 = "GIF87a".getBytes();
+	@SuppressWarnings("unused") // W #unused
 	private static final byte[] GIF_2 = "GIF89a".getBytes();
 
 	public static InputStream loadResourceAsStream(String resourcePath) throws IOException

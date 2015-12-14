@@ -32,15 +32,17 @@ import javax.swing.event.ChangeListener;
 
 import osmb.exceptions.InvalidNameException;
 import osmb.mapsources.IfMapSource;
+import osmb.mapsources.MP2MapSpace;
 import osmb.program.ACSettings;
 import osmb.program.catalog.IfCatalog;
 import osmb.program.map.IfMap;
-import osmb.program.map.IfMapSpace;
+//W #mapSpace import osmb.program.map.IfMapSpace;
 import osmb.program.map.Layer;
 import osmb.program.map.MapPolygon;
 import osmb.program.tiles.TileImageParameters;
 import osmb.utilities.UnitSystem;
-import osmb.utilities.geo.EastNorthCoordinate;
+import osmb.utilities.geo.GeoCoordinate;
+// W #mapSpace import osmb.utilities.geo.EastNorthCoordinate;
 import osmcd.OSMCDSettings;
 import osmcd.OSMCDStrs;
 import osmcd.data.gpx.gpx11.TrkType;
@@ -119,14 +121,15 @@ public class AddGpxTrackPolygonMap implements ActionListener
 			JOptionPane.showMessageDialog(mg, OSMCDStrs.RStr("msg_no_zoom_level_selected"));
 			return;
 		}
+	// W #mapSpace EastNorthCoordinate <-> GeoCoordinate
 		List<? extends GpxPoint> points = trk.getTrkpt();
-		final EastNorthCoordinate[] trackPoints = new EastNorthCoordinate[points.size()];
-		EastNorthCoordinate minCoordinate = new EastNorthCoordinate(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
-		EastNorthCoordinate maxCoordinate = new EastNorthCoordinate(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
+		final GeoCoordinate[] trackPoints = new GeoCoordinate[points.size()];
+		GeoCoordinate minCoordinate = new GeoCoordinate(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+		GeoCoordinate maxCoordinate = new GeoCoordinate(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
 		for (int i = 0; i < trackPoints.length; i++)
 		{
 			GpxPoint gpxPoint = points.get(i);
-			EastNorthCoordinate c = new EastNorthCoordinate(gpxPoint.getLat().doubleValue(), gpxPoint.getLon().doubleValue());
+			GeoCoordinate c = new GeoCoordinate(gpxPoint.getLat().doubleValue(), gpxPoint.getLon().doubleValue());
 			minCoordinate.lat = Math.min(minCoordinate.lat, c.lat);
 			minCoordinate.lon = Math.min(minCoordinate.lon, c.lon);
 			maxCoordinate.lat = Math.max(maxCoordinate.lat, c.lat);
@@ -134,10 +137,10 @@ public class AddGpxTrackPolygonMap implements ActionListener
 			trackPoints[i] = c;
 		}
 
-		final int maxZoom = zoomLevels[zoomLevels.length - 1];
-		final IfMapSpace mapSpace = mapSource.getMapSpace();
-		Point p1 = maxCoordinate.toPixelCoordinate(mapSpace, maxZoom);
-		Point p2 = minCoordinate.toPixelCoordinate(mapSpace, maxZoom);
+		final int maxZoom = zoomLevels[zoomLevels.length - 1]; // W #??? if zoomlevels == [3, 4, 5] -> maxZoom == 2
+		 // W #mapSpace final IfMapSpace mapSpace = mapSource.getMapSpace();
+		Point p1 = new Point(maxCoordinate.toPixelCoordinate(maxZoom).getX(), maxCoordinate.toPixelCoordinate(maxZoom).getY());
+		Point p2 = new Point(minCoordinate.toPixelCoordinate(maxZoom).getX(), minCoordinate.toPixelCoordinate(maxZoom).getY());
 
 		final int centerY = p1.y + ((p1.y - p2.y) / 2);
 
@@ -148,14 +151,14 @@ public class AddGpxTrackPolygonMap implements ActionListener
 		JPanel panel = new JPanel(new BorderLayout());
 		panel.setPreferredSize(new Dimension(300, 100));
 		final JLabel label = new JLabel("");
-		final JDistanceSlider slider = new JDistanceSlider(mapSource.getMapSpace(), maxZoom, centerY, unitSystem, 5, 500);
+		final JDistanceSlider slider = new JDistanceSlider(maxZoom, centerY, unitSystem, 5, 500); // W #mapSpace (mapSource.getMapSpace(), maxZoom, centerY, unitSystem, 5, 500);
 		ChangeListener cl = new ChangeListener()
 		{
 
 			@Override
 			public void stateChanged(ChangeEvent e)
 			{
-				double d = mapSpace.horizontalDistance(maxZoom, centerY, slider.getValue());
+				double d = MP2MapSpace.horizontalDistance(maxZoom, centerY, slider.getValue()); // W #mapSpace
 				d *= unitSystem.earthRadius * unitSystem.unitFactor;
 				String unitName = unitSystem.unitSmall;
 				if (d > unitSystem.unitFactor)

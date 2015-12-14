@@ -37,6 +37,8 @@ import osmcd.OSMCDStrs;
 
 public class WorkinprogressDialog extends JDialog implements WindowListener
 {
+	private static final long serialVersionUID = 1L;
+	
 	private static final Logger log = Logger.getLogger(WorkinprogressDialog.class);
 
 	private final ThreadFactory threadFactory;

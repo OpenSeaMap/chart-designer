@@ -24,8 +24,9 @@ import java.util.Iterator;
 import javax.swing.JOptionPane;
 
 import osmb.mapsources.IfMapSource;
+import osmb.mapsources.MP2MapSpace;
 import osmb.program.DelayedInterruptThread;
-import osmb.program.map.IfMapSpace;
+//W #mapSpace import osmb.program.map.IfMapSpace;
 import osmb.program.tilestore.ACSiTileStore;
 import osmb.utilities.GUIExceptionHandler;
 import osmb.utilities.OSMBStrs;
@@ -69,13 +70,13 @@ public class TileStoreCoverageLayer implements IfMapLayer
 		this.mapSource = mapSource;
 		this.zoom = zoom;
 
-		IfMapSpace mapSpace = mapSource.getMapSpace();
-		int tileSize = mapSpace.getTileSize();
+		// W #mapSpace IfMapSpace mapSpace = mapSource.getMapSpace();
+		int tileSize = MP2MapSpace.getTileSize(); // W #mapSpace mapSpace.getTileSize();
 		int mapViewerZoom = mapViewer.getZoom();
 		Point min = mapViewer.getTopLeftCoordinate();
 		Point max = new Point(min.x + mapViewer.getWidth(), min.y + mapViewer.getHeight());
-		min = mapSpace.changeZoom(min, mapViewerZoom, zoom);
-		max = mapSpace.changeZoom(max, mapViewerZoom, zoom);
+		min = MP2MapSpace.changeZoom(min, mapViewerZoom, zoom); // W #mapSpace
+		max = MP2MapSpace.changeZoom(max, mapViewerZoom, zoom); // W #mapSpace
 
 		tileNumMax = new Point(max.x / tileSize, max.y / tileSize);
 		tileNumMin = new Point(min.x / tileSize, min.y / tileSize);
@@ -127,11 +128,11 @@ public class TileStoreCoverageLayer implements IfMapLayer
 	{
 		Point max = pixelCoordinateMax;
 		Point min = pixelCoordinateMin;
-		IfMapSpace mapSpace = mapSource.getMapSpace();
-		int mapX = mapSpace.xChangeZoom(min.x, this.zoom, zoom);
-		int mapY = mapSpace.yChangeZoom(min.y, this.zoom, zoom);
-		int mapW = mapSpace.xChangeZoom(max.x - min.x + 1, this.zoom, zoom);
-		int mapH = mapSpace.yChangeZoom(max.y - min.y + 1, this.zoom, zoom);
+		// W #mapSpace IfMapSpace mapSpace = mapSource.getMapSpace();
+		int mapX = MP2MapSpace.xyChangeZoom(min.x, this.zoom, zoom); // W #mapSpace mapSpace.xChangeZoom(min.x, this.zoom, zoom);
+		int mapY = MP2MapSpace.xyChangeZoom(min.y, this.zoom, zoom); // W #mapSpace mapSpace.yChangeZoom(min.y, this.zoom, zoom);
+		int mapW = MP2MapSpace.xyChangeZoom(max.x - min.x + 1, this.zoom, zoom); // W #mapSpace mapSpace.xChangeZoom(max.x - min.x + 1, this.zoom, zoom);
+		int mapH = MP2MapSpace.xyChangeZoom(max.y - min.y + 1, this.zoom, zoom); // W #mapSpace mapSpace.yChangeZoom(max.y - min.y + 1, this.zoom, zoom);
 		int x = mapX - minX;
 		int y = mapY - minY;
 		int w = mapW;

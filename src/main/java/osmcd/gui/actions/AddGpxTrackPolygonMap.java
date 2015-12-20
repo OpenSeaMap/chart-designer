@@ -158,7 +158,7 @@ public class AddGpxTrackPolygonMap implements ActionListener
 			@Override
 			public void stateChanged(ChangeEvent e)
 			{
-				double d = MP2MapSpace.horizontalDistance(maxZoom, centerY, slider.getValue()); // W #mapSpace
+				double d = MP2MapSpace.horizontalDistance(maxZoom, centerY, slider.getValue()); // W #mapSpace ??? TODO test method! horizontalDistance changed!!!
 				d *= unitSystem.earthRadius * unitSystem.unitFactor;
 				String unitName = unitSystem.unitSmall;
 				if (d > unitSystem.unitFactor)

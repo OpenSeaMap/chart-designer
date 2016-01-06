@@ -465,8 +465,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 		}
 		catch (ConcurrentModificationException e)
 		{
-			// This may happen when multiple GPX files are loaded at once and in the mean time the iMap view is
-			// repainted.
+			// This may happen when multiple GPX files are loaded at once and in the mean time the map view is repainted.
 			SwingUtilities.invokeLater(new Runnable()
 			{
 				@Override
@@ -677,7 +676,14 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 	public void tileLoadingFinished(Tile tile, boolean success)
 	{
 		if (success)
+		{
 			mTileCache.addTile(tile);
+			log.debug(tile + " successfully loaded");
+		}
+		else
+		{
+			log.debug(tile + " download failed");
+		}
 		repaint();
 	}
 

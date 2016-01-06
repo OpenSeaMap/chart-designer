@@ -62,7 +62,7 @@ public class DefaultMapTileLayer implements IfMapTileLayer
 	}
 
 	/**
-	 * retrieves a tile from the cache. If the tile is not present in the cache a load job is added to the working queue
+	 * Retrieves a tile from the cache. If the tile is not present in the cache a load job is added to the working queue
 	 * of {@link JobDispatcher}. The loader job will notify the mapViewer via {@link JMapViewer#tileLoadingFinished}() when it has done so.
 	 * In the time between it places a placeholder in the cache instead of the tile to be loaded.
 	 * 
@@ -76,7 +76,11 @@ public class DefaultMapTileLayer implements IfMapTileLayer
 		log.debug("start get tile from mtc (" + zoom + "|" + tilex + "|" + tiley + ")");
 		int max = (1 << zoom);
 		if (tilex < 0 || tilex >= max || tiley < 0 || tiley >= max)
+		{
+			log.debug("tile out of range: x=" + tilex + ", y=" + tiley);
 			return null;
+		}
+		// Tile tile = new Tile(mapSource, tilex, tiley, zoom);
 		Tile tile = mapViewer.getTileImageCache().getTile(mapSource, tilex, tiley, zoom);
 		if (tile == null)
 		{
@@ -87,7 +91,7 @@ public class DefaultMapTileLayer implements IfMapTileLayer
 		}
 		if (tile.getTileState() == TileState.TS_NEW || tile.getTileState() == TileState.TS_LOADING)
 		{
-			log.debug("start load job tile=" + tile);
+			log.debug("queue load job for " + tile);
 			mapViewer.getJobDispatcher().execute(mapViewer.getTileLoader().createTileLoaderJob(mapSource, tilex, tiley, zoom));
 			tile.setTileState(TileState.TS_LOADING);
 		}

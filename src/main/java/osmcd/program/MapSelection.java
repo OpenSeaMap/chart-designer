@@ -30,7 +30,7 @@ import osmb.utilities.geo.GeoCoordinate;
 public class MapSelection
 {
 	private static final Logger log = Logger.getLogger(MapSelection.class);
-	
+
 	// W #selCoord Only used in public JCoordinatesPanel(): new JCoordinateField(MapSelection.LAT_MIN, MapSelection.LAT_MAX) [JCoordinateField(double min, double
 	// max)]
 	public static final double LAT_MAX = MP2MapSpace.MAX_LAT;
@@ -81,7 +81,7 @@ public class MapSelection
 		this.zoom = zoom;
 		setCoordinates(p1.x, p2.x, p1.y, p2.y);
 	}
-	
+
 	// W #mapSpace MP2Pixel
 	public MapSelection(IfMapSource mapSource, MP2Pixel c1, MP2Pixel c2)
 	{
@@ -113,7 +113,8 @@ public class MapSelection
 	}
 
 	/**
-	 * Warning: maximum lat/lon is the top left corner of the top right pixel of the map selection! // W Warning: maximum lat/lon is the top right corner of the map selection!
+	 * Warning: maximum lat/lon is the top left corner of the top right pixel of the map selection! // W Warning: maximum lat/lon is the top right corner of the
+	 * map selection!
 	 * 
 	 * @return maximum lat/lon
 	 */
@@ -123,7 +124,8 @@ public class MapSelection
 	}
 
 	/**
-	 * Warning: minimum lat/lon is the top left corner of the bottom left pixel of the map selection! // W Warning: minimum lat/lon is the bottom left corner of the map selection!
+	 * Warning: minimum lat/lon is the top left corner of the bottom left pixel of the map selection! // W Warning: minimum lat/lon is the bottom left corner of
+	 * the map selection!
 	 * 
 	 * @return minimum lat/lon
 	 */
@@ -149,9 +151,9 @@ public class MapSelection
 	// W #mapSpace MP2Pixel
 	public MP2Pixel getTopLeftPixelCoordinate()
 	{
-		return new MP2Pixel( minPixelCoordinate_x, minPixelCoordinate_y, zoom);
+		return new MP2Pixel(minPixelCoordinate_x, minPixelCoordinate_y, zoom);
 	}
-	
+
 	/**
 	 * Returns the top left pixel x- and pixel y-coordinate (minimum) of the selected area marked by the {@link MapSelection}.
 	 * 

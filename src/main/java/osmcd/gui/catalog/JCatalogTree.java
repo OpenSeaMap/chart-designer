@@ -51,7 +51,6 @@ import osmb.program.map.IfMap;
 import osmb.program.tiles.TileImageParameters;
 import osmb.utilities.GUIExceptionHandler;
 import osmb.utilities.geo.GeoCoordinate;
-//W #mapSpace import osmb.utilities.geo.EastNorthCoordinate;
 import osmcd.OSMCDApp;
 import osmcd.OSMCDSettings;
 import osmcd.OSMCDStrs;
@@ -135,13 +134,13 @@ public class JCatalogTree extends JTree implements Autoscroll
 	public boolean testCatalogContentValid()
 	{
 		boolean bValid = false;
-		Catalog catalog = getCatalog(); // IfCatalog
+		Catalog catalog = getCatalog();
 		// if (IfRequiresSQLite.class.isAssignableFrom(catalog.getOutputFormat().getMapCreatorClass()))
 		// {
 		// if (!SQLiteLoader.loadSQLiteOrShowError())
 		// return false;
 		// }
-		if ((catalog.getFile() != null) && !catalog.isEmpty()) // /W && instead of ||, file member is now in normal case not null
+		if ((catalog.getFile() != null) && !catalog.isEmpty())
 		{
 			bValid = true;
 		}
@@ -205,9 +204,9 @@ public class JCatalogTree extends JTree implements Autoscroll
 		}
 		log.debug(String.format(OSMCDStrs.RStr("CatalogTree.CreateNewBundle"), name));
 		Catalog catalog = Catalog.newInstance(name);
-		OSMCDApp.getApp().setCatalog(catalog); // #gCatalog
+		OSMCDApp.getApp().setCatalog(catalog);
 		treeModel.notifyStructureChanged();
-		mapView.repaint(); // /W #???
+		mapView.repaint();
 	}
 
 	// /**
@@ -250,7 +249,7 @@ public class JCatalogTree extends JTree implements Autoscroll
 
 	public Catalog getCatalog()
 	{
-		return OSMCDApp.getApp().getCatalog(); // #gCatalog
+		return OSMCDApp.getApp().getCatalog();
 	}
 
 	// /W #deprecated -> make check in LoadCatalogListener#actionPerformed(ActionEvent e)
@@ -261,7 +260,6 @@ public class JCatalogTree extends JTree implements Autoscroll
 		{
 			Catalog catalog = null;
 
-			// #gCatalog
 			// treeModel.load(profile);
 			OSMCDApp.getApp().setCatalog((Catalog) Catalog.load(profile.getFile()));
 
@@ -295,7 +293,7 @@ public class JCatalogTree extends JTree implements Autoscroll
 	{
 		try
 		{
-			getCatalog().save(); // #gCatalog
+			getCatalog().save();
 			// /W write name of saved catalog to settings
 			OSMCDSettings s = OSMCDSettings.getInstance();
 			s.setCatalogName(getCatalog().getName());
@@ -350,7 +348,7 @@ public class JCatalogTree extends JTree implements Autoscroll
 						}
 						else
 						{
-							mapView.setSelectionByTileCoordinate(null, null, false);
+							mapView.setSelectionByPixelCoordinate(null, null, false);
 							MapAreaHighlightingLayer.removeHighlightingLayers();
 							mapView.mapLayers.add(msl);
 						}
@@ -370,7 +368,7 @@ public class JCatalogTree extends JTree implements Autoscroll
 					{
 						IfMap map = (IfMap) o;
 						mapView.setMapSource(map.getMapSource());
-						mapView.setSelectionByTileCoordinate(map.getZoom(), map.getMinPixelCoordinate(), map.getMaxPixelCoordinate(), true);
+						mapView.setSelectionByPixelCoordinate(map.getZoom(), map.getMinPixelCoordinate(), map.getMaxPixelCoordinate(), true);
 					}
 				});
 				pm.add(mi);
@@ -384,7 +382,7 @@ public class JCatalogTree extends JTree implements Autoscroll
 						MapSelection ms = new MapSelection(map);
 						mapView.setMapSource(map.getMapSource());
 						mapView.setSelectionAndZoomTo(ms, true);
-						mapView.setSelectionByTileCoordinate(map.getZoom(), map.getMinPixelCoordinate(), map.getMaxPixelCoordinate(), true);
+						mapView.setSelectionByPixelCoordinate(map.getZoom(), map.getMinPixelCoordinate(), map.getMaxPixelCoordinate(), true);
 					}
 				});
 				pm.add(mi);
@@ -405,10 +403,35 @@ public class JCatalogTree extends JTree implements Autoscroll
 			}
 			if (o instanceof IfLayer)
 			{
+				// W testing
+				mi = new JMenuItem(OSMCDStrs.RStr("CatalogTreePopUpMenu.SelectLayerBox"));
+				mi.addActionListener(new ActionListener()
+				{
+					@Override
+					public void actionPerformed(ActionEvent e)
+					{
+						IfLayer layer = (IfLayer) o;
+						GeoCoordinate max = new GeoCoordinate(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
+						GeoCoordinate min = new GeoCoordinate(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+						for (IfMap map : layer)
+						{
+							MapSelection ms = new MapSelection(map);
+							GeoCoordinate mapMax = ms.getMax();
+							GeoCoordinate mapMin = ms.getMin();
+							max.lat = Math.max(max.lat, mapMax.lat);
+							max.lon = Math.max(max.lon, mapMax.lon);
+							min.lat = Math.min(min.lat, mapMin.lat);
+							min.lon = Math.min(min.lon, mapMin.lon);
+						}//debug
+						log.info("min.lon=" + min.lon + ", max.lon=" + max.lon + ", min.lat=" + min.lat + ", max.lat=" + max.lat);
+						MapSelection ms = new MapSelection(mapView.getMapSource(), max, min);
+						mapView.setSelectionAndZoomTo(ms, true);
+					}
+				});
+				pm.add(mi);
 				mi = new JMenuItem(OSMCDStrs.RStr("lp_bundle_pop_menu_zoom_to"));
 				mi.addActionListener(new ActionListener()
 				{
-				//W #mapSpace EastNorthCoordinate <-> GeoCoordinate MP2Corner <-> MercatorPixelCoordinate
 					@Override
 					public void actionPerformed(ActionEvent e)
 					{
@@ -425,6 +448,7 @@ public class JCatalogTree extends JTree implements Autoscroll
 							min.lat = Math.min(min.lat, mapMin.lat);
 							min.lon = Math.min(min.lon, mapMin.lon);
 						}
+						// log.debug"min.lon=" + min.lon + ", max.lon=" + max.lon + ", min.lat=" + min.lat + ", max.lat=" + max.lat);
 						MapSelection ms = new MapSelection(mapView.getMapSource(), max, min);
 						mapView.zoomTo(ms);
 					}
@@ -501,7 +525,7 @@ public class JCatalogTree extends JTree implements Autoscroll
 		{
 			IfMap map = (IfMap) o;
 			mapView.setMapSource(map.getMapSource());
-			mapView.setSelectionByTileCoordinate(map.getZoom(), map.getMinPixelCoordinate(), map.getMaxPixelCoordinate(), true);
+			mapView.setSelectionByPixelCoordinate(map.getZoom(), map.getMinPixelCoordinate(), map.getMaxPixelCoordinate(), true);
 		}
 	}
 

@@ -18,53 +18,46 @@ package osmcd.program;
 
 import java.awt.Point;
 
+import org.apache.log4j.Logger;
+
 import osmb.mapsources.ACMultiLayerMapSource;
 import osmb.mapsources.IfMapSource;
-import osmb.mapsources.MP2Corner;
 import osmb.mapsources.MP2MapSpace;
-// import osmb.mapsources.mapspace.MercatorPower2MapSpace; // W #mapSpace // /W #selCoord
+import osmb.mapsources.MP2Pixel;
 import osmb.program.map.IfMap;
-// W #mapSpace import osmb.program.map.IfMapSpace;
-//W #mapSpace import osmb.utilities.geo.EastNorthCoordinate;
 import osmb.utilities.geo.GeoCoordinate;
-//W #mapSpace import osmb.utilities.image.MercatorPixelCoordinate;
 
 public class MapSelection
 {
-	// /W #selCoord Only used in public JCoordinatesPanel(): new JCoordinateField(MapSelection.LAT_MIN, MapSelection.LAT_MAX) [JCoordinateField(double min, double
+	private static final Logger log = Logger.getLogger(MapSelection.class);
+	
+	// W #selCoord Only used in public JCoordinatesPanel(): new JCoordinateField(MapSelection.LAT_MIN, MapSelection.LAT_MAX) [JCoordinateField(double min, double
 	// max)]
-	// /W prevents correct use of possible input to JCoordinateField
-	// public static final int LAT_MAX = 85;
-	// public static final int LAT_MIN = -85;
-	// public static final int LON_MAX = 179;
-	// public static final int LON_MIN = -179;
-	public static final double LAT_MAX = MP2MapSpace.MAX_LAT; // W #mapSpace MercatorPower2MapSpace.MAX_LAT;
-	public static final double LAT_MIN = MP2MapSpace.MIN_LAT; // W #mapSpace MercatorPower2MapSpace.MIN_LAT;
+	public static final double LAT_MAX = MP2MapSpace.MAX_LAT;
+	public static final double LAT_MIN = MP2MapSpace.MIN_LAT;
 	public static final double LON_MAX = 180.0;
 	public static final double LON_MIN = -180.0;
 
 	private final IfMapSource mapSource;
-	//W #mapSpace private final IfMapSpace mapSpace;
 	private final int mapSourceTileSize;
 	private final int zoom;
-	private int minTileCoordinate_x;
-	private int minTileCoordinate_y;
-	private int maxTileCoordinate_x;
-	private int maxTileCoordinate_y;
+	private int minPixelCoordinate_x;
+	private int minPixelCoordinate_y;
+	private int maxPixelCoordinate_x;
+	private int maxPixelCoordinate_y;
 
-//W #mapSpace EastNorthCoordinate <-> GeoCoordinate MP2Corner <-> MercatorPixelCoordinate
 	public MapSelection(IfMapSource mapSource, GeoCoordinate max, GeoCoordinate min)
 	{
 		super();
 		this.mapSource = mapSource;
-		// W #mapSpace this.mapSpace = mapSource.getMapSpace();
-		mapSourceTileSize = MP2MapSpace.getTileSize(); // W #mapSpace this.mapSpace.getTileSize();
-		zoom = MP2MapSpace.MAX_TECH_ZOOM; // W #mapSpace IfMapSpace.MAX_TECH_ZOOM;
+		mapSourceTileSize = MP2MapSpace.getTileSize();
+		zoom = Math.min(mapSource.getMaxZoom(), MP2MapSpace.MAX_TECH_ZOOM); // MP2MapSpace.MAX_TECH_ZOOM;
 		int x1 = MP2MapSpace.cLonToX(min.lon, zoom); // W #mapSpace mapSpace.cLonToX(min.lon, zoom);
 		int x2 = MP2MapSpace.cLonToX(max.lon, zoom); // W #mapSpace mapSpace.cLonToX(max.lon, zoom);
 		int y1 = MP2MapSpace.cLatToY(min.lat, zoom); // W #mapSpace mapSpace.cLatToY(min.lat, zoom);
 		int y2 = MP2MapSpace.cLatToY(max.lat, zoom); // W #mapSpace mapSpace.cLatToY(max.lat, zoom);
 		setCoordinates(x1, x2, y1, y2);
+		// log.debug("x1=" + x1 + ", x2=" + x2 + ", y1=" + y1 + ", y2=" + y2);
 	}
 
 	public MapSelection(IfMap map)
@@ -75,40 +68,37 @@ public class MapSelection
 	/**
 	 * @param mapSource
 	 * @param p1
-	 *          tile coordinate
+	 *          pixel coordinate
 	 * @param p2
-	 *          tile coordinate
+	 *          pixel coordinate
 	 * @param zoom
 	 */
 	public MapSelection(IfMapSource mapSource, Point p1, Point p2, int zoom)
 	{
 		super();
 		this.mapSource = mapSource;
-		// W #mapSpace this.mapSpace = mapSource.getMapSpace();
-		mapSourceTileSize = MP2MapSpace.getTileSize(); // W #mapSpace mapSpace.getTileSize();
+		mapSourceTileSize = MP2MapSpace.getTileSize();
 		this.zoom = zoom;
 		setCoordinates(p1.x, p2.x, p1.y, p2.y);
 	}
 	
-//W #mapSpace 
-//	public MapSelection(IfMapSource mapSource, MercatorPixelCoordinate c1, MercatorPixelCoordinate c2)
-	public MapSelection(IfMapSource mapSource, MP2Corner c1, MP2Corner c2)
+	// W #mapSpace MP2Pixel
+	public MapSelection(IfMapSource mapSource, MP2Pixel c1, MP2Pixel c2)
 	{
 		if (c1.getZoom() != c2.getZoom())
 			throw new RuntimeException("Different zoom levels - unsuported!");
 		this.mapSource = mapSource;
-		// W #mapSpace this.mapSpace = mapSource.getMapSpace();
-		mapSourceTileSize = MP2MapSpace.getTileSize(); // W #mapSpace mapSpace.getTileSize();
+		mapSourceTileSize = MP2MapSpace.getTileSize();
 		this.zoom = c1.getZoom();
 		setCoordinates(c1.getX(), c2.getX(), c1.getY(), c2.getY());
 	}
 
 	protected void setCoordinates(int x1, int x2, int y1, int y2)
 	{
-		maxTileCoordinate_x = Math.max(x1, x2);
-		minTileCoordinate_x = Math.min(x1, x2);
-		maxTileCoordinate_y = Math.max(y1, y2);
-		minTileCoordinate_y = Math.min(y1, y2);
+		maxPixelCoordinate_x = Math.max(x1, x2);
+		minPixelCoordinate_x = Math.min(x1, x2);
+		maxPixelCoordinate_y = Math.max(y1, y2);
+		minPixelCoordinate_y = Math.min(y1, y2);
 	}
 
 	/**
@@ -118,34 +108,28 @@ public class MapSelection
 	 */
 	public boolean isAreaSelected()
 	{
-		boolean result = maxTileCoordinate_x != minTileCoordinate_x && maxTileCoordinate_y != minTileCoordinate_y;
+		boolean result = maxPixelCoordinate_x != minPixelCoordinate_x && maxPixelCoordinate_y != minPixelCoordinate_y;
 		return result;
 	}
 
-//W  #mapSpace 	MP2Corner GeoCoordinate
 	/**
-	 * Warning: maximum lat/lon is the top right corner of the iMap selection!
+	 * Warning: maximum lat/lon is the top left corner of the top right pixel of the map selection! // W Warning: maximum lat/lon is the top right corner of the map selection!
 	 * 
 	 * @return maximum lat/lon
 	 */
 	public GeoCoordinate getMax()
 	{
-		return new MP2Corner(maxTileCoordinate_x, minTileCoordinate_y, zoom).toGeoCoordinate();
+		return new MP2Pixel(maxPixelCoordinate_x, minPixelCoordinate_y, zoom).toGeoUpperLeftCorner();
 	}
 
-//W  #mapSpace	GeoCoordinate
 	/**
-	 * Warning: minimum lat/lon is the bottom left corner of the iMap selection!
+	 * Warning: minimum lat/lon is the top left corner of the bottom left pixel of the map selection! // W Warning: minimum lat/lon is the bottom left corner of the map selection!
 	 * 
 	 * @return minimum lat/lon
 	 */
-//	public EastNorthCoordinate getMin()
-//	{
-//		return new EastNorthCoordinate(mapSpace, zoom, minTileCoordinate_x, maxTileCoordinate_y);
-//	}
 	public GeoCoordinate getMin()
 	{
-		return new MP2Corner(minTileCoordinate_x, maxTileCoordinate_y, zoom).toGeoCoordinate();
+		return new MP2Pixel(minPixelCoordinate_x, maxPixelCoordinate_y, zoom).toGeoUpperLeftCorner();
 	}
 
 	/**
@@ -162,14 +146,10 @@ public class MapSelection
 		return tlc;
 	}
 
-//W  #mapSpace 
-//	public MercatorPixelCoordinate getTopLeftPixelCoordinate()
-//	{
-//		return new MercatorPixelCoordinate(mapSpace, minTileCoordinate_x, minTileCoordinate_y, zoom);
-//	}
-	public MP2Corner getTopLeftPixelCoordinate()
+	// W #mapSpace MP2Pixel
+	public MP2Pixel getTopLeftPixelCoordinate()
 	{
-		return new MP2Corner( minTileCoordinate_x, minTileCoordinate_y, zoom);
+		return new MP2Pixel( minPixelCoordinate_x, minPixelCoordinate_y, zoom);
 	}
 	
 	/**
@@ -181,8 +161,8 @@ public class MapSelection
 	public Point getTopLeftPixelCoordinate(int aZoomlevel)
 	{
 		int zoomDiff = this.zoom - aZoomlevel;
-		int x = minTileCoordinate_x;
-		int y = minTileCoordinate_y;
+		int x = minPixelCoordinate_x;
+		int y = minPixelCoordinate_y;
 		if (zoomDiff < 0)
 		{
 			zoomDiff = -zoomDiff;
@@ -211,20 +191,15 @@ public class MapSelection
 		return brc;
 	}
 
-	// W #mapSpace 
 	/**
 	 * Returns the bottom right tile x- and y-tile-coordinate (minimum) of the selected area regarding the zoom level specified at creation time of this
 	 * {@link MapSelection} instance.
 	 * 
 	 * @return tile coordinate [0..(256 * 2<sup>zoom</sup>)]
 	 */
-//	public MercatorPixelCoordinate getBottomRightPixelCoordinate()
-//	{
-//		return new MercatorPixelCoordinate(mapSpace, maxTileCoordinate_x, maxTileCoordinate_y, zoom);
-//	}
-	public MP2Corner getBottomRightPixelCoordinate()
+	public MP2Pixel getBottomRightPixelCoordinate()
 	{
-		return new MP2Corner(maxTileCoordinate_x, maxTileCoordinate_y, zoom);
+		return new MP2Pixel(maxPixelCoordinate_x, maxPixelCoordinate_y, zoom);
 	}
 
 	/**
@@ -236,8 +211,8 @@ public class MapSelection
 	public Point getBottomRightPixelCoordinate(int aZoomlevel)
 	{
 		int zoomDiff = this.zoom - aZoomlevel;
-		int x = maxTileCoordinate_x;
-		int y = maxTileCoordinate_y;
+		int x = maxPixelCoordinate_x;
+		int y = maxPixelCoordinate_y;
 		if (zoomDiff < 0)
 		{
 			zoomDiff = -zoomDiff;
@@ -246,7 +221,7 @@ public class MapSelection
 		}
 		else
 		{
-			x >>= zoomDiff; // /W !!! 127->63->31->15->7->3->1->0
+			x >>= zoomDiff; // W !!! 127->63->31->15->7->3->1->0
 			y >>= zoomDiff;
 		}
 		return new Point(x, y);
@@ -291,10 +266,10 @@ public class MapSelection
 	}
 
 	@Override
-	public String toString()
+	public String toString() // used in PreviewMap#zoomTo(MapSelection ms)
 	{
-		GeoCoordinate max = getMax(); // W #mapSpace EastNorthCoordinate max = getMax();
-		GeoCoordinate min = getMin(); // W #mapSpace EastNorthCoordinate min = getMin();
+		GeoCoordinate max = getMax();
+		GeoCoordinate min = getMin();
 		return String.format("lat/lon: max(%6f/%6f) min(%6f/%6f)", new Object[]
 		{ max.lat, max.lon, min.lat, min.lon });
 	}

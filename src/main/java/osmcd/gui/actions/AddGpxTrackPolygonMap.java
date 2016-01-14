@@ -36,13 +36,11 @@ import osmb.mapsources.MP2MapSpace;
 import osmb.program.ACSettings;
 import osmb.program.catalog.IfCatalog;
 import osmb.program.map.IfMap;
-//W #mapSpace import osmb.program.map.IfMapSpace;
 import osmb.program.map.Layer;
 import osmb.program.map.MapPolygon;
 import osmb.program.tiles.TileImageParameters;
 import osmb.utilities.UnitSystem;
 import osmb.utilities.geo.GeoCoordinate;
-// W #mapSpace import osmb.utilities.geo.EastNorthCoordinate;
 import osmcd.OSMCDSettings;
 import osmcd.OSMCDStrs;
 import osmcd.data.gpx.gpx11.TrkType;
@@ -121,7 +119,6 @@ public class AddGpxTrackPolygonMap implements ActionListener
 			JOptionPane.showMessageDialog(mg, OSMCDStrs.RStr("msg_no_zoom_level_selected"));
 			return;
 		}
-	// W #mapSpace EastNorthCoordinate <-> GeoCoordinate
 		List<? extends GpxPoint> points = trk.getTrkpt();
 		final GeoCoordinate[] trackPoints = new GeoCoordinate[points.size()];
 		GeoCoordinate minCoordinate = new GeoCoordinate(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
@@ -138,7 +135,6 @@ public class AddGpxTrackPolygonMap implements ActionListener
 		}
 
 		final int maxZoom = zoomLevels[zoomLevels.length - 1]; // W #??? if zoomlevels == [3, 4, 5] -> maxZoom == 2
-		 // W #mapSpace final IfMapSpace mapSpace = mapSource.getMapSpace();
 		Point p1 = new Point(maxCoordinate.toPixelCoordinate(maxZoom).getX(), maxCoordinate.toPixelCoordinate(maxZoom).getY());
 		Point p2 = new Point(minCoordinate.toPixelCoordinate(maxZoom).getX(), minCoordinate.toPixelCoordinate(maxZoom).getY());
 

@@ -80,8 +80,8 @@ public abstract class ACMapController
 	protected Point convertToAbsolutePoint(Point p)
 	{
 		Point mapPoint = mMap.getTopLeftCoordinate();
-		mapPoint.x += p.getX();
-		mapPoint.y += p.getY();
+		mapPoint.x += p.x; // getX(); -> double
+		mapPoint.y += p.y; //getY();
 		mapPoint = MP2MapSpace.changeZoom(mapPoint, mMap.getZoom(), mMap.getMaxZoom()); // W #mapSpace mMap.getMapSource().getMapSpace().changeZoom(mapPoint, mMap.getZoom(), mMap.getMaxZoom());
 		return mapPoint;
 	}

@@ -30,12 +30,10 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import osmb.mapsources.IfMapSource;
-import osmb.mapsources.MP2Corner;
+import osmb.mapsources.MP2Pixel;
 import osmb.utilities.GBC;
 import osmb.utilities.geo.CoordinateStringFormat;
-//W #mapSpace import osmb.utilities.geo.EastNorthCoordinate;
 import osmb.utilities.geo.GeoCoordinate;
-//W #mapSpace import osmb.utilities.image.MercatorPixelCoordinate;
 import osmcd.OSMCDStrs;
 import osmcd.program.MapSelection;
 
@@ -51,7 +49,7 @@ public class JCoordinatesPanel extends JCollapsiblePanel
 	private JCoordinateField latMaxTextField;
 	private JCoordinateField lonMinTextField;
 	private JCoordinateField lonMaxTextField;
-	private JButton applySelectionButton; // /W #---
+	private JButton applySelectionButton; // W #---
 	private CoordinateStringFormat csf = CoordinateStringFormat.DEG_ENG;
 
 	public JCoordinatesPanel()
@@ -68,7 +66,7 @@ public class JCoordinatesPanel extends JCollapsiblePanel
 		lonMaxTextField = new JCoordinateField(MapSelection.LON_MIN, MapSelection.LON_MAX);
 		lonMaxTextField.setActionCommand("longMaxTextField");
 
-		applySelectionButton = new JButton(OSMCDStrs.RStr("lp_coords_select_btn_title")); // /W #---
+		applySelectionButton = new JButton(OSMCDStrs.RStr("lp_coords_select_btn_title")); // W #---
 
 		JLabel latMaxLabel = new JLabel(OSMCDStrs.RStr("lp_coords_label_N"), JLabel.CENTER);
 		JLabel lonMinLabel = new JLabel(OSMCDStrs.RStr("lp_coords_label_W"), JLabel.CENTER);
@@ -111,7 +109,7 @@ public class JCoordinatesPanel extends JCollapsiblePanel
 		southPanel.add(latMinLabel);
 		southPanel.add(latMinTextField);
 		contentContainer.add(southPanel, GBC.eol().anchor(GBC.CENTER));
-		// /W #--- contentContainer.add(applySelectionButton, GBC.eol().anchor(GBC.CENTER).insets(0, 5, 0, 0));
+		// W #--- contentContainer.add(applySelectionButton, GBC.eol().anchor(GBC.CENTER).insets(0, 5, 0, 0));
 	}
 
 	public void setNumberFormat(CoordinateStringFormat csf)
@@ -128,7 +126,6 @@ public class JCoordinatesPanel extends JCollapsiblePanel
 		return csf;
 	}
 
-//W #mapSpace EastNorthCoordinate <-> GeoCoordinate MP2Corner <-> MercatorPixelCoordinate
 	public void setCoordinates(GeoCoordinate max, GeoCoordinate min)
 	{
 		latMaxTextField.setCoordinate(max.lat);
@@ -139,22 +136,18 @@ public class JCoordinatesPanel extends JCollapsiblePanel
 
 	public void setCoordinates(MapSelection ms)
 	{
-// W #mapSpace 
-//		MercatorPixelCoordinate max = ms.getBottomRightPixelCoordinate();
-//		MercatorPixelCoordinate min = ms.getTopLeftPixelCoordinate();
-//		setSelection(max, min);
-		MP2Corner max = ms.getBottomRightPixelCoordinate();
-		MP2Corner min = ms.getTopLeftPixelCoordinate();
+		// W #mapSpace MP2Pixel
+		MP2Pixel max = ms.getBottomRightPixelCoordinate();
+		MP2Pixel min = ms.getTopLeftPixelCoordinate();
 		setSelection(max, min);
 	}
 
-//W #mapSpace EastNorthCoordinate <-> GeoCoordinate MP2Corner <-> MercatorPixelCoordinate
-	public void setSelection(MP2Corner max, MP2Corner min)
+	public void setSelection(MP2Pixel max, MP2Pixel min)
 	{
-		GeoCoordinate c1 = min.toGeoCoordinate(); //W #mapSpace getEastNorthCoordinate();
+		GeoCoordinate c1 = min.toGeoUpperLeftCorner();
 		latMaxTextField.setCoordinate(c1.lat);
 		lonMinTextField.setCoordinate(c1.lon);
-		GeoCoordinate c2 = max.toGeoCoordinate(); //W #mapSpace getEastNorthCoordinate();
+		GeoCoordinate c2 = max.toGeoUpperLeftCorner();
 		latMinTextField.setCoordinate(c2.lat);
 		lonMaxTextField.setCoordinate(c2.lon);
 	}
@@ -197,7 +190,6 @@ public class JCoordinatesPanel extends JCollapsiblePanel
 		}
 	}
 
-// W #mapSpace EastNorthCoordinate <-> GeoCoordinate MP2Corner <-> MercatorPixelCoordinate
 	public MapSelection getMapSelection(IfMapSource mapSource)
 	{
 		GeoCoordinate max = getMaxCoordinate();
@@ -205,13 +197,11 @@ public class JCoordinatesPanel extends JCollapsiblePanel
 		return new MapSelection(mapSource, max, min);
 	}
 
-// W #mapSpace
 	public GeoCoordinate getMaxCoordinate()
 	{
 		return new GeoCoordinate(latMaxTextField.getCoordinateOrNaN(), lonMaxTextField.getCoordinateOrNaN());
 	}
 
-// W #mapSpace
 	public GeoCoordinate getMinCoordinate()
 	{
 		return new GeoCoordinate(latMinTextField.getCoordinateOrNaN(), lonMinTextField.getCoordinateOrNaN());

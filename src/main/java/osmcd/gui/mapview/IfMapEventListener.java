@@ -1,14 +1,13 @@
 package osmcd.gui.mapview;
 
 import osmb.mapsources.IfMapSource;
-import osmb.mapsources.MP2Corner;
-//W #mapSpaceimport osmb.utilities.image.MercatorPixelCoordinate;
+import osmb.mapsources.MP2Pixel;
 
 public interface IfMapEventListener
 {
-//W #mapSpace EastNorthCoordinate <-> GeoCoordinate MP2Corner <-> MercatorPixelCoordinate
+	// W #mapSpace MP2Pixel
 	/** the selection changed */
-	public void selectionChanged(MP2Corner max, MP2Corner min);
+	public void selectionChanged(MP2Pixel max, MP2Pixel min);
 
 	/** the zoom changed */
 	public void zoomChanged(int newZoomLevel);

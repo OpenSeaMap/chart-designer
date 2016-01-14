@@ -30,14 +30,11 @@ import org.apache.log4j.Logger;
 import osmb.mapsources.ACMapSourcesManager;
 import osmb.mapsources.IfMapSource;
 import osmb.mapsources.IfMapSourceTextAttribution;
-import osmb.mapsources.MP2Corner;
 import osmb.mapsources.MP2MapSpace;
+import osmb.mapsources.MP2Pixel;
 import osmb.program.WgsGrid;
-// W #mapSpace import osmb.program.map.IfMapSpace;
 import osmb.utilities.MyMath;
-//W #mapSpace import osmb.utilities.geo.EastNorthCoordinate;
 import osmb.utilities.geo.GeoCoordinate;
-//W #mapSpace import osmb.utilities.image.MercatorPixelCoordinate;
 import osmcd.OSMCDSettings;
 import osmcd.OSMCDStrs;
 import osmcd.program.Bookmark;
@@ -57,13 +54,13 @@ public class PreviewMap extends JMapViewer
 
 	protected static final Font LOADING_FONT = new Font("Sans Serif", Font.BOLD, 30);
 	/**
-	 * Interactive map selection max/min pixel coordinates regarding zoom level <code>MAX_ZOOM</code>
+	 * Interactive map selection max/min pixel coordinates regarding zoom level <code>mMaxZoom</code>
 	 */
 	private Point iSelectionMin;
 	private Point iSelectionMax;
 
 	/**
-	 * Map selection max/min pixel coordinates regarding zoom level <code>MAX_ZOOM</code> with respect to the grid zoom.
+	 * Map selection max/min pixel coordinates regarding zoom level <code>mMaxZoom</code> with respect to the grid zoom.
 	 */
 	private Point gridSelectionStart;
 	private Point gridSelectionEnd;
@@ -90,14 +87,12 @@ public class PreviewMap extends JMapViewer
 		setEnabled(false);
 		defaultMapController = new DefaultMapController(this);
 		mapMarkersVisible = false;
-		setZoomControlsVisible(false);
 
 		mapKeyboardController = new MapKeyboardController(this, true);
 		setMapSelectionController(new RectangleSelectionMapController(this));
 		log.trace("PreviewMap() constructed");
 	}
 
-//W #mapSpace EastNorthCoordinate <-> GeoCoordinate MP2Corner <-> MercatorPixelCoordinate
 	public void setDisplayPositionByLatLon(GeoCoordinate c, int zoom)
 	{
 		setDisplayPositionByLatLon(new Point(getWidth() / 2, getHeight() / 2), c.lat, c.lon, zoom);
@@ -128,12 +123,10 @@ public class PreviewMap extends JMapViewer
 			setMapSource(mapSource);
 		else // W
 			mapSource = ACMapSourcesManager.getInstance().getDefaultMapSource();
-	//W #mapSpace EastNorthCoordinate <-> GeoCoordinate MP2Corner <-> MercatorPixelCoordinate
 		GeoCoordinate c = settings.getMapviewCenterCoordinate();
 		gridZoom = settings.getMapviewGridZoom();
 		setDisplayPositionByLatLon(c, settings.getMapviewZoom());
-		// setSelectionByTileCoordinate(MAX_ZOOM, settings.mapviewSelectionMin, settings.mapviewSelectionMax, true);
-		setSelectionByTileCoordinate(mapSource.getMaxZoom(), settings.getMapviewSelectionMin(), settings.getMapviewSelectionMax(), true);
+		setSelectionByPixelCoordinate(mapSource.getMaxZoom(), settings.getMapviewSelectionMin(), settings.getMapviewSelectionMax(), true);
 	}
 
 	@Override
@@ -341,8 +334,8 @@ public class PreviewMap extends JMapViewer
 	public GeoCoordinate getCenterCoordinate()
 	{
 		// W #mapSpace IfMapSpace mapSpace = mMapSource.getMapSpace();
-		double lon = MP2MapSpace.cXToLon_Borders(center.x, mZoom); // W #mapSpace mapSpace.cXToLon(center.x, mZoom);
-		double lat = MP2MapSpace.cYToLat_Borders(center.y, mZoom); // W #mapSpace mapSpace.cYToLat(center.y, mZoom);
+		double lon = MP2MapSpace.cXToLon(center.x, mZoom); // W #mapSpace mapSpace.cXToLon(center.x, mZoom);
+		double lat = MP2MapSpace.cYToLat(center.y, mZoom); // W #mapSpace mapSpace.cYToLat(center.y, mZoom);
 		return new GeoCoordinate(lat, lon);
 	}
 
@@ -378,7 +371,7 @@ public class PreviewMap extends JMapViewer
 		setDisplayToFitPixelCoordinates(max.x, max.y, min.x, min.y);
 		Point pStart = ms.getTopLeftPixelCoordinate(mZoom);
 		Point pEnd = ms.getBottomRightPixelCoordinate(mZoom);
-		setSelectionByTileCoordinate(pStart, pEnd, notifyListeners);
+		setSelectionByPixelCoordinate(pStart, pEnd, notifyListeners);
 	}
 
 	/**
@@ -389,9 +382,9 @@ public class PreviewMap extends JMapViewer
 	 *          x/y tile coordinate of the bottom right tile regarding the current zoom level
 	 * @param notifyListeners
 	 */
-	public void setSelectionByTileCoordinate(Point pStart, Point pEnd, boolean notifyListeners)
+	public void setSelectionByPixelCoordinate(Point pStart, Point pEnd, boolean notifyListeners)
 	{
-		setSelectionByTileCoordinate(mZoom, pStart, pEnd, notifyListeners);
+		setSelectionByPixelCoordinate(mZoom, pStart, pEnd, notifyListeners);
 	}
 
 	/**
@@ -402,7 +395,7 @@ public class PreviewMap extends JMapViewer
 	 * @param pEnd
 	 * @param notifyListeners
 	 */
-	public void setSelectionByTileCoordinate(int cZoom, Point pStart, Point pEnd, boolean notifyListeners)
+	public void setSelectionByPixelCoordinate(int cZoom, Point pStart, Point pEnd, boolean notifyListeners)
 	{
 		if (pStart == null || pEnd == null)
 		{
@@ -499,11 +492,11 @@ public class PreviewMap extends JMapViewer
 			x_max = iSelectionMax.x;
 			y_max = iSelectionMax.y;
 		}
-	//W #mapSpace EastNorthCoordinate <-> GeoCoordinate MP2Corner <-> MercatorPixelCoordinate
-		MP2Corner min = new MP2Corner(x_min, y_min, getMaxZoom());
-		MP2Corner max = new MP2Corner( x_max, y_max, getMaxZoom());
-		log.debug("sel min: [" + min + "]"); // /W //
-		log.debug("sel max: [" + max + "]"); // /W //
+		//W #mapSpace
+		MP2Pixel min = new MP2Pixel(x_min, y_min, getMaxZoom());
+		MP2Pixel max = new MP2Pixel( x_max, y_max, getMaxZoom());
+		// log.debug("sel min: [" + min + "]");
+		// log.debug("sel max: [" + max + "]");
 		for (IfMapEventListener listener : mapEventListeners)
 			listener.selectionChanged(max, min);
 	}

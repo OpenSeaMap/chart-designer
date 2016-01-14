@@ -57,7 +57,7 @@ public class RectangleSelectionMapController extends ACMapController implements 
 	public void disable()
 	{
 		mMap.mapLayers.remove(mapLayer);
-		mMap.setSelectionByTileCoordinate(null, null, true);
+		mMap.setSelectionByPixelCoordinate(null, null, true);
 		super.disable();
 	}
 
@@ -83,7 +83,7 @@ public class RectangleSelectionMapController extends ACMapController implements 
 			if (iStartSelectionPoint != null)
 			{
 				iEndSelectionPoint = convertToAbsolutePoint(e.getPoint());
-				mMap.setSelectionByTileCoordinate(mMap.getMaxZoom(), iStartSelectionPoint, iEndSelectionPoint, true);
+				mMap.setSelectionByPixelCoordinate(mMap.getMaxZoom(), iStartSelectionPoint, iEndSelectionPoint, true);
 			}
 		}
 	}
@@ -99,7 +99,7 @@ public class RectangleSelectionMapController extends ACMapController implements 
 		{
 			if (e.getClickCount() == 1)
 			{
-				mMap.setSelectionByTileCoordinate(mMap.getMaxZoom(), iStartSelectionPoint, convertToAbsolutePoint(e.getPoint()), true);
+				mMap.setSelectionByPixelCoordinate(mMap.getMaxZoom(), iStartSelectionPoint, convertToAbsolutePoint(e.getPoint()), true);
 			}
 		}
 		mMap.grabFocus();

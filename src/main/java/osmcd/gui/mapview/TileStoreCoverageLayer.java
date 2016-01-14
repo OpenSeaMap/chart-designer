@@ -23,10 +23,14 @@ import java.util.Iterator;
 
 import javax.swing.JOptionPane;
 
+import org.apache.log4j.Logger;
+
 import osmb.mapsources.IfMapSource;
+import osmb.mapsources.MP2Corner;
 import osmb.mapsources.MP2MapSpace;
+import osmb.mapsources.MP2Pixel;
+import osmb.mapsources.MP2Tile;
 import osmb.program.DelayedInterruptThread;
-//W #mapSpace import osmb.program.map.IfMapSpace;
 import osmb.program.tilestore.ACSiTileStore;
 import osmb.utilities.GUIExceptionHandler;
 import osmb.utilities.OSMBStrs;
@@ -36,12 +40,13 @@ import osmcd.gui.dialogs.WorkinprogressDialog;
 
 public class TileStoreCoverageLayer implements IfMapLayer
 {
+	private static final Logger log = Logger.getLogger(TileStoreCoverageLayer.class);
+	
 	private final IfMapSource mapSource;
-	private final int zoom;
-	private final Point pixelCoordinateMin;
-	private final Point pixelCoordinateMax;
-	private final Point tileNumMin;
-	private final Point tileNumMax;
+	private final int mZoom;
+	private final MP2Tile mtcMin_mZoom;
+	private final MP2Tile mtcMax_mZoom;
+
 	private BufferedImage coverageImage = null;
 
 	public static void removeCacheCoverageLayers()
@@ -68,20 +73,17 @@ public class TileStoreCoverageLayer implements IfMapLayer
 	public TileStoreCoverageLayer(PreviewMap mapViewer, IfMapSource mapSource, int zoom)
 	{
 		this.mapSource = mapSource;
-		this.zoom = zoom;
-
-		// W #mapSpace IfMapSpace mapSpace = mapSource.getMapSpace();
-		int tileSize = MP2MapSpace.getTileSize(); // W #mapSpace mapSpace.getTileSize();
+		this.mZoom = zoom;
 		int mapViewerZoom = mapViewer.getZoom();
-		Point min = mapViewer.getTopLeftCoordinate();
-		Point max = new Point(min.x + mapViewer.getWidth(), min.y + mapViewer.getHeight());
-		min = MP2MapSpace.changeZoom(min, mapViewerZoom, zoom); // W #mapSpace
-		max = MP2MapSpace.changeZoom(max, mapViewerZoom, zoom); // W #mapSpace
-
-		tileNumMax = new Point(max.x / tileSize, max.y / tileSize);
-		tileNumMin = new Point(min.x / tileSize, min.y / tileSize);
-		pixelCoordinateMax = new Point(tileNumMax.x * tileSize + tileSize - 1, tileNumMax.y * tileSize + tileSize - 1);
-		pixelCoordinateMin = new Point(tileNumMin.x * tileSize, tileNumMin.y * tileSize);
+		MP2Corner mccMin_MapViewerZoom = new MP2Corner(mapViewer.getTopLeftCoordinate().x, mapViewer.getTopLeftCoordinate().y, mapViewerZoom);
+		MP2Corner mccMin_mZoom = mccMin_MapViewerZoom.adaptToZoomlevel(mZoom);
+		MP2Corner mccMax_MapViewerZoom = new MP2Corner(mapViewer.getTopLeftCoordinate().x + mapViewer.getWidth() - 1,
+				                                            mapViewer.getTopLeftCoordinate().y + mapViewer.getHeight() - 1, mapViewerZoom);
+		MP2Corner mccMax_mZoom = mccMax_MapViewerZoom.adaptToZoomlevel(mZoom);
+		
+		mtcMin_mZoom = new MP2Pixel(mccMin_mZoom).getTileCoordinate();
+		mtcMax_mZoom = new MP2Pixel(mccMax_mZoom).getTileCoordinate();
+		
 		updateCoverageImage();
 	}
 
@@ -95,7 +97,9 @@ public class TileStoreCoverageLayer implements IfMapLayer
 			{
 				try
 				{
-					coverageImage = ACSiTileStore.getInstance().getCacheCoverage(mapSource, zoom, tileNumMin, tileNumMax);
+					Point tileNumMin = new Point(mtcMin_mZoom.getX(), mtcMin_mZoom.getY());
+					Point tileNumMax = new Point(mtcMax_mZoom.getX(), mtcMax_mZoom.getY());
+					coverageImage = ACSiTileStore.getInstance().getCacheCoverage(mapSource, mZoom, tileNumMin, tileNumMax);
 					if (coverageImage == null)
 						JOptionPane.showMessageDialog(MainFrame.getMainGUI(), OSMCDStrs.RStr("msg_tile_store_failed_retrieve_coverage"), OSMBStrs.RStr("Error"),
 		            JOptionPane.ERROR_MESSAGE);
@@ -121,22 +125,15 @@ public class TileStoreCoverageLayer implements IfMapLayer
 	{
 		if (coverageImage == null)
 			return;
-		paintCoverage(g, zoom, minX, minY, maxX, maxY);
-	}
-
-	protected void paintCoverage(Graphics2D g, int zoom, int minX, int minY, int maxX, int maxY)
-	{
-		Point max = pixelCoordinateMax;
-		Point min = pixelCoordinateMin;
-		// W #mapSpace IfMapSpace mapSpace = mapSource.getMapSpace();
-		int mapX = MP2MapSpace.xyChangeZoom(min.x, this.zoom, zoom); // W #mapSpace mapSpace.xChangeZoom(min.x, this.zoom, zoom);
-		int mapY = MP2MapSpace.xyChangeZoom(min.y, this.zoom, zoom); // W #mapSpace mapSpace.yChangeZoom(min.y, this.zoom, zoom);
-		int mapW = MP2MapSpace.xyChangeZoom(max.x - min.x + 1, this.zoom, zoom); // W #mapSpace mapSpace.xChangeZoom(max.x - min.x + 1, this.zoom, zoom);
-		int mapH = MP2MapSpace.xyChangeZoom(max.y - min.y + 1, this.zoom, zoom); // W #mapSpace mapSpace.yChangeZoom(max.y - min.y + 1, this.zoom, zoom);
-		int x = mapX - minX;
-		int y = mapY - minY;
-		int w = mapW;
-		int h = mapH;
-		g.drawImage(coverageImage, x, y, w, h, null);
+		int maxTechZoom = MP2MapSpace.MAX_TECH_ZOOM;
+		MP2Corner mccMin = mtcMin_mZoom.getUpperLeftCorner().adaptToZoomlevel(zoom);
+		int width_MaxTechZoom = ((mtcMax_mZoom.getX() - mtcMin_mZoom.getX() + 1) * MP2MapSpace.TECH_TILESIZE) << (maxTechZoom - mZoom);
+		int height_MaxTechZoom = ((mtcMax_mZoom.getY() - mtcMin_mZoom.getY() + 1) * MP2MapSpace.TECH_TILESIZE) << (maxTechZoom - mZoom);
+		int x = mccMin.getX() - minX;
+		int y = mccMin.getY() - minY;
+		int w = width_MaxTechZoom >> (maxTechZoom - zoom);
+		int h = height_MaxTechZoom >> (maxTechZoom - zoom);
+		log.debug("x = " + x + ", y = " + y + ", w = " + w + ", h = " + h);
+		g.drawImage(coverageImage, x, y, w, h, null); // + 1 + 1
 	}
 }

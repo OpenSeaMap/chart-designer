@@ -18,18 +18,18 @@ package osmcd.program;
 
 import java.awt.Point;
 
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
 
 import osmb.mapsources.ACMultiLayerMapSource;
 import osmb.mapsources.IfMapSource;
 import osmb.mapsources.MP2MapSpace;
-import osmb.mapsources.MP2Pixel;
+import osmb.mapsources.PixelAddress;
 import osmb.program.map.IfMap;
 import osmb.utilities.geo.GeoCoordinate;
 
 public class MapSelection
 {
-	private static final Logger log = Logger.getLogger(MapSelection.class);
+//	private static final Logger log = Logger.getLogger(MapSelection.class);
 
 	// W #selCoord Only used in public JCoordinatesPanel(): new JCoordinateField(MapSelection.LAT_MIN, MapSelection.LAT_MAX) [JCoordinateField(double min, double
 	// max)]
@@ -51,11 +51,11 @@ public class MapSelection
 		super();
 		this.mapSource = mapSource;
 		mapSourceTileSize = MP2MapSpace.getTileSize();
-		zoom = Math.min(mapSource.getMaxZoom(), MP2MapSpace.MAX_TECH_ZOOM); // MP2MapSpace.MAX_TECH_ZOOM;
-		int x1 = MP2MapSpace.cLonToX(min.lon, zoom); // W #mapSpace mapSpace.cLonToX(min.lon, zoom);
-		int x2 = MP2MapSpace.cLonToX(max.lon, zoom); // W #mapSpace mapSpace.cLonToX(max.lon, zoom);
-		int y1 = MP2MapSpace.cLatToY(min.lat, zoom); // W #mapSpace mapSpace.cLatToY(min.lat, zoom);
-		int y2 = MP2MapSpace.cLatToY(max.lat, zoom); // W #mapSpace mapSpace.cLatToY(max.lat, zoom);
+		zoom = Math.min(mapSource.getMaxZoom(), MP2MapSpace.MAX_TECH_ZOOM);
+		int x1 = MP2MapSpace.cLonToXIndex(min.lon, zoom);
+		int x2 = MP2MapSpace.cLonToXIndex(max.lon, zoom);
+		int y1 = MP2MapSpace.cLatToYIndex(min.lat, zoom);
+		int y2 = MP2MapSpace.cLatToYIndex(max.lat, zoom);
 		setCoordinates(x1, x2, y1, y2);
 		// log.debug("x1=" + x1 + ", x2=" + x2 + ", y1=" + y1 + ", y2=" + y2);
 	}
@@ -83,7 +83,7 @@ public class MapSelection
 	}
 
 	// W #mapSpace MP2Pixel
-	public MapSelection(IfMapSource mapSource, MP2Pixel c1, MP2Pixel c2)
+	public MapSelection(IfMapSource mapSource, PixelAddress c1, PixelAddress c2)
 	{
 		if (c1.getZoom() != c2.getZoom())
 			throw new RuntimeException("Different zoom levels - unsuported!");
@@ -120,7 +120,7 @@ public class MapSelection
 	 */
 	public GeoCoordinate getMax()
 	{
-		return new MP2Pixel(maxPixelCoordinate_x, minPixelCoordinate_y, zoom).toGeoUpperLeftCorner();
+		return new PixelAddress(maxPixelCoordinate_x, minPixelCoordinate_y, zoom).toGeoUpperLeftCorner();
 	}
 
 	/**
@@ -131,7 +131,7 @@ public class MapSelection
 	 */
 	public GeoCoordinate getMin()
 	{
-		return new MP2Pixel(minPixelCoordinate_x, maxPixelCoordinate_y, zoom).toGeoUpperLeftCorner();
+		return new PixelAddress(minPixelCoordinate_x, maxPixelCoordinate_y, zoom).toGeoUpperLeftCorner();
 	}
 
 	/**
@@ -149,9 +149,9 @@ public class MapSelection
 	}
 
 	// W #mapSpace MP2Pixel
-	public MP2Pixel getTopLeftPixelCoordinate()
+	public PixelAddress getTopLeftPixelCoordinate()
 	{
-		return new MP2Pixel(minPixelCoordinate_x, minPixelCoordinate_y, zoom);
+		return new PixelAddress(minPixelCoordinate_x, minPixelCoordinate_y, zoom);
 	}
 
 	/**
@@ -199,9 +199,9 @@ public class MapSelection
 	 * 
 	 * @return tile coordinate [0..(256 * 2<sup>zoom</sup>)]
 	 */
-	public MP2Pixel getBottomRightPixelCoordinate()
+	public PixelAddress getBottomRightPixelCoordinate()
 	{
-		return new MP2Pixel(maxPixelCoordinate_x, maxPixelCoordinate_y, zoom);
+		return new PixelAddress(maxPixelCoordinate_x, maxPixelCoordinate_y, zoom);
 	}
 
 	/**

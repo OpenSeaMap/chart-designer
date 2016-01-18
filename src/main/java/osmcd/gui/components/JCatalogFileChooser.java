@@ -30,7 +30,7 @@ public class JCatalogFileChooser extends javax.swing.JFileChooser
 		setCurrentDirectory(catalogsDir);
 
 		String settingsCatalogName = settings.getCatalogName();
-		if (settings.getCatalogNameMakeNew())
+		if (settings.getCatalogNameMakeNew() || settingsCatalogName == null) // W ??? gegen Exception bei falschem settings-Namen
 		{
 			String newName = Catalog.makeNewCatalogsName();
 			newName = Catalog.getCatalogFileName(newName);
@@ -41,7 +41,7 @@ public class JCatalogFileChooser extends javax.swing.JFileChooser
 		{
 			String cName = settingsCatalogName;
 			cName = Catalog.getCatalogFileName(cName);
-			File catalogFile = new File(catalogsDir, cName);
+			File catalogFile = new File(catalogsDir, cName); // W Exception bei falschem settings-Namen
 			setSelectedFile(catalogFile);
 		}
 

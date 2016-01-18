@@ -28,8 +28,8 @@ import org.apache.log4j.Logger;
 import osmb.mapsources.IfMapSource;
 import osmb.mapsources.MP2Corner;
 import osmb.mapsources.MP2MapSpace;
-import osmb.mapsources.MP2Pixel;
-import osmb.mapsources.MP2Tile;
+import osmb.mapsources.PixelAddress;
+import osmb.mapsources.TileAddress;
 import osmb.program.DelayedInterruptThread;
 import osmb.program.tilestore.ACSiTileStore;
 import osmb.utilities.GUIExceptionHandler;
@@ -44,8 +44,8 @@ public class TileStoreCoverageLayer implements IfMapLayer
 	
 	private final IfMapSource mapSource;
 	private final int mZoom;
-	private final MP2Tile mtcMin_mZoom;
-	private final MP2Tile mtcMax_mZoom;
+	private final TileAddress mtcMin_mZoom;
+	private final TileAddress mtcMax_mZoom;
 
 	private BufferedImage coverageImage = null;
 
@@ -81,8 +81,8 @@ public class TileStoreCoverageLayer implements IfMapLayer
 				                                            mapViewer.getTopLeftCoordinate().y + mapViewer.getHeight() - 1, mapViewerZoom);
 		MP2Corner mccMax_mZoom = mccMax_MapViewerZoom.adaptToZoomlevel(mZoom);
 		
-		mtcMin_mZoom = new MP2Pixel(mccMin_mZoom).getTileCoordinate();
-		mtcMax_mZoom = new MP2Pixel(mccMax_mZoom).getTileCoordinate();
+		mtcMin_mZoom = new PixelAddress(mccMin_mZoom).getTileAddress();
+		mtcMax_mZoom = new PixelAddress(mccMax_mZoom).getTileAddress();
 		
 		updateCoverageImage();
 	}

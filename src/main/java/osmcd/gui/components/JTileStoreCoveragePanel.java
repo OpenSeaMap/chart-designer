@@ -27,7 +27,7 @@ import javax.swing.JLabel;
 
 import osmb.mapsources.ACMultiLayerMapSource;
 import osmb.mapsources.IfMapSource;
-import osmb.mapsources.MP2Pixel;
+import osmb.mapsources.PixelAddress;
 import osmb.utilities.GBC;
 import osmcd.OSMCDStrs;
 import osmcd.gui.mapview.ACMapController;
@@ -147,7 +147,7 @@ public class JTileStoreCoveragePanel extends JCollapsiblePanel implements IfMapE
 	}
 
 	@Override
-	public void selectionChanged(MP2Pixel max, MP2Pixel min)
+	public void selectionChanged(PixelAddress max, PixelAddress min)
 	{
 	}
 

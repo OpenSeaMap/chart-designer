@@ -30,7 +30,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import osmb.mapsources.IfMapSource;
-import osmb.mapsources.MP2Pixel;
+import osmb.mapsources.PixelAddress;
 import osmb.utilities.GBC;
 import osmb.utilities.geo.CoordinateStringFormat;
 import osmb.utilities.geo.GeoCoordinate;
@@ -137,12 +137,12 @@ public class JCoordinatesPanel extends JCollapsiblePanel
 	public void setCoordinates(MapSelection ms)
 	{
 		// W #mapSpace MP2Pixel
-		MP2Pixel max = ms.getBottomRightPixelCoordinate();
-		MP2Pixel min = ms.getTopLeftPixelCoordinate();
+		PixelAddress max = ms.getBottomRightPixelCoordinate();
+		PixelAddress min = ms.getTopLeftPixelCoordinate();
 		setSelection(max, min);
 	}
 
-	public void setSelection(MP2Pixel max, MP2Pixel min)
+	public void setSelection(PixelAddress max, PixelAddress min)
 	{
 		GeoCoordinate c1 = min.toGeoUpperLeftCorner();
 		latMaxTextField.setCoordinate(c1.lat);

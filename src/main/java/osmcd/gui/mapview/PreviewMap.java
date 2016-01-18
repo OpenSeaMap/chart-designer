@@ -31,7 +31,7 @@ import osmb.mapsources.ACMapSourcesManager;
 import osmb.mapsources.IfMapSource;
 import osmb.mapsources.IfMapSourceTextAttribution;
 import osmb.mapsources.MP2MapSpace;
-import osmb.mapsources.MP2Pixel;
+import osmb.mapsources.PixelAddress;
 import osmb.program.WgsGrid;
 import osmb.utilities.MyMath;
 import osmb.utilities.geo.GeoCoordinate;
@@ -146,7 +146,7 @@ public class PreviewMap extends JMapViewer
 	@Override
 	protected void zoomChanged(int oldZoom)
 	{
-		log.info("Preview map zoom changed from " + oldZoom + " to " + mZoom);
+		log.trace("Preview map zoom changed from " + oldZoom + " to " + mZoom);
 		if (mapEventListeners != null)
 			for (IfMapEventListener listener : mapEventListeners)
 				listener.zoomChanged(mZoom);
@@ -327,15 +327,13 @@ public class PreviewMap extends JMapViewer
 		setZoom(bookmark.getZoom());
 	}
 
-//W #mapSpace EastNorthCoordinate <-> GeoCoordinate MP2Corner <-> MercatorPixelCoordinate
 	/**
 	 * @return Coordinate of the point in the center of the currently displayed map region
 	 */
 	public GeoCoordinate getCenterCoordinate()
 	{
-		// W #mapSpace IfMapSpace mapSpace = mMapSource.getMapSpace();
-		double lon = MP2MapSpace.cXToLon(center.x, mZoom); // W #mapSpace mapSpace.cXToLon(center.x, mZoom);
-		double lat = MP2MapSpace.cYToLat(center.y, mZoom); // W #mapSpace mapSpace.cYToLat(center.y, mZoom);
+		double lon = MP2MapSpace.cXToLonLeftBorder(center.x, mZoom);
+		double lat = MP2MapSpace.cYToLatUpperBorder(center.y, mZoom);
 		return new GeoCoordinate(lat, lon);
 	}
 
@@ -493,8 +491,8 @@ public class PreviewMap extends JMapViewer
 			y_max = iSelectionMax.y;
 		}
 		//W #mapSpace
-		MP2Pixel min = new MP2Pixel(x_min, y_min, getMaxZoom());
-		MP2Pixel max = new MP2Pixel( x_max, y_max, getMaxZoom());
+		PixelAddress min = new PixelAddress(x_min, y_min, getMaxZoom());
+		PixelAddress max = new PixelAddress( x_max, y_max, getMaxZoom());
 		// log.debug("sel min: [" + min + "]");
 		// log.debug("sel max: [" + max + "]");
 		for (IfMapEventListener listener : mapEventListeners)

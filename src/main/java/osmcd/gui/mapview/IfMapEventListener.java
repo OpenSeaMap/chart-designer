@@ -1,13 +1,12 @@
 package osmcd.gui.mapview;
 
 import osmb.mapsources.IfMapSource;
-import osmb.mapsources.MP2Pixel;
+import osmb.mapsources.PixelAddress;
 
 public interface IfMapEventListener
 {
-	// W #mapSpace MP2Pixel
 	/** the selection changed */
-	public void selectionChanged(MP2Pixel max, MP2Pixel min);
+	public void selectionChanged(PixelAddress max, PixelAddress min);
 
 	/** the zoom changed */
 	public void zoomChanged(int newZoomLevel);

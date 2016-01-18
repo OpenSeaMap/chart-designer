@@ -72,7 +72,7 @@ import org.apache.log4j.Logger;
 import osmb.mapsources.IfInitializableMapSource;
 import osmb.mapsources.IfMapSource;
 import osmb.mapsources.MP2MapSpace;
-import osmb.mapsources.MP2Pixel;
+import osmb.mapsources.PixelAddress;
 import osmb.program.WgsGrid.WgsDensity;
 import osmb.program.WgsGridSettings;
 import osmb.program.catalog.Catalog;
@@ -204,8 +204,8 @@ public class MainFrame extends JFrame implements IfMapEventListener
 	private JMenuItem smCircle;
 
 	// W #mapSpace MP2Pixel
-	private MP2Pixel mapSelectionMax = null;
-	private MP2Pixel mapSelectionMin = null;
+	private PixelAddress mapSelectionMax = null;
+	private PixelAddress mapSelectionMin = null;
 
 	public static void createMainGui()
 	{
@@ -1108,7 +1108,7 @@ public class MainFrame extends JFrame implements IfMapEventListener
 
 	@Override
 	// W #mapSpace MP2Pixel
-	public void selectionChanged(MP2Pixel max, MP2Pixel min)
+	public void selectionChanged(PixelAddress max, PixelAddress min)
 	{
 		mapSelectionMax = max;
 		mapSelectionMin = min;

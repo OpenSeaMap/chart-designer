@@ -118,11 +118,11 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 		mapMarkersVisible = true;
 
 		setLayout(null);
+		mJobDispatcher = new JobDispatcher(downloadThreadCount); // mJobDispatcher is used in setMapSource(defaultMapSource); 
 		setMapSource(defaultMapSource);
 		setMinimumSize(new Dimension(MP2MapSpace.TECH_TILESIZE, MP2MapSpace.TECH_TILESIZE));
 		setPreferredSize(new Dimension(5 * MP2MapSpace.TECH_TILESIZE, 3 * MP2MapSpace.TECH_TILESIZE));
 		setDisplayPositionByLatLon(52.0, 7.0, 8);
-		mJobDispatcher = new JobDispatcher(downloadThreadCount);
 	}
 
 	/**
@@ -154,11 +154,8 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 	 */
 	public void setDisplayPositionByLatLon(Point mapPoint, double lat, double lon, int zoom)
 	{
-		// W #mapSpace IfMapSpace mapSpace = mMapSource.getMapSpace();
-		// limitation to east by cLonToX and to south and north by cLatToY
-		// limitations to E;W;S;N by ..._Borders
-		int x = MP2MapSpace.cLonToX(lon, zoom); // W #mapSpace mapSpace.cLonToX(lon, zoom);
-		int y = MP2MapSpace.cLatToY(lat, zoom); // W #mapSpace mapSpace.cLatToY(lat, zoom);
+		int x = MP2MapSpace.cLonToXIndex(lon, zoom);
+		int y = MP2MapSpace.cLatToYIndex(lat, zoom);
 		setDisplayPosition(mapPoint, x, y, zoom);
 	}
 
@@ -633,7 +630,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 		this.mMapSource = mapSource;
 		mMinZoom = Math.max(mapSource.getMinZoom(), MP2MapSpace.MIN_TECH_ZOOM);
 		mMaxZoom = Math.min(mapSource.getMaxZoom(), MP2MapSpace.MAX_TECH_ZOOM);
-		// mJobDispatcher.cancelOutstandingJobs(); // W #???
+		mJobDispatcher.cancelOutstandingJobs();
 		if (mZoom > mMaxZoom)
 			setZoom(mMaxZoom);
 		if (mZoom < mMinZoom)

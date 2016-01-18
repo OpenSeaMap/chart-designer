@@ -89,11 +89,11 @@ public class DefaultMapTileLayer implements IfMapTileLayer
 			if (usePlaceHolders)
 				tile.loadPlaceholderFromCache(mapViewer.getTileImageCache());
 		}
-		if (tile.getTileState() == TileState.TS_NEW || tile.getTileState() == TileState.TS_LOADING)
+		if ((tile.getTileState() == TileState.TS_NEW) || (tile.getTileState() == TileState.TS_LOADING))
 		{
 			log.debug("queue load job for " + tile);
 			mapViewer.getJobDispatcher().execute(mapViewer.getTileLoader().createTileLoaderJob(mapSource, tilex, tiley, zoom));
-			tile.setTileState(TileState.TS_LOADING);
+			tile.setLoadingImage();
 		}
 		else
 			log.debug("use found tile=" + tile + ", TS=" + tile.getTileState());

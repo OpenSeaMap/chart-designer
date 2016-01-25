@@ -69,7 +69,6 @@ import javax.xml.bind.JAXBException;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
-import osmb.mapsources.IfInitializableMapSource;
 import osmb.mapsources.IfMapSource;
 import osmb.mapsources.MP2MapSpace;
 import osmb.mapsources.PixelAddress;
@@ -503,12 +502,12 @@ public class MainFrame extends JFrame implements IfMapEventListener
 		sortMaps_YXMinYXMax.addActionListener(new SortAllLayers(Map.YXMinYXMaxASC));
 		sortMaps_YXMinYXMax.setMnemonic(KeyEvent.VK_O);
 		mapsMenu.add(sortMaps_YXMinYXMax);
-		
+
 		JMenuItem sortMaps_NameNumber = new JMenuItem("Sort maps in all layers (NameNumber)"); // xxx OSMCDStrs.RStr("menu_maps_selection_add"));
 		sortMaps_NameNumber.addActionListener(new SortAllLayers(Map.NameNumberASC));
 		sortMaps_NameNumber.setMnemonic(KeyEvent.VK_N);
 		mapsMenu.add(sortMaps_NameNumber);
-		
+
 		JMenuItem cutOverlap = new JMenuItem("Cut overlapping tiles in all layers"); // xxx OSMCDStrs.RStr("menu_maps_selection_add"));
 		cutOverlap.addActionListener(new CutOverlappingTiles());
 		cutOverlap.setMnemonic(KeyEvent.VK_C);
@@ -1018,9 +1017,7 @@ public class MainFrame extends JFrame implements IfMapEventListener
 	{
 		IfMapSource mapSource = mMapSourcePanel.getSelectedMapSource();
 		// IfMapSource mapSource = (IfMapSource) mapSourceCombo.getSelectedItem();
-		if (mapSource instanceof IfInitializableMapSource)
-		  // initialize the map source e.g. detect available zoom levels
-		  ((IfInitializableMapSource) mapSource).initialize();
+		mapSource.initialize();
 
 		previewMap.setMapSource(mapSource);
 		zoomSlider.setMinimum(mapSource.getMinZoom());
@@ -1058,8 +1055,8 @@ public class MainFrame extends JFrame implements IfMapEventListener
 	{
 		IfMapSource tileSource = previewMap.getMapSource();
 		// int zoomLevels = tileSource.getMaxZoom() - tileSource.getMinZoom() + 1; // #zoom0-3
-		int minZoom = Math.max(MP2MapSpace.MIN_TECH_ZOOM, tileSource.getMinZoom()); //W #mapSpace (IfMapSpace.MIN_TECH_ZOOM, tileSource.getMinZoom());
-		int maxZoom = Math.min(MP2MapSpace.MAX_TECH_ZOOM, tileSource.getMaxZoom()); //W #mapSpace (IfMapSpace.MAX_TECH_ZOOM, tileSource.getMaxZoom());
+		int minZoom = Math.max(MP2MapSpace.MIN_TECH_ZOOM, tileSource.getMinZoom()); // W #mapSpace (IfMapSpace.MIN_TECH_ZOOM, tileSource.getMinZoom());
+		int maxZoom = Math.min(MP2MapSpace.MAX_TECH_ZOOM, tileSource.getMaxZoom()); // W #mapSpace (IfMapSpace.MAX_TECH_ZOOM, tileSource.getMaxZoom());
 		int zoomLevels = maxZoom - minZoom + 1;
 
 		// zoomLevels = Math.max(zoomLevels, 0);

@@ -21,6 +21,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
+import osmb.utilities.OSMBStrs;
 import osmcd.OSMCDStrs;
 import osmcd.gui.MainFrame;
 import osmcd.gui.gpxtree.GpxEntry;
@@ -55,7 +56,7 @@ public class GpxAddPoint implements ActionListener
 
 		if (!entry.isWaypointParent())
 		{
-			JOptionPane.showMessageDialog(null, OSMCDStrs.RStr("rp_gpx_msg_add_point_failed"), OSMCDStrs.RStr("Error"), JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, OSMCDStrs.RStr("rp_gpx_msg_add_point_failed"), OSMBStrs.RStr("Error"), JOptionPane.INFORMATION_MESSAGE);
 			return;
 		}
 

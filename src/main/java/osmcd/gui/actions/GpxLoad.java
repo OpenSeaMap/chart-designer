@@ -32,6 +32,7 @@ import javax.xml.bind.JAXBException;
 
 import org.apache.log4j.Logger;
 
+import osmb.utilities.OSMBStrs;
 import osmb.utilities.file.GpxFileFilter;
 import osmcd.OSMCDSettings;
 import osmcd.OSMCDStrs;
@@ -87,8 +88,8 @@ public class GpxLoad implements ActionListener
 		}
 		if (duplicates)
 		{
-			int answer = JOptionPane.showConfirmDialog(mainGUI, OSMCDStrs.RStr("rp_gpx_msg_confirm_reopen_file"), OSMCDStrs.RStr("Warning"),
-					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+			int answer = JOptionPane.showConfirmDialog(mainGUI, OSMCDStrs.RStr("rp_gpx_msg_confirm_reopen_file"), OSMBStrs.RStr("Warning"), JOptionPane.YES_NO_OPTION,
+			    JOptionPane.QUESTION_MESSAGE);
 			if (answer != JOptionPane.YES_OPTION)
 				return;
 		}
@@ -119,9 +120,10 @@ public class GpxLoad implements ActionListener
 		}
 		catch (JAXBException e)
 		{
-			JOptionPane.showMessageDialog(parent, "<html>Unable to load the GPX file <br><i>" + f.getAbsolutePath()
-					+ "</i><br><br><b>Please make sure the file is a valid GPX v1.1 file.</b><br>" + "<br>Internal error message:<br>" + e.getMessage() + "</html>",
-					"GPX loading failed", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(
+			    parent, "<html>Unable to load the GPX file <br><i>" + f.getAbsolutePath()
+			        + "</i><br><br><b>Please make sure the file is a valid GPX v1.1 file.</b><br>" + "<br>Internal error message:<br>" + e.getMessage() + "</html>",
+			    "GPX loading failed", JOptionPane.ERROR_MESSAGE);
 			throw new RuntimeException(e);
 		}
 	}
@@ -134,7 +136,7 @@ public class GpxLoad implements ActionListener
 		progressDialog.setResizable(false);
 		progressDialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		progressDialog.setLocation(Math.max(0, (int) (mainGUI.getLocation().getX() + mainGUI.getSize().getWidth() / 2 - 200)),
-				Math.max(0, (int) (mainGUI.getLocation().getY() + mainGUI.getSize().getHeight() / 2 - 25)));
+		    Math.max(0, (int) (mainGUI.getLocation().getY() + mainGUI.getSize().getHeight() / 2 - 25)));
 		final JProgressBar progressBar = new JProgressBar(0, files.length);
 		progressDialog.add(progressBar);
 

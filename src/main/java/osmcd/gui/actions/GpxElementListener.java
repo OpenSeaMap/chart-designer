@@ -22,6 +22,7 @@ import java.awt.event.MouseListener;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
+import osmb.utilities.OSMBStrs;
 import osmcd.OSMCDStrs;
 import osmcd.data.gpx.gpx11.WptType;
 import osmcd.gui.MainFrame;
@@ -52,27 +53,33 @@ public class GpxElementListener implements MouseListener
 	private GpxMapController mapController = null;
 	private GpxEditor editor = GpxEditor.getInstance();
 
-	public GpxElementListener(GpxEntry gpxEntry) {
+	public GpxElementListener(GpxEntry gpxEntry)
+	{
 		this.gpxEntry = gpxEntry;
 	}
 
+	@Override
 	public void mouseClicked(MouseEvent e)
 	{
 	}
 
+	@Override
 	public void mouseEntered(MouseEvent e)
 	{
 	}
 
+	@Override
 	public void mouseExited(MouseEvent e)
 	{
 	}
 
+	@Override
 	public void mousePressed(MouseEvent e)
 	{
 		handleClick(e);
 	}
 
+	@Override
 	public void mouseReleased(MouseEvent e)
 	{
 		handleClick(e);
@@ -100,7 +107,7 @@ public class GpxElementListener implements MouseListener
 	private void removeEntry()
 	{
 		int answer = JOptionPane.showConfirmDialog(null, OSMCDStrs.RStr("rp_gpx_msg_confim_delete"), OSMCDStrs.RStr("rp_gpx_msg_confim_delete_title"),
-				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+		    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 		if (answer == JOptionPane.YES_OPTION)
 		{
 			PreviewMap map = MainFrame.getMainGUI().previewMap;
@@ -147,7 +154,7 @@ public class GpxElementListener implements MouseListener
 	{
 		if (gpxEntry.getClass().equals(TrksegEntry.class))
 		{
-			JOptionPane.showMessageDialog(null, OSMCDStrs.RStr("rp_gpx_msg_can_not_rename_track"), OSMCDStrs.RStr("Error"), JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, OSMCDStrs.RStr("rp_gpx_msg_can_not_rename_track"), OSMBStrs.RStr("Error"), JOptionPane.INFORMATION_MESSAGE);
 			return;
 		}
 		else

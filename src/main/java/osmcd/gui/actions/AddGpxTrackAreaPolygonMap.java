@@ -28,12 +28,11 @@ import osmb.mapsources.IfMapSource;
 import osmb.mapsources.MP2MapSpace;
 import osmb.program.catalog.IfCatalog;
 import osmb.program.map.IfMap;
-// W #mapSpace import osmb.program.map.IfMapSpace;
 import osmb.program.map.Layer;
 import osmb.program.map.MapPolygon;
 import osmb.program.tiles.TileImageParameters;
+import osmb.utilities.OSMBStrs;
 import osmb.utilities.geo.GeoCoordinate;
-//W #mapSpace import osmb.utilities.geo.EastNorthCoordinate;
 import osmcd.OSMCDSettings;
 import osmcd.OSMCDStrs;
 import osmcd.data.gpx.gpx11.TrkType;
@@ -91,7 +90,7 @@ public class AddGpxTrackAreaPolygonMap implements ActionListener
 		}
 		if (trk == null)
 		{
-			JOptionPane.showMessageDialog(mg, OSMCDStrs.RStr("msg_add_gpx_polygon_no_select"), OSMCDStrs.RStr("Error"), JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(mg, OSMCDStrs.RStr("msg_add_gpx_polygon_no_select"), OSMBStrs.RStr("Error"), JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
@@ -107,9 +106,7 @@ public class AddGpxTrackAreaPolygonMap implements ActionListener
 			return;
 		}
 		List<? extends GpxPoint> points = trk.getTrkpt();
-		
-	//W #mapSpace EastNorthCoordinate -> GeoCoordinate
-		
+
 		GeoCoordinate[] trackPoints = new GeoCoordinate[points.size()];
 		GeoCoordinate minCoordinate = new GeoCoordinate(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
 		GeoCoordinate maxCoordinate = new GeoCoordinate(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
@@ -125,7 +122,6 @@ public class AddGpxTrackAreaPolygonMap implements ActionListener
 		}
 
 		final int maxZoom = zoomLevels[zoomLevels.length - 1];
-		 // W #mapSpace final IfMapSpace mapSpace = mapSource.getMapSpace();
 
 		TileImageParameters customTileParameters = mg.getSelectedTileImageParameters();
 
@@ -134,8 +130,8 @@ public class AddGpxTrackAreaPolygonMap implements ActionListener
 		for (int i = 0; i < trackPoints.length; i++)
 		{
 			GeoCoordinate coord = trackPoints[i];
-			xPoints[i] = MP2MapSpace.cLonToX(coord.lon, maxZoom); // W #mapSpace
-			yPoints[i] = MP2MapSpace.cLatToY(coord.lat, maxZoom); // W #mapSpace
+			xPoints[i] = MP2MapSpace.cLonToXIndex(coord.lon, maxZoom);
+			yPoints[i] = MP2MapSpace.cLatToYIndex(coord.lat, maxZoom);
 		}
 
 		Polygon p = new Polygon(xPoints, yPoints, xPoints.length);
@@ -147,7 +143,7 @@ public class AddGpxTrackAreaPolygonMap implements ActionListener
 		{
 			String msg = OSMCDStrs.RStr("msg_add_gpx_polygon_maxsize");
 			int result = JOptionPane.showConfirmDialog(mg, msg, OSMCDStrs.RStr("msg_add_gpx_polygon_maxsize_title"), JOptionPane.YES_NO_OPTION,
-					JOptionPane.QUESTION_MESSAGE);
+			    JOptionPane.QUESTION_MESSAGE);
 			if (result != JOptionPane.YES_OPTION)
 				return;
 		}

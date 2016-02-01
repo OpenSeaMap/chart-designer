@@ -36,8 +36,7 @@ public class OSMCDApp extends ACWindowsApp
 	{
 		return (OSMCDApp) gApp;
 	}
-	
-	// #gCatalog
+
 	protected Catalog gCatalog = null;
 
 	public OSMCDApp()
@@ -51,7 +50,7 @@ public class OSMCDApp extends ACWindowsApp
 			System.exit(1);
 		}
 	}
-	
+
 	public Catalog getCatalog()
 	{
 		return gCatalog;
@@ -61,7 +60,7 @@ public class OSMCDApp extends ACWindowsApp
 	{
 		gCatalog = cat;
 	}
-	
+
 	@Override
 	public OSMCDSettings getSettings()
 	{
@@ -69,7 +68,6 @@ public class OSMCDApp extends ACWindowsApp
 			pSets = OSMCDSettings.getInstance();
 		return (OSMCDSettings) pSets;
 	}
-
 
 	@Override
 	public int runWork()
@@ -113,7 +111,7 @@ public class OSMCDApp extends ACWindowsApp
 					MainFrame.createMainGui();
 					SplashFrame.hideFrame();
 
-					// /W #firstStart
+					// W #firstStart
 					MainFrame.runFirstStart();
 
 					runMainGUI();

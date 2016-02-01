@@ -73,6 +73,7 @@ import osmb.mapsources.MapSourcesListModel;
 import osmb.utilities.GBC;
 import osmb.utilities.GUIExceptionHandler;
 import osmb.utilities.OSMBRsc;
+import osmb.utilities.OSMBStrs;
 import osmb.utilities.OSMBUtilities;
 import osmb.utilities.UnitSystem;
 import osmcd.OSMCDSettings;
@@ -89,7 +90,8 @@ public class SettingsGUI extends JDialog
 
 	public static Logger log = Logger.getLogger(SettingsGUI.class);
 
-	private static final Integer[] THREADCOUNT_LIST = {1, 2, 4, 6};
+	private static final Integer[] THREADCOUNT_LIST =
+	{ 1, 2, 4, 6 };
 
 	private static final long MBIT1 = 1000000 / 8;
 
@@ -102,7 +104,7 @@ public class SettingsGUI extends JDialog
 		MBit15("15 MBit", MBIT1 * 15), //
 		MBit20("20 MBit", MBIT1 * 20);
 
-		@SuppressWarnings("unused") // /W #unused
+		@SuppressWarnings("unused") // W #unused
 		public final long limit;
 		public final String description;
 
@@ -119,7 +121,7 @@ public class SettingsGUI extends JDialog
 		}
 	};
 
-	private enum SupportLocale // /W default #???
+	private enum SupportLocale // W default #???
 	{
 		SupportLocaleEn(new Locale("en"), "English"); // default
 
@@ -134,7 +136,7 @@ public class SettingsGUI extends JDialog
 
 		public static SupportLocale localeOf(String lang, String contry)
 		{
-			for (SupportLocale l: SupportLocale.values())
+			for (SupportLocale l : SupportLocale.values())
 			{
 				if (l.locale.getLanguage().equals(lang) && l.locale.getCountry().equals(contry))
 				{
@@ -153,8 +155,8 @@ public class SettingsGUI extends JDialog
 
 	private final OSMCDSettings settings = OSMCDSettings.getInstance();
 
-	private JComboBox<UnitSystem> unitSystem; // /W <UnitSystem>
-	private JComboBox<SupportLocale> languageCombo; // /W <SupportLocale>
+	private JComboBox<UnitSystem> unitSystem;
+	private JComboBox<SupportLocale> languageCombo;
 	private JButton mapSourcesOnlineUpdate;
 	private JTextField osmHikingTicket;
 	private SettingsGUITileStore tileStoreTab;
@@ -166,23 +168,23 @@ public class SettingsGUI extends JDialog
 	private JTextField atlasOutputDirectory;
 	private JTextField jtfTileStoreDirectory;
 	private JTextField jtfCatalogsDirectory;
-	private JCheckBox jCheckBoxMakeNewCatalog; // /W #boolNew
-	private JComboBox<Integer> threadCount; // /W <Integer>
-	private JComboBox<Bandwidth> bandwidth; // /W <Bandwidth>
-	// /W #unused
-	//	private JComboBox proxyType; // /W ?proxyType wird nicht initialisiert?
-	//	private JTextField proxyHost;
-	//	private JTextField proxyPort;
-	//	private JTextField proxyUserName;
-	//	private JTextField proxyPassword;
-	//	private JCheckBox ignoreDlErrors; // /W ?ignoreDlErrors wird nicht initialisiert?
+	private JCheckBox jCheckBoxMakeNewCatalog; // W #boolNew
+	private JComboBox<Integer> threadCount;
+	private JComboBox<Bandwidth> bandwidth;
+	// W #unused
+	// private JComboBox proxyType; // W ?proxyType not initialized?
+	// private JTextField proxyHost;
+	// private JTextField proxyPort;
+	// private JTextField proxyUserName;
+	// private JTextField proxyPassword;
+	// private JCheckBox ignoreDlErrors; // W ?ignoreDlErrors not initialized?
 	private JButton okButton;
 	private JButton cancelButton;
 	private JTabbedPane tabbedPane;
 	private JList<IfMapSource> enabledMapSources;
-	private MapSourcesListModel enabledMapSourcesModel; // /W eingeschaltet
+	private MapSourcesListModel enabledMapSourcesModel; // W enabled
 	private JList<IfMapSource> disabledMapSources;
-	private MapSourcesListModel disabledMapSourcesModel; // /W eingeschaltet
+	private MapSourcesListModel disabledMapSourcesModel; // W enabled
 	private final SettingsGUIPaper paperAtlas;
 	private final SettingsGUIWgsGrid display;
 
@@ -198,7 +200,8 @@ public class SettingsGUI extends JDialog
 		});
 	}
 
-	private SettingsGUI(JFrame owner, int nSelectedIndex) {
+	private SettingsGUI(JFrame owner, int nSelectedIndex)
+	{
 		super(owner);
 		setIconImages(MainFrame.OSMCD_ICONS);
 		GUIExceptionHandler.registerForCurrentThread();
@@ -225,7 +228,7 @@ public class SettingsGUI extends JDialog
 	private void createJFrame()
 	{
 		setLayout(new BorderLayout());
-		setTitle(OSMCDStrs.RStr("set_title"));
+		setTitle(OSMCDStrs.RStr("Settings.FrameTitle"));
 	}
 
 	// Create tabbed pane
@@ -233,28 +236,28 @@ public class SettingsGUI extends JDialog
 	{
 		tabbedPane = new JTabbedPane();
 		tabbedPane.setBounds(0, 0, 492, 275);
-		addDirectoriesPanel(); // /W #firstStart: position 0 nessesary! // /W #tabSelection SettingsDialog
+		addDirectoriesPanel(); // W #firstStart: position 0 necessary! // W #tabSelection SettingsDialog
 		addDisplaySettingsPanel();
-		// /W #---
-		//try
-		//{
-		//	addMapSourceSettingsPanel();
-		//}
-		//catch (URISyntaxException e)
-		//{
-		//	log.error("", e);
-		//}
+		// W #---
+		// try
+		// {
+		// addMapSourceSettingsPanel();
+		// }
+		// catch (URISyntaxException e)
+		// {
+		// log.error("", e);
+		// }
 		addMapSourceManagerPanel();
 		addTileUpdatePanel();
 		tileStoreTab = new SettingsGUITileStore(this);
 		addMapSizePanel();
-		// /W #firstStart: move to position 0! addDirectoriesPanel();
+		// W #firstStart: move to position 0! addDirectoriesPanel();
 		addNetworkPanel();
-		// /W #--- tabbedPane.addTab(paperAtlas.getName(), paperAtlas);
+		// W #--- tabbedPane.addTab(paperAtlas.getName(), paperAtlas);
 
 		add(tabbedPane, BorderLayout.CENTER);
-		
-		// /W #tabSelection SettingsDialog
+
+		// W #tabSelection SettingsDialog
 		if ((tabbedPane.getTabCount() > nSelectedIndex) && (nSelectedIndex > -1))
 			tabbedPane.setSelectedIndex(nSelectedIndex);
 		else
@@ -303,7 +306,7 @@ public class SettingsGUI extends JDialog
 					settings.setLocaleCountry(locale.getCountry());
 
 					int result = JOptionPane.showConfirmDialog(null, OSMCDStrs.RStr("set_display_language_restart_desc"),
-							OSMCDStrs.RStr("set_display_language_msg_title"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+		          OSMCDStrs.RStr("set_display_language_msg_title"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 					OSMBRsc.updateLocalizedStrings();
 					if (result == JOptionPane.YES_OPTION)
 					{
@@ -365,7 +368,7 @@ public class SettingsGUI extends JDialog
 		tab.add(Box.createVerticalGlue(), GBC.std().fill(GBC.VERTICAL));
 	}
 
-	@SuppressWarnings("unused") // /W #unused
+	@SuppressWarnings("unused") // W #unused
 	private void addMapSourceSettingsPanel() throws URISyntaxException
 	{
 
@@ -470,7 +473,7 @@ public class SettingsGUI extends JDialog
 					if (index == 0)
 						return;
 					if (enabledMapSourcesModel.moveUp(index))
-					idx[i]--;
+						idx[i]--;
 				}
 				enabledMapSources.setSelectedIndices(idx);
 				enabledMapSources.ensureIndexIsVisible(idx[0]);
@@ -489,9 +492,9 @@ public class SettingsGUI extends JDialog
 				{
 					int index = idx[i];
 					if (index == enabledMapSourcesModel.getSize() - 1)
-					return;
+						return;
 					if (enabledMapSourcesModel.moveDown(index))
-					idx[i]++;
+						idx[i]++;
 				}
 				enabledMapSources.setSelectedIndices(idx);
 				enabledMapSources.ensureIndexIsVisible(idx[idx.length - 1]);
@@ -623,21 +626,15 @@ public class SettingsGUI extends JDialog
 
 	private void addDirectoriesPanel()
 	{
-		JPanel backGround = createNewTab(OSMCDStrs.RStr("set_directory_title"));
+		JPanel backGround = createNewTab(OSMCDStrs.RStr("Settings.DirectoriesTitle"));
 		backGround.setLayout(new GridBagLayout());
-		
-		// /W info
-		JLabel jlInfo1 = new JLabel("Beim ersten Start sollen hier die Pfade gesetzt werden:");
-		backGround.add(jlInfo1, GBC.eol());
-		JLabel jlInfo2 = new JLabel("   - Schreib- und Lesezugriff des Users für alle Pfade nötig");
-		backGround.add(jlInfo2, GBC.eol());
-		JLabel jlInfo3 = new JLabel("   - tilstore und bundle output können groß werden und brauchen schnellen Zugriff!");
-		backGround.add(jlInfo3, GBC.eol());
-		JLabel jlInfo4 = new JLabel("   ");
-		backGround.add(jlInfo4, GBC.eol());
-		
-		// /W bundleOutputDir
-		// /W atlas <-> bundle
+
+		// W info
+		JLabel jlInfo = new JLabel(OSMCDStrs.RStr("Settings.DirectoriesInfo"));
+		backGround.add(jlInfo, GBC.eol());
+
+		// W #??? bundleOutputDir
+		// W atlas <-> bundle
 		JPanel atlasOutputDirPanel = new JPanel(new GridBagLayout());
 		atlasOutputDirPanel.setBorder(createSectionBorder(OSMCDStrs.RStr("set_directory_output_bundle")));
 
@@ -646,10 +643,11 @@ public class SettingsGUI extends JDialog
 		atlasOutputDirectory.setText(settings.getChartBundleOutputDirectory().toString());
 		atlasOutputDirectory.setEnabled(false);
 		atlasOutputDirectory.setDisabledTextColor(Color.BLACK);
-		
+
 		JButton selectAtlasOutputDirectory = new JButton(OSMCDStrs.RStr("set_directory_output_select"));
 		selectAtlasOutputDirectory.addActionListener(new ActionListener()
 		{
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				JDirectoryChooser dc = new JDirectoryChooser();
@@ -660,24 +658,25 @@ public class SettingsGUI extends JDialog
 				settings.setChartBundleOutputDirectory(dc.getSelectedFile());
 			}
 		});
-		
+
 		atlasOutputDirPanel.add(atlasOutputDirectory, GBC.std().fillH());
 		atlasOutputDirPanel.add(selectAtlasOutputDirectory, GBC.std());
 
-		 // /W tilestoreDir
+		// W tilestoreDir
 		JPanel tileStoreDirPanel = new JPanel(new GridBagLayout());
 		tileStoreDirPanel.setBorder(createSectionBorder(OSMCDStrs.RStr("set_directory_output_tilestore")));
-		
+
 		jtfTileStoreDirectory = new JTextField();
 		jtfTileStoreDirectory.setToolTipText(String.format(OSMCDStrs.RStr("set_directory_output_tips"), settings.getTileStoreDirectory()));
 		jtfTileStoreDirectory.setText(settings.getTileStoreDirectory().toString());
 		jtfTileStoreDirectory.setEnabled(false);
 		jtfTileStoreDirectory.setDisabledTextColor(Color.BLACK);
-		// /W #??? ToolTipTextColor of jtfTileStoreDirectory.diabled, BorderColor?
-		
+		// W #??? ToolTipTextColor of jtfTileStoreDirectory.diabled, BorderColor?
+
 		JButton selectTileStoreDirectory = new JButton(OSMCDStrs.RStr("set_directory_output_select"));
 		selectTileStoreDirectory.addActionListener(new ActionListener()
 		{
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				JDirectoryChooser dc = new JDirectoryChooser();
@@ -688,26 +687,26 @@ public class SettingsGUI extends JDialog
 				settings.setTileStoreDirectory(dc.getSelectedFile());
 			}
 		});
-		
+
 		JLabel infoTileStore = new JLabel("To enable/disable tile store see tab 'Tile store'");
 		tileStoreDirPanel.add(jtfTileStoreDirectory, GBC.std().fillH());
 		tileStoreDirPanel.add(selectTileStoreDirectory, GBC.eol());
 		tileStoreDirPanel.add(infoTileStore, GBC.eol());
-		
-		
-		// /W catalogsDir
+
+		// W catalogsDir
 		JPanel catalogsDirPanel = new JPanel(new GridBagLayout());
 		catalogsDirPanel.setBorder(createSectionBorder(OSMCDStrs.RStr("set_directory_output_catalogs")));
-		
+
 		jtfCatalogsDirectory = new JTextField();
 		jtfCatalogsDirectory.setToolTipText(String.format(OSMCDStrs.RStr("set_directory_output_tips"), settings.getCatalogsDirectory()));
 		jtfCatalogsDirectory.setText(settings.getCatalogsDirectory().toString());
 		jtfCatalogsDirectory.setEnabled(false);
 		jtfCatalogsDirectory.setDisabledTextColor(Color.BLACK);
-		
+
 		JButton selectCatalogsDirectory = new JButton(OSMCDStrs.RStr("set_directory_output_select"));
 		selectCatalogsDirectory.addActionListener(new ActionListener()
 		{
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				JDirectoryChooser dc = new JDirectoryChooser();
@@ -718,17 +717,20 @@ public class SettingsGUI extends JDialog
 				settings.setCatalogsDirectory(dc.getSelectedFile());
 			}
 		});
-		
+
 		catalogsDirPanel.add(jtfCatalogsDirectory, GBC.std().fillH());
 		catalogsDirPanel.add(selectCatalogsDirectory, GBC.eol());
-				
-		// /W #boolNew
+		JLabel jlNewLine = new JLabel(" ");
+		catalogsDirPanel.add(jlNewLine, GBC.eol());
+
+		// W #boolNew
 		jCheckBoxMakeNewCatalog = new JCheckBox();
 		jCheckBoxMakeNewCatalog.setSelected(settings.getCatalogNameMakeNew());
 		jCheckBoxMakeNewCatalog.setText(OSMCDStrs.RStr("set_make_new_catalog"));
-		//jCheckBoxMakeNewCatalog.setToolTipText(OSMCDStrs.RStr("set_make_new_catalog_tips"));
+		// jCheckBoxMakeNewCatalog.setToolTipText(OSMCDStrs.RStr("set_make_new_catalog_tips"));
 		jCheckBoxMakeNewCatalog.addActionListener(new ActionListener()
 		{
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				settings.setCatalogNameMakeNew(jCheckBoxMakeNewCatalog.isSelected());
@@ -792,19 +794,19 @@ public class SettingsGUI extends JDialog
 			public void actionPerformed(ActionEvent e)
 			{
 				// boolean b = ProxyType.CUSTOM.equals(proxyType.getSelectedItem());
-				// boolean c = ProxyType.CUSTOM_W_AUTH.equals(proxyType.getSelectedItem());
-				// proxyHost.setEnabled(b || c);
-				// proxyPort.setEnabled(b || c);
-				// proxyHostLabel.setEnabled(b || c);
-				// proxyPortLabel.setEnabled(b || c);
-				// proxyUserName.setEnabled(c);
-				// proxyPassword.setEnabled(c);
-				// proxyUserNameLabel.setEnabled(c);
-				// proxyPasswordLabel.setEnabled(c);
+		    // boolean c = ProxyType.CUSTOM_W_AUTH.equals(proxyType.getSelectedItem());
+		    // proxyHost.setEnabled(b || c);
+		    // proxyPort.setEnabled(b || c);
+		    // proxyHostLabel.setEnabled(b || c);
+		    // proxyPortLabel.setEnabled(b || c);
+		    // proxyUserName.setEnabled(c);
+		    // proxyPassword.setEnabled(c);
+		    // proxyUserNameLabel.setEnabled(c);
+		    // proxyPasswordLabel.setEnabled(c);
 			}
 		};
 		al.actionPerformed(null);
-		//proxyType.addActionListener(al); // /W ?proxyType nicht initialisiert? -> //
+		// proxyType.addActionListener(al); // W ?proxyType not initialized? -> //
 
 		// panel.add(proxyTypeLabel, GBC.std());
 		// panel.add(proxyType, gbc_eolh.insets(5, 2, 5, 2));
@@ -826,7 +828,7 @@ public class SettingsGUI extends JDialog
 		// ignoreDlErrors = new JCheckBox(OSMCDStrs.RStr("set_net_default_ignore_error"), settings.ignoreDlErrors);
 		JPanel jPanel = new JPanel(new GridBagLayout());
 		jPanel.setBorder(createSectionBorder(OSMCDStrs.RStr("set_net_default")));
-		//jPanel.add(ignoreDlErrors, GBC.std()); // /W ?ignoreDlErrors nicht initialisiert? -> //
+		// jPanel.add(ignoreDlErrors, GBC.std()); // W ?ignoreDlErrors not initialized? -> //
 		jPanel.add(Box.createHorizontalGlue(), GBC.eol().fillH());
 		backGround.add(jPanel, GBC.eol().fillH());
 
@@ -836,8 +838,8 @@ public class SettingsGUI extends JDialog
 	public void createJButtons()
 	{
 		JPanel buttonPanel = new JPanel(new GridBagLayout());
-		okButton = new JButton(OSMCDStrs.RStr("OK"));
-		cancelButton = new JButton(OSMCDStrs.RStr("Cancel"));
+		okButton = new JButton(OSMBStrs.RStr("OK"));
+		cancelButton = new JButton(OSMBStrs.RStr("Cancel"));
 
 		GBC gbc = GBC.std().insets(5, 5, 5, 5);
 		buttonPanel.add(okButton, gbc);
@@ -931,7 +933,7 @@ public class SettingsGUI extends JDialog
 			disabledMaps.add(ms.getName());
 		}
 		s.mapSourcesDisabled = disabledMaps;
-		
+
 		Vector<String> enabledMaps = new Vector<String>();
 		for (IfMapSource ms : enabledMapSourcesModel.getVector())
 		{
@@ -958,7 +960,7 @@ public class SettingsGUI extends JDialog
 		{
 			log.error("Error saving settings to file", e);
 			JOptionPane.showMessageDialog(null, String.format(OSMCDStrs.RStr("set_error_saving_msg"), e.getClass().getSimpleName()),
-					OSMCDStrs.RStr("set_error_saving_title"), JOptionPane.ERROR_MESSAGE);
+			    OSMCDStrs.RStr("set_error_saving_title"), JOptionPane.ERROR_MESSAGE);
 		}
 
 		MainFrame.getMainGUI().previewMap.repaint();
@@ -1039,7 +1041,7 @@ public class SettingsGUI extends JDialog
 			// On close we check if the tile store information retrieval thread
 			// is still running and if yes we interrupt it
 			tileStoreTab.stopThread();
-			// /W #firstStart: write selected tab to settings -> firstStart over!
+			// W #firstStart: write selected tab to settings -> firstStart over!
 			OSMCDSettings.getInstance().setSettingsTabSelected(tabbedPane.getSelectedIndex());
 		}
 

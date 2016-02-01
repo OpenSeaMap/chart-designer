@@ -48,6 +48,7 @@ import org.apache.log4j.Logger;
 import osmb.mapsources.IfMapSource;
 import osmb.mapsources.MP2MapSpace;
 import osmb.utilities.Charsets;
+import osmb.utilities.OSMBStrs;
 import osmb.utilities.OSMBUtilities;
 import osmcd.OSMCDApp;
 import osmcd.OSMCDStrs;
@@ -91,7 +92,7 @@ public class OSMCDUtilities extends OSMBUtilities
 
 	public static BufferedImage createEmptyTileImage(IfMapSource mapSource)
 	{
-		int tileSize = MP2MapSpace.getTileSize(); // #mapSpace  mapSource.getMapSpace().getTileSize();
+		int tileSize = MP2MapSpace.getTileSize();
 		Color color = mapSource.getBackgroundColor();
 
 		int imageType;
@@ -273,13 +274,13 @@ public class OSMCDUtilities extends OSMBUtilities
 	 */
 	public static String formatBytes(long bytes)
 	{
-		if (bytes < 1000)
-			return Long.toString(bytes) + " " + OSMCDStrs.RStr("Bytes");
-		if (bytes < 1000000)
-			return FORMAT_2_DEC.format(bytes / 1024d) + " " + OSMCDStrs.RStr("KiByte");
-		if (bytes < 1000000000)
-			return FORMAT_2_DEC.format(bytes / 1048576d) + " " + OSMCDStrs.RStr("MiByte");
-		return FORMAT_2_DEC.format(bytes / 1073741824d) + " " + OSMCDStrs.RStr("GiByte");
+		if (bytes < 1024)
+			return Long.toString(bytes) + " " + OSMBStrs.RStr("Bytes");
+		if (bytes < 1048576)
+			return FORMAT_2_DEC.format(bytes / 1024d) + " " + OSMBStrs.RStr("KiByte");
+		if (bytes < 1073741824)
+			return FORMAT_2_DEC.format(bytes / 1048576d) + " " + OSMBStrs.RStr("MiByte");
+		return FORMAT_2_DEC.format(bytes / 1073741824d) + " " + OSMBStrs.RStr("GiByte");
 	}
 
 	public static String formatDurationSeconds(long seconds)

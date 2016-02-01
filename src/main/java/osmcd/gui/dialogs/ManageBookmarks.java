@@ -34,6 +34,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import osmb.utilities.GBC;
+import osmb.utilities.OSMBStrs;
 import osmcd.OSMCDSettings;
 import osmcd.OSMCDStrs;
 import osmcd.gui.MainFrame;
@@ -42,7 +43,7 @@ import osmcd.program.Bookmark;
 public class ManageBookmarks extends JDialog implements ListSelectionListener, ActionListener
 {
 	private static final long serialVersionUID = 1L;
-	
+
 	private JButton deleteButton;
 
 	private JButton applyButton;
@@ -51,11 +52,12 @@ public class ManageBookmarks extends JDialog implements ListSelectionListener, A
 
 	private DefaultListModel<Bookmark> bookmarksModel;
 
-	public ManageBookmarks(Window owner) throws HeadlessException {
+	public ManageBookmarks(Window owner) throws HeadlessException
+	{
 		super(owner, OSMCDStrs.RStr("dlg_mgn_bookmark_title"));
 		setIconImages(MainFrame.OSMCD_ICONS);
 		setLayout(new GridBagLayout());
-		applyButton = new JButton(OSMCDStrs.RStr("Close"));
+		applyButton = new JButton(OSMBStrs.RStr("Close"));
 		applyButton.addActionListener(this);
 		applyButton.setDefaultCapable(true);
 
@@ -63,7 +65,7 @@ public class ManageBookmarks extends JDialog implements ListSelectionListener, A
 		deleteButton.addActionListener(this);
 
 		bookmarksModel = new DefaultListModel<Bookmark>();
-		for (Bookmark b: OSMCDSettings.getInstance().getPlaceBookmarks())
+		for (Bookmark b : OSMCDSettings.getInstance().getPlaceBookmarks())
 			bookmarksModel.addElement(b);
 		bookmarks = new JList<Bookmark>(bookmarksModel);
 		bookmarks.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);

@@ -35,6 +35,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import osmb.utilities.GBCTable;
+import osmb.utilities.OSMBStrs;
 import osmcd.OSMCDStrs;
 
 public class FontChooser
@@ -82,7 +83,7 @@ public class FontChooser
 	private final JList<String> jListStyle = createJList(STYLES);
 	private final JList<Integer> jListSize = createJList(new Integer[]
 	{ 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24 });
-	private final JButton jButtonOK = new JButton(OSMCDStrs.RStr("OK")), jButtonCancel = new JButton(OSMCDStrs.RStr("Cancel"));
+	private final JButton jButtonOK = new JButton(OSMBStrs.RStr("OK")), jButtonCancel = new JButton(OSMBStrs.RStr("Cancel"));
 	private boolean wasCanceled;
 
 	public FontChooser()

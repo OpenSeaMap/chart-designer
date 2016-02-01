@@ -39,6 +39,7 @@ import osmb.program.map.IfMap;
 import osmb.program.map.Layer;
 import osmb.program.map.MapPolygon;
 import osmb.program.tiles.TileImageParameters;
+import osmb.utilities.OSMBStrs;
 import osmb.utilities.UnitSystem;
 import osmb.utilities.geo.GeoCoordinate;
 import osmcd.OSMCDSettings;
@@ -103,7 +104,7 @@ public class AddGpxTrackPolygonMap implements ActionListener
 		}
 		if (trk == null)
 		{
-			JOptionPane.showMessageDialog(mg, OSMCDStrs.RStr("msg_add_gpx_polygon_no_select"), OSMCDStrs.RStr("Error"), JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(mg, OSMCDStrs.RStr("msg_add_gpx_polygon_no_select"), OSMBStrs.RStr("Error"), JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
@@ -147,7 +148,7 @@ public class AddGpxTrackPolygonMap implements ActionListener
 		JPanel panel = new JPanel(new BorderLayout());
 		panel.setPreferredSize(new Dimension(300, 100));
 		final JLabel label = new JLabel("");
-		final JDistanceSlider slider = new JDistanceSlider(maxZoom, centerY, unitSystem, 5, 500); // W #mapSpace (mapSource.getMapSpace(), maxZoom, centerY, unitSystem, 5, 500);
+		final JDistanceSlider slider = new JDistanceSlider(maxZoom, centerY, unitSystem, 5, 500);
 		ChangeListener cl = new ChangeListener()
 		{
 

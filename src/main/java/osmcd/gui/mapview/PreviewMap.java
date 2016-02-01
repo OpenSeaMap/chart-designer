@@ -69,7 +69,7 @@ public class PreviewMap extends JMapViewer
 	 * Pre-painted transparent tile with grid lines on it. This makes painting the grid a lot faster in difference to painting each line or rectangle if the grid
 	 * zoom is much higher that the current zoom level.
 	 */
-	private BufferedImage gridTile = new BufferedImage(MP2MapSpace.TECH_TILESIZE, MP2MapSpace.TECH_TILESIZE, BufferedImage.TYPE_INT_ARGB);//  W #mapSpace (IfMapSpace.TECH_TILESIZE, IfMapSpace.TECH_TILESIZE, BufferedImage.TYPE_INT_ARGB);
+	private BufferedImage gridTile = new BufferedImage(MP2MapSpace.TECH_TILESIZE, MP2MapSpace.TECH_TILESIZE, BufferedImage.TYPE_INT_ARGB);
 
 	protected LinkedList<IfMapEventListener> mapEventListeners = new LinkedList<IfMapEventListener>();
 
@@ -179,7 +179,7 @@ public class PreviewMap extends JMapViewer
 		if (gridZoom < 0)
 			return;
 		int zoomToGridZoom = mZoom - gridZoom;
-		int tileSize = MP2MapSpace.getTileSize(); // #mapSpace  mMapSource.getMapSpace().getTileSize();
+		int tileSize = MP2MapSpace.getTileSize();
 		if (zoomToGridZoom > 0)
 		{
 			gridSize = tileSize << zoomToGridZoom;
@@ -237,7 +237,7 @@ public class PreviewMap extends JMapViewer
 			// g.setStroke(new BasicStroke(4.0f));
 			if (gridSize > 1)
 			{
-				int tilesize = MP2MapSpace.getTileSize(); // #mapSpace  mMapSource.getMapSpace().getTileSize();
+				int tilesize = MP2MapSpace.getTileSize();
 				if (gridSize >= tilesize)
 				{
 					int off_x = tlc.x < 0 ? -tlc.x : -(tlc.x % gridSize);
@@ -406,7 +406,7 @@ public class PreviewMap extends JMapViewer
 
 		Point pNewStart = new Point();
 		Point pNewEnd = new Point();
-		int mapMaxCoordinate = MP2MapSpace.getSizeInPixel(cZoom) - 1; // W #mapSpace mMapSource.getMapSpace().getMaxPixels(cZoom) - 1;
+		int mapMaxCoordinate = MP2MapSpace.getSizeInPixel(cZoom) - 1;
 		// Sort x/y coordinate of points so that pNewStart < pnewEnd and limit selection to iMap size
 		pNewStart.x = Math.max(0, Math.min(mapMaxCoordinate, Math.min(pStart.x, pEnd.x)));
 		pNewStart.y = Math.max(0, Math.min(mapMaxCoordinate, Math.min(pStart.y, pEnd.y)));
@@ -415,9 +415,9 @@ public class PreviewMap extends JMapViewer
 
 		int zoomDiff = getMaxZoom() - cZoom;
 
-		// /W pNewEnd.x <<= zoomDiff;
+		// W pNewEnd.x <<= zoomDiff;
 		pNewEnd.x = ((pNewEnd.x + 1) << zoomDiff) - 1;
-		// /W pNewEnd.y <<= zoomDiff;
+		// W pNewEnd.y <<= zoomDiff;
 		pNewEnd.y = ((pNewEnd.y + 1) << zoomDiff) - 1;
 		pNewStart.x <<= zoomDiff;
 		pNewStart.y <<= zoomDiff;
@@ -490,9 +490,8 @@ public class PreviewMap extends JMapViewer
 			x_max = iSelectionMax.x;
 			y_max = iSelectionMax.y;
 		}
-		//W #mapSpace
 		PixelAddress min = new PixelAddress(x_min, y_min, getMaxZoom());
-		PixelAddress max = new PixelAddress( x_max, y_max, getMaxZoom());
+		PixelAddress max = new PixelAddress(x_max, y_max, getMaxZoom());
 		// log.debug("sel min: [" + min + "]");
 		// log.debug("sel max: [" + max + "]");
 		for (IfMapEventListener listener : mapEventListeners)

@@ -408,7 +408,7 @@ public class MainFrame extends JFrame implements IfMapEventListener
 		mMapSourcePanel.addComboActionListener(new MapSourceComboListener());
 
 		// settings button
-		settingsButton = new JButton(OSMCDStrs.RStr("Settings.Button"));
+		settingsButton = new JButton(OSMCDStrs.RStr("Settings.ButtonTitle"));
 		settingsButton.addActionListener(new SettingsButtonListener());
 		settingsButton.setToolTipText(OSMCDStrs.RStr("Settings.ButtonTips"));
 
@@ -1054,12 +1054,10 @@ public class MainFrame extends JFrame implements IfMapEventListener
 	private void updateZoomLevelCheckBoxes()
 	{
 		IfMapSource tileSource = previewMap.getMapSource();
-		// int zoomLevels = tileSource.getMaxZoom() - tileSource.getMinZoom() + 1; // #zoom0-3
-		int minZoom = Math.max(MP2MapSpace.MIN_TECH_ZOOM, tileSource.getMinZoom()); // W #mapSpace (IfMapSpace.MIN_TECH_ZOOM, tileSource.getMinZoom());
-		int maxZoom = Math.min(MP2MapSpace.MAX_TECH_ZOOM, tileSource.getMaxZoom()); // W #mapSpace (IfMapSpace.MAX_TECH_ZOOM, tileSource.getMaxZoom());
+		int minZoom = Math.max(MP2MapSpace.MIN_TECH_ZOOM, tileSource.getMinZoom());
+		int maxZoom = Math.min(MP2MapSpace.MAX_TECH_ZOOM, tileSource.getMaxZoom());
 		int zoomLevels = maxZoom - minZoom + 1;
 
-		// zoomLevels = Math.max(zoomLevels, 0);
 		JCheckBox[] oldZoomLevelCheckBoxes = cbZoom;
 		int oldMinZoom = 0;
 		if (cbZoom.length > 0)

@@ -63,7 +63,7 @@ public class SplashFrame extends JFrame
 		startupFrame = null;
 	}
 
-	public static void main(String[] arg) // /W ? What's the use of it?
+	public static void main(String[] arg) // W ? What's the use of this?
 	{
 		new SplashFrame();
 	}

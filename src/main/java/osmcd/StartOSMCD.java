@@ -19,6 +19,7 @@ package osmcd;
 import javax.swing.JOptionPane;
 
 import osmb.program.ACStarter;
+import osmb.utilities.OSMBStrs;
 
 /**
  * OSMCBApp class for starting OpenSeaMap ChartDefiner.
@@ -51,7 +52,7 @@ public class StartOSMCD extends ACStarter
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, OSMCDStrs.RStr("msg_environment_unable_to_start") + e.getMessage(), OSMCDStrs.RStr("Error"),
+			JOptionPane.showMessageDialog(null, OSMCDStrs.RStr("msg_environment_unable_to_start") + e.getMessage(), OSMBStrs.RStr("Error"),
 			    JOptionPane.ERROR_MESSAGE);
 		}
 	}

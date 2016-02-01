@@ -22,15 +22,18 @@ import java.awt.Dimension;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import osmcd.OSMCDStrs;
+import osmb.utilities.OSMBStrs;
 
-public class MessageDialogs {
+public class MessageDialogs
+{
 
-	public static void showErrorMessage(Component parentComponent, String message, String title) {
+	public static void showErrorMessage(Component parentComponent, String message, String title)
+	{
 		JLabel label = new JLabel("<html>" + message + "<html>");
 		int maxWidth = 400;
 		Dimension size = label.getPreferredSize();
-		if (size.width > maxWidth) {
+		if (size.width > maxWidth)
+		{
 			// Estimate the number of lines
 			int lineCount = (int) Math.ceil(((double) size.width) / maxWidth);
 			lineCount += 1; // Add one extra line as reserve
@@ -39,7 +42,7 @@ public class MessageDialogs {
 			size.height *= lineCount;
 			label.setPreferredSize(size);
 		}
-		JOptionPane.showMessageDialog(null, label, OSMCDStrs.RStr("Error"), JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(null, label, OSMBStrs.RStr("Error"), JOptionPane.ERROR_MESSAGE);
 	}
 
 }

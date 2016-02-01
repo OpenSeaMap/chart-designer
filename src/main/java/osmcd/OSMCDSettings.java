@@ -50,7 +50,6 @@ import osmb.program.jaxb.PointAdapter;
 import osmb.utilities.OSMBRsc;
 import osmb.utilities.OSMBStrs;
 import osmb.utilities.OSMBUtilities;
-//W #mapSpace import osmb.utilities.geo.EastNorthCoordinate;
 import osmb.utilities.geo.GeoCoordinate;
 import osmcd.gui.actions.GpxLoad;
 import osmcd.gui.components.JCoordinatesPanel;
@@ -78,7 +77,7 @@ public class OSMCDSettings extends ACSettings
 		public boolean maximized = false;
 
 		public boolean leftPanelVisible = true;
-		// /W #--- public boolean rightPanelVisible = true;
+		// W #--- public boolean rightPanelVisible = true;
 
 		@XmlElementWrapper(name = "collapsedPanels")
 		@XmlElement(name = "collapsedPanel")
@@ -100,7 +99,6 @@ public class OSMCDSettings extends ACSettings
 	private int mapOverlapTiles = 0;
 	private Point mapviewSelectionMax = null;
 	private Point mapviewSelectionMin = null;
-//W #mapSpace EastNorthCoordinate <-> GeoCoordinate MP2Corner <-> MercatorPixelCoordinate
 	private GeoCoordinate mapviewCenterCoordinate = new GeoCoordinate(50, 9);
 	@XmlElementWrapper(name = "selectedZoomLevels")
 	@XmlElement(name = "zoomLevel")
@@ -109,11 +107,11 @@ public class OSMCDSettings extends ACSettings
 	// @XmlElement(nillable = false)
 	private String mapviewMapSource = null;
 	private String catalogName = null;
-	private boolean catalogNameMakeNew = false; // /W #boolNew
+	private boolean catalogNameMakeNew = false; // W #boolNew
 
 	// Bookmark related
-	// /W #--- @XmlElementWrapper(name = "placeBookmarks")
-	// /W #--- @XmlElement(name = "bookmark")
+	// W #--- @XmlElementWrapper(name = "placeBookmarks")
+	// W #--- @XmlElement(name = "bookmark")
 	private List<Bookmark> placeBookmarks = new ArrayList<Bookmark>();
 
 	// public String osmHikingTicket = "";
@@ -124,11 +122,11 @@ public class OSMCDSettings extends ACSettings
 	private String gpxFileChooserDir = "";
 
 	// Paper Atlas related settings
-	// /W #--- @XmlElement
+	// W #--- @XmlElement
 	private final SettingsPaperAtlas paperAtlas = new SettingsPaperAtlas();
 
-	// /W #tabSelection SettingsDialog
-	private int nSettingsTabSelected = -2; // /W #firstStart: -2 <-> firstStart
+	// W #tabSelection SettingsDialog
+	private int nSettingsTabSelected = -2; // W #firstStart: -2 <-> firstStart
 
 	/**
 	 * constructor should provide default values for every element
@@ -140,7 +138,7 @@ public class OSMCDSettings extends ACSettings
 		getMainWindow().size.height = (int) (0.5f * dScreen.height);
 		getMainWindow().collapsedPanels.add(JCoordinatesPanel.NAME);
 		getMainWindow().collapsedPanels.add(JTileStoreCoveragePanel.NAME);
-		// /W #--- getMainWindow().collapsedPanels.add("Gpx");
+		// W #--- getMainWindow().collapsedPanels.add("Gpx");
 	}
 
 	public static OSMCDSettings getInstance()
@@ -167,7 +165,7 @@ public class OSMCDSettings extends ACSettings
 				}
 			});
 
-			// /W #firstStart apply settings.xml to filesystem
+			// W #firstStart apply settings.xml to file system
 			File sets = getFile();
 			if (sets.length() == 0)
 				save();
@@ -216,10 +214,8 @@ public class OSMCDSettings extends ACSettings
 		FileOutputStream fOS = null;
 		try
 		{
-			// First we write to a buffer and only if that works we write the
-			// buffer to disk.
-			// Direct writing to file may result in a defect xml file
-			// in case of an error
+			// First we write to a buffer and only if that works we write the buffer to disk.
+			// Direct writing to file may result in a defect xml file in case of an error.
 			bOS = new ByteArrayOutputStream();
 			m.marshal(getInstance(), bOS);
 			fOS = new FileOutputStream(getFile());
@@ -346,7 +342,6 @@ public class OSMCDSettings extends ACSettings
 		this.mapviewSelectionMin = mapviewSelectionMin;
 	}
 
-//W #mapSpace EastNorthCoordinate <-> GeoCoordinate MP2Corner <-> MercatorPixelCoordinate
 	/**
 	 * @return the mapviewCenterCoordinate
 	 */
@@ -355,7 +350,6 @@ public class OSMCDSettings extends ACSettings
 		return mapviewCenterCoordinate;
 	}
 
-//W #mapSpace EastNorthCoordinate <-> GeoCoordinate MP2Corner <-> MercatorPixelCoordinate
 	/**
 	 * @param mapviewCenterCoordinate
 	 *          the mapviewCenterCoordinate to set
@@ -471,7 +465,7 @@ public class OSMCDSettings extends ACSettings
 		this.gpxFileChooserDir = gpxFileChooserDir;
 	}
 
-	// /W #tabSelection SettingsDialog
+	// W #tabSelection SettingsDialog
 	public int getSettingsTabSelected()
 	{
 		return nSettingsTabSelected;

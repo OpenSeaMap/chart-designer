@@ -86,7 +86,7 @@ public class JCatalogTree extends JTree implements Autoscroll
 	protected KeyStroke deleteNodeKS;
 	protected DragDropController ddc;
 	protected boolean displaySelectedMapArea = false;
-	protected boolean bHasUnsavedChanges = true;
+	protected boolean bHasUnsavedChanges = false; // W initially false: just opened or new catalogs don't have changes!
 
 	public JCatalogTree(PreviewMap mapView)
 	{
@@ -174,26 +174,17 @@ public class JCatalogTree extends JTree implements Autoscroll
 	{
 		return treeModel;
 	}
-	
+
 	public boolean getHasUnsavedChanges()
 	{
 		return bHasUnsavedChanges;
 	}
-	
-	public void setHasUnsavedChanges(boolean unsaved)
+
+	public void setHasUnsavedChanges(boolean hasUnsavedChanges)
 	{
-		bHasUnsavedChanges = unsaved;
+		bHasUnsavedChanges = hasUnsavedChanges;
 	}
 
-	// public void newCatalog(String name, BundleOutputFormat format)
-	// {
-	// log.debug(OSMCDStrs.RStr("CatalogTree.CreateNewBundle"));
-	// CatalogProfile catalog = CatalogProfile.newInstance();
-	// // catalog.setOutputFormat(format);
-	// catalog.setName(name);
-	// treeModel.setCatalog(catalog);
-	// mapView.repaint();
-	// }
 	public void newCatalog(String name)
 	{
 		if (name == null || name.length() < 1)
@@ -209,15 +200,6 @@ public class JCatalogTree extends JTree implements Autoscroll
 		mapView.repaint();
 	}
 
-	// /**
-	// * Changes the bundle format
-	// */
-	// public void convertBundle(BundleOutputFormat format)
-	// {
-	// log.debug(OSMCDStrs.RStr("CatalogTree.ConvertBundle") + format);
-	// treeModel.getBundle().setOutputFormat(format);
-	// }
-	//
 	public void deleteSelectedNode()
 	{
 		TreePath path = getSelectionPath();
@@ -236,8 +218,7 @@ public class JCatalogTree extends JTree implements Autoscroll
 		TreePath path2 = getPathForRow(selRow).getParentPath();
 		if (path1 != path2)
 		{
-			// next row belongs to different parent node -> we select parent
-			// node instead
+			// next row belongs to different parent node -> we select parent node instead
 			setSelectionPath(path1);
 		}
 		else
@@ -252,7 +233,7 @@ public class JCatalogTree extends JTree implements Autoscroll
 		return OSMCDApp.getApp().getCatalog();
 	}
 
-	// /W #deprecated -> make check in LoadCatalogListener#actionPerformed(ActionEvent e)
+	@Deprecated // W #deprecated -> make check in LoadCatalogListener#actionPerformed(ActionEvent e)
 	public boolean load(IfCatalogProfile profile)
 	{
 		log.debug(OSMCDStrs.RStr("CatalogTree.LoadCatalog") + profile);
@@ -288,13 +269,12 @@ public class JCatalogTree extends JTree implements Autoscroll
 		}
 	}
 
-	// public boolean save(IfCatalogProfile catalog)
 	public boolean save()
 	{
 		try
 		{
 			getCatalog().save();
-			// /W write name of saved catalog to settings
+			// W write name of saved catalog to settings
 			OSMCDSettings s = OSMCDSettings.getInstance();
 			s.setCatalogName(getCatalog().getName());
 			return true;
@@ -387,7 +367,7 @@ public class JCatalogTree extends JTree implements Autoscroll
 				});
 				pm.add(mi);
 
-				// /W rename map
+				// W rename map
 				mi = new JMenuItem(OSMCDStrs.RStr("lp_bundle_pop_menu_rename"));
 				mi.addActionListener(new ActionListener()
 				{
@@ -398,12 +378,11 @@ public class JCatalogTree extends JTree implements Autoscroll
 						JCatalogTree.this.startEditingAtPath(selPath);
 					}
 				});
-				pm.add(mi);
+				// W #--- pm.add(mi);
 
 			}
 			if (o instanceof IfLayer)
 			{
-				// W testing
 				mi = new JMenuItem(OSMCDStrs.RStr("CatalogTreePopUpMenu.SelectLayerBox"));
 				mi.addActionListener(new ActionListener()
 				{
@@ -422,8 +401,8 @@ public class JCatalogTree extends JTree implements Autoscroll
 							max.lon = Math.max(max.lon, mapMax.lon);
 							min.lat = Math.min(min.lat, mapMin.lat);
 							min.lon = Math.min(min.lon, mapMin.lon);
-						}//debug
-						log.info("min.lon=" + min.lon + ", max.lon=" + max.lon + ", min.lat=" + min.lat + ", max.lat=" + max.lat);
+						}
+						// log.debug("min.lon=" + min.lon + ", max.lon=" + max.lon + ", min.lat=" + min.lat + ", max.lat=" + max.lat);
 						MapSelection ms = new MapSelection(mapView.getMapSource(), max, min);
 						mapView.setSelectionAndZoomTo(ms, true);
 					}
@@ -455,7 +434,7 @@ public class JCatalogTree extends JTree implements Autoscroll
 				});
 				pm.add(mi);
 			}
-			if (o instanceof IfCatalog) // /W #rename catalog
+			if (o instanceof IfCatalog) // W #rename catalog
 			{
 				mi = new JMenuItem(OSMCDStrs.RStr("lp_bundle_pop_menu_rename"));
 				mi.addActionListener(new ActionListener()
@@ -479,7 +458,7 @@ public class JCatalogTree extends JTree implements Autoscroll
 						applyTileImageParameters(catalogObj, p);
 					}
 				});
-				// /W #--- pm.add(mi);
+				// W #--- pm.add(mi);
 			}
 			if (o instanceof IfCapabilityDeletable)
 			{
@@ -489,7 +468,7 @@ public class JCatalogTree extends JTree implements Autoscroll
 				pm.add(mi);
 			}
 		}
-		// /W #--- if (pm.getComponentCount() > 0) pm.addSeparator();
+		// W #--- if (pm.getComponentCount() > 0) pm.addSeparator();
 		mi = new JMenuItem(OSMCDStrs.RStr("lp_bundle_pop_menu_clear_atlas"));
 		mi.addActionListener(new ActionListener()
 		{
@@ -499,7 +478,7 @@ public class JCatalogTree extends JTree implements Autoscroll
 				newCatalog("NoName");
 			}
 		});
-		// /W #--- pm.add(mi);
+		// W #--- pm.add(mi);
 		pm.show(this, event.getX(), event.getY());
 	}
 

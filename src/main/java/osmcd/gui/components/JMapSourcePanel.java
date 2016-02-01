@@ -12,12 +12,12 @@ import osmb.utilities.GBC;
 import osmcd.OSMCDStrs;
 import osmcd.gui.MainFrame.MapSourceComboListener;
 
-@SuppressWarnings("serial") // /W
+@SuppressWarnings("serial") // W
 public class JMapSourcePanel extends JCollapsiblePanel
 {
 	private JComboBox<IfMapSource> mapSourceCombo;
 
-	// /W
+	// W
 	// public JMapSourcePanel(Container container, String title)
 	// {
 	// super(container, title);
@@ -51,7 +51,7 @@ public class JMapSourcePanel extends JCollapsiblePanel
 		mapSourceCombo.setMaximumRowCount(20);
 		mapSourceCombo.setToolTipText(OSMCDStrs.RStr("MapSourceCombo.ToolTips"));
 		addContent(mapSourceCombo, GBC.std().insets(2, 2, 2, 2).fill());
-		// /W addSccollBar horizontal ?
+		// W addSccollBar horizontal ?
 	}
 
 	public IfMapSource getSelectedMapSource()
@@ -64,11 +64,11 @@ public class JMapSourcePanel extends JCollapsiblePanel
 		// mapSourceCombo.setSelectedIndex(0);
 		// ms = (IfMapSource) mapSourceCombo.getSelectedItem();
 		// }
-		// /W ? code above? => //
+		// W ? code above? => //
 		return (IfMapSource) mapSourceCombo.getSelectedItem();
 	}
 
-	// /W
+	// W
 	public void updateMapSourceComboBox()
 	{
 		IfMapSource ms = getSelectedMapSource();

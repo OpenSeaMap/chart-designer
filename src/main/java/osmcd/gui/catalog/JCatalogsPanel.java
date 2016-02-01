@@ -35,6 +35,7 @@ import org.apache.log4j.Logger;
 import osmb.program.catalog.Catalog;
 import osmb.utilities.GBC;
 import osmb.utilities.GUIExceptionHandler;
+import osmb.utilities.OSMBStrs;
 import osmcd.OSMCDApp;
 import osmcd.OSMCDSettings;
 import osmcd.OSMCDStrs;
@@ -60,9 +61,9 @@ public class JCatalogsPanel extends JCollapsiblePanel
 	private JButton saveButton;
 	private JButton discardChangesButton;
 	private JButton addToLayersButton;
-	
+
 	private JCatalogTree jCatalogTree = null;
-	
+
 	public JCatalogsPanel(PreviewMap previewMap)
 	{
 		super(OSMCDStrs.RStr("Catalog.Title"), new GridBagLayout());
@@ -70,9 +71,9 @@ public class JCatalogsPanel extends JCollapsiblePanel
 		jCatalogTree = new JCatalogTree(previewMap);
 		if (jCatalogTree == null)
 			throw new NullPointerException();
-		
+
 		jCatalogTree.getTreeModel().addTreeModelListener(new CatalogModelListener(jCatalogTree, this));
-		
+
 		saveButton = new JButton(OSMCDStrs.RStr("Catalog.Save"));
 		saveButton.setToolTipText(OSMCDStrs.RStr("Catalog.SaveTips"));
 		saveButton.addActionListener(new SaveCatalogListener());
@@ -80,25 +81,25 @@ public class JCatalogsPanel extends JCollapsiblePanel
 		loadButton = new JButton(OSMCDStrs.RStr("Catalog.Load"));
 		loadButton.setToolTipText(OSMCDStrs.RStr("Catalog.LoadTips"));
 		loadButton.addActionListener(new LoadCatalogListener(false));
-		
+
 		discardChangesButton = new JButton(OSMCDStrs.RStr("Catalog.DiscardChanges"));
 		discardChangesButton.setToolTipText(OSMCDStrs.RStr("Catalog.DiscardChangesTips"));
 		discardChangesButton.addActionListener(new LoadCatalogListener(true)); // (new DiscardChangesListener());
-		
+
 		addToLayersButton = new JButton(OSMCDStrs.RStr("CatalogTree.AddSelected"));
 		addToLayersButton.setToolTipText(OSMCDStrs.RStr("CatalogTree.AddSelectedTips"));
 		addToLayersButton.addActionListener(AddMapLayer.INSTANCE);
-		
+
 		GBC gbc = GBC.eol().fill().insets(5, 5, 5, 5);
 		GBC gbc_eol = GBC.eol().insets(2, 1, 2, 1);
 		GBC gbc_std = GBC.std().insets(2, 1, 2, 1);
 		GBC gbc_farRight = GBC.std().insets(2, 1, 25, 1);
-				
+
 		JScrollPane treeScrollPane = new JScrollPane(jCatalogTree, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		treeScrollPane.setMinimumSize(new Dimension(100, 200));
 		treeScrollPane.setPreferredSize(new Dimension(100, 400));
 		treeScrollPane.setAutoscrolls(true);
-		
+
 		// compose the complete panel
 		JPanel p = new JPanel(new BorderLayout());
 		contentContainer.add(p, gbc);
@@ -127,9 +128,9 @@ public class JCatalogsPanel extends JCollapsiblePanel
 
 	public Catalog getCatalog()
 	{
-		return OSMCDApp.getApp().getCatalog(); // #gCatalog
+		return OSMCDApp.getApp().getCatalog();
 	}
-	
+
 	public JCatalogTree getCatalogTree()
 	{
 		return jCatalogTree;
@@ -159,35 +160,36 @@ public class JCatalogsPanel extends JCollapsiblePanel
 			// test for empty catalog (possible after deleting last map: see CatalogTreeModel#notifyNodeDelete(TreeNode node))
 			if (catalog.isEmpty())
 			{
-				JOptionPane.showMessageDialog(null, OSMCDStrs.RStr(OSMCDStrs.RStr("Catalog.Empty")),
-						OSMCDStrs.RStr("CatalogTree.ERRBundleEmpty"), JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, OSMCDStrs.RStr(OSMCDStrs.RStr("Catalog.Empty")), OSMCDStrs.RStr("CatalogTree.ERRBundleEmpty"),
+				    JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 			// check catalogs name (possible?)
 			if (catalog.getName() == null || catalog.getName().length() == 0)
 			{
 				log.info("not a catalog name given");
-				JOptionPane.showMessageDialog(null, OSMCDStrs.RStr("Catalog.EnterName"), OSMCDStrs.RStr("Error"), JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, OSMCDStrs.RStr("Catalog.EnterName"), OSMBStrs.RStr("Error"), JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 			if (jCatalogTree.save())
 			{
 				jCatalogTree.setHasUnsavedChanges(false);
-				setIsContentChanged();				
+				setIsContentChanged();
 			}
 
 		}
 	}
-			
+
 	private class LoadCatalogListener implements ActionListener
 	{
 		// to be able to discard changes
 		boolean bDiscard;
+
 		LoadCatalogListener(boolean discard)
 		{
 			bDiscard = discard;
 		}
-		
+
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
@@ -195,53 +197,55 @@ public class JCatalogsPanel extends JCollapsiblePanel
 			if (!bDiscard)
 			{
 				JCatalogFileChooser catalogChooser = new JCatalogFileChooser();
-		    int returnVal = catalogChooser.showOpenDialog(JCatalogsPanel.this);
-		    if(returnVal != JFileChooser.APPROVE_OPTION)
-		    	return;
+				int returnVal = catalogChooser.showOpenDialog(JCatalogsPanel.this);
+				if (returnVal != JFileChooser.APPROVE_OPTION)
+					return;
 				// else open ...
-		    fileSel = catalogChooser.getSelectedFile();
+				fileSel = catalogChooser.getSelectedFile();
 			}
 			else
 			{
 				fileSel = JCatalogsPanel.this.getCatalog().getFile();
 			}
-	    
-	    OSMCDSettings settings = OSMCDSettings.getInstance();
+
+			OSMCDSettings settings = OSMCDSettings.getInstance();
 			File catalogsDir = settings.getCatalogsDirectory();
 			boolean isCatalogsDir = fileSel.getParentFile().equals(catalogsDir) ? true : false;
-	    boolean isExistingFile = fileSel.isFile(); // exists() + normal(not a directory + other system-dependent criteria)
-	    
-	    String newCatalogsName = null;
-	    
-	    if (!isExistingFile) // new catalog
-	    {
-	    	Matcher m = Catalog.CATALOG_FILENAME_PATTERN.matcher(fileSel.getName());
-	    	if (m.matches())
-	    	{
-	    		newCatalogsName = m.group(1);
-	    		if (!isCatalogsDir) // anotherDir
-	    		{
-	    			CatalogRenameDialog renameDlg = new CatalogRenameDialog(JCatalogsPanel.this, newCatalogsName, null, null);
-		    		renameDlg.actionPerformed(null);
-		    		newCatalogsName = renameDlg.getChosenName();
-	    		}
-	    		// else: isCatalogsDir -> continue with newCatalog(newCatalogsName)
-	    	}
-	    	else // filename does not match // #rename?
-	    	{
-	    		CatalogRenameDialog renameDlg = new CatalogRenameDialog(JCatalogsPanel.this, null, null, fileSel.getName());
-	    		renameDlg.actionPerformed(null);
-	    		newCatalogsName = renameDlg.getChosenName();
-	    	}
-	    	if (newCatalogsName == null)
-	    		return;
-	    	// else: go on
-	    	getCatalogTree().newCatalog(newCatalogsName);
-	    	jCatalogTree.setHasUnsavedChanges(false);
-	    }
-	    else // existing file selected
-	    {
-		    Catalog testCatalog = null;
+			boolean isExistingFile = fileSel.isFile(); // exists() + normal(not a directory + other system-dependent criteria)
+
+			String newCatalogsName = null;
+
+			if (!isExistingFile) // new catalog
+			{
+				Matcher m = Catalog.CATALOG_FILENAME_PATTERN.matcher(fileSel.getName());
+				if (m.matches())
+				{
+					newCatalogsName = m.group(1);
+					if (!isCatalogsDir) // anotherDir
+					{
+						CatalogRenameDialog renameDlg = new CatalogRenameDialog(JCatalogsPanel.this, newCatalogsName, null, null);
+						renameDlg.actionPerformed(null);
+						newCatalogsName = renameDlg.getChosenName();
+					}
+					// else: isCatalogsDir -> continue with newCatalog(newCatalogsName)
+				}
+				else // filename does not match // #rename?
+				{
+					CatalogRenameDialog renameDlg = new CatalogRenameDialog(JCatalogsPanel.this, null, null, fileSel.getName());
+					renameDlg.actionPerformed(null);
+					newCatalogsName = renameDlg.getChosenName();
+				}
+				if (newCatalogsName == null)
+					return;
+				// else: go on
+				getCatalogTree().newCatalog(newCatalogsName);
+				jCatalogTree.setHasUnsavedChanges(false);
+				log.info("LoadCatalogListener: new catalog loaded: name = " + getCatalogTree().getCatalog().getName() + ", version = "
+				    + getCatalogTree().getCatalog().getVersion() + ", file = " + getCatalogTree().getCatalog().getFile());
+			}
+			else // existing file selected
+			{
+				Catalog testCatalog = null;
 				try
 				{
 					testCatalog = (Catalog) Catalog.load(fileSel);
@@ -266,12 +270,12 @@ public class JCatalogsPanel extends JCollapsiblePanel
 				if (testCatalog.getName() == null) // #rename
 				{
 					CatalogRenameDialog renameDlg = new CatalogRenameDialog(JCatalogsPanel.this, null, fileSel.getPath(), "code: 'null'");
-	    		renameDlg.actionPerformed(null);
-	    		if (renameDlg.getChosenName() == null)
-	    			return;
-	    		// else:
-	    		catalogsName = renameDlg.getChosenName();
-	    		jCatalogTree.setHasUnsavedChanges(true); // setIsContentChanged(true);
+					renameDlg.actionPerformed(null);
+					if (renameDlg.getChosenName() == null)
+						return;
+					// else:
+					catalogsName = renameDlg.getChosenName();
+					jCatalogTree.setHasUnsavedChanges(true); // setIsContentChanged(true);
 				}
 				else
 				{
@@ -282,36 +286,36 @@ public class JCatalogsPanel extends JCollapsiblePanel
 						if (!isCatalogsDir || !(Catalog.getCatalogFileName(catalogsName).equals(fileSel.getName()))) // dir mismatch || name mismatch // #rename
 						{
 							CatalogRenameDialog renameDlg = new CatalogRenameDialog(JCatalogsPanel.this, catalogsName, fileSel.getPath(), null);
-			    		renameDlg.actionPerformed(null);
-			    		if (renameDlg.getChosenName() == null)
-			    			return;
-			    		// else: catalogsName is unused or user wants to overwrite
-			    		jCatalogTree.setHasUnsavedChanges(true); // setIsContentChanged(true);
+							renameDlg.actionPerformed(null);
+							if (renameDlg.getChosenName() == null)
+								return;
+							// else: catalogsName is unused or user wants to overwrite
+							jCatalogTree.setHasUnsavedChanges(true); // setIsContentChanged(true);
 						}
 						// else: existing correctly named catalog in catalogsDir -> continue with loading testCatalog
 						jCatalogTree.setHasUnsavedChanges(false);
-		    	}
-			    else // catName does not match // #rename
-			    {
+					}
+					else // catName does not match // #rename
+					{
 						CatalogRenameDialog renameDlg = new CatalogRenameDialog(JCatalogsPanel.this, null, fileSel.getPath(), catalogsName);
-		    		renameDlg.actionPerformed(null);
-		    		if (renameDlg.getChosenName() == null)
-		    			return;
-		    		// else: go one
-		    		catalogsName = renameDlg.getChosenName();
-		    		jCatalogTree.setHasUnsavedChanges(true); // setIsContentChanged(true);
-			    }
-	    	}
+						renameDlg.actionPerformed(null);
+						if (renameDlg.getChosenName() == null)
+							return;
+						// else: go one
+						catalogsName = renameDlg.getChosenName();
+						jCatalogTree.setHasUnsavedChanges(true); // setIsContentChanged(true);
+					}
+				}
 				testCatalog.setName(catalogsName);
 				OSMCDApp.getApp().setCatalog(testCatalog);
-				jCatalogTree.getTreeModel().notifyStructureChanged();
+				log.info("LoadCatalogListener: existing catalog loaded: name = " + getCatalogTree().getCatalog().getName() + ", version = "
+				    + getCatalogTree().getCatalog().getVersion() + ", LayerCount = " + getCatalogTree().getCatalog().getSize() + ", file = "
+				    + getCatalogTree().getCatalog().getFile());
 
-//				MainFrame.getMainGUI().previewMap.repaint(); // #???				
-				log.info("loadCatalog(): name = " + getCatalogTree().getCatalog().getName());
-				log.info("loadCatalog(): version = " + ((Catalog) getCatalogTree().getCatalog()).getVersion());
-				log.info("loadCatalog(): LayerCount = " + ((Catalog) getCatalogTree().getCatalog()).getSize());
-				log.info("loadCatalog(): file = " + ((Catalog) getCatalogTree().getCatalog()).getFile());
 			}
+			jCatalogTree.getTreeModel().notifyStructureChanged();
+
+			// MainFrame.getMainGUI().previewMap.repaint(); // #???
 		}
 	}
 }

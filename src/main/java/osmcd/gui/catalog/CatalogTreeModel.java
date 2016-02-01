@@ -44,13 +44,10 @@ public class CatalogTreeModel implements TreeModel
 	private static Logger log = Logger.getLogger(CatalogTreeModel.class);
 
 	// instance data
-	// protected IfCatalog mCatalog; // #gCatalog
-	// protected IfCatalogProfile mCatalog;
 	protected Set<TreeModelListener> listeners = new HashSet<TreeModelListener>();
 
 	public CatalogTreeModel()
 	{
-		// mCatalog = Catalog.newInstance(); // #gCatalog
 	}
 
 	@Override
@@ -67,7 +64,7 @@ public class CatalogTreeModel implements TreeModel
 
 	public void notifyStructureChanged()
 	{
-		notifyStructureChanged((TreeNode) getCatalog()); // #gCatalog
+		notifyStructureChanged(getCatalog());
 	}
 
 	public void notifyStructureChanged(TreeNode root)
@@ -75,7 +72,7 @@ public class CatalogTreeModel implements TreeModel
 		notifyStructureChanged(new TreeModelEvent(this, new Object[]
 		{ root }));
 	}
-	
+
 	public void notifyStructureChanged(TreeNode catalog, TreeNode layer)
 	{
 		notifyStructureChanged(new TreeModelEvent(this, new Object[]
@@ -121,7 +118,7 @@ public class CatalogTreeModel implements TreeModel
 		TreeNode[] childs = new TreeNode[]
 		{ insertedNode };
 		int childId = parent.getIndex(insertedNode);
-		assert (childId <= 0);
+		assert(childId <= 0);
 		TreeModelEvent event = new TreeModelEvent(this, path, new int[]
 		{ childId }, childs);
 		for (TreeModelListener l : listeners)
@@ -133,7 +130,7 @@ public class CatalogTreeModel implements TreeModel
 		for (TreeModelListener l : listeners)
 			l.treeNodesChanged(event);
 	}
-	
+
 	public TreePath getNodePath(TreeNode node)
 	{
 		LinkedList<TreeNode> path = new LinkedList<TreeNode>();
@@ -167,7 +164,7 @@ public class CatalogTreeModel implements TreeModel
 	@Override
 	public Object getRoot()
 	{
-		return getCatalog(); // #gCatalog
+		return getCatalog();
 	}
 
 	@Override
@@ -225,13 +222,13 @@ public class CatalogTreeModel implements TreeModel
 		}
 	}
 
-	// /W #deprecated
+	// W #deprecated
 	public void mergeLayers(IfLayer source, IfLayer target) throws InvalidNameException
 	{
 
 		boolean sourceFound = false;
 		boolean targetFound = false;
-		for (IfLayer l : getCatalog()) // #gCatalog
+		for (IfLayer l : getCatalog())
 		{
 			if (l.equals(source))
 				sourceFound = true;
@@ -250,7 +247,7 @@ public class CatalogTreeModel implements TreeModel
 			throw new InvalidNameException("Map naming conflict:\n" + "The layers to be merged contain maps of the same name.");
 
 		if (sourceFound)
-			getCatalog().deleteLayer(source); // #gCatalog
+			getCatalog().deleteLayer(source);
 		for (IfMap map : source)
 		{
 			target.addMap(map);
@@ -269,38 +266,6 @@ public class CatalogTreeModel implements TreeModel
 
 	public Catalog getCatalog()
 	{
-		return OSMCDApp.getApp().getCatalog(); // #gCatalog
+		return OSMCDApp.getApp().getCatalog();
 	}
-
-	// #gCatalog
-	// public void setCatalog(Catalog catalog)
-	// {
-	// this.mCatalog = catalog;
-	// notifyStructureChanged();
-	// }
-
-	// #gCatalog
-	// /**
-	// * This simply delegates the command to the current catalog
-	// * 
-	// ** @throws Exception
-	// */
-	// // public void save(IfCatalogProfile catalog) throws Exception
-	// public void save() throws Exception
-	// {
-	// mCatalog.save();
-	// }
-
-	// #gCatalog
-	// /**
-	// * This simply delegates the command to the catalog
-	// * 
-	// * @param catalog
-	// * @throws Exception
-	// */
-	// public void load(IfCatalogProfile catalog) throws Exception
-	// {
-	// mCatalog = Catalog.load(catalog.getFile());
-	// notifyStructureChanged();
-	// }
 }

@@ -1,6 +1,6 @@
 package osmcd.gui.mapview;
 
-import osmb.mapsources.IfMapSource;
+import osmb.mapsources.ACMapSource;
 import osmb.mapsources.PixelAddress;
 
 public interface IfMapEventListener
@@ -20,7 +20,7 @@ public interface IfMapEventListener
 	/** select the previous iMap source from the iMap list */
 	public void selectPreviousMapSource();
 
-	public void mapSourceChanged(IfMapSource newMapSource);
+	public void mapSourceChanged(ACMapSource newMapSource);
 
 	public void mapSelectionControllerChanged(ACMapController newMapController);
 }

@@ -23,7 +23,7 @@ import osmb.mapsources.DefaultMapSourcesManager;
 import osmb.program.ACWindowsApp;
 import osmb.program.EnvironmentSetup;
 import osmb.program.catalog.Catalog;
-import osmb.program.tilestore.ACSiTileStore;
+import osmb.program.tilestore.ACTileStore;
 import osmb.utilities.GUIExceptionHandler;
 import osmcd.gui.MainFrame;
 import osmcd.gui.SplashFrame;
@@ -37,6 +37,7 @@ public class OSMCDApp extends ACWindowsApp
 		return (OSMCDApp) gApp;
 	}
 
+	// #gCatalog
 	protected Catalog gCatalog = null;
 
 	public OSMCDApp()
@@ -100,7 +101,7 @@ public class OSMCDApp extends ACWindowsApp
 			// Setup mappacks
 			// EnvironmentSetup.copyMapPacks();
 			DefaultMapSourcesManager.initialize();
-			ACSiTileStore.initialize(); // multiple instances are accessing tilestore ????
+			ACTileStore.initialize(); // multiple instances are accessing tilestore ????
 			// EnvironmentSetup.upgrade();
 			SwingUtilities.invokeLater(new Runnable()
 			{
@@ -111,7 +112,7 @@ public class OSMCDApp extends ACWindowsApp
 					MainFrame.createMainGui();
 					SplashFrame.hideFrame();
 
-					// W #firstStart
+					// /W #firstStart
 					MainFrame.runFirstStart();
 
 					runMainGUI();

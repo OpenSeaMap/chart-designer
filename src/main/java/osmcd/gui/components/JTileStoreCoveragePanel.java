@@ -25,8 +25,8 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
+import osmb.mapsources.ACMapSource;
 import osmb.mapsources.ACMultiLayerMapSource;
-import osmb.mapsources.IfMapSource;
 import osmb.mapsources.PixelAddress;
 import osmb.utilities.GBC;
 import osmcd.OSMCDStrs;
@@ -42,7 +42,7 @@ public class JTileStoreCoveragePanel extends JCollapsiblePanel implements IfMapE
 
 	private JButton showCoverage;
 	private JButton hideCoverage;
-	private JComboBox<IfMapSource> layerSelector;
+	private JComboBox<ACMapSource> layerSelector;
 	private JComboBox<Integer> zoomCombo;
 	private PreviewMap mapViewer;
 
@@ -62,7 +62,7 @@ public class JTileStoreCoveragePanel extends JCollapsiblePanel implements IfMapE
 		zoomCombo = new JComboBox<Integer>();
 		zoomCombo.setToolTipText(OSMCDStrs.RStr("lp_tile_store_zoom_combo_tips"));
 		titlePanel.setToolTipText(OSMCDStrs.RStr("lp_tile_store_title_tips"));
-		layerSelector = new JComboBox<IfMapSource>();
+		layerSelector = new JComboBox<ACMapSource>();
 
 		GBC gbc_eol = GBC.eol().insets(2, 2, 2, 2);
 		GBC gbc_std = GBC.std().insets(2, 2, 2, 2);
@@ -92,7 +92,7 @@ public class JTileStoreCoveragePanel extends JCollapsiblePanel implements IfMapE
 			return;
 		TileStoreCoverageLayer.removeCacheCoverageLayers();
 		mapViewer.repaint();
-		TileStoreCoverageLayer tscl = new TileStoreCoverageLayer(mapViewer, (IfMapSource) layerSelector.getSelectedItem(), zoom);
+		TileStoreCoverageLayer tscl = new TileStoreCoverageLayer(mapViewer, (ACMapSource) layerSelector.getSelectedItem(), zoom);
 		mapViewer.mapLayers.add(tscl);
 		hideCoverage.setEnabled(true);
 	}
@@ -103,7 +103,7 @@ public class JTileStoreCoveragePanel extends JCollapsiblePanel implements IfMapE
 	}
 
 	@Override
-	public void mapSourceChanged(IfMapSource newMapSource)
+	public void mapSourceChanged(ACMapSource newMapSource)
 	{
 		TileStoreCoverageLayer.removeCacheCoverageLayers();
 		hideCoverage.setEnabled(false);
@@ -120,7 +120,7 @@ public class JTileStoreCoveragePanel extends JCollapsiblePanel implements IfMapE
 		zoomCombo.setModel(new DefaultComboBoxModel<Integer>(items));
 		zoomCombo.setMaximumRowCount(10);
 		zoomCombo.setSelectedItem(selZoom);
-		IfMapSource[] layers;
+		ACMapSource[] layers;
 		if (newMapSource instanceof ACMultiLayerMapSource)
 		{
 			layers = ((ACMultiLayerMapSource) newMapSource).getLayerMapSources();
@@ -128,11 +128,11 @@ public class JTileStoreCoveragePanel extends JCollapsiblePanel implements IfMapE
 		}
 		else
 		{
-			layers = new IfMapSource[]
+			layers = new ACMapSource[]
 			{ newMapSource };
 			layerSelector.setEnabled(false);
 		}
-		layerSelector.setModel(new DefaultComboBoxModel<IfMapSource>(layers));
+		layerSelector.setModel(new DefaultComboBoxModel<ACMapSource>(layers));
 		layerSelector.setSelectedIndex(0);
 	}
 

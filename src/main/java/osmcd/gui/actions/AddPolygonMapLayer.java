@@ -25,7 +25,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 import osmb.exceptions.InvalidNameException;
-import osmb.mapsources.IfMapSource;
+import osmb.mapsources.ACMapSource;
 import osmb.mapsources.MP2MapSpace;
 import osmb.program.catalog.IfCatalog;
 // W #mapSpace import osmb.program.map.IfMapSpace;
@@ -60,8 +60,8 @@ public class AddPolygonMapLayer implements ActionListener
 		// final String mapNameFmt = "%s %02d";
 		String mapNameFmt = "%s%02d";
 		IfCatalog catalog = catalogTree.getCatalog();
-		IfMapSource mapSource = mg.getSelectedMapSource();
-	// W #mapSpace IfMapSpace mapSpace = mapSource.getMapSpace();
+		ACMapSource mapSource = mg.getSelectedMapSource();
+		// W #mapSpace IfMapSpace mapSpace = mapSource.getMapSpace();
 		SelectedZoomLevels sZL = mg.getSelectedZoomLevels();
 
 		int[] zoomLevels = sZL.getZoomLevels();
@@ -101,7 +101,7 @@ public class AddPolygonMapLayer implements ActionListener
 			int[] ypoints = new int[polygonPoints.size()];
 			for (int i = 0; i < xpoints.length; i++)
 			{
-				Point p = MP2MapSpace.changeZoom(polygonPoints.get(i), mg.previewMap.getMaxZoom(), zoom);  // W #mapSpace
+				Point p = MP2MapSpace.changeZoom(polygonPoints.get(i), mg.previewMap.getMaxZoom(), zoom); // W #mapSpace
 				xpoints[i] = p.x;
 				ypoints[i] = p.y;
 			}

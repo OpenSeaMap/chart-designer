@@ -6,18 +6,18 @@ import java.awt.Toolkit;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 
-import osmb.mapsources.ACMapSourcesManager;
-import osmb.mapsources.IfMapSource;
+import osmb.mapsources.ACMapSource;
+import osmb.mapsources.SiACMapSourcesManager;
 import osmb.utilities.GBC;
 import osmcd.OSMCDStrs;
 import osmcd.gui.MainFrame.MapSourceComboListener;
 
-@SuppressWarnings("serial") // W
+@SuppressWarnings("serial") // /W
 public class JMapSourcePanel extends JCollapsiblePanel
 {
-	private JComboBox<IfMapSource> mapSourceCombo;
+	private JComboBox<ACMapSource> mapSourceCombo;
 
-	// W
+	// /W
 	// public JMapSourcePanel(Container container, String title)
 	// {
 	// super(container, title);
@@ -47,14 +47,14 @@ public class JMapSourcePanel extends JCollapsiblePanel
 	{
 		super(OSMCDStrs.RStr("MapSources.Title"), new GridBagLayout());
 		// map source combo
-		mapSourceCombo = new JComboBox<IfMapSource>(ACMapSourcesManager.getInstance().getEnabledOrderedMapSources());
+		mapSourceCombo = new JComboBox<ACMapSource>(SiACMapSourcesManager.getInstance().getEnabledOrderedMapSources());
 		mapSourceCombo.setMaximumRowCount(20);
 		mapSourceCombo.setToolTipText(OSMCDStrs.RStr("MapSourceCombo.ToolTips"));
 		addContent(mapSourceCombo, GBC.std().insets(2, 2, 2, 2).fill());
-		// W addSccollBar horizontal ?
+		// /W addSccollBar horizontal ?
 	}
 
-	public IfMapSource getSelectedMapSource()
+	public ACMapSource getSelectedMapSource()
 	{
 		// IfMapSource ms = (IfMapSource) mapSourceCombo.getSelectedItem();
 		// // mapSourceCombo.setSelectedItem(ms);
@@ -64,25 +64,25 @@ public class JMapSourcePanel extends JCollapsiblePanel
 		// mapSourceCombo.setSelectedIndex(0);
 		// ms = (IfMapSource) mapSourceCombo.getSelectedItem();
 		// }
-		// W ? code above? => //
-		return (IfMapSource) mapSourceCombo.getSelectedItem();
+		// /W ? code above? => //
+		return (ACMapSource) mapSourceCombo.getSelectedItem();
 	}
 
-	// W
+	// /W
 	public void updateMapSourceComboBox()
 	{
-		IfMapSource ms = getSelectedMapSource();
-		mapSourceCombo.setModel(new DefaultComboBoxModel<IfMapSource>(ACMapSourcesManager.getInstance().getEnabledOrderedMapSources()));
+		ACMapSource ms = getSelectedMapSource();
+		mapSourceCombo.setModel(new DefaultComboBoxModel<ACMapSource>(SiACMapSourcesManager.getInstance().getEnabledOrderedMapSources()));
 		mapSourceCombo.setSelectedItem(ms);
 	}
 
-	public IfMapSource selectMapSource(IfMapSource newMapSource)
+	public ACMapSource selectMapSource(ACMapSource newMapSource)
 	{
 		mapSourceCombo.setSelectedItem(newMapSource);
-		return (IfMapSource) mapSourceCombo.getSelectedItem();
+		return (ACMapSource) mapSourceCombo.getSelectedItem();
 	}
 
-	public IfMapSource selectNextMapSource()
+	public ACMapSource selectNextMapSource()
 	{
 		if (mapSourceCombo.getSelectedIndex() == mapSourceCombo.getItemCount() - 1)
 		{
@@ -92,10 +92,10 @@ public class JMapSourcePanel extends JCollapsiblePanel
 		{
 			mapSourceCombo.setSelectedIndex(mapSourceCombo.getSelectedIndex() + 1);
 		}
-		return (IfMapSource) mapSourceCombo.getSelectedItem();
+		return (ACMapSource) mapSourceCombo.getSelectedItem();
 	}
 
-	public IfMapSource selectPreviousMapSource()
+	public ACMapSource selectPreviousMapSource()
 	{
 		if (mapSourceCombo.getSelectedIndex() == 0)
 		{
@@ -105,7 +105,7 @@ public class JMapSourcePanel extends JCollapsiblePanel
 		{
 			mapSourceCombo.setSelectedIndex(mapSourceCombo.getSelectedIndex() - 1);
 		}
-		return (IfMapSource) mapSourceCombo.getSelectedItem();
+		return (ACMapSource) mapSourceCombo.getSelectedItem();
 	}
 
 	public void addComboActionListener(MapSourceComboListener mapSourceComboListener)

@@ -24,7 +24,7 @@ import javax.swing.JOptionPane;
 import javax.swing.tree.TreeNode;
 
 import osmb.exceptions.InvalidNameException;
-import osmb.mapsources.IfMapSource;
+import osmb.mapsources.ACMapSource;
 import osmb.program.catalog.Catalog;
 import osmb.program.map.Layer;
 import osmb.program.tiles.TileImageParameters;
@@ -62,7 +62,7 @@ public class AddRectangleMapAutocut implements ActionListener
 		// final String mapNameFmt = "%s";
 		Catalog catalog = catalogTree.getCatalog();
 		// String name = mg.getUserText();
-		IfMapSource mapSource = mg.getSelectedMapSource();
+		ACMapSource mapSource = mg.getSelectedMapSource();
 		SelectedZoomLevels sZL = mg.getSelectedZoomLevels();
 		MapSelection ms = mg.getMapSelectionCoordinates();
 		if (ms == null)
@@ -146,9 +146,9 @@ public class AddRectangleMapAutocut implements ActionListener
 					catalogTree.getTreeModel().notifyStructureChanged();
 			}
 			// Check for duplicate maps either here or in layer.addMapsAutocut()
-			
+
 			// 'repaint' layer in content
-			catalogTree.getTreeModel().notifyStructureChanged((TreeNode)catalog, layer);
+			catalogTree.getTreeModel().notifyStructureChanged(catalog, layer);
 			// scroll to new map in expanded layer (finally with minimum zoomlevel)
 			if (catalogTree.isExpanded(catalogTree.getTreeModel().getNodePath(layer)))
 			{

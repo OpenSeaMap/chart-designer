@@ -33,11 +33,10 @@ import javax.swing.SwingUtilities;
 
 import org.apache.log4j.Logger;
 
-import osmb.mapsources.IfMapSource;
+import osmb.mapsources.ACMapSource;
 import osmb.mapsources.MP2Corner;
 import osmb.mapsources.MP2MapSpace;
 import osmb.program.JobDispatcher;
-import osmb.program.tiles.IfMemoryTileCacheHolder;
 import osmb.program.tiles.IfTileLoaderListener;
 import osmb.program.tiles.MemoryTileCache;
 import osmb.program.tiles.Tile;
@@ -50,7 +49,8 @@ import osmb.program.tiles.TileLoader;
  * @author Jan Peter Stotz
  * 
  */
-public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemoryTileCacheHolder
+// public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemoryTileCacheHolder
+public class JMapViewer extends JPanel implements IfTileLoaderListener
 {
 	private static final long serialVersionUID = 1L;
 	private static Logger log = Logger.getLogger(JMapViewer.class);
@@ -66,7 +66,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 	 * The mapTileLayers use this to actually paint the tiles on the graphics context
 	 */
 	protected MemoryTileCache mTileCache;
-	protected IfMapSource mMapSource;
+	protected ACMapSource mMapSource;
 	protected boolean usePlaceHolderTiles = true;
 
 	protected boolean mapMarkersVisible;
@@ -107,7 +107,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 	 */
 	protected JobDispatcher mJobDispatcher = null;
 
-	public JMapViewer(IfMapSource defaultMapSource, int downloadThreadCount)
+	public JMapViewer(ACMapSource defaultMapSource, int downloadThreadCount)
 	{
 		super();
 		mapTileLayers = new LinkedList<IfMapTileLayer>();
@@ -203,7 +203,6 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 		center = p;
 		log.trace("center.x = " + p.x + ", center.y = " + p.y);
 
-		// #???
 		setIgnoreRepaint(true);
 		try
 		{
@@ -318,7 +317,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 		int y = MP2MapSpace.cLatToYIndex(lat, mZoom);
 		x -= center.x - getWidth() / 2;
 		y -= center.y - getHeight() / 2;
-		if (x < 0 || y < 0 || x >= getWidth() || y >= getHeight()) // W  x >= getWidth(), y >= getHeight()
+		if (x < 0 || y < 0 || x >= getWidth() || y >= getHeight()) // W x >= getWidth(), y >= getHeight()
 			return null;
 		return new Point(x, y);
 	}
@@ -607,7 +606,6 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 		return mapMarkersVisible;
 	}
 
-	@Override
 	public MemoryTileCache getTileImageCache()
 	{
 		return mTileCache;
@@ -618,12 +616,12 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener, IfMemory
 		return tileLoader;
 	}
 
-	public IfMapSource getMapSource()
+	public ACMapSource getMapSource()
 	{
 		return mMapSource;
 	}
 
-	public void setMapSource(IfMapSource mapSource)
+	public void setMapSource(ACMapSource mapSource)
 	{
 		this.mMapSource = mapSource;
 		mMinZoom = Math.max(mapSource.getMinZoom(), MP2MapSpace.MIN_TECH_ZOOM);

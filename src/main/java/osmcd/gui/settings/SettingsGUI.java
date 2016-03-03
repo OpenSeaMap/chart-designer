@@ -67,13 +67,12 @@ import javax.swing.event.ChangeListener;
 
 import org.apache.log4j.Logger;
 
-import osmb.mapsources.ACMapSourcesManager;
-import osmb.mapsources.IfMapSource;
+import osmb.mapsources.ACMapSource;
 import osmb.mapsources.MapSourcesListModel;
+import osmb.mapsources.SiACMapSourcesManager;
 import osmb.utilities.GBC;
 import osmb.utilities.GUIExceptionHandler;
 import osmb.utilities.OSMBRsc;
-import osmb.utilities.OSMBStrs;
 import osmb.utilities.OSMBUtilities;
 import osmb.utilities.UnitSystem;
 import osmcd.OSMCDSettings;
@@ -104,7 +103,7 @@ public class SettingsGUI extends JDialog
 		MBit15("15 MBit", MBIT1 * 15), //
 		MBit20("20 MBit", MBIT1 * 20);
 
-		@SuppressWarnings("unused") // W #unused
+		@SuppressWarnings("unused") // /W #unused
 		public final long limit;
 		public final String description;
 
@@ -121,7 +120,7 @@ public class SettingsGUI extends JDialog
 		}
 	};
 
-	private enum SupportLocale // W default #???
+	private enum SupportLocale// /W default #???
 	{
 		SupportLocaleEn(new Locale("en"), "English"); // default
 
@@ -155,8 +154,8 @@ public class SettingsGUI extends JDialog
 
 	private final OSMCDSettings settings = OSMCDSettings.getInstance();
 
-	private JComboBox<UnitSystem> unitSystem;
-	private JComboBox<SupportLocale> languageCombo;
+	private JComboBox<UnitSystem> unitSystem; // /W <UnitSystem>
+	private JComboBox<SupportLocale> languageCombo; // /W <SupportLocale>
 	private JButton mapSourcesOnlineUpdate;
 	private JTextField osmHikingTicket;
 	private SettingsGUITileStore tileStoreTab;
@@ -168,23 +167,23 @@ public class SettingsGUI extends JDialog
 	private JTextField atlasOutputDirectory;
 	private JTextField jtfTileStoreDirectory;
 	private JTextField jtfCatalogsDirectory;
-	private JCheckBox jCheckBoxMakeNewCatalog; // W #boolNew
-	private JComboBox<Integer> threadCount;
-	private JComboBox<Bandwidth> bandwidth;
-	// W #unused
-	// private JComboBox proxyType; // W ?proxyType not initialized?
+	private JCheckBox jCheckBoxMakeNewCatalog; // /W #boolNew
+	private JComboBox<Integer> threadCount; // /W <Integer>
+	private JComboBox<Bandwidth> bandwidth; // /W <Bandwidth>
+	// /W #unused
+	// private JComboBox proxyType; // /W ?proxyType wird nicht initialisiert?
 	// private JTextField proxyHost;
 	// private JTextField proxyPort;
 	// private JTextField proxyUserName;
 	// private JTextField proxyPassword;
-	// private JCheckBox ignoreDlErrors; // W ?ignoreDlErrors not initialized?
+	// private JCheckBox ignoreDlErrors; // /W ?ignoreDlErrors wird nicht initialisiert?
 	private JButton okButton;
 	private JButton cancelButton;
 	private JTabbedPane tabbedPane;
-	private JList<IfMapSource> enabledMapSources;
-	private MapSourcesListModel enabledMapSourcesModel; // W enabled
-	private JList<IfMapSource> disabledMapSources;
-	private MapSourcesListModel disabledMapSourcesModel; // W enabled
+	private JList<ACMapSource> enabledMapSources;
+	private MapSourcesListModel enabledMapSourcesModel; // /W eingeschaltet
+	private JList<ACMapSource> disabledMapSources;
+	private MapSourcesListModel disabledMapSourcesModel; // /W eingeschaltet
 	private final SettingsGUIPaper paperAtlas;
 	private final SettingsGUIWgsGrid display;
 
@@ -228,7 +227,7 @@ public class SettingsGUI extends JDialog
 	private void createJFrame()
 	{
 		setLayout(new BorderLayout());
-		setTitle(OSMCDStrs.RStr("Settings.FrameTitle"));
+		setTitle(OSMCDStrs.RStr("set_title"));
 	}
 
 	// Create tabbed pane
@@ -236,9 +235,9 @@ public class SettingsGUI extends JDialog
 	{
 		tabbedPane = new JTabbedPane();
 		tabbedPane.setBounds(0, 0, 492, 275);
-		addDirectoriesPanel(); // W #firstStart: position 0 necessary! // W #tabSelection SettingsDialog
+		addDirectoriesPanel(); // /W #firstStart: position 0 nessesary! // /W #tabSelection SettingsDialog
 		addDisplaySettingsPanel();
-		// W #---
+		// /W #---
 		// try
 		// {
 		// addMapSourceSettingsPanel();
@@ -251,13 +250,13 @@ public class SettingsGUI extends JDialog
 		addTileUpdatePanel();
 		tileStoreTab = new SettingsGUITileStore(this);
 		addMapSizePanel();
-		// W #firstStart: move to position 0! addDirectoriesPanel();
+		// /W #firstStart: move to position 0! addDirectoriesPanel();
 		addNetworkPanel();
-		// W #--- tabbedPane.addTab(paperAtlas.getName(), paperAtlas);
+		// /W #--- tabbedPane.addTab(paperAtlas.getName(), paperAtlas);
 
 		add(tabbedPane, BorderLayout.CENTER);
 
-		// W #tabSelection SettingsDialog
+		// /W #tabSelection SettingsDialog
 		if ((tabbedPane.getTabCount() > nSelectedIndex) && (nSelectedIndex > -1))
 			tabbedPane.setSelectedIndex(nSelectedIndex);
 		else
@@ -368,7 +367,7 @@ public class SettingsGUI extends JDialog
 		tab.add(Box.createVerticalGlue(), GBC.std().fill(GBC.VERTICAL));
 	}
 
-	@SuppressWarnings("unused") // W #unused
+	@SuppressWarnings("unused") // /W #unused
 	private void addMapSourceSettingsPanel() throws URISyntaxException
 	{
 
@@ -438,7 +437,7 @@ public class SettingsGUI extends JDialog
 				int[] idx = disabledMapSources.getSelectedIndices();
 				for (int i = 0; i < idx.length; i++)
 				{
-					IfMapSource ms = disabledMapSourcesModel.removeElement(idx[i] - i);
+					ACMapSource ms = disabledMapSourcesModel.removeElement(idx[i] - i);
 					enabledMapSourcesModel.addElement(ms);
 				}
 			}
@@ -452,7 +451,7 @@ public class SettingsGUI extends JDialog
 				int[] idx = enabledMapSources.getSelectedIndices();
 				for (int i = 0; i < idx.length; i++)
 				{
-					IfMapSource ms = enabledMapSourcesModel.removeElement(idx[i] - i);
+					ACMapSource ms = enabledMapSourcesModel.removeElement(idx[i] - i);
 					disabledMapSourcesModel.addElement(ms);
 				}
 				disabledMapSourcesModel.sort();
@@ -508,16 +507,16 @@ public class SettingsGUI extends JDialog
 		centerPanel.add(down, buttonGbc);
 		centerPanel.add(Box.createVerticalGlue(), GBC.std().fill());
 
-		ACMapSourcesManager msManager = ACMapSourcesManager.getInstance();
+		SiACMapSourcesManager msManager = SiACMapSourcesManager.getInstance();
 
 		enabledMapSourcesModel = new MapSourcesListModel(msManager.getEnabledOrderedMapSources());
-		enabledMapSources = new JList<IfMapSource>(enabledMapSourcesModel);
+		enabledMapSources = new JList<ACMapSource>(enabledMapSourcesModel);
 		JScrollPane leftScrollPane = new JScrollPane(enabledMapSources, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		leftPanel.add(leftScrollPane, BorderLayout.CENTER);
 
 		disabledMapSourcesModel = new MapSourcesListModel(msManager.getDisabledMapSources());
 		disabledMapSourcesModel.sort();
-		disabledMapSources = new JList<IfMapSource>(disabledMapSourcesModel);
+		disabledMapSources = new JList<ACMapSource>(disabledMapSourcesModel);
 		JScrollPane rightScrollPane = new JScrollPane(disabledMapSources, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		rightPanel.add(rightScrollPane, BorderLayout.CENTER);
 
@@ -626,15 +625,21 @@ public class SettingsGUI extends JDialog
 
 	private void addDirectoriesPanel()
 	{
-		JPanel backGround = createNewTab(OSMCDStrs.RStr("Settings.DirectoriesTitle"));
+		JPanel backGround = createNewTab(OSMCDStrs.RStr("set_directory_title"));
 		backGround.setLayout(new GridBagLayout());
 
-		// W info
-		JLabel jlInfo = new JLabel(OSMCDStrs.RStr("Settings.DirectoriesInfo"));
-		backGround.add(jlInfo, GBC.eol());
+		// /W info
+		JLabel jlInfo1 = new JLabel("Beim ersten Start sollen hier die Pfade gesetzt werden:");
+		backGround.add(jlInfo1, GBC.eol());
+		JLabel jlInfo2 = new JLabel("   - Schreib- und Lesezugriff des Users für alle Pfade nötig");
+		backGround.add(jlInfo2, GBC.eol());
+		JLabel jlInfo3 = new JLabel("   - tilstore und bundle output können groß werden und brauchen schnellen Zugriff!");
+		backGround.add(jlInfo3, GBC.eol());
+		JLabel jlInfo4 = new JLabel("   ");
+		backGround.add(jlInfo4, GBC.eol());
 
-		// W #??? bundleOutputDir
-		// W atlas <-> bundle
+		// /W bundleOutputDir
+		// /W atlas <-> bundle
 		JPanel atlasOutputDirPanel = new JPanel(new GridBagLayout());
 		atlasOutputDirPanel.setBorder(createSectionBorder(OSMCDStrs.RStr("set_directory_output_bundle")));
 
@@ -662,7 +667,7 @@ public class SettingsGUI extends JDialog
 		atlasOutputDirPanel.add(atlasOutputDirectory, GBC.std().fillH());
 		atlasOutputDirPanel.add(selectAtlasOutputDirectory, GBC.std());
 
-		// W tilestoreDir
+		// /W tilestoreDir
 		JPanel tileStoreDirPanel = new JPanel(new GridBagLayout());
 		tileStoreDirPanel.setBorder(createSectionBorder(OSMCDStrs.RStr("set_directory_output_tilestore")));
 
@@ -671,7 +676,7 @@ public class SettingsGUI extends JDialog
 		jtfTileStoreDirectory.setText(settings.getTileStoreDirectory().toString());
 		jtfTileStoreDirectory.setEnabled(false);
 		jtfTileStoreDirectory.setDisabledTextColor(Color.BLACK);
-		// W #??? ToolTipTextColor of jtfTileStoreDirectory.diabled, BorderColor?
+		// /W #??? ToolTipTextColor of jtfTileStoreDirectory.diabled, BorderColor?
 
 		JButton selectTileStoreDirectory = new JButton(OSMCDStrs.RStr("set_directory_output_select"));
 		selectTileStoreDirectory.addActionListener(new ActionListener()
@@ -693,7 +698,7 @@ public class SettingsGUI extends JDialog
 		tileStoreDirPanel.add(selectTileStoreDirectory, GBC.eol());
 		tileStoreDirPanel.add(infoTileStore, GBC.eol());
 
-		// W catalogsDir
+		// /W catalogsDir
 		JPanel catalogsDirPanel = new JPanel(new GridBagLayout());
 		catalogsDirPanel.setBorder(createSectionBorder(OSMCDStrs.RStr("set_directory_output_catalogs")));
 
@@ -720,10 +725,8 @@ public class SettingsGUI extends JDialog
 
 		catalogsDirPanel.add(jtfCatalogsDirectory, GBC.std().fillH());
 		catalogsDirPanel.add(selectCatalogsDirectory, GBC.eol());
-		JLabel jlNewLine = new JLabel(" ");
-		catalogsDirPanel.add(jlNewLine, GBC.eol());
 
-		// W #boolNew
+		// /W #boolNew
 		jCheckBoxMakeNewCatalog = new JCheckBox();
 		jCheckBoxMakeNewCatalog.setSelected(settings.getCatalogNameMakeNew());
 		jCheckBoxMakeNewCatalog.setText(OSMCDStrs.RStr("set_make_new_catalog"));
@@ -806,7 +809,7 @@ public class SettingsGUI extends JDialog
 			}
 		};
 		al.actionPerformed(null);
-		// proxyType.addActionListener(al); // W ?proxyType not initialized? -> //
+		// proxyType.addActionListener(al); // /W ?proxyType nicht initialisiert? -> //
 
 		// panel.add(proxyTypeLabel, GBC.std());
 		// panel.add(proxyType, gbc_eolh.insets(5, 2, 5, 2));
@@ -828,7 +831,7 @@ public class SettingsGUI extends JDialog
 		// ignoreDlErrors = new JCheckBox(OSMCDStrs.RStr("set_net_default_ignore_error"), settings.ignoreDlErrors);
 		JPanel jPanel = new JPanel(new GridBagLayout());
 		jPanel.setBorder(createSectionBorder(OSMCDStrs.RStr("set_net_default")));
-		// jPanel.add(ignoreDlErrors, GBC.std()); // W ?ignoreDlErrors not initialized? -> //
+		// jPanel.add(ignoreDlErrors, GBC.std()); // /W ?ignoreDlErrors nicht initialisiert? -> //
 		jPanel.add(Box.createHorizontalGlue(), GBC.eol().fillH());
 		backGround.add(jPanel, GBC.eol().fillH());
 
@@ -838,8 +841,8 @@ public class SettingsGUI extends JDialog
 	public void createJButtons()
 	{
 		JPanel buttonPanel = new JPanel(new GridBagLayout());
-		okButton = new JButton(OSMBStrs.RStr("OK"));
-		cancelButton = new JButton(OSMBStrs.RStr("Cancel"));
+		okButton = new JButton(OSMCDStrs.RStr("OK"));
+		cancelButton = new JButton(OSMCDStrs.RStr("Cancel"));
 
 		GBC gbc = GBC.std().insets(5, 5, 5, 5);
 		buttonPanel.add(okButton, gbc);
@@ -928,14 +931,14 @@ public class SettingsGUI extends JDialog
 		// s.applyProxySettings();
 
 		Vector<String> disabledMaps = new Vector<String>();
-		for (IfMapSource ms : disabledMapSourcesModel.getVector())
+		for (ACMapSource ms : disabledMapSourcesModel.getVector())
 		{
 			disabledMaps.add(ms.getName());
 		}
 		s.mapSourcesDisabled = disabledMaps;
 
 		Vector<String> enabledMaps = new Vector<String>();
-		for (IfMapSource ms : enabledMapSourcesModel.getVector())
+		for (ACMapSource ms : enabledMapSourcesModel.getVector())
 		{
 			enabledMaps.add(ms.getName());
 		}
@@ -1041,7 +1044,7 @@ public class SettingsGUI extends JDialog
 			// On close we check if the tile store information retrieval thread
 			// is still running and if yes we interrupt it
 			tileStoreTab.stopThread();
-			// W #firstStart: write selected tab to settings -> firstStart over!
+			// /W #firstStart: write selected tab to settings -> firstStart over!
 			OSMCDSettings.getInstance().setSettingsTabSelected(tabbedPane.getSelectedIndex());
 		}
 

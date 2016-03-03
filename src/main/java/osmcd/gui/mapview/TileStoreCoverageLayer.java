@@ -25,13 +25,13 @@ import javax.swing.JOptionPane;
 
 import org.apache.log4j.Logger;
 
-import osmb.mapsources.IfMapSource;
+import osmb.mapsources.ACMapSource;
 import osmb.mapsources.MP2Corner;
 import osmb.mapsources.MP2MapSpace;
 import osmb.mapsources.PixelAddress;
 import osmb.mapsources.TileAddress;
 import osmb.program.DelayedInterruptThread;
-import osmb.program.tilestore.ACSiTileStore;
+import osmb.program.tilestore.ACTileStore;
 import osmb.utilities.GUIExceptionHandler;
 import osmb.utilities.OSMBStrs;
 import osmcd.OSMCDStrs;
@@ -41,8 +41,8 @@ import osmcd.gui.dialogs.WorkinprogressDialog;
 public class TileStoreCoverageLayer implements IfMapLayer
 {
 	private static final Logger log = Logger.getLogger(TileStoreCoverageLayer.class);
-	
-	private final IfMapSource mapSource;
+
+	private final ACMapSource mapSource;
 	private final int mZoom;
 	private final TileAddress mtcMin_mZoom;
 	private final TileAddress mtcMax_mZoom;
@@ -70,7 +70,7 @@ public class TileStoreCoverageLayer implements IfMapLayer
 		}
 	}
 
-	public TileStoreCoverageLayer(PreviewMap mapViewer, IfMapSource mapSource, int zoom)
+	public TileStoreCoverageLayer(PreviewMap mapViewer, ACMapSource mapSource, int zoom)
 	{
 		this.mapSource = mapSource;
 		this.mZoom = zoom;
@@ -78,12 +78,12 @@ public class TileStoreCoverageLayer implements IfMapLayer
 		MP2Corner mccMin_MapViewerZoom = new MP2Corner(mapViewer.getTopLeftCoordinate().x, mapViewer.getTopLeftCoordinate().y, mapViewerZoom);
 		MP2Corner mccMin_mZoom = mccMin_MapViewerZoom.adaptToZoomlevel(mZoom);
 		MP2Corner mccMax_MapViewerZoom = new MP2Corner(mapViewer.getTopLeftCoordinate().x + mapViewer.getWidth() - 1,
-				                                            mapViewer.getTopLeftCoordinate().y + mapViewer.getHeight() - 1, mapViewerZoom);
+		    mapViewer.getTopLeftCoordinate().y + mapViewer.getHeight() - 1, mapViewerZoom);
 		MP2Corner mccMax_mZoom = mccMax_MapViewerZoom.adaptToZoomlevel(mZoom);
-		
+
 		mtcMin_mZoom = new PixelAddress(mccMin_mZoom).getTileAddress();
 		mtcMax_mZoom = new PixelAddress(mccMax_mZoom).getTileAddress();
-		
+
 		updateCoverageImage();
 	}
 
@@ -99,7 +99,7 @@ public class TileStoreCoverageLayer implements IfMapLayer
 				{
 					Point tileNumMin = new Point(mtcMin_mZoom.getX(), mtcMin_mZoom.getY());
 					Point tileNumMax = new Point(mtcMax_mZoom.getX(), mtcMax_mZoom.getY());
-					coverageImage = ACSiTileStore.getInstance().getCacheCoverage(mapSource, mZoom, tileNumMin, tileNumMax);
+					coverageImage = ACTileStore.getInstance().getCacheCoverage(mapSource, mZoom, tileNumMin, tileNumMax);
 					if (coverageImage == null)
 						JOptionPane.showMessageDialog(MainFrame.getMainGUI(), OSMCDStrs.RStr("msg_tile_store_failed_retrieve_coverage"), OSMBStrs.RStr("Error"),
 		            JOptionPane.ERROR_MESSAGE);

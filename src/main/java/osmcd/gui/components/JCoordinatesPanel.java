@@ -29,7 +29,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
-import osmb.mapsources.IfMapSource;
+import osmb.mapsources.ACMapSource;
 import osmb.mapsources.PixelAddress;
 import osmb.utilities.GBC;
 import osmb.utilities.geo.CoordinateStringFormat;
@@ -190,7 +190,7 @@ public class JCoordinatesPanel extends JCollapsiblePanel
 		}
 	}
 
-	public MapSelection getMapSelection(IfMapSource mapSource)
+	public MapSelection getMapSelection(ACMapSource mapSource)
 	{
 		GeoCoordinate max = getMaxCoordinate();
 		GeoCoordinate min = getMinCoordinate();

@@ -18,10 +18,11 @@ package osmcd.program;
 
 import java.awt.Point;
 
+import osmb.mapsources.ACMapSource;
+
 //import org.apache.log4j.Logger;
 
 import osmb.mapsources.ACMultiLayerMapSource;
-import osmb.mapsources.IfMapSource;
 import osmb.mapsources.MP2MapSpace;
 import osmb.mapsources.PixelAddress;
 import osmb.program.map.IfMap;
@@ -29,7 +30,7 @@ import osmb.utilities.geo.GeoCoordinate;
 
 public class MapSelection
 {
-//	private static final Logger log = Logger.getLogger(MapSelection.class);
+	// private static final Logger log = Logger.getLogger(MapSelection.class);
 
 	// W #selCoord Only used in public JCoordinatesPanel(): new JCoordinateField(MapSelection.LAT_MIN, MapSelection.LAT_MAX) [JCoordinateField(double min, double
 	// max)]
@@ -38,7 +39,7 @@ public class MapSelection
 	public static final double LON_MAX = 180.0;
 	public static final double LON_MIN = -180.0;
 
-	private final IfMapSource mapSource;
+	private final ACMapSource mapSource;
 	private final int mapSourceTileSize;
 	private final int zoom;
 	private int minPixelCoordinate_x;
@@ -46,7 +47,7 @@ public class MapSelection
 	private int maxPixelCoordinate_x;
 	private int maxPixelCoordinate_y;
 
-	public MapSelection(IfMapSource mapSource, GeoCoordinate max, GeoCoordinate min)
+	public MapSelection(ACMapSource mapSource, GeoCoordinate max, GeoCoordinate min)
 	{
 		super();
 		this.mapSource = mapSource;
@@ -73,7 +74,7 @@ public class MapSelection
 	 *          pixel coordinate
 	 * @param zoom
 	 */
-	public MapSelection(IfMapSource mapSource, Point p1, Point p2, int zoom)
+	public MapSelection(ACMapSource mapSource, Point p1, Point p2, int zoom)
 	{
 		super();
 		this.mapSource = mapSource;
@@ -83,7 +84,7 @@ public class MapSelection
 	}
 
 	// W #mapSpace MP2Pixel
-	public MapSelection(IfMapSource mapSource, PixelAddress c1, PixelAddress c2)
+	public MapSelection(ACMapSource mapSource, PixelAddress c1, PixelAddress c2)
 	{
 		if (c1.getZoom() != c2.getZoom())
 			throw new RuntimeException("Different zoom levels - unsuported!");

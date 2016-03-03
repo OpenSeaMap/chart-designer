@@ -21,9 +21,9 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
-import osmb.mapsources.ACMapSourcesManager;
+import osmb.mapsources.ACMapSource;
 import osmb.mapsources.IfFileBasedMapSource;
-import osmb.mapsources.IfMapSource;
+import osmb.mapsources.SiACMapSourcesManager;
 import osmcd.OSMCDStrs;
 import osmcd.gui.MainFrame;
 
@@ -32,12 +32,12 @@ public class RefreshCustomMapsources implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		ACMapSourcesManager manager = ACMapSourcesManager.getInstance();
+		SiACMapSourcesManager manager = SiACMapSourcesManager.getInstance();
 		MainFrame gui = MainFrame.getMainGUI();
-		IfMapSource selectedMapSource = gui.getSelectedMapSource();
+		ACMapSource selectedMapSource = gui.getSelectedMapSource();
 		boolean updateGui = false;
 		int count = 0;
-		for (IfMapSource mapSource : manager.getAllAvailableMapSources())
+		for (ACMapSource mapSource : manager.getAllAvailableMapSources())
 		{
 			if (mapSource instanceof IfFileBasedMapSource)
 			{
@@ -50,11 +50,9 @@ public class RefreshCustomMapsources implements ActionListener
 		}
 		if (updateGui)
 		{
-			/*
-			 * The currently selected iMap source was updated - we have to force an GUI update in case the available zoom levels has been changed
-			 */
+			// The currently selected map source was updated - we have to force an GUI update in case the available zoom levels has been changed
 			gui.mapSourceChanged(selectedMapSource);
 		}
-		JOptionPane.showMessageDialog(gui, String.format(OSMCDStrs.RStr("msg_refresh_all_map_source_done"), count));
+		JOptionPane.showMessageDialog(gui, String.format(OSMCDStrs.RStr("MapSources.RefreshCustomMapSources"), count));
 	}
 }

@@ -31,8 +31,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
-import osmb.mapsources.ACMapSourcesManager;
-import osmb.mapsources.IfMapSource;
+import osmb.mapsources.ACMapSource;
+import osmb.mapsources.SiACMapSourcesManager;
 import osmb.mapsources.MapSourceLoaderInfo;
 import osmcd.OSMCDStrs;
 import osmcd.gui.MainFrame;
@@ -42,13 +42,13 @@ public class DebugShowMapSourceNames implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		ArrayList<IfMapSource> mapSources = new ArrayList<IfMapSource>(ACMapSourcesManager.getInstance().getAllAvailableMapSources());
+		ArrayList<ACMapSource> mapSources = new ArrayList<ACMapSource>(SiACMapSourcesManager.getInstance().getAllAvailableMapSources());
 
-		Collections.sort(mapSources, new Comparator<IfMapSource>()
+		Collections.sort(mapSources, new Comparator<ACMapSource>()
 		{
 
 			@Override
-			public int compare(IfMapSource o1, IfMapSource o2)
+			public int compare(ACMapSource o1, ACMapSource o2)
 			{
 				return o1.getName().compareTo(o2.getName());
 			}
@@ -74,9 +74,9 @@ public class DebugShowMapSourceNames implements ActionListener
 	{
 		private static final long serialVersionUID = 1L;
 
-		List<IfMapSource> mapSources;
+		List<ACMapSource> mapSources;
 
-		public MapSourcesTableModel(List<IfMapSource> mapSources)
+		public MapSourcesTableModel(List<ACMapSource> mapSources)
 		{
 			super();
 			this.mapSources = mapSources;
@@ -115,7 +115,7 @@ public class DebugShowMapSourceNames implements ActionListener
 		@Override
 		public Object getValueAt(int rowIndex, int columnIndex)
 		{
-			IfMapSource ms = mapSources.get(rowIndex);
+			ACMapSource ms = mapSources.get(rowIndex);
 			MapSourceLoaderInfo li;
 			switch (columnIndex)
 			{

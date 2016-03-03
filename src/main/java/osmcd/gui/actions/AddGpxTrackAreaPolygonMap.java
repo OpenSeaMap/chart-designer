@@ -24,7 +24,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 import osmb.exceptions.InvalidNameException;
-import osmb.mapsources.IfMapSource;
+import osmb.mapsources.ACMapSource;
 import osmb.mapsources.MP2MapSpace;
 import osmb.program.catalog.IfCatalog;
 import osmb.program.map.IfMap;
@@ -97,7 +97,7 @@ public class AddGpxTrackAreaPolygonMap implements ActionListener
 		final String mapNameFmt = "%s %02d";
 		IfCatalog catalog = mg.getCatalog();
 		String name = mg.getCatalogName();
-		IfMapSource mapSource = mg.getSelectedMapSource();
+		ACMapSource mapSource = mg.getSelectedMapSource();
 		SelectedZoomLevels sZL = mg.getSelectedZoomLevels();
 		int[] zoomLevels = sZL.getZoomLevels();
 		if (zoomLevels.length == 0)

@@ -31,7 +31,7 @@ import javax.management.NotificationListener;
 
 import org.apache.log4j.Logger;
 
-import osmb.mapsources.IfMapSource;
+import osmb.mapsources.ACMapSource;
 import osmb.program.tiles.Tile;
 import osmb.program.tiles.Tile.TileState;
 
@@ -119,7 +119,7 @@ public class MemoryTileCache implements NotificationListener
 			removeOldEntries();
 	}
 
-	public Tile getTile(IfMapSource source, int x, int y, int z)
+	public Tile getTile(ACMapSource source, int x, int y, int z)
 	{
 		CacheEntry entry = hashtable.get(Tile.getTileKey(source, x, y, z));
 		if (entry == null)

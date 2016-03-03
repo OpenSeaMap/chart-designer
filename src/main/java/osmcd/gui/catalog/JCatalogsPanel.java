@@ -248,7 +248,7 @@ public class JCatalogsPanel extends JCollapsiblePanel
 				Catalog testCatalog = null;
 				try
 				{
-					testCatalog = (Catalog) Catalog.load(fileSel);
+					testCatalog = Catalog.load(fileSel);
 				}
 				catch (Exception e1) // (cException e1)
 				{
@@ -312,6 +312,11 @@ public class JCatalogsPanel extends JCollapsiblePanel
 				    + getCatalogTree().getCatalog().getVersion() + ", LayerCount = " + getCatalogTree().getCatalog().getSize() + ", file = "
 				    + getCatalogTree().getCatalog().getFile());
 
+				// MainFrame.getMainGUI().previewMap.repaint(); // #???
+				log.info("loadCatalog(): name = " + getCatalogTree().getCatalog().getName());
+				log.info("loadCatalog(): version = " + getCatalogTree().getCatalog().getVersion());
+				log.info("loadCatalog(): LayerCount = " + getCatalogTree().getCatalog().getSize());
+				log.info("loadCatalog(): file = " + getCatalogTree().getCatalog().getFile());
 			}
 			jCatalogTree.getTreeModel().notifyStructureChanged();
 

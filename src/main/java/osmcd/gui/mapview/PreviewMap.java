@@ -27,11 +27,11 @@ import java.util.LinkedList;
 
 import org.apache.log4j.Logger;
 
-import osmb.mapsources.ACMapSourcesManager;
-import osmb.mapsources.IfMapSource;
+import osmb.mapsources.ACMapSource;
 import osmb.mapsources.IfMapSourceTextAttribution;
 import osmb.mapsources.MP2MapSpace;
 import osmb.mapsources.PixelAddress;
+import osmb.mapsources.SiACMapSourcesManager;
 import osmb.program.WgsGrid;
 import osmb.utilities.MyMath;
 import osmb.utilities.geo.GeoCoordinate;
@@ -83,7 +83,7 @@ public class PreviewMap extends JMapViewer
 
 	public PreviewMap()
 	{
-		super(ACMapSourcesManager.getInstance().getDefaultMapSource(), 5);
+		super(SiACMapSourcesManager.getInstance().getDefaultMapSource(), 5);
 		setEnabled(false);
 		defaultMapController = new DefaultMapController(this);
 		mapMarkersVisible = false;
@@ -118,11 +118,11 @@ public class PreviewMap extends JMapViewer
 	public void settingsLoad()
 	{
 		OSMCDSettings settings = OSMCDSettings.getInstance();
-		IfMapSource mapSource = ACMapSourcesManager.getInstance().getSourceByName(settings.getMapviewMapSource());
+		ACMapSource mapSource = SiACMapSourcesManager.getInstance().getSourceByName(settings.getMapviewMapSource());
 		if (mapSource != null)
 			setMapSource(mapSource);
 		else // W
-			mapSource = ACMapSourcesManager.getInstance().getDefaultMapSource();
+			mapSource = SiACMapSourcesManager.getInstance().getDefaultMapSource();
 		GeoCoordinate c = settings.getMapviewCenterCoordinate();
 		gridZoom = settings.getMapviewGridZoom();
 		setDisplayPositionByLatLon(c, settings.getMapviewZoom());
@@ -130,7 +130,7 @@ public class PreviewMap extends JMapViewer
 	}
 
 	@Override
-	public void setMapSource(IfMapSource newMapSource)
+	public void setMapSource(ACMapSource newMapSource)
 	{
 		if (newMapSource.equals(mMapSource))
 			return;
@@ -448,7 +448,8 @@ public class PreviewMap extends JMapViewer
 			return;
 
 		int gridZoomDiff = getMaxZoom() - gridZoom;
-		int gridFactor = MP2MapSpace.getTileSize() << gridZoomDiff; // W #mapSpace mapSource.getMapSpace().getTileSize();mMapSource.getMapSpace().getTileSize() << gridZoomDiff;
+		int gridFactor = MP2MapSpace.getTileSize() << gridZoomDiff; // W #mapSpace mapSource.getMapSpace().getTileSize();mMapSource.getMapSpace().getTileSize() <<
+		                                                            // gridZoomDiff;
 
 		Point pNewStart = new Point(iSelectionMin);
 		Point pNewEnd = new Point(iSelectionMax);
@@ -520,7 +521,7 @@ public class PreviewMap extends JMapViewer
 	}
 
 	/**
-	 * Clears the in-memory tile cache and performs a repaint which causes a reload of all displayed tiles (from disk or if not present from the iMap source via
+	 * Clears the in-memory tile cache and performs a repaint which causes a reload of all displayed tiles (from disk or if not present from the map source via
 	 * network).
 	 */
 	public void refreshMap()

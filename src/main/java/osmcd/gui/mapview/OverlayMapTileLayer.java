@@ -18,7 +18,7 @@ package osmcd.gui.mapview;
 
 import java.awt.Graphics;
 
-import osmb.mapsources.IfMapSource;
+import osmb.mapsources.ACMapSource;
 import osmb.program.tiles.Tile;
 import osmb.program.tiles.Tile.TileState;
 
@@ -30,16 +30,16 @@ import osmb.program.tiles.Tile.TileState;
 public class OverlayMapTileLayer implements IfMapTileLayer
 {
 	protected JMapViewer mapViewer;
-	protected IfMapSource mapSource;
+	protected ACMapSource mapSource;
 
-	public OverlayMapTileLayer(JMapViewer mapViewer, IfMapSource tileSource)
+	public OverlayMapTileLayer(JMapViewer mapViewer, ACMapSource tileSource)
 	{
 		this.mapViewer = mapViewer;
 		this.mapSource = tileSource;
 	}
 
 	@Override
-	public void startPainting(IfMapSource mapSource)
+	public void startPainting(ACMapSource mapSource)
 	{
 	}
 

@@ -69,7 +69,7 @@ import javax.xml.bind.JAXBException;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
-import osmb.mapsources.IfMapSource;
+import osmb.mapsources.ACMapSource;
 import osmb.mapsources.MP2MapSpace;
 import osmb.mapsources.PixelAddress;
 import osmb.program.WgsGrid.WgsDensity;
@@ -772,9 +772,9 @@ public class MainFrame extends JFrame implements IfMapEventListener
 
 	public void updateMapSourcesList()
 	{
-		IfMapSource ms = mMapSourcePanel.getSelectedMapSource();
+		ACMapSource ms = mMapSourcePanel.getSelectedMapSource();
 		mMapSourcePanel.updateMapSourceComboBox();
-		IfMapSource ms2 = mMapSourcePanel.getSelectedMapSource();
+		ACMapSource ms2 = mMapSourcePanel.getSelectedMapSource();
 		if (!ms.equals(ms2))
 			handleNewMapSource();
 	}
@@ -1015,7 +1015,7 @@ public class MainFrame extends JFrame implements IfMapEventListener
 	// W used too in updateMapSourcesList()
 	private void handleNewMapSource()
 	{
-		IfMapSource mapSource = mMapSourcePanel.getSelectedMapSource();
+		ACMapSource mapSource = mMapSourcePanel.getSelectedMapSource();
 		// IfMapSource mapSource = (IfMapSource) mapSourceCombo.getSelectedItem();
 		mapSource.initialize();
 
@@ -1053,9 +1053,10 @@ public class MainFrame extends JFrame implements IfMapEventListener
 
 	private void updateZoomLevelCheckBoxes()
 	{
-		IfMapSource tileSource = previewMap.getMapSource();
-		int minZoom = Math.max(MP2MapSpace.MIN_TECH_ZOOM, tileSource.getMinZoom());
-		int maxZoom = Math.min(MP2MapSpace.MAX_TECH_ZOOM, tileSource.getMaxZoom());
+		ACMapSource tileSource = previewMap.getMapSource();
+		// int zoomLevels = tileSource.getMaxZoom() - tileSource.getMinZoom() + 1; // #zoom0-3
+		int minZoom = Math.max(MP2MapSpace.MIN_TECH_ZOOM, tileSource.getMinZoom()); // W #mapSpace (IfMapSpace.MIN_TECH_ZOOM, tileSource.getMinZoom());
+		int maxZoom = Math.min(MP2MapSpace.MAX_TECH_ZOOM, tileSource.getMaxZoom()); // W #mapSpace (IfMapSpace.MAX_TECH_ZOOM, tileSource.getMaxZoom());
 		int zoomLevels = maxZoom - minZoom + 1;
 
 		JCheckBox[] oldZoomLevelCheckBoxes = cbZoom;
@@ -1124,7 +1125,7 @@ public class MainFrame extends JFrame implements IfMapEventListener
 		gridZoomCombo.setSelectedItem(new GridZoom(newGridZoomLevel));
 	}
 
-	public IfMapSource getSelectedMapSource()
+	public ACMapSource getSelectedMapSource()
 	{
 		return mMapSourcePanel.getSelectedMapSource();
 	}
@@ -1135,7 +1136,7 @@ public class MainFrame extends JFrame implements IfMapEventListener
 	}
 
 	@Override
-	public void mapSourceChanged(IfMapSource newMapSource)
+	public void mapSourceChanged(ACMapSource newMapSource)
 	{
 		// TODO update selected area if new map source has different projectionCategory
 		calculateNrOfTilesToDownload();

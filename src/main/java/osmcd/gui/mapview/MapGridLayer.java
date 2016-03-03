@@ -18,7 +18,7 @@ package osmcd.gui.mapview;
 
 import java.awt.Graphics;
 
-import osmb.mapsources.IfMapSource;
+import osmb.mapsources.ACMapSource;
 import osmb.mapsources.MP2MapSpace;
 
 /**
@@ -29,9 +29,9 @@ public class MapGridLayer implements IfMapTileLayer
 	protected int tileSize;
 
 	@Override
-	public void startPainting(IfMapSource mapSource)
+	public void startPainting(ACMapSource mapSource)
 	{
-		tileSize = MP2MapSpace.getTileSize(); // #mapSpace  mapSource.getMapSpace().getTileSize();
+		tileSize = MP2MapSpace.getTileSize(); // #mapSpace mapSource.getMapSpace().getTileSize();
 	}
 
 	@Override

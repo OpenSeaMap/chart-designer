@@ -20,7 +20,7 @@ import java.awt.Graphics;
 
 import org.apache.log4j.Logger;
 
-import osmb.mapsources.IfMapSource;
+import osmb.mapsources.ACMapSource;
 import osmb.program.JobDispatcher;
 import osmb.program.tiles.Tile;
 import osmb.program.tiles.Tile.TileState;
@@ -33,17 +33,17 @@ public class DefaultMapTileLayer implements IfMapTileLayer
 	private static Logger log = Logger.getLogger(DefaultMapTileLayer.class);
 
 	protected JMapViewer mapViewer;
-	protected IfMapSource mapSource;
+	protected ACMapSource mapSource;
 	protected boolean usePlaceHolders;
 
-	public DefaultMapTileLayer(JMapViewer mapViewer, IfMapSource mapSource)
+	public DefaultMapTileLayer(JMapViewer mapViewer, ACMapSource mapSource)
 	{
 		this.mapViewer = mapViewer;
 		this.mapSource = mapSource;
 	}
 
 	@Override
-	public void startPainting(IfMapSource mapSource)
+	public void startPainting(ACMapSource mapSource)
 	{
 		usePlaceHolders = mapViewer.isUsePlaceHolderTiles();
 	}
@@ -56,9 +56,8 @@ public class DefaultMapTileLayer implements IfMapTileLayer
 	{
 		log.debug("start paint tile (" + zoom + "|" + tilex + "|" + tiley + ")");
 		Tile tile = getTile(tilex, tiley, zoom);
-		if (tile == null)
-			return;
-		tile.paint(g, gx, gy);
+		if (tile != null)
+			tile.paint(g, gx, gy);
 	}
 
 	/**
@@ -73,21 +72,23 @@ public class DefaultMapTileLayer implements IfMapTileLayer
 	 */
 	protected Tile getTile(int tilex, int tiley, int zoom)
 	{
+		Tile tile = null;
 		log.debug("start get tile from mtc (" + zoom + "|" + tilex + "|" + tiley + ")");
 		int max = (1 << zoom);
 		if (tilex < 0 || tilex >= max || tiley < 0 || tiley >= max)
 		{
 			log.debug("tile out of range: x=" + tilex + ", y=" + tiley);
-			return null;
+			return tile;
 		}
 		// Tile tile = new Tile(mapSource, tilex, tiley, zoom);
-		Tile tile = mapViewer.getTileImageCache().getTile(mapSource, tilex, tiley, zoom);
+		tile = mapViewer.getTileImageCache().getTile(mapSource, tilex, tiley, zoom);
 		if (tile == null)
 		{
 			tile = new Tile(mapSource, tilex, tiley, zoom);
 			mapViewer.getTileImageCache().addTile(tile);
 			if (usePlaceHolders)
-				tile.loadPlaceholderFromCache(mapViewer.getTileImageCache());
+			  // tile.loadPlaceholderFromCache(mapViewer.getTileImageCache());
+			  tile = mapViewer.getTileImageCache().loadPlaceholderFromCache(tile);
 		}
 		if ((tile.getTileState() == TileState.TS_NEW) || (tile.getTileState() == TileState.TS_LOADING))
 		{

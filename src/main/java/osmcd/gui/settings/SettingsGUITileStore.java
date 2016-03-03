@@ -37,10 +37,10 @@ import javax.swing.JSeparator;
 import javax.swing.SwingUtilities;
 import javax.swing.border.BevelBorder;
 
-import osmb.mapsources.ACMapSourcesManager;
-import osmb.mapsources.IfMapSource;
+import osmb.mapsources.ACMapSource;
+import osmb.mapsources.SiACMapSourcesManager;
 import osmb.program.DelayedInterruptThread;
-import osmb.program.tilestore.ACSiTileStore;
+import osmb.program.tilestore.ACTileStore;
 import osmb.program.tilestore.TileStoreInfo;
 import osmb.utilities.OSMBUtilities;
 import osmcd.OSMCDStrs;
@@ -94,7 +94,7 @@ public class SettingsGUITileStore extends JPanel
 	{
 		try
 		{
-			ACSiTileStore tileStore = ACSiTileStore.getInstance();
+			ACTileStore tileStore = ACTileStore.getInstance();
 
 			long totalTileCount = 0;
 			long totalTileSize = 0;
@@ -183,8 +183,8 @@ public class SettingsGUITileStore extends JPanel
 		final GridBagConstraints gbc_eol = new GridBagConstraints();
 		gbc_eol.gridwidth = GridBagConstraints.REMAINDER;
 
-		ACSiTileStore tileStore = ACSiTileStore.getInstance();
-		ACMapSourcesManager mapSourcesManager = ACMapSourcesManager.getInstance();
+		ACTileStore tileStore = ACTileStore.getInstance();
+		SiACMapSourcesManager mapSourcesManager = SiACMapSourcesManager.getInstance();
 
 		tileStoreInfoPanel.add(new JLabel(OSMCDStrs.RStr("set_tile_store_info_mapsrc")), gbc_mapSource);
 		tileStoreInfoPanel.add(new JLabel(OSMCDStrs.RStr("set_tile_store_info_tiles")), gbc_mapTiles);
@@ -196,7 +196,7 @@ public class SettingsGUITileStore extends JPanel
 		{
 			String mapTileCountText = "  ?  ";
 			String mapTileSizeText = "    ?    ";
-			IfMapSource mapSource = mapSourcesManager.getSourceByName(name);
+			ACMapSource mapSource = mapSourcesManager.getSourceByName(name);
 			final JLabel mapSourceNameLabel;
 			if (mapSource != null)
 				mapSourceNameLabel = new JLabel(name);
@@ -274,7 +274,7 @@ public class SettingsGUITileStore extends JPanel
 				{
 					try
 					{
-						ACSiTileStore ts = ACSiTileStore.getInstance();
+						ACTileStore ts = ACTileStore.getInstance();
 						ts.clearStore(storeName);
 						SettingsGUITileStore.this.updateTileStoreInfoPanelAsync(storeName);
 						SettingsGUITileStore.this.repaint();

@@ -18,11 +18,11 @@ package osmcd.gui.mapview;
 
 import java.awt.Graphics;
 
-import osmb.mapsources.IfMapSource;
+import osmb.mapsources.ACMapSource;
 
 public interface IfMapTileLayer
 {
-	public void startPainting(IfMapSource mapSource);
+	public void startPainting(ACMapSource mapSource);
 
 	/**
 	 * Paints the tile identified by <code>tilex</code>/<code>tiley</code>/ <code>zoom</code> onto the {@link Graphics} <code>g</code> with it's

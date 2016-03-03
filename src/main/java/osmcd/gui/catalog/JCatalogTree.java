@@ -242,7 +242,7 @@ public class JCatalogTree extends JTree implements Autoscroll
 			Catalog catalog = null;
 
 			// treeModel.load(profile);
-			OSMCDApp.getApp().setCatalog((Catalog) Catalog.load(profile.getFile()));
+			OSMCDApp.getApp().setCatalog(Catalog.load(profile.getFile()));
 
 			treeModel.notifyStructureChanged();
 
@@ -402,7 +402,7 @@ public class JCatalogTree extends JTree implements Autoscroll
 							min.lat = Math.min(min.lat, mapMin.lat);
 							min.lon = Math.min(min.lon, mapMin.lon);
 						}
-						// log.debug("min.lon=" + min.lon + ", max.lon=" + max.lon + ", min.lat=" + min.lat + ", max.lat=" + max.lat);
+						log.info("min.lon=" + min.lon + ", max.lon=" + max.lon + ", min.lat=" + min.lat + ", max.lat=" + max.lat);
 						MapSelection ms = new MapSelection(mapView.getMapSource(), max, min);
 						mapView.setSelectionAndZoomTo(ms, true);
 					}

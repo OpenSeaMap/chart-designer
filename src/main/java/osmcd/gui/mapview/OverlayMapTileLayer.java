@@ -19,6 +19,7 @@ package osmcd.gui.mapview;
 import java.awt.Graphics;
 
 import osmb.mapsources.ACMapSource;
+import osmb.mapsources.TileAddress;
 import osmb.program.tiles.Tile;
 import osmb.program.tiles.Tile.TileState;
 
@@ -49,37 +50,44 @@ public class OverlayMapTileLayer implements IfMapTileLayer
 	@Override
 	public void paintTile(Graphics g, int gx, int gy, int tilex, int tiley, int zoom)
 	{
-		Tile tile = getTile(tilex, tiley, zoom);
-		if (tile == null)
-			return;
-		tile.paintTransparent(g, gx, gy);
+		Tile tile = getTile(new TileAddress(tilex, tiley, zoom));
+		if (tile != null)
+			tile.paintTransparent(g, gx, gy);
 	}
 
 	/**
 	 * retrieves a tile from the cache. If the tile is not present in the cache a load job is added to the working queue
 	 * of {@link JobThread}.
 	 * 
-	 * @param tilex
-	 * @param tiley
-	 * @param zoom
-	 * @return specified tile from the cache or <code>null</code> if the tile was not found in the cache.
+	 * @param tAddr
+	 *          The tiles address.
+	 * @return Specified tile from the cache or <code>null</code> if the tile was not found in the cache.
 	 */
-	protected Tile getTile(int tilex, int tiley, int zoom)
+	protected Tile getTile(TileAddress tAddr)
 	{
-		int max = (1 << zoom);
-		if (tilex < 0 || tilex >= max || tiley < 0 || tiley >= max)
+		int max = (1 << tAddr.getZoom());
+		if (tAddr.getX() < 0 || tAddr.getX() >= max || tAddr.getY() < 0 || tAddr.getY() >= max)
 			return null;
-		Tile tile = mapViewer.getTileImageCache().getTile(mapSource, tilex, tiley, zoom);
+		Tile tile = mapViewer.getTileImageCache().getTile(mapSource, tAddr);
 		if (tile == null)
 		{
-			tile = new Tile(mapSource, tilex, tiley, zoom);
+			tile = new Tile(mapSource, tAddr);
 			mapViewer.getTileImageCache().addTile(tile);
 		}
 		if (tile.getTileState() == TileState.TS_NEW)
 		{
 			// mapViewer.getJobDispatcher().addJob(mapViewer.getTileLoader().createTileLoaderJob(mapSource, tilex, tiley, zoom));
-			mapViewer.getJobDispatcher().execute(mapViewer.getTileLoader().createTileLoaderJob(mapSource, tilex, tiley, zoom));
+			mapViewer.getJobDispatcher().execute(mapViewer.getTileLoader().createTileLoaderJob(mapSource, tAddr));
 		}
 		return tile;
+	}
+
+	/**
+	 * use {@link #getTile(TileAddress)}
+	 */
+	@Deprecated
+	protected Tile getTile(int tilex, int tiley, int zoom)
+	{
+		return getTile(new TileAddress(tilex, tiley, zoom));
 	}
 }

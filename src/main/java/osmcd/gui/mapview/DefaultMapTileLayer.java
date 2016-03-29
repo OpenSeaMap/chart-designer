@@ -21,6 +21,7 @@ import java.awt.Graphics;
 import org.apache.log4j.Logger;
 
 import osmb.mapsources.ACMapSource;
+import osmb.mapsources.TileAddress;
 import osmb.program.JobDispatcher;
 import osmb.program.tiles.Tile;
 import osmb.program.tiles.Tile.TileState;
@@ -54,8 +55,9 @@ public class DefaultMapTileLayer implements IfMapTileLayer
 	@Override
 	public void paintTile(Graphics g, int gx, int gy, int tilex, int tiley, int zoom)
 	{
-		log.debug("start paint tile (" + zoom + "|" + tilex + "|" + tiley + ")");
-		Tile tile = getTile(tilex, tiley, zoom);
+		TileAddress tAddr = new TileAddress(tilex, tiley, zoom);
+		log.trace("start paint tile " + tAddr);
+		Tile tile = getTile(tAddr);
 		if (tile != null)
 			tile.paint(g, gx, gy);
 	}
@@ -70,34 +72,41 @@ public class DefaultMapTileLayer implements IfMapTileLayer
 	 * @param zoom
 	 * @return specified tile from the cache or <code>null</code> if the tile was not found in the cache.
 	 */
-	protected Tile getTile(int tilex, int tiley, int zoom)
+	protected Tile getTile(TileAddress tAddr)
 	{
 		Tile tile = null;
-		log.debug("start get tile from mtc (" + zoom + "|" + tilex + "|" + tiley + ")");
-		int max = (1 << zoom);
-		if (tilex < 0 || tilex >= max || tiley < 0 || tiley >= max)
+		log.trace("start get tile from mtc " + tAddr);
+		int max = (1 << tAddr.getZoom());
+		if (tAddr.getX() < 0 || tAddr.getX() >= max || tAddr.getY() < 0 || tAddr.getY() >= max)
 		{
-			log.debug("tile out of range: x=" + tilex + ", y=" + tiley);
+			log.debug("tile out of range: x=" + tAddr.getX() + ", y=" + tAddr.getY());
 			return tile;
 		}
-		// Tile tile = new Tile(mapSource, tilex, tiley, zoom);
-		tile = mapViewer.getTileImageCache().getTile(mapSource, tilex, tiley, zoom);
+		tile = mapViewer.getTileImageCache().getTile(mapSource, tAddr);
 		if (tile == null)
 		{
-			tile = new Tile(mapSource, tilex, tiley, zoom);
-			mapViewer.getTileImageCache().addTile(tile);
-			if (usePlaceHolders)
-			  // tile.loadPlaceholderFromCache(mapViewer.getTileImageCache());
-			  tile = mapViewer.getTileImageCache().loadPlaceholderFromCache(tile);
+			tile = new Tile(mapSource, tAddr);
+			tile = mapViewer.getTileImageCache().loadPlaceholderFromCache(tile);
+			if (tile.getTileState() == TileState.TS_ZOOMED)
+				mapViewer.getTileImageCache().addTile(tile);
 		}
 		if ((tile.getTileState() == TileState.TS_NEW) || (tile.getTileState() == TileState.TS_LOADING))
 		{
 			log.debug("queue load job for " + tile);
-			mapViewer.getJobDispatcher().execute(mapViewer.getTileLoader().createTileLoaderJob(mapSource, tilex, tiley, zoom));
+			mapViewer.getJobDispatcher().execute(mapViewer.getTileLoader().createTileLoaderJob(mapSource, tAddr));
 			tile.setLoadingImage();
 		}
 		else
-			log.debug("use found tile=" + tile + ", TS=" + tile.getTileState());
+			log.debug("use found tile=" + tile + " from mtc");
 		return tile;
+	}
+
+	/**
+	 * use {@link #getTile(TileAddress)}
+	 */
+	@Deprecated
+	protected Tile getTile(int tilex, int tiley, int zoom)
+	{
+		return getTile(new TileAddress(tilex, tiley, zoom));
 	}
 }

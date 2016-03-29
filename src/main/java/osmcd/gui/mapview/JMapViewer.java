@@ -36,6 +36,7 @@ import org.apache.log4j.Logger;
 import osmb.mapsources.ACMapSource;
 import osmb.mapsources.MP2Corner;
 import osmb.mapsources.MP2MapSpace;
+import osmb.mapsources.TileAddress;
 import osmb.program.JobDispatcher;
 import osmb.program.tiles.IfTileLoaderListener;
 import osmb.program.tiles.MemoryTileCache;
@@ -255,11 +256,13 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener
 		setDisplayPosition(x + 1, y + 1, newZoom); // set center: see protected Point center = new Point();
 	}
 
+	/**
+	 * @return The geo coordiantes of the center position ????
+	 */
 	public Point2D.Double getPosition()
 	{
-		// W #mapSpace IfMapSpace mapSpace = mMapSource.getMapSpace();
-		double lon = MP2MapSpace.cXToLon(center.x, mZoom); // W #mapSpace mapSpace.cXToLon(center.x, mZoom);
-		double lat = MP2MapSpace.cYToLat(center.y, mZoom); // W #mapSpace mapSpace.cYToLat(center.y, mZoom);
+		double lon = MP2MapSpace.cXToLonPixelCenter(center.x, mZoom); // W #mapSpace mapSpace.cXToLon(center.x, mZoom);
+		double lat = MP2MapSpace.cYToLatPixelCenter(center.y, mZoom); // W #mapSpace mapSpace.cYToLat(center.y, mZoom);
 		return new Point2D.Double(lat, lon);
 	}
 
@@ -298,8 +301,8 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener
 		int y = center.y + mapPoint.y - getHeight() / 2;
 		// log.info("center.x = " + center.x + ", mapPoint.x = " + mapPoint.x + ", getWidth() / 2 = " + getWidth() / 2 + ", center.y = " + center.y + ", mapPoint.y
 		// = " + mapPoint.y + ", getHeight() / 2 = " + getHeight() / 2);
-		double lon = MP2MapSpace.cXToLon(x, mZoom); // W #mapSpace mapSpace.cXToLon(x, mZoom);
-		double lat = MP2MapSpace.cYToLat(y, mZoom); // W #mapSpace mapSpace.cYToLat(y, mZoom);
+		double lon = MP2MapSpace.cXToLonPixelCenter(x, mZoom); // W #mapSpace mapSpace.cXToLon(x, mZoom);
+		double lat = MP2MapSpace.cYToLatPixelCenter(y, mZoom); // W #mapSpace mapSpace.cYToLat(y, mZoom);
 		log.info("lon.x = " + lon + ", lat.y = " + lat);
 		return new Point2D.Double(lat, lon);
 	}
@@ -408,7 +411,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener
 							painted = true;
 							for (IfMapTileLayer l : mapTileLayers)
 							{
-								log.debug("paint tile=(" + mZoom + "|" + tilex + "|" + tiley + ")");
+								log.debug("paint tile=" + new TileAddress(tilex, tiley, mZoom));
 								l.paintTile(g, posx, posy, tilex, tiley, mZoom);
 								++nTiles;
 							}
@@ -650,7 +653,7 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener
 	}
 
 	/**
-	 * The loader has finished to retrieve the tile. Place it in the memory tile cache.
+	 * The loader has finished to load the tile. Draw it on the map view.
 	 */
 	@Override
 	public void tileLoadingFinished(Tile tile, boolean success)
@@ -665,6 +668,24 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener
 			log.debug(tile + " download failed");
 		}
 		repaint();
+	}
+
+	/**
+	 * A tile was downloaded from the online map source. Display some info.
+	 */
+	@Override
+	public void tileDownloaded(Tile tile, int size)
+	{
+		log.trace(tile + " loaded from online map source, size=" + size);
+	}
+
+	/**
+	 * A tile was loaded from the local cache. Display some info.
+	 */
+	@Override
+	public void tileLoadedFromCache(Tile tile, int size)
+	{
+		log.trace(tile + " loaded from mtc, size=" + size);
 	}
 
 	/**

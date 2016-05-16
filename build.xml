@@ -32,7 +32,7 @@
 
 	<!-- version dependent libraries -->
 	<property name="je-version" value="3.3.93" />
-	<property name="sqlite-version" value="3.7.15-M1" />
+	<property name="sqlite-version" value="3.8.11.1" />
 
 	<path id="maincp">
 		<fileset dir="${osmb.dir}/lib" includes="log*.jar" />
@@ -113,8 +113,8 @@
 
 
 	<!-- mappack runtime location is: ${ProgDir}/mapsources
-	     src code is located at ../OSeaM ChartBundler/src/main/java/osmcb/mapsources/mappacks/@{mappack}
-	     build location is ../OSeaM ChartBundler/build/osmcb/mapsources/mappacks/@{mappack} -->
+	     src code is located at ../OSeaMChartBundler/src/main/java/osmcb/mapsources/mappacks/@{mappack}
+	     build location is ../OSeaMChartBundler/build/osmcb/mapsources/mappacks/@{mappack} -->
 	<!--<target name="build_mapsources" depends="clean_build,build,svnversion" description="Build all map packs and generate the new mappacks-md5.txt">-->
 <!--
 	<target name="build_mapsources" description="Build all map packs and generate the new mappacks-md5.txt">

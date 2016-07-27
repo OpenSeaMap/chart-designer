@@ -83,7 +83,7 @@ public class PreviewMap extends JMapViewer
 
 	public PreviewMap()
 	{
-		super(SiACMapSourcesManager.getInstance().getDefaultMapSource(), 5);
+		super(SiACMapSourcesManager.getInstance().getDefaultMapSource(), 25);
 		setEnabled(false);
 		defaultMapController = new DefaultMapController(this);
 		mapMarkersVisible = false;

@@ -54,7 +54,7 @@ import osmb.program.tiles.TileLoader;
 public class JMapViewer extends JPanel implements IfTileLoaderListener
 {
 	private static final long serialVersionUID = 1L;
-	private static Logger log = Logger.getLogger(JMapViewer.class);
+	protected static Logger log = Logger.getLogger(JMapViewer.class);
 
 	/**
 	 * Vectors for clock-wise tile painting
@@ -62,19 +62,19 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener
 	protected static final Point[] move =
 	{ new Point(1, 0), new Point(0, 1), new Point(-1, 0), new Point(0, -1) };
 
-	protected TileLoader tileLoader;
+	protected TileLoader tileLoader = null;
 	/**
 	 * The mapTileLayers use this to actually paint the tiles on the graphics context
 	 */
-	protected MemoryTileCache mTileCache;
-	protected ACMapSource mMapSource;
+	protected MemoryTileCache mTileCache = null;
+	protected ACMapSource mMapSource = null;
 	protected boolean usePlaceHolderTiles = true;
 
-	protected boolean mapMarkersVisible;
+	protected boolean mapMarkersVisible = false;
 	protected MapGridLayer mapGridLayer = null;
 
-	protected List<IfMapTileLayer> mapTileLayers;
-	public List<IfMapLayer> mapLayers;
+	protected List<IfMapTileLayer> mapTileLayers = null;
+	public List<IfMapLayer> mapLayers = null;
 
 	/**
 	 * x- and y-position of the center of this map-panel on the world map denoted in screen pixel regarding the current zoom level.
@@ -113,7 +113,6 @@ public class JMapViewer extends JPanel implements IfTileLoaderListener
 		super();
 		mapTileLayers = new LinkedList<IfMapTileLayer>();
 		mapLayers = new LinkedList<IfMapLayer>();
-		tileLoader = new TileLoader(this, mTileCache);
 		mTileCache = new MemoryTileCache(2000); // reasonable cache size for interactive map display
 		tileLoader = new TileLoader(this, mTileCache);
 		mapMarkersVisible = true;

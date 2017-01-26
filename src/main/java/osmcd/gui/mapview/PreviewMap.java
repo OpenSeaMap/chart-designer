@@ -83,7 +83,7 @@ public class PreviewMap extends JMapViewer
 
 	public PreviewMap()
 	{
-		super(SiACMapSourcesManager.getInstance().getDefaultMapSource(), 5);
+		super(SiACMapSourcesManager.getInstance().getDefaultMapSource(), 25);
 		setEnabled(false);
 		defaultMapController = new DefaultMapController(this);
 		mapMarkersVisible = false;
@@ -449,7 +449,7 @@ public class PreviewMap extends JMapViewer
 
 		int gridZoomDiff = getMaxZoom() - gridZoom;
 		int gridFactor = MP2MapSpace.getTileSize() << gridZoomDiff; // W #mapSpace mapSource.getMapSpace().getTileSize();mMapSource.getMapSpace().getTileSize() <<
-		                                                            // gridZoomDiff;
+																																// gridZoomDiff;
 
 		Point pNewStart = new Point(iSelectionMin);
 		Point pNewEnd = new Point(iSelectionMax);

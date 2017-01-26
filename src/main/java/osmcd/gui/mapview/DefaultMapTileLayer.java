@@ -50,7 +50,7 @@ public class DefaultMapTileLayer implements IfMapTileLayer
 	}
 
 	/**
-	 * This retrieves the tile image from the memory cache and paints it onto the specified Graphics at position (gx|gy).
+	 * This retrieves the tile image from the memory cache by {@link #getTile(TileAddress tAddr)} and paints it onto the specified Graphics at position (gx|gy).
 	 */
 	@Override
 	public void paintTile(Graphics g, int gx, int gy, int tilex, int tiley, int zoom)

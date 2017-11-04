@@ -21,5 +21,4 @@ settings.xml
 /catalogs/
 /misc/
 Thumbs.db
-java_pid4004.hprof
-java_pid10116.hprof
+*.hprof

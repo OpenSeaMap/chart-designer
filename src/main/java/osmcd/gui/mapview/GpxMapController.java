@@ -52,7 +52,7 @@ public class GpxMapController extends ACMapController implements MouseListener
 	@Override
 	public void mouseClicked(MouseEvent e)
 	{
-		// Add new GPX point to currently selected GPX file
+		// Add new GPX point to currently selected GPX file ????
 		disable();
 		if (e.getButton() == MouseEvent.BUTTON1)
 		{

@@ -18,7 +18,7 @@
 		<link>
 			<name>Doxyfile</name>
 			<type>1</type>
-			<location>C:/Projekte/AHDTAC-Java/OSeaMChartDesigner/Doxyfile</location>
+			<locationURI>PROJECT_LOC/Doxyfile</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

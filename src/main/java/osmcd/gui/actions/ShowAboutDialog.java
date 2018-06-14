@@ -21,10 +21,11 @@ import java.awt.event.ActionListener;
 
 import osmcd.gui.dialogs.AboutDialog;
 
-public class ShowAboutDialog implements ActionListener {
-
-	public void actionPerformed(ActionEvent e) {
+public class ShowAboutDialog implements ActionListener
+{
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
 		new AboutDialog().setVisible(true);
 	}
-
 }

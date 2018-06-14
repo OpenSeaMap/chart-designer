@@ -7,15 +7,15 @@ import org.apache.log4j.Logger;
 
 public class OSMCDStrs
 {
-	private static final Logger log = Logger.getLogger(OSMCDStrs.class);
+	private static final Logger sLog = Logger.getLogger(OSMCDStrs.class);
 
 	private static final String BUNDLE_NAME = "osmcd.resources.text.loc-nls";
 	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
 
 	private OSMCDStrs()
 	{
-		// log.info("RSC bundle='" + RESOURCE_BUNDLE.getBaseBundleName() + "'");
-		log.info("RSC bundle='" + BUNDLE_NAME + "'");
+		// sLog.info("RSC bundle='" + RESOURCE_BUNDLE.getBaseBundleName() + "'");
+		sLog.info("RSC bundle='" + BUNDLE_NAME + "'");
 	}
 
 	public static String RStr(String key)
@@ -26,8 +26,8 @@ public class OSMCDStrs
 		}
 		catch (MissingResourceException e)
 		{
-			// log.info("RSC bundle='" + RESOURCE_BUNDLE.getBaseBundleName() + "' missing");
-			log.info("RSC key='" + key + "' from bundle='" + BUNDLE_NAME + "' missing");
+			// sLog.info("RSC bundle='" + RESOURCE_BUNDLE.getBaseBundleName() + "' missing");
+			sLog.info("RSC key='" + key + "' from bundle='" + BUNDLE_NAME + "' missing");
 			return '!' + key + '!';
 		}
 	}

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 chart-designer
 ==============
 
@@ -12,7 +11,27 @@ Implemented formats (as of 2015-08):
 
 Planned formats:
 * OpenCPN KAP files
-=======
-# chart-designer
+
+chart-designer
+==============
 Der Chart-Designer dient dazu, Kartenausschnitte in passenden Zoomleveln zu einem "Atlas" zusammenzustellen. 
->>>>>>> 7dcd5a6ab0cd63e4beb72c71d292d81af1787787
+
+
+compiling/starting
+==============
+You need chart-base compiled next to the chart-designer in a folder named OSeaMChartBase: 
+```
+git clone https://github.com/OpenSeaMap/chart-designer.git
+git clone https://github.com/OpenSeaMap/chart-base.git OSeaMChartBase
+cd OSeaMChartBase
+ant
+cd ..
+cd chart-designer
+ant
+```
+
+sqlite is required => download the char to the char-designer folder
+run it:
+```
+ java -classpath OSeaMChartDesigner.jar:sqlite-jdbc-3.16.1.jar osmcd.StartOSMCD
+```
